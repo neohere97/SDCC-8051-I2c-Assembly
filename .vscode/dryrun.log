@@ -1,0 +1,10 @@
+make.exe --dry-run --keep-going --print-directory
+make.exe: Entering directory 'c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2'
+sdcc --std-c99 --model-large --code-size 0x7FFF --xram-loc 0x400 --xram-size 0x7FFF --out-fmt-ihx -c program.c
+sdcc --model-large -c _heap.c 
+sdcc --model-large program.rel _heap.rel
+ 
+packihx program.ihx >program.hex
+batchisp -device at89c51rc2 -hardware RS232 -port COM4 -baudrate 115200 -operation erase f memory flash blankcheck loadbuffer ./program.hex program verify start reset 1
+make.exe: Leaving directory 'c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2'
+ 
