@@ -223,9 +223,9 @@
 	.globl _RCAP2H
 	.globl _RCAP2L
 	.globl _T2CON
-	.globl _debug_loc
 	.globl _buffers_array
 	.globl _program_stats
+	.globl _DEBUG_LOC
 	.globl _user_interface
 	.globl _at_clear_all_buffers
 	.globl _delete_buffer
@@ -241,6 +241,7 @@
 	.globl _get_num_helper
 	.globl _putchar
 	.globl _getchar
+	.globl _dataout
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -507,32 +508,33 @@ __start__stack:
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
+_DEBUG_LOC	=	0x6fff
 _program_stats::
 	.ds 10
 _buffers_array::
 	.ds 300
-_debug_loc::
-	.ds 2
-_create_new_buffer_buff_65536_58:
+_create_new_buffer_buff_65537_61:
 	.ds 12
-_create_initial_buffers_buff_65537_64:
+_create_initial_buffers_buff_65538_68:
 	.ds 12
-_create_initial_buffers_buff1_65537_64:
+_create_initial_buffers_buff1_65538_68:
 	.ds 12
-_dump_buff_zero_ascii_j_65536_79:
+_dump_buff_zero_ascii_j_65537_84:
 	.ds 2
-_dump_buff_zero_hex_j_131073_87:
+_dump_buff_zero_hex_j_131073_92:
 	.ds 2
-_get_number_total_chars_65536_96:
+_get_number_total_chars_65536_101:
 	.ds 2
-_get_number_num_65536_97:
+_get_number_num_65537_103:
 	.ds 2
-_get_num_helper_times_65536_102:
+_get_num_helper_times_65536_108:
 	.ds 2
-_get_num_helper_num_65536_103:
+_get_num_helper_num_65536_109:
 	.ds 2
-_putchar_c_65536_106:
+_putchar_c_65536_112:
 	.ds 2
+_dataout_data_65536_115:
+	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -587,7 +589,7 @@ __sdcc_program_startup:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;	program.c:70: void main(void)
+;	program.c:68: void main(void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
@@ -600,7 +602,7 @@ _main:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	program.c:72: printf("HELLO! \n\r");
+;	program.c:70: printf("HELLO! \n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -611,17 +613,23 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:73: user_interface();
-;	program.c:74: }
+;	program.c:71: DEBUGPORT(0x01);
+	mov	dpl,#0x01
+	lcall	_dataout
+;	program.c:72: user_interface();
+;	program.c:73: }
 	ljmp	_user_interface
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'user_interface'
 ;------------------------------------------------------------
-;	program.c:81: void user_interface()
+;	program.c:80: void user_interface()
 ;	-----------------------------------------
 ;	 function user_interface
 ;	-----------------------------------------
 _user_interface:
+;	program.c:82: DEBUGPORT(0x02);
+	mov	dpl,#0x02
+	lcall	_dataout
 ;	program.c:83: create_initial_buffers();
 	lcall	_create_initial_buffers
 ;	program.c:84: print_all_buffers();
@@ -632,14 +640,17 @@ _user_interface:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'at_clear_all_buffers'
 ;------------------------------------------------------------
-;i                         Allocated with name '_at_clear_all_buffers_i_131072_49'
+;i                         Allocated with name '_at_clear_all_buffers_i_131072_50'
 ;------------------------------------------------------------
 ;	program.c:94: void at_clear_all_buffers()
 ;	-----------------------------------------
 ;	 function at_clear_all_buffers
 ;	-----------------------------------------
 _at_clear_all_buffers:
-;	program.c:96: for (int i = 0; i < program_stats.total_buffers; i++)
+;	program.c:96: DEBUGPORT(0x03);
+	mov	dpl,#0x03
+	lcall	_dataout
+;	program.c:97: for (int i = 0; i < program_stats.total_buffers; i++)
 	mov	r6,#0x00
 	mov	r7,#0x00
 00103$:
@@ -658,7 +669,7 @@ _at_clear_all_buffers:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	00101$
-;	program.c:98: free(buffers_array[i].buffer_start);
+;	program.c:99: free(buffers_array[i].buffer_start);
 	mov	dptr,#__mulint_PARM_2
 	mov	a,r6
 	movx	@dptr,a
@@ -695,7 +706,7 @@ _at_clear_all_buffers:
 	lcall	_free
 	pop	ar6
 	pop	ar7
-;	program.c:99: printf("Buffer %d Freed ....\n\r", i);
+;	program.c:100: printf("Buffer %d Freed ....\n\r", i);
 	push	ar7
 	push	ar6
 	push	ar6
@@ -712,13 +723,13 @@ _at_clear_all_buffers:
 	mov	sp,a
 	pop	ar6
 	pop	ar7
-;	program.c:96: for (int i = 0; i < program_stats.total_buffers; i++)
+;	program.c:97: for (int i = 0; i < program_stats.total_buffers; i++)
 	inc	r6
 	cjne	r6,#0x00,00103$
 	inc	r7
 	sjmp	00103$
 00101$:
-;	program.c:101: printf("Let's begin again..\n\r");
+;	program.c:102: printf("Let's begin again..\n\r");
 	mov	a,#___str_2
 	push	acc
 	mov	a,#(___str_2 >> 8)
@@ -729,8 +740,8 @@ _at_clear_all_buffers:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:102: user_interface();
-;	program.c:103: }
+;	program.c:103: user_interface();
+;	program.c:104: }
 	ljmp	_user_interface
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'delete_buffer'
@@ -738,19 +749,22 @@ _at_clear_all_buffers:
 ;sloc0                     Allocated with name '_delete_buffer_sloc0_1_0'
 ;sloc1                     Allocated with name '_delete_buffer_sloc1_1_0'
 ;sloc2                     Allocated with name '_delete_buffer_sloc2_1_0'
-;buff_number               Allocated with name '_delete_buffer_buff_number_65536_51'
-;buff_to_free              Allocated with name '_delete_buffer_buff_to_free_65536_51'
-;buffer_freed_size         Allocated with name '_delete_buffer_buffer_freed_size_65536_51'
-;i                         Allocated with name '_delete_buffer_i_196608_53'
+;buff_number               Allocated with name '_delete_buffer_buff_number_65537_53'
+;buff_to_free              Allocated with name '_delete_buffer_buff_to_free_65537_53'
+;buffer_freed_size         Allocated with name '_delete_buffer_buffer_freed_size_65537_53'
+;i                         Allocated with name '_delete_buffer_i_196609_55'
 ;------------------------------------------------------------
-;	program.c:110: int delete_buffer()
+;	program.c:111: int delete_buffer()
 ;	-----------------------------------------
 ;	 function delete_buffer
 ;	-----------------------------------------
 _delete_buffer:
-;	program.c:115: get_del_num:
+;	program.c:113: DEBUGPORT(0x04);
+	mov	dpl,#0x04
+	lcall	_dataout
+;	program.c:117: get_del_num:
 00101$:
-;	program.c:116: printf("\n\rGive Valid Buffer Number to delete(1-%d) in 3 digits\n\r", (program_stats.total_buffers - 1));
+;	program.c:118: printf("\n\rGive Valid Buffer Number to delete(1-%d) in 3 digits\n\r", (program_stats.total_buffers - 1));
 	mov	dptr,#(_program_stats + 0x0008)
 	movx	a,@dptr
 	mov	r6,a
@@ -773,12 +787,12 @@ _delete_buffer:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	program.c:117: buff_number = get_number(3);
+;	program.c:119: buff_number = get_number(3);
 	mov	dptr,#0x0003
 	lcall	_get_number
 	mov	r6,dpl
 	mov	r7,dph
-;	program.c:119: if (buff_number > 0 && buff_number < program_stats.total_buffers)
+;	program.c:121: if (buff_number > 0 && buff_number < program_stats.total_buffers)
 	clr	c
 	clr	a
 	subb	a,r6
@@ -802,7 +816,7 @@ _delete_buffer:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	00101$
-;	program.c:121: buff_to_free = buffers_array[buff_number].buffer_start;
+;	program.c:125: buff_to_free = buffers_array[buff_number].buffer_start;
 	mov	dptr,#__mulint_PARM_2
 	mov	a,r6
 	movx	@dptr,a
@@ -835,7 +849,7 @@ _delete_buffer:
 	inc	dptr
 	movx	a,@dptr
 	mov	(_delete_buffer_sloc2_1_0 + 2),a
-;	program.c:122: buffer_freed_size = buffers_array[buff_number].buff_size;
+;	program.c:126: buffer_freed_size = buffers_array[buff_number].buff_size;
 	mov	a,#0x08
 	add	a,r4
 	mov	dpl,a
@@ -847,7 +861,7 @@ _delete_buffer:
 	inc	dptr
 	movx	a,@dptr
 	mov	r5,a
-;	program.c:123: for (int i = 0; i < (program_stats.total_buffers - 1); i++)
+;	program.c:128: for (int i = 0; i < (program_stats.total_buffers - 1); i++)
 	clr	a
 	mov	_delete_buffer_sloc0_1_0,a
 	mov	(_delete_buffer_sloc0_1_0 + 1),a
@@ -879,7 +893,7 @@ _delete_buffer:
 	jc	00142$
 	ljmp	00104$
 00142$:
-;	program.c:125: if (i >= buff_number)
+;	program.c:130: if (i >= buff_number)
 	clr	c
 	mov	a,_delete_buffer_sloc0_1_0
 	subb	a,r6
@@ -891,7 +905,7 @@ _delete_buffer:
 	jnc	00143$
 	ljmp	00111$
 00143$:
-;	program.c:127: buffers_array[i + 1].buffer_num = i;
+;	program.c:132: buffers_array[i + 1].buffer_num = i;
 	push	ar4
 	push	ar5
 	mov	dptr,#__mulint_PARM_2
@@ -921,7 +935,7 @@ _delete_buffer:
 	mov	a,(_delete_buffer_sloc0_1_0 + 1)
 	inc	dptr
 	movx	@dptr,a
-;	program.c:128: buffers_array[i] = buffers_array[i + 1];
+;	program.c:133: buffers_array[i] = buffers_array[i + 1];
 	mov	dptr,#__mulint_PARM_2
 	mov	a,_delete_buffer_sloc0_1_0
 	movx	@dptr,a
@@ -974,12 +988,12 @@ _delete_buffer:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	program.c:139: goto get_del_num;
+;	program.c:146: goto get_del_num;
 	pop	ar5
 	pop	ar4
-;	program.c:128: buffers_array[i] = buffers_array[i + 1];
+;	program.c:133: buffers_array[i] = buffers_array[i + 1];
 00111$:
-;	program.c:123: for (int i = 0; i < (program_stats.total_buffers - 1); i++)
+;	program.c:128: for (int i = 0; i < (program_stats.total_buffers - 1); i++)
 	inc	_delete_buffer_sloc0_1_0
 	clr	a
 	cjne	a,_delete_buffer_sloc0_1_0,00144$
@@ -987,7 +1001,7 @@ _delete_buffer:
 00144$:
 	ljmp	00110$
 00104$:
-;	program.c:131: program_stats.total_buffers -= 1;
+;	program.c:137: program_stats.total_buffers -= 1;
 	mov	a,_delete_buffer_sloc1_1_0
 	add	a,#0xff
 	mov	r2,a
@@ -1000,7 +1014,7 @@ _delete_buffer:
 	mov	a,r3
 	inc	dptr
 	movx	@dptr,a
-;	program.c:132: program_stats.allocated_heap -= buffer_freed_size;
+;	program.c:138: program_stats.allocated_heap -= buffer_freed_size;
 	mov	dptr,#(_program_stats + 0x0002)
 	movx	a,@dptr
 	mov	r2,a
@@ -1020,7 +1034,7 @@ _delete_buffer:
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:133: free(buff_to_free);
+;	program.c:140: free(buff_to_free);
 	mov	r3,_delete_buffer_sloc2_1_0
 	mov	r4,(_delete_buffer_sloc2_1_0 + 1)
 	mov	r5,(_delete_buffer_sloc2_1_0 + 2)
@@ -1032,7 +1046,7 @@ _delete_buffer:
 	lcall	_free
 	pop	ar6
 	pop	ar7
-;	program.c:134: printf("Buffer %d Successfully Deleted.. \n\r", buff_number);
+;	program.c:141: printf("Buffer %d Successfully Deleted.. \n\r", buff_number);
 	push	ar6
 	push	ar7
 	mov	a,#___str_4
@@ -1045,20 +1059,23 @@ _delete_buffer:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	program.c:135: return 0;
+;	program.c:142: return 0;
 	mov	dptr,#0x0000
-;	program.c:139: goto get_del_num;
-;	program.c:141: }
+;	program.c:146: goto get_del_num;
+;	program.c:148: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'print_menu'
 ;------------------------------------------------------------
-;	program.c:148: void print_menu()
+;	program.c:155: void print_menu()
 ;	-----------------------------------------
 ;	 function print_menu
 ;	-----------------------------------------
 _print_menu:
-;	program.c:150: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+;	program.c:157: DEBUGPORT(0x05);
+	mov	dpl,#0x05
+	lcall	_dataout
+;	program.c:158: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
 	mov	a,#___str_5
 	push	acc
 	mov	a,#(___str_5 >> 8)
@@ -1069,7 +1086,7 @@ _print_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:151: printf("You can enter characters or use commands from below \n\r");
+;	program.c:159: printf("You can enter characters or use commands from below \n\r");
 	mov	a,#___str_6
 	push	acc
 	mov	a,#(___str_6 >> 8)
@@ -1080,7 +1097,7 @@ _print_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:152: printf("'?' -> Show heap status, dump & clear Buffer 0 \n\r");
+;	program.c:160: printf("'?' -> Show heap status, dump & clear Buffer 0 \n\r");
 	mov	a,#___str_7
 	push	acc
 	mov	a,#(___str_7 >> 8)
@@ -1091,7 +1108,7 @@ _print_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:153: printf("'+' -> Add a new Buffer\n\r");
+;	program.c:161: printf("'+' -> Add a new Buffer\n\r");
 	mov	a,#___str_8
 	push	acc
 	mov	a,#(___str_8 >> 8)
@@ -1102,7 +1119,7 @@ _print_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:154: printf("'-' -> Delete existing Buffer\n\r");
+;	program.c:162: printf("'-' -> Delete existing Buffer\n\r");
 	mov	a,#___str_9
 	push	acc
 	mov	a,#(___str_9 >> 8)
@@ -1113,7 +1130,7 @@ _print_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:155: printf("'=' -> Dump Buffer 0 in hex\n\r");
+;	program.c:163: printf("'=' -> Dump Buffer 0 in hex\n\r");
 	mov	a,#___str_10
 	push	acc
 	mov	a,#(___str_10 >> 8)
@@ -1124,7 +1141,7 @@ _print_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:156: printf("'@' -> Free all Heap & begin again\n\n\r");    
+;	program.c:164: printf("'@' -> Free all Heap & begin again\n\n\r");
 	mov	a,#___str_11
 	push	acc
 	mov	a,#(___str_11 >> 8)
@@ -1135,20 +1152,23 @@ _print_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:157: }
+;	program.c:165: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'create_new_buffer'
 ;------------------------------------------------------------
-;buff_size                 Allocated with name '_create_new_buffer_buff_size_65536_58'
-;buff                      Allocated with name '_create_new_buffer_buff_65536_58'
+;buff_size                 Allocated with name '_create_new_buffer_buff_size_65537_61'
+;buff                      Allocated with name '_create_new_buffer_buff_65537_61'
 ;------------------------------------------------------------
-;	program.c:165: int create_new_buffer()
+;	program.c:173: int create_new_buffer()
 ;	-----------------------------------------
 ;	 function create_new_buffer
 ;	-----------------------------------------
 _create_new_buffer:
-;	program.c:169: if (program_stats.allocated_heap == program_stats.total_heap_size)
+;	program.c:175: DEBUGPORT(0x06);
+	mov	dpl,#0x06
+	lcall	_dataout
+;	program.c:178: if (program_stats.allocated_heap == program_stats.total_heap_size)
 	mov	dptr,#(_program_stats + 0x0002)
 	movx	a,@dptr
 	mov	r6,a
@@ -1167,9 +1187,9 @@ _create_new_buffer:
 	cjne	a,ar5,00133$
 	ljmp	00111$
 00133$:
-;	program.c:172: get_new_buff:
+;	program.c:181: get_new_buff:
 00103$:
-;	program.c:173: printf("\n\rGive Valid Buffer Size(030-300):");
+;	program.c:182: printf("\n\rGive Valid Buffer Size(030-300):");
 	mov	a,#___str_12
 	push	acc
 	mov	a,#(___str_12 >> 8)
@@ -1180,12 +1200,12 @@ _create_new_buffer:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:174: buff_size = get_number(3);
+;	program.c:183: buff_size = get_number(3);
 	mov	dptr,#0x0003
 	lcall	_get_number
 	mov	r6,dpl
 	mov	r7,dph
-;	program.c:175: if (buff_size >= 30 && buff_size <= 300)
+;	program.c:184: if (buff_size >= 30 && buff_size <= 300)
 	clr	c
 	mov	a,r6
 	subb	a,#0x1e
@@ -1200,7 +1220,7 @@ _create_new_buffer:
 	xrl	b,#0x80
 	subb	a,b
 	jc	00103$
-;	program.c:177: buff.buffer_start = malloc(buff_size);
+;	program.c:186: buff.buffer_start = malloc(buff_size);
 	mov	dpl,r6
 	mov	dph,r7
 	push	ar7
@@ -1211,7 +1231,7 @@ _create_new_buffer:
 	pop	ar6
 	pop	ar7
 	mov	r3,#0x00
-	mov	dptr,#(_create_new_buffer_buff_65536_58 + 0x0002)
+	mov	dptr,#(_create_new_buffer_buff_65537_61 + 0x0002)
 	mov	a,r4
 	movx	@dptr,a
 	mov	a,r5
@@ -1220,11 +1240,11 @@ _create_new_buffer:
 	mov	a,r3
 	inc	dptr
 	movx	@dptr,a
-;	program.c:178: if (buff.buffer_start == NULL)
+;	program.c:187: if (buff.buffer_start == NULL)
 	mov	a,r4
 	orl	a,r5
 	jnz	00105$
-;	program.c:180: printf("Failed, give smaller buffer\n\r");
+;	program.c:189: printf("Failed, give smaller buffer\n\r");
 	mov	a,#___str_13
 	push	acc
 	mov	a,#(___str_13 >> 8)
@@ -1237,7 +1257,7 @@ _create_new_buffer:
 	dec	sp
 	ljmp	00106$
 00105$:
-;	program.c:184: printf("\n\n\r####SUCCESS, BUFFER Created####\n\n\r");
+;	program.c:193: printf("\n\n\r####SUCCESS, BUFFER Created####\n\n\r");
 	push	ar7
 	push	ar6
 	mov	a,#___str_14
@@ -1252,7 +1272,7 @@ _create_new_buffer:
 	dec	sp
 	pop	ar6
 	pop	ar7
-;	program.c:185: program_stats.allocated_heap += buff_size;
+;	program.c:195: program_stats.allocated_heap += buff_size;
 	mov	dptr,#(_program_stats + 0x0002)
 	movx	a,@dptr
 	mov	r4,a
@@ -1271,28 +1291,28 @@ _create_new_buffer:
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:186: buff.buff_size = buff_size;
-	mov	dptr,#(_create_new_buffer_buff_65536_58 + 0x0008)
+;	program.c:196: buff.buff_size = buff_size;
+	mov	dptr,#(_create_new_buffer_buff_65537_61 + 0x0008)
 	mov	a,r6
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	program.c:187: buff.buffer_num = program_stats.total_buffers;
+;	program.c:197: buff.buffer_num = program_stats.total_buffers;
 	mov	dptr,#(_program_stats + 0x0008)
 	movx	a,@dptr
 	mov	r4,a
 	inc	dptr
 	movx	a,@dptr
 	mov	r5,a
-	mov	dptr,#_create_new_buffer_buff_65536_58
+	mov	dptr,#_create_new_buffer_buff_65537_61
 	mov	a,r4
 	movx	@dptr,a
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:188: buff.buffer_end = buff.buffer_start + buff_size;
-	mov	dptr,#(_create_new_buffer_buff_65536_58 + 0x0002)
+;	program.c:198: buff.buffer_end = buff.buffer_start + buff_size;
+	mov	dptr,#(_create_new_buffer_buff_65537_61 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1308,7 +1328,7 @@ _create_new_buffer:
 	addc	a,r4
 	mov	r7,a
 	mov	ar2,r5
-	mov	dptr,#(_create_new_buffer_buff_65536_58 + 0x0005)
+	mov	dptr,#(_create_new_buffer_buff_65537_61 + 0x0005)
 	mov	a,r6
 	movx	@dptr,a
 	mov	a,r7
@@ -1317,13 +1337,13 @@ _create_new_buffer:
 	mov	a,r2
 	inc	dptr
 	movx	@dptr,a
-;	program.c:189: buff.num_char = 0;
-	mov	dptr,#(_create_new_buffer_buff_65536_58 + 0x000a)
+;	program.c:199: buff.num_char = 0;
+	mov	dptr,#(_create_new_buffer_buff_65537_61 + 0x000a)
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:190: buffers_array[program_stats.total_buffers] = buff;
+;	program.c:201: buffers_array[program_stats.total_buffers] = buff;
 	mov	dptr,#(_program_stats + 0x0008)
 	movx	a,@dptr
 	mov	r6,a
@@ -1348,9 +1368,9 @@ _create_new_buffer:
 	mov	r7,a
 	mov	r5,#0x00
 	mov	dptr,#___memcpy_PARM_2
-	mov	a,#_create_new_buffer_buff_65536_58
+	mov	a,#_create_new_buffer_buff_65537_61
 	movx	@dptr,a
-	mov	a,#(_create_new_buffer_buff_65536_58 >> 8)
+	mov	a,#(_create_new_buffer_buff_65537_61 >> 8)
 	inc	dptr
 	movx	@dptr,a
 	clr	a
@@ -1366,7 +1386,7 @@ _create_new_buffer:
 	mov	dph,r7
 	mov	b,r5
 	lcall	___memcpy
-;	program.c:191: program_stats.total_buffers += 1;
+;	program.c:202: program_stats.total_buffers += 1;
 	mov	dptr,#(_program_stats + 0x0008)
 	movx	a,@dptr
 	mov	r6,a
@@ -1384,12 +1404,12 @@ _create_new_buffer:
 	inc	dptr
 	movx	@dptr,a
 00106$:
-;	program.c:193: return 0;
+;	program.c:204: return 0;
 	mov	dptr,#0x0000
-;	program.c:199: no_heap_left:
+;	program.c:210: no_heap_left:
 	ret
 00111$:
-;	program.c:200: printf("No Heap Memory Left, Delete some buffers...\n\r");
+;	program.c:211: printf("No Heap Memory Left, Delete some buffers...\n\r");
 	mov	a,#___str_15
 	push	acc
 	mov	a,#(___str_15 >> 8)
@@ -1400,25 +1420,28 @@ _create_new_buffer:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:201: return 0;
+;	program.c:212: return 0;
 	mov	dptr,#0x0000
-;	program.c:202: }
+;	program.c:213: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'create_initial_buffers'
 ;------------------------------------------------------------
-;buff_size                 Allocated with name '_create_initial_buffers_buff_size_65536_63'
-;buff                      Allocated with name '_create_initial_buffers_buff_65537_64'
-;buff1                     Allocated with name '_create_initial_buffers_buff1_65537_64'
+;buff_size                 Allocated with name '_create_initial_buffers_buff_size_65537_67'
+;buff                      Allocated with name '_create_initial_buffers_buff_65538_68'
+;buff1                     Allocated with name '_create_initial_buffers_buff1_65538_68'
 ;------------------------------------------------------------
-;	program.c:210: void create_initial_buffers()
+;	program.c:221: void create_initial_buffers()
 ;	-----------------------------------------
 ;	 function create_initial_buffers
 ;	-----------------------------------------
 _create_initial_buffers:
-;	program.c:214: get_buff:
+;	program.c:223: DEBUGPORT(0x07);
+	mov	dpl,#0x07
+	lcall	_dataout
+;	program.c:226: get_buff:
 00101$:
-;	program.c:215: printf("\n\rGive Valid Initial Buffer Size(0048-4800):");
+;	program.c:227: printf("\n\rGive Valid Initial Buffer Size(0048-4800):");
 	mov	a,#___str_16
 	push	acc
 	mov	a,#(___str_16 >> 8)
@@ -1429,12 +1452,12 @@ _create_initial_buffers:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:216: buff_size = get_number(4);
+;	program.c:228: buff_size = get_number(4);
 	mov	dptr,#0x0004
 	lcall	_get_number
 	mov	r6,dpl
 	mov	r7,dph
-;	program.c:219: if (buff_size >= 48 && buff_size <= 4800)
+;	program.c:232: if (buff_size >= 48 && buff_size <= 4800)
 	clr	c
 	mov	a,r6
 	subb	a,#0x30
@@ -1449,7 +1472,7 @@ _create_initial_buffers:
 	xrl	b,#0x80
 	subb	a,b
 	jc	00101$
-;	program.c:221: buff.buffer_start = malloc(buff_size);
+;	program.c:234: buff.buffer_start = malloc(buff_size);
 	mov	dpl,r6
 	mov	dph,r7
 	push	ar7
@@ -1460,7 +1483,7 @@ _create_initial_buffers:
 	pop	ar6
 	pop	ar7
 	mov	r3,#0x00
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x0002)
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x0002)
 	mov	a,r4
 	movx	@dptr,a
 	mov	a,r5
@@ -1469,7 +1492,7 @@ _create_initial_buffers:
 	mov	a,r3
 	inc	dptr
 	movx	@dptr,a
-;	program.c:222: buff1.buffer_start = malloc(buff_size);
+;	program.c:235: buff1.buffer_start = malloc(buff_size);
 	mov	dpl,r6
 	mov	dph,r7
 	push	ar7
@@ -1480,7 +1503,7 @@ _create_initial_buffers:
 	pop	ar6
 	pop	ar7
 	mov	r3,#0x00
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x0002)
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x0002)
 	mov	a,r4
 	movx	@dptr,a
 	mov	a,r5
@@ -1489,8 +1512,8 @@ _create_initial_buffers:
 	mov	a,r3
 	inc	dptr
 	movx	@dptr,a
-;	program.c:223: if (buff.buffer_start == NULL || buff1.buffer_start == NULL)
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x0002)
+;	program.c:237: if (buff.buffer_start == NULL || buff1.buffer_start == NULL)
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1501,7 +1524,7 @@ _create_initial_buffers:
 	mov	a,r3
 	orl	a,r4
 	jz	00106$
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x0002)
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1514,7 +1537,7 @@ _create_initial_buffers:
 	orl	a,r4
 	jnz	00107$
 00106$:
-;	program.c:225: printf("\n\r####FAIL, Please give a smaller buffer size####\n\n\r");
+;	program.c:239: printf("\n\r####FAIL, Please give a smaller buffer size####\n\n\r");
 	mov	a,#___str_17
 	push	acc
 	mov	a,#(___str_17 >> 8)
@@ -1525,8 +1548,8 @@ _create_initial_buffers:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:227: if (buff.buffer_start != NULL)
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x0002)
+;	program.c:241: if (buff.buffer_start != NULL)
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1537,8 +1560,8 @@ _create_initial_buffers:
 	mov	a,r3
 	orl	a,r4
 	jz	00103$
-;	program.c:228: free(buff.buffer_start);
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x0002)
+;	program.c:242: free(buff.buffer_start);
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1552,8 +1575,8 @@ _create_initial_buffers:
 	mov	b,r5
 	lcall	_free
 00103$:
-;	program.c:229: if (buff1.buffer_start != NULL)
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x0002)
+;	program.c:243: if (buff1.buffer_start != NULL)
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1567,8 +1590,8 @@ _create_initial_buffers:
 	jnz	00145$
 	ljmp	00101$
 00145$:
-;	program.c:230: free(buff1.buffer_start);
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x0002)
+;	program.c:244: free(buff1.buffer_start);
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1581,10 +1604,10 @@ _create_initial_buffers:
 	mov	dph,r4
 	mov	b,r5
 	lcall	_free
-;	program.c:232: goto get_buff;
+;	program.c:246: goto get_buff;
 	ljmp	00101$
 00107$:
-;	program.c:236: printf("\n\n\r####SUCCESS, INITIAL BUFFERS Created####\n\n\r");
+;	program.c:251: printf("\n\n\r####SUCCESS, INITIAL BUFFERS Created####\n\n\r");
 	push	ar7
 	push	ar6
 	mov	a,#___str_18
@@ -1599,7 +1622,7 @@ _create_initial_buffers:
 	dec	sp
 	pop	ar6
 	pop	ar7
-;	program.c:237: program_stats.allocated_heap = 2 * buff_size;
+;	program.c:252: program_stats.allocated_heap = 2 * buff_size;
 	mov	a,r6
 	add	a,r6
 	mov	r4,a
@@ -1612,49 +1635,49 @@ _create_initial_buffers:
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:238: program_stats.total_heap_size = 4996;
+;	program.c:253: program_stats.total_heap_size = 4996;
 	mov	dptr,#_program_stats
 	mov	a,#0x84
 	movx	@dptr,a
 	mov	a,#0x13
 	inc	dptr
 	movx	@dptr,a
-;	program.c:239: program_stats.total_buffers = 2;
+;	program.c:254: program_stats.total_buffers = 2;
 	mov	dptr,#(_program_stats + 0x0008)
 	mov	a,#0x02
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:241: buff.buff_size = buff_size;
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x0008)
+;	program.c:256: buff.buff_size = buff_size;
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x0008)
 	mov	a,r6
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	program.c:242: buff1.buff_size = buff_size;
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x0008)
+;	program.c:257: buff1.buff_size = buff_size;
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x0008)
 	mov	a,r6
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	program.c:243: buff.buffer_num = 0;
-	mov	dptr,#_create_initial_buffers_buff_65537_64
+;	program.c:258: buff.buffer_num = 0;
+	mov	dptr,#_create_initial_buffers_buff_65538_68
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:244: buff1.buffer_num = 1;
-	mov	dptr,#_create_initial_buffers_buff1_65537_64
+;	program.c:259: buff1.buffer_num = 1;
+	mov	dptr,#_create_initial_buffers_buff1_65538_68
 	inc	a
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:245: buff1.buffer_end = buff1.buffer_start + buff_size;
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x0002)
+;	program.c:260: buff1.buffer_end = buff1.buffer_start + buff_size;
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1669,7 +1692,7 @@ _create_initial_buffers:
 	mov	a,r7
 	addc	a,r4
 	mov	r4,a
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x0005)
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x0005)
 	mov	a,r3
 	movx	@dptr,a
 	mov	a,r4
@@ -1678,8 +1701,8 @@ _create_initial_buffers:
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:246: buff.buffer_end = buff.buffer_start + buff_size;
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x0002)
+;	program.c:261: buff.buffer_end = buff.buffer_start + buff_size;
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
 	inc	dptr
@@ -1695,7 +1718,7 @@ _create_initial_buffers:
 	addc	a,r4
 	mov	r7,a
 	mov	ar2,r5
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x0005)
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x0005)
 	mov	a,r6
 	movx	@dptr,a
 	mov	a,r7
@@ -1704,22 +1727,22 @@ _create_initial_buffers:
 	mov	a,r2
 	inc	dptr
 	movx	@dptr,a
-;	program.c:247: buff.num_char = 0;
-	mov	dptr,#(_create_initial_buffers_buff_65537_64 + 0x000a)
+;	program.c:262: buff.num_char = 0;
+	mov	dptr,#(_create_initial_buffers_buff_65538_68 + 0x000a)
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:248: buff1.num_char = 0;
-	mov	dptr,#(_create_initial_buffers_buff1_65537_64 + 0x000a)
+;	program.c:263: buff1.num_char = 0;
+	mov	dptr,#(_create_initial_buffers_buff1_65538_68 + 0x000a)
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:250: buffers_array[0] = buff;
+;	program.c:265: buffers_array[0] = buff;
 	mov	dptr,#___memcpy_PARM_2
-	mov	a,#_create_initial_buffers_buff_65537_64
+	mov	a,#_create_initial_buffers_buff_65538_68
 	movx	@dptr,a
-	mov	a,#(_create_initial_buffers_buff_65537_64 >> 8)
+	mov	a,#(_create_initial_buffers_buff_65538_68 >> 8)
 	inc	dptr
 	movx	@dptr,a
 	clr	a
@@ -1734,11 +1757,11 @@ _create_initial_buffers:
 	mov	dptr,#_buffers_array
 	mov	b,#0x00
 	lcall	___memcpy
-;	program.c:251: buffers_array[1] = buff1;
+;	program.c:266: buffers_array[1] = buff1;
 	mov	dptr,#___memcpy_PARM_2
-	mov	a,#_create_initial_buffers_buff1_65537_64
+	mov	a,#_create_initial_buffers_buff1_65538_68
 	movx	@dptr,a
-	mov	a,#(_create_initial_buffers_buff1_65537_64 >> 8)
+	mov	a,#(_create_initial_buffers_buff1_65538_68 >> 8)
 	inc	dptr
 	movx	@dptr,a
 	clr	a
@@ -1752,28 +1775,31 @@ _create_initial_buffers:
 	movx	@dptr,a
 	mov	dptr,#(_buffers_array + 0x000c)
 	mov	b,#0x00
-;	program.c:255: goto get_buff;
-;	program.c:256: }
+;	program.c:270: goto get_buff;
+;	program.c:271: }
 	ljmp	___memcpy
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'enter_chars'
 ;------------------------------------------------------------
-;rec                       Allocated with name '_enter_chars_rec_65537_69'
+;rec                       Allocated with name '_enter_chars_rec_65537_73'
 ;------------------------------------------------------------
-;	program.c:264: void enter_chars()
+;	program.c:279: void enter_chars()
 ;	-----------------------------------------
 ;	 function enter_chars
 ;	-----------------------------------------
 _enter_chars:
-;	program.c:266: print_menu();
+;	program.c:281: DEBUGPORT(0x08);
+	mov	dpl,#0x08
+	lcall	_dataout
+;	program.c:282: print_menu();
 	lcall	_print_menu
-;	program.c:268: while (1)
+;	program.c:284: while (1)
 00123$:
-;	program.c:270: rec = getchar();
+;	program.c:286: rec = getchar();
 	lcall	_getchar
 	mov	r6,dpl
 	mov	r7,dph
-;	program.c:271: if (rec > 0x60 && rec < 0x7B)
+;	program.c:287: if (rec > 0x60 && rec < 0x7B)
 	clr	c
 	mov	a,#0x60
 	subb	a,r6
@@ -1793,7 +1819,7 @@ _enter_chars:
 	jc	00164$
 	ljmp	00119$
 00164$:
-;	program.c:273: if (buffers_array[0].num_char < buffers_array[0].buff_size)
+;	program.c:291: if (buffers_array[0].num_char < buffers_array[0].buff_size)
 	mov	dptr,#(_buffers_array + 0x000a)
 	movx	a,@dptr
 	mov	r4,a
@@ -1815,7 +1841,7 @@ _enter_chars:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	00102$
-;	program.c:275: *(buffers_array[0].buffer_start + buffers_array[0].num_char) = rec;
+;	program.c:293: *(buffers_array[0].buffer_start + buffers_array[0].num_char) = rec;
 	mov	dptr,#(_buffers_array + 0x0002)
 	movx	a,@dptr
 	mov	r1,a
@@ -1837,7 +1863,7 @@ _enter_chars:
 	mov	b,r3
 	mov	a,r5
 	lcall	__gptrput
-;	program.c:276: buffers_array[0].num_char += 1;
+;	program.c:294: buffers_array[0].num_char += 1;
 	mov	dptr,#(_buffers_array + 0x000a)
 	movx	a,@dptr
 	mov	r4,a
@@ -1855,7 +1881,7 @@ _enter_chars:
 	inc	dptr
 	movx	@dptr,a
 00102$:
-;	program.c:278: program_stats.all_char_count += 1;
+;	program.c:296: program_stats.all_char_count += 1;
 	mov	dptr,#(_program_stats + 0x0004)
 	movx	a,@dptr
 	mov	r4,a
@@ -1872,7 +1898,7 @@ _enter_chars:
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:279: program_stats.storage_char_count += 1;
+;	program.c:297: program_stats.storage_char_count += 1;
 	mov	dptr,#(_program_stats + 0x0006)
 	movx	a,@dptr
 	mov	r4,a
@@ -1891,67 +1917,67 @@ _enter_chars:
 	movx	@dptr,a
 	ljmp	00123$
 00119$:
-;	program.c:281: else if (rec == 0x3F)
+;	program.c:299: else if (rec == 0x3F)
 	cjne	r6,#0x3f,00116$
 	cjne	r7,#0x00,00116$
-;	program.c:283: print_heap_stats();
+;	program.c:302: print_heap_stats();
 	lcall	_print_heap_stats
-;	program.c:284: print_all_buffers();
+;	program.c:303: print_all_buffers();
 	lcall	_print_all_buffers
-;	program.c:285: dump_buff_zero_ascii();
+;	program.c:304: dump_buff_zero_ascii();
 	lcall	_dump_buff_zero_ascii
-;	program.c:286: program_stats.all_char_count = 0;
+;	program.c:305: program_stats.all_char_count = 0;
 	mov	dptr,#(_program_stats + 0x0004)
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:287: program_stats.storage_char_count = 0;
+;	program.c:306: program_stats.storage_char_count = 0;
 	mov	dptr,#(_program_stats + 0x0006)
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:288: print_menu();
+;	program.c:307: print_menu();
 	lcall	_print_menu
 	ljmp	00123$
 00116$:
-;	program.c:290: else if (rec == 0x3D)
+;	program.c:309: else if (rec == 0x3D)
 	cjne	r6,#0x3d,00113$
 	cjne	r7,#0x00,00113$
-;	program.c:292: dump_buff_zero_hex();
+;	program.c:312: dump_buff_zero_hex();
 	lcall	_dump_buff_zero_hex
-;	program.c:293: print_menu();
+;	program.c:313: print_menu();
 	lcall	_print_menu
 	ljmp	00123$
 00113$:
-;	program.c:295: else if (rec == 0x40)
+;	program.c:315: else if (rec == 0x40)
 	cjne	r6,#0x40,00110$
 	cjne	r7,#0x00,00110$
-;	program.c:297: at_clear_all_buffers();
+;	program.c:318: at_clear_all_buffers();
 	lcall	_at_clear_all_buffers
-;	program.c:298: print_menu();
+;	program.c:319: print_menu();
 	lcall	_print_menu
 	ljmp	00123$
 00110$:
-;	program.c:300: else if (rec == 0x2B)
+;	program.c:321: else if (rec == 0x2B)
 	cjne	r6,#0x2b,00107$
 	cjne	r7,#0x00,00107$
-;	program.c:302: create_new_buffer();
+;	program.c:324: create_new_buffer();
 	lcall	_create_new_buffer
-;	program.c:303: print_menu();
+;	program.c:325: print_menu();
 	lcall	_print_menu
 	ljmp	00123$
 00107$:
-;	program.c:305: else if (rec == 0x2D)
+;	program.c:327: else if (rec == 0x2D)
 	cjne	r6,#0x2d,00104$
 	cjne	r7,#0x00,00104$
-;	program.c:307: delete_buffer();
+;	program.c:330: delete_buffer();
 	lcall	_delete_buffer
-;	program.c:308: print_menu();
+;	program.c:331: print_menu();
 	lcall	_print_menu
 	ljmp	00123$
 00104$:
-;	program.c:312: program_stats.all_char_count += 1;
+;	program.c:335: program_stats.all_char_count += 1;
 	mov	dptr,#(_program_stats + 0x0004)
 	movx	a,@dptr
 	mov	r6,a
@@ -1968,27 +1994,30 @@ _enter_chars:
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	program.c:315: }
+;	program.c:338: }
 	ljmp	00123$
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'dump_buff_zero_ascii'
 ;------------------------------------------------------------
-;j                         Allocated with name '_dump_buff_zero_ascii_j_65536_79'
-;i                         Allocated with name '_dump_buff_zero_ascii_i_196608_81'
+;j                         Allocated with name '_dump_buff_zero_ascii_j_65537_84'
+;i                         Allocated with name '_dump_buff_zero_ascii_i_196609_86'
 ;------------------------------------------------------------
-;	program.c:323: void dump_buff_zero_ascii()
+;	program.c:346: void dump_buff_zero_ascii()
 ;	-----------------------------------------
 ;	 function dump_buff_zero_ascii
 ;	-----------------------------------------
 _dump_buff_zero_ascii:
-;	program.c:325: int j = 64;
-	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+;	program.c:348: DEBUGPORT(0x09);
+	mov	dpl,#0x09
+	lcall	_dataout
+;	program.c:349: int j = 64;
+	mov	dptr,#_dump_buff_zero_ascii_j_65537_84
 	mov	a,#0x40
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:326: if (buffers_array[0].num_char > 0)
+;	program.c:350: if (buffers_array[0].num_char > 0)
 	mov	dptr,#(_buffers_array + 0x000a)
 	movx	a,@dptr
 	mov	r6,a
@@ -2005,7 +2034,7 @@ _dump_buff_zero_ascii:
 	jc	00135$
 	ljmp	00107$
 00135$:
-;	program.c:328: printf("\n\n\r***********Buffer-0-Contents*********** \n\r");
+;	program.c:352: printf("\n\n\r***********Buffer-0-Contents*********** \n\r");
 	mov	a,#___str_19
 	push	acc
 	mov	a,#(___str_19 >> 8)
@@ -2016,7 +2045,7 @@ _dump_buff_zero_ascii:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:329: for (int i = 0; i < buffers_array[0].num_char; i++)
+;	program.c:353: for (int i = 0; i < buffers_array[0].num_char; i++)
 	mov	r6,#0x00
 	mov	r7,#0x00
 00110$:
@@ -2037,8 +2066,8 @@ _dump_buff_zero_ascii:
 	jc	00136$
 	ljmp	00105$
 00136$:
-;	program.c:331: if (j == 64)
-	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+;	program.c:355: if (j == 64)
+	mov	dptr,#_dump_buff_zero_ascii_j_65537_84
 	movx	a,@dptr
 	mov	r4,a
 	inc	dptr
@@ -2046,7 +2075,7 @@ _dump_buff_zero_ascii:
 	mov	r5,a
 	cjne	r4,#0x40,00102$
 	cjne	r5,#0x00,00102$
-;	program.c:333: printf("\n\r");
+;	program.c:357: printf("\n\r");
 	push	ar7
 	push	ar6
 	mov	a,#___str_20
@@ -2062,7 +2091,7 @@ _dump_buff_zero_ascii:
 	pop	ar6
 	pop	ar7
 00102$:
-;	program.c:335: putchar(*(buffers_array[0].buffer_start + i));
+;	program.c:359: putchar(*(buffers_array[0].buffer_start + i));
 	mov	dptr,#(_buffers_array + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
@@ -2091,8 +2120,8 @@ _dump_buff_zero_ascii:
 	lcall	_putchar
 	pop	ar6
 	pop	ar7
-;	program.c:336: j--;
-	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+;	program.c:360: j--;
+	mov	dptr,#_dump_buff_zero_ascii_j_65537_84
 	movx	a,@dptr
 	add	a,#0xff
 	mov	r4,a
@@ -2100,42 +2129,42 @@ _dump_buff_zero_ascii:
 	movx	a,@dptr
 	addc	a,#0xff
 	mov	r5,a
-	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+	mov	dptr,#_dump_buff_zero_ascii_j_65537_84
 	mov	a,r4
 	movx	@dptr,a
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:337: if (j == 0)
-	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+;	program.c:361: if (j == 0)
+	mov	dptr,#_dump_buff_zero_ascii_j_65537_84
 	movx	a,@dptr
 	mov	b,a
 	inc	dptr
 	movx	a,@dptr
 	orl	a,b
 	jnz	00111$
-;	program.c:338: j = 64;
-	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+;	program.c:362: j = 64;
+	mov	dptr,#_dump_buff_zero_ascii_j_65537_84
 	mov	a,#0x40
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
 00111$:
-;	program.c:329: for (int i = 0; i < buffers_array[0].num_char; i++)
+;	program.c:353: for (int i = 0; i < buffers_array[0].num_char; i++)
 	inc	r6
 	cjne	r6,#0x00,00140$
 	inc	r7
 00140$:
 	ljmp	00110$
 00105$:
-;	program.c:340: buffers_array[0].num_char = 0;
+;	program.c:364: buffers_array[0].num_char = 0;
 	mov	dptr,#(_buffers_array + 0x000a)
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:341: printf("\n\n\r");
+;	program.c:365: printf("\n\n\r");
 	mov	a,#___str_21
 	push	acc
 	mov	a,#(___str_21 >> 8)
@@ -2148,7 +2177,7 @@ _dump_buff_zero_ascii:
 	dec	sp
 	ret
 00107$:
-;	program.c:345: printf("Buffer0 is Empty....\n\r");
+;	program.c:369: printf("Buffer0 is Empty....\n\r");
 	mov	a,#___str_22
 	push	acc
 	mov	a,#(___str_22 >> 8)
@@ -2159,20 +2188,23 @@ _dump_buff_zero_ascii:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:347: }
+;	program.c:371: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'dump_buff_zero_hex'
 ;------------------------------------------------------------
-;j                         Allocated with name '_dump_buff_zero_hex_j_131073_87'
-;i                         Allocated with name '_dump_buff_zero_hex_i_196609_88'
+;j                         Allocated with name '_dump_buff_zero_hex_j_131073_92'
+;i                         Allocated with name '_dump_buff_zero_hex_i_196609_93'
 ;------------------------------------------------------------
-;	program.c:354: void dump_buff_zero_hex()
+;	program.c:378: void dump_buff_zero_hex()
 ;	-----------------------------------------
 ;	 function dump_buff_zero_hex
 ;	-----------------------------------------
 _dump_buff_zero_hex:
-;	program.c:356: if (buffers_array[0].num_char > 0)
+;	program.c:380: DEBUGPORT(0xA);
+	mov	dpl,#0x0a
+	lcall	_dataout
+;	program.c:381: if (buffers_array[0].num_char > 0)
 	mov	dptr,#(_buffers_array + 0x000a)
 	movx	a,@dptr
 	mov	r6,a
@@ -2189,7 +2221,7 @@ _dump_buff_zero_hex:
 	jc	00135$
 	ljmp	00107$
 00135$:
-;	program.c:358: printf("\n\r-------------------------HEXDUMP--------------------------------");
+;	program.c:383: printf("\n\r-------------------------HEXDUMP--------------------------------");
 	mov	a,#___str_23
 	push	acc
 	mov	a,#(___str_23 >> 8)
@@ -2200,7 +2232,7 @@ _dump_buff_zero_hex:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:359: printf("\n\r    ADDR: +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F \n\r");
+;	program.c:384: printf("\n\r    ADDR: +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F \n\r");
 	mov	a,#___str_24
 	push	acc
 	mov	a,#(___str_24 >> 8)
@@ -2211,14 +2243,14 @@ _dump_buff_zero_hex:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:360: int j = 16;
-	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+;	program.c:385: int j = 16;
+	mov	dptr,#_dump_buff_zero_hex_j_131073_92
 	mov	a,#0x10
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:361: for (int i = 0; i < buffers_array[0].num_char; i++)
+;	program.c:387: for (int i = 0; i < buffers_array[0].num_char; i++)
 	mov	r6,#0x00
 	mov	r7,#0x00
 00110$:
@@ -2239,8 +2271,8 @@ _dump_buff_zero_hex:
 	jc	00136$
 	ljmp	00105$
 00136$:
-;	program.c:363: if (j == 16)
-	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+;	program.c:389: if (j == 16)
+	mov	dptr,#_dump_buff_zero_hex_j_131073_92
 	movx	a,@dptr
 	mov	r4,a
 	inc	dptr
@@ -2248,7 +2280,7 @@ _dump_buff_zero_hex:
 	mov	r5,a
 	cjne	r4,#0x10,00102$
 	cjne	r5,#0x00,00102$
-;	program.c:365: printf("\n\r%p: ", (buffers_array[0].buffer_start + i));
+;	program.c:391: printf("\n\r%p: ", (buffers_array[0].buffer_start + i));
 	mov	dptr,#(_buffers_array + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
@@ -2282,7 +2314,7 @@ _dump_buff_zero_hex:
 	pop	ar6
 	pop	ar7
 00102$:
-;	program.c:367: printf("%x ", *(buffers_array[0].buffer_start + i));
+;	program.c:393: printf("%x ", *(buffers_array[0].buffer_start + i));
 	mov	dptr,#(_buffers_array + 0x0002)
 	movx	a,@dptr
 	mov	r3,a
@@ -2320,8 +2352,8 @@ _dump_buff_zero_hex:
 	mov	sp,a
 	pop	ar6
 	pop	ar7
-;	program.c:368: j--;
-	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+;	program.c:394: j--;
+	mov	dptr,#_dump_buff_zero_hex_j_131073_92
 	movx	a,@dptr
 	add	a,#0xff
 	mov	r4,a
@@ -2329,36 +2361,36 @@ _dump_buff_zero_hex:
 	movx	a,@dptr
 	addc	a,#0xff
 	mov	r5,a
-	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+	mov	dptr,#_dump_buff_zero_hex_j_131073_92
 	mov	a,r4
 	movx	@dptr,a
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	program.c:369: if (j == 0)
-	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+;	program.c:395: if (j == 0)
+	mov	dptr,#_dump_buff_zero_hex_j_131073_92
 	movx	a,@dptr
 	mov	b,a
 	inc	dptr
 	movx	a,@dptr
 	orl	a,b
 	jnz	00111$
-;	program.c:370: j = 16;
-	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+;	program.c:396: j = 16;
+	mov	dptr,#_dump_buff_zero_hex_j_131073_92
 	mov	a,#0x10
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
 00111$:
-;	program.c:361: for (int i = 0; i < buffers_array[0].num_char; i++)
+;	program.c:387: for (int i = 0; i < buffers_array[0].num_char; i++)
 	inc	r6
 	cjne	r6,#0x00,00140$
 	inc	r7
 00140$:
 	ljmp	00110$
 00105$:
-;	program.c:372: printf("\n\n\r");
+;	program.c:398: printf("\n\n\r");
 	mov	a,#___str_21
 	push	acc
 	mov	a,#(___str_21 >> 8)
@@ -2371,7 +2403,7 @@ _dump_buff_zero_hex:
 	dec	sp
 	ret
 00107$:
-;	program.c:376: printf("Buffer 0 is empty...\n\r");
+;	program.c:402: printf("Buffer 0 is empty...\n\r");
 	mov	a,#___str_27
 	push	acc
 	mov	a,#(___str_27 >> 8)
@@ -2382,17 +2414,20 @@ _dump_buff_zero_hex:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:378: }
+;	program.c:404: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'print_heap_stats'
 ;------------------------------------------------------------
-;	program.c:385: void print_heap_stats()
+;	program.c:411: void print_heap_stats()
 ;	-----------------------------------------
 ;	 function print_heap_stats
 ;	-----------------------------------------
 _print_heap_stats:
-;	program.c:387: printf("\n\r****************HEAP*STATS*************\n\r");
+;	program.c:413: DEBUGPORT(0xB);
+	mov	dpl,#0x0b
+	lcall	_dataout
+;	program.c:414: printf("\n\r****************HEAP*STATS*************\n\r");
 	mov	a,#___str_28
 	push	acc
 	mov	a,#(___str_28 >> 8)
@@ -2403,7 +2438,7 @@ _print_heap_stats:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:388: printf("Total Heap Size: %d \n\r", program_stats.total_heap_size);
+;	program.c:415: printf("Total Heap Size: %d \n\r", program_stats.total_heap_size);
 	mov	dptr,#_program_stats
 	movx	a,@dptr
 	mov	r6,a
@@ -2422,7 +2457,7 @@ _print_heap_stats:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	program.c:389: printf("Allocated Heap Size: %d \n\r", program_stats.allocated_heap);
+;	program.c:416: printf("Allocated Heap Size: %d \n\r", program_stats.allocated_heap);
 	mov	dptr,#(_program_stats + 0x0002)
 	movx	a,@dptr
 	mov	r6,a
@@ -2441,7 +2476,7 @@ _print_heap_stats:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	program.c:390: printf("All Chars: %d \n\r", program_stats.all_char_count);
+;	program.c:417: printf("All Chars: %d \n\r", program_stats.all_char_count);
 	mov	dptr,#(_program_stats + 0x0004)
 	movx	a,@dptr
 	mov	r6,a
@@ -2460,7 +2495,7 @@ _print_heap_stats:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	program.c:391: printf("Storage Chars: %d \n\r", program_stats.storage_char_count);
+;	program.c:418: printf("Storage Chars: %d \n\r", program_stats.storage_char_count);
 	mov	dptr,#(_program_stats + 0x0006)
 	movx	a,@dptr
 	mov	r6,a
@@ -2479,7 +2514,7 @@ _print_heap_stats:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	program.c:392: printf("Total Buffers: %d \n\r", program_stats.total_buffers);
+;	program.c:419: printf("Total Buffers: %d \n\r", program_stats.total_buffers);
 	mov	dptr,#(_program_stats + 0x0008)
 	movx	a,@dptr
 	mov	r6,a
@@ -2498,19 +2533,22 @@ _print_heap_stats:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	program.c:393: }
+;	program.c:420: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'print_all_buffers'
 ;------------------------------------------------------------
-;i                         Allocated with name '_print_all_buffers_i_131072_94'
+;i                         Allocated with name '_print_all_buffers_i_131072_99'
 ;------------------------------------------------------------
-;	program.c:400: void print_all_buffers()
+;	program.c:427: void print_all_buffers()
 ;	-----------------------------------------
 ;	 function print_all_buffers
 ;	-----------------------------------------
 _print_all_buffers:
-;	program.c:402: for (int i = 0; i < program_stats.total_buffers; i++)
+;	program.c:429: DEBUGPORT(0xC)
+	mov	dpl,#0x0c
+	lcall	_dataout
+;	program.c:430: for (int i = 0; i < program_stats.total_buffers; i++)
 	mov	r6,#0x00
 	mov	r7,#0x00
 00103$:
@@ -2531,7 +2569,7 @@ _print_all_buffers:
 	jc	00116$
 	ljmp	00101$
 00116$:
-;	program.c:404: printf("****************BUFFER*%d***************\n\r", i);
+;	program.c:432: printf("****************BUFFER*%d***************\n\r", i);
 	push	ar7
 	push	ar6
 	push	ar6
@@ -2548,7 +2586,7 @@ _print_all_buffers:
 	mov	sp,a
 	pop	ar6
 	pop	ar7
-;	program.c:405: printf("Buffer#: %d \n\r", buffers_array[i].buffer_num);
+;	program.c:433: printf("Buffer#: %d \n\r", buffers_array[i].buffer_num);
 	mov	dptr,#__mulint_PARM_2
 	mov	a,r6
 	movx	@dptr,a
@@ -2588,7 +2626,7 @@ _print_all_buffers:
 	mov	sp,a
 	pop	ar4
 	pop	ar5
-;	program.c:406: printf("BufferStart: %p \n\r", buffers_array[i].buffer_start);
+;	program.c:434: printf("BufferStart: %p \n\r", buffers_array[i].buffer_start);
 	mov	a,r4
 	add	a,#_buffers_array
 	mov	r4,a
@@ -2624,7 +2662,7 @@ _print_all_buffers:
 	mov	sp,a
 	pop	ar4
 	pop	ar5
-;	program.c:407: printf("BufferEnd: %p \n\r", buffers_array[i].buffer_end);
+;	program.c:435: printf("BufferEnd: %p \n\r", buffers_array[i].buffer_end);
 	mov	dpl,r4
 	mov	dph,r5
 	inc	dptr
@@ -2657,7 +2695,7 @@ _print_all_buffers:
 	mov	sp,a
 	pop	ar4
 	pop	ar5
-;	program.c:408: printf("BufferSize: %d \n\r", buffers_array[i].buff_size);
+;	program.c:436: printf("BufferSize: %d \n\r", buffers_array[i].buff_size);
 	mov	a,#0x08
 	add	a,r4
 	mov	dpl,a
@@ -2685,7 +2723,7 @@ _print_all_buffers:
 	mov	sp,a
 	pop	ar4
 	pop	ar5
-;	program.c:409: printf("TotalUsed: %d \n\r", buffers_array[i].num_char);
+;	program.c:437: printf("TotalUsed: %d \n\r", buffers_array[i].num_char);
 	mov	a,#0x0a
 	add	a,r4
 	mov	dpl,a
@@ -2711,14 +2749,14 @@ _print_all_buffers:
 	mov	sp,a
 	pop	ar6
 	pop	ar7
-;	program.c:402: for (int i = 0; i < program_stats.total_buffers; i++)
+;	program.c:430: for (int i = 0; i < program_stats.total_buffers; i++)
 	inc	r6
 	cjne	r6,#0x00,00117$
 	inc	r7
 00117$:
 	ljmp	00103$
 00101$:
-;	program.c:411: printf("***************************************\n\r");
+;	program.c:439: printf("***************************************\n\r");
 	mov	a,#___str_40
 	push	acc
 	mov	a,#(___str_40 >> 8)
@@ -2729,36 +2767,39 @@ _print_all_buffers:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:412: }
+;	program.c:440: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'get_number'
 ;------------------------------------------------------------
-;total_chars               Allocated with name '_get_number_total_chars_65536_96'
-;rec                       Allocated with name '_get_number_rec_65536_97'
-;num                       Allocated with name '_get_number_num_65536_97'
-;i                         Allocated with name '_get_number_i_131072_98'
+;total_chars               Allocated with name '_get_number_total_chars_65536_101'
+;rec                       Allocated with name '_get_number_rec_65537_103'
+;num                       Allocated with name '_get_number_num_65537_103'
+;i                         Allocated with name '_get_number_i_131073_104'
 ;------------------------------------------------------------
-;	program.c:419: int get_number(int total_chars)
+;	program.c:447: int get_number(int total_chars)
 ;	-----------------------------------------
 ;	 function get_number
 ;	-----------------------------------------
 _get_number:
 	mov	r7,dph
 	mov	a,dpl
-	mov	dptr,#_get_number_total_chars_65536_96
+	mov	dptr,#_get_number_total_chars_65536_101
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	program.c:422: int num = 0;
-	mov	dptr,#_get_number_num_65536_97
+;	program.c:449: DEBUGPORT(0xD);
+	mov	dpl,#0x0d
+	lcall	_dataout
+;	program.c:451: int num = 0;
+	mov	dptr,#_get_number_num_65537_103
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:423: for (int i = total_chars; i > 0; i--)
-	mov	dptr,#_get_number_total_chars_65536_96
+;	program.c:452: for (int i = total_chars; i > 0; i--)
+	mov	dptr,#_get_number_total_chars_65536_101
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
@@ -2775,7 +2816,7 @@ _get_number:
 	jc	00127$
 	ljmp	00105$
 00127$:
-;	program.c:426: rec = getchar();
+;	program.c:454: rec = getchar();
 	push	ar7
 	push	ar6
 	lcall	_getchar
@@ -2783,7 +2824,7 @@ _get_number:
 	mov	r5,dph
 	pop	ar6
 	pop	ar7
-;	program.c:427: if (rec <= 0x39 && rec >= 0x30)
+;	program.c:456: if (rec <= 0x39 && rec >= 0x30)
 	clr	c
 	mov	a,#0x39
 	subb	a,r4
@@ -2798,7 +2839,7 @@ _get_number:
 	xrl	a,#0x80
 	subb	a,#0x80
 	jc	00102$
-;	program.c:430: num += ((rec - 0x30) * get_num_helper(i - 1));
+;	program.c:458: num += ((rec - 0x30) * get_num_helper(i - 1));
 	mov	a,r4
 	add	a,#0xd0
 	mov	r4,a
@@ -2835,13 +2876,13 @@ _get_number:
 	mov	r5,dph
 	pop	ar6
 	pop	ar7
-	mov	dptr,#_get_number_num_65536_97
+	mov	dptr,#_get_number_num_65537_103
 	movx	a,@dptr
 	mov	r2,a
 	inc	dptr
 	movx	a,@dptr
 	mov	r3,a
-	mov	dptr,#_get_number_num_65536_97
+	mov	dptr,#_get_number_num_65537_103
 	mov	a,r4
 	add	a,r2
 	movx	@dptr,a
@@ -2851,7 +2892,7 @@ _get_number:
 	movx	@dptr,a
 	sjmp	00108$
 00102$:
-;	program.c:434: printf("ERR,Numbers ONLY!\n\r");
+;	program.c:462: printf("ERR,Numbers ONLY!\n\r");
 	mov	a,#___str_41
 	push	acc
 	mov	a,#(___str_41 >> 8)
@@ -2862,55 +2903,55 @@ _get_number:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:435: return -1;
+;	program.c:463: return -1;
 	mov	dptr,#0xffff
 	ret
 00108$:
-;	program.c:423: for (int i = total_chars; i > 0; i--)
+;	program.c:452: for (int i = total_chars; i > 0; i--)
 	dec	r6
 	cjne	r6,#0xff,00130$
 	dec	r7
 00130$:
 	ljmp	00107$
 00105$:
-;	program.c:438: return num;
-	mov	dptr,#_get_number_num_65536_97
+;	program.c:466: return num;
+	mov	dptr,#_get_number_num_65537_103
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
 	movx	a,@dptr
-;	program.c:439: }
+;	program.c:467: }
 	mov	dpl,r6
 	mov	dph,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'get_num_helper'
 ;------------------------------------------------------------
-;times                     Allocated with name '_get_num_helper_times_65536_102'
-;num                       Allocated with name '_get_num_helper_num_65536_103'
-;i                         Allocated with name '_get_num_helper_i_131072_104'
+;times                     Allocated with name '_get_num_helper_times_65536_108'
+;num                       Allocated with name '_get_num_helper_num_65536_109'
+;i                         Allocated with name '_get_num_helper_i_131072_110'
 ;------------------------------------------------------------
-;	program.c:446: int get_num_helper(int times)
+;	program.c:474: int get_num_helper(int times)
 ;	-----------------------------------------
 ;	 function get_num_helper
 ;	-----------------------------------------
 _get_num_helper:
 	mov	r7,dph
 	mov	a,dpl
-	mov	dptr,#_get_num_helper_times_65536_102
+	mov	dptr,#_get_num_helper_times_65536_108
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	program.c:448: int num = 1;
-	mov	dptr,#_get_num_helper_num_65536_103
+;	program.c:476: int num = 1;
+	mov	dptr,#_get_num_helper_num_65536_109
 	mov	a,#0x01
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-;	program.c:449: for (int i = 0; i < times; i++)
-	mov	dptr,#_get_num_helper_times_65536_102
+;	program.c:478: for (int i = 0; i < times; i++)
+	mov	dptr,#_get_num_helper_times_65536_108
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
@@ -2928,8 +2969,8 @@ _get_num_helper:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	00101$
-;	program.c:451: num = num * 10;
-	mov	dptr,#_get_num_helper_num_65536_103
+;	program.c:480: num = num * 10;
+	mov	dptr,#_get_num_helper_num_65536_109
 	movx	a,@dptr
 	mov	r2,a
 	inc	dptr
@@ -2953,86 +2994,86 @@ _get_num_helper:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-	mov	dptr,#_get_num_helper_num_65536_103
+	mov	dptr,#_get_num_helper_num_65536_109
 	movx	@dptr,a
 	mov	a,b
 	inc	dptr
 	movx	@dptr,a
-;	program.c:449: for (int i = 0; i < times; i++)
+;	program.c:478: for (int i = 0; i < times; i++)
 	inc	r4
 	cjne	r4,#0x00,00106$
 	inc	r5
 	sjmp	00106$
 00101$:
-;	program.c:453: if (times == 0)
+;	program.c:482: if (times == 0)
 	mov	a,r6
 	orl	a,r7
 	jnz	00103$
-;	program.c:454: return 1;
+;	program.c:483: return 1;
 	mov	dptr,#0x0001
 	ret
 00103$:
-;	program.c:456: return num;
-	mov	dptr,#_get_num_helper_num_65536_103
+;	program.c:485: return num;
+	mov	dptr,#_get_num_helper_num_65536_109
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
 	movx	a,@dptr
-;	program.c:457: }
+;	program.c:486: }
 	mov	dpl,r6
 	mov	dph,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'putchar'
 ;------------------------------------------------------------
-;c                         Allocated with name '_putchar_c_65536_106'
+;c                         Allocated with name '_putchar_c_65536_112'
 ;------------------------------------------------------------
-;	program.c:464: int putchar(int c)
+;	program.c:493: int putchar(int c)
 ;	-----------------------------------------
 ;	 function putchar
 ;	-----------------------------------------
 _putchar:
 	mov	r7,dph
 	mov	a,dpl
-	mov	dptr,#_putchar_c_65536_106
+	mov	dptr,#_putchar_c_65536_112
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	program.c:466: while ((SCON & 0x02) == 0)
+;	program.c:495: while ((SCON & 0x02) == 0)
 00101$:
 	mov	a,_SCON
 	jnb	acc.1,00101$
-;	program.c:468: TI = 0;
+;	program.c:497: TI = 0;
 ;	assignBit
 	clr	_TI
-;	program.c:469: SBUF = c;
-	mov	dptr,#_putchar_c_65536_106
+;	program.c:498: SBUF = c;
+	mov	dptr,#_putchar_c_65536_112
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
 	movx	a,@dptr
 	mov	_SBUF,r6
-;	program.c:470: return 0;
+;	program.c:499: return 0;
 	mov	dptr,#0x0000
-;	program.c:471: }
+;	program.c:500: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'getchar'
 ;------------------------------------------------------------
-;	program.c:478: int getchar()
+;	program.c:507: int getchar()
 ;	-----------------------------------------
 ;	 function getchar
 ;	-----------------------------------------
 _getchar:
-;	program.c:480: while (RI == 0)
+;	program.c:509: while (RI == 0)
 00101$:
-;	program.c:482: RI = 0;
+;	program.c:511: RI = 0;
 ;	assignBit
 	jbc	_RI,00140$
 	sjmp	00101$
 00140$:
-;	program.c:483: if (SBUF != 0x3F && SBUF != 0x3D && SBUF != 0x40 && SBUF != 0x2B && SBUF != 0x2D)
+;	program.c:513: if (SBUF != 0x3F && SBUF != 0x3D && SBUF != 0x40 && SBUF != 0x2B && SBUF != 0x2D)
 	mov	a,#0x3f
 	cjne	a,_SBUF,00141$
 	sjmp	00105$
@@ -3053,49 +3094,68 @@ _getchar:
 	cjne	a,_SBUF,00145$
 	sjmp	00105$
 00145$:
-;	program.c:484: putchar(SBUF);
+;	program.c:514: putchar(SBUF);
 	mov	r6,_SBUF
 	mov	r7,#0x00
 	mov	dpl,r6
 	mov	dph,r7
 	lcall	_putchar
 00105$:
-;	program.c:485: return SBUF;
+;	program.c:515: return SBUF;
 	mov	r6,_SBUF
 	mov	r7,#0x00
 	mov	dpl,r6
 	mov	dph,r7
-;	program.c:486: }
+;	program.c:516: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'dataout'
+;------------------------------------------------------------
+;data                      Allocated with name '_dataout_data_65536_115'
+;------------------------------------------------------------
+;	program.c:523: void dataout(unsigned char data)
+;	-----------------------------------------
+;	 function dataout
+;	-----------------------------------------
+_dataout:
+	mov	a,dpl
+	mov	dptr,#_dataout_data_65536_115
+	movx	@dptr,a
+;	program.c:525: DEBUG_LOC = data;
+	movx	a,@dptr
+	mov	dptr,#_DEBUG_LOC
+	movx	@dptr,a
+;	program.c:526: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function '_sdcc_external_startup'
 ;------------------------------------------------------------
-;	program.c:494: _sdcc_external_startup()
+;	program.c:533: _sdcc_external_startup()
 ;	-----------------------------------------
 ;	 function _sdcc_external_startup
 ;	-----------------------------------------
 __sdcc_external_startup:
-;	program.c:496: _AUXR = 0xC;
+;	program.c:535: _AUXR = 0xC;
 	mov	__AUXR,#0x0c
-;	program.c:498: SCON = 0x42;
+;	program.c:537: SCON = 0x42;
 	mov	_SCON,#0x42
-;	program.c:500: PCON = 0x80;
+;	program.c:539: PCON = 0x80;
 	mov	_PCON,#0x80
-;	program.c:502: TH1 = 255;
+;	program.c:541: TH1 = 255;
 	mov	_TH1,#0xff
-;	program.c:503: TL1 = 255;
+;	program.c:542: TL1 = 255;
 	mov	_TL1,#0xff
-;	program.c:505: TMOD = 0x20;
+;	program.c:544: TMOD = 0x20;
 	mov	_TMOD,#0x20
-;	program.c:507: REN = 1;
+;	program.c:546: REN = 1;
 ;	assignBit
 	setb	_REN
-;	program.c:509: TR1 = 1;
+;	program.c:548: TR1 = 1;
 ;	assignBit
 	setb	_TR1
-;	program.c:511: return 0;
+;	program.c:550: return 0;
 	mov	dptr,#0x0000
-;	program.c:512: }
+;	program.c:551: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

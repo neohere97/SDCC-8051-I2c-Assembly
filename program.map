@@ -78,11 +78,11 @@ C:   00000080  l_DSEG
 C:   000000DF  l_SSEG                          
 C:   00000100  l_IRAM                          
 C:   00000531  l_CONST                         
-C:   00001547  l_XSEG                          
-C:   00001548  s_XISEG                         
-C:   00001BFC  l_CSEG                          
-C:   00001C5E  s_CONST                         
-C:   0000218F  s_XINIT                         
+C:   00001546  l_XSEG                          
+C:   00001547  s_XISEG                         
+C:   00001C56  l_CSEG                          
+C:   00001CB8  s_CONST                         
+C:   000021E9  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -344,7 +344,7 @@ Area                                    Addr        Size        Decimal Bytes (A
      000000FC  _CCAP2H                            program
      000000FD  _CCAP3H                            program
      000000FE  _CCAP4H                            program
-
+     00006FFF  _DEBUG_LOC                         program
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
@@ -390,24 +390,22 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-XSEG                                00000001    00001547 =        5447. bytes (REL,CON,XDATA)
+XSEG                                00000001    00001546 =        5446. bytes (REL,CON,XDATA)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 D:   00000001  _program_stats                     program
 D:   0000000B  _buffers_array                     program
-D:   00000137  _debug_loc                         program
-D:   0000016B  ___sdcc_heap                       _heap
-D:   000014FE  ___memcpy_PARM_2                   __memcpy
-D:   00001501  ___memcpy_PARM_3                   __memcpy
-D:   00001506  __gptrput_PARM_2                   _gptrput
-D:   00001507  ___sdcc_heap_free                  malloc
-D:   0000150F  __mulint_PARM_2                    _mulint
-D:   00001511  _vprintf_PARM_2                    vprintf
-D:   00001526  __print_format_PARM_2              printf_large
-D:   00001529  __print_format_PARM_3              printf_large
-D:   0000152C  __print_format_PARM_4              printf_large
-
+D:   0000016A  ___sdcc_heap                       _heap
+D:   000014FD  ___memcpy_PARM_2                   __memcpy
+D:   00001500  ___memcpy_PARM_3                   __memcpy
+D:   00001505  __gptrput_PARM_2                   _gptrput
+D:   00001506  ___sdcc_heap_free                  malloc
+D:   0000150E  __mulint_PARM_2                    _mulint
+D:   00001510  _vprintf_PARM_2                    vprintf
+D:   00001525  __print_format_PARM_2              printf_large
+D:   00001528  __print_format_PARM_3              printf_large
+D:   0000152B  __print_format_PARM_4              printf_large
 ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
 Hexadecimal  [32-Bits]
 
@@ -476,49 +474,50 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000062    00001BFC =        7164. bytes (REL,CON,CODE)
+CSEG                                00000062    00001C56 =        7254. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00000062  _main                              program
-C:   0000007A  _user_interface                    program
-C:   00000083  _at_clear_all_buffers              program
-C:   00000117  _delete_buffer                     program
-C:   000002ED  _print_menu                        program
-C:   00000381  _create_new_buffer                 program
-C:   000004F5  _create_initial_buffers            program
-C:   000006CC  _enter_chars                       program
-C:   000007EA  _dump_buff_zero_ascii              program
-C:   000008FA  _dump_buff_zero_hex                program
-C:   00000A41  _print_heap_stats                  program
-C:   00000AFC  _print_all_buffers                 program
-C:   00000C66  _get_number                        program
-C:   00000D38  _get_num_helper                    program
-C:   00000DB5  _putchar                           program
-C:   00000DD4  _getchar                           program
-C:   00000E10  __sdcc_external_startup            program
-C:   00000E2A  _free                              free
-C:   00000F81  ___memcpy                          __memcpy
-C:   00000FF5  __gptrput                          _gptrput
-C:   00001010  ___sdcc_heap_init                  malloc
-C:   0000104C  _malloc                            malloc
-C:   000011B5  __mulint                           _mulint
-C:   000011E4  _vprintf                           vprintf
-C:   00001223  _printf                            vprintf
-C:   00001329  __print_format                     printf_large
-C:   00001C2A  _strlen                            _strlen
-C:   00001C42  __gptrget                          _gptrget
+C:   00000080  _user_interface                    program
+C:   0000008F  _at_clear_all_buffers              program
+C:   00000129  _delete_buffer                     program
+C:   00000305  _print_menu                        program
+C:   0000039F  _create_new_buffer                 program
+C:   00000519  _create_initial_buffers            program
+C:   000006F6  _enter_chars                       program
+C:   0000081A  _dump_buff_zero_ascii              program
+C:   00000930  _dump_buff_zero_hex                program
+C:   00000A7D  _print_heap_stats                  program
+C:   00000B3E  _print_all_buffers                 program
+C:   00000CAE  _get_number                        program
+C:   00000D86  _get_num_helper                    program
+C:   00000E03  _putchar                           program
+C:   00000E22  _getchar                           program
+C:   00000E5E  _dataout                           program
+C:   00000E6A  __sdcc_external_startup            program
+C:   00000E84  _free                              free
+C:   00000FDB  ___memcpy                          __memcpy
+C:   0000104F  __gptrput                          _gptrput
+C:   0000106A  ___sdcc_heap_init                  malloc
+C:   000010A6  _malloc                            malloc
+C:   0000120F  __mulint                           _mulint
+C:   0000123E  _vprintf                           vprintf
+C:   0000127D  _printf                            vprintf
+C:   00001383  __print_format                     printf_large
+C:   00001C84  _strlen                            _strlen
+C:   00001C9C  __gptrget                          _gptrget
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 20.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               00001C5E    00000531 =        1329. bytes (REL,CON,CODE)
+CONST                               00001CB8    00000531 =        1329. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   00002182  ___sdcc_heap_size                  _heap
+C:   000021DC  ___sdcc_heap_size                  _heap
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 21.
 

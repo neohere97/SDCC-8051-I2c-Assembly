@@ -14,10 +14,11 @@
 #include <stdio.h>
 
 // Virtual debug port location
-#define DEBUG_LOC 0x6FFF
+#define DEBUGPORT(x)  dataout(x);
 
 // SFR Declaration to initialize xram
 __sfr __at(0x8e) _AUXR;
+__xdata unsigned char __at(0x6FFF) DEBUG_LOC;
 
 // function declarations
 int putchar(int c);
@@ -35,6 +36,7 @@ void at_clear_all_buffers();
 int create_new_buffer();
 int delete_buffer();
 void print_menu();
+void dataout(unsigned char data);
 
 // Program Metadata struct inits
 struct
@@ -57,9 +59,6 @@ struct buffer_struct
 
 struct buffer_struct buffers_array[25];
 
-// Debug location pointer
-__xdata unsigned char *debug_loc;
-
 // ------------------------------------------------Main--------------------------------------------------------------
 /***********************************************************************************
  * function : Main function where user interface is called, program never comes back to main
@@ -67,8 +66,9 @@ __xdata unsigned char *debug_loc;
  * return : none
  ***********************************************************************************/
 void main(void)
-{
+{    
     printf("HELLO! \n\r");
+    DEBUGPORT(0x01);
     user_interface();
 }
 // ------------------------------------------------User-Interface----------------------------------------------------
@@ -79,6 +79,7 @@ void main(void)
  ***********************************************************************************/
 void user_interface()
 {
+    DEBUGPORT(0x02);
     create_initial_buffers();
     print_all_buffers();
     enter_chars();
@@ -92,6 +93,7 @@ void user_interface()
  ***********************************************************************************/
 void at_clear_all_buffers()
 {
+    DEBUGPORT(0x03);
     for (int i = 0; i < program_stats.total_buffers; i++)
     {
         free(buffers_array[i].buffer_start);
@@ -108,6 +110,7 @@ void at_clear_all_buffers()
  ***********************************************************************************/
 int delete_buffer()
 {
+    DEBUGPORT(0x04);
     int buff_number;
     unsigned char *buff_to_free;
     int buffer_freed_size;
@@ -151,6 +154,7 @@ get_del_num:
  ***********************************************************************************/
 void print_menu()
 {
+    DEBUGPORT(0x05);
     printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
     printf("You can enter characters or use commands from below \n\r");
     printf("'?' -> Show heap status, dump & clear Buffer 0 \n\r");
@@ -168,6 +172,7 @@ void print_menu()
  ***********************************************************************************/
 int create_new_buffer()
 {
+    DEBUGPORT(0x06);
     int buff_size;
     struct buffer_struct buff;
     if (program_stats.allocated_heap == program_stats.total_heap_size)
@@ -215,6 +220,7 @@ no_heap_left:
  ***********************************************************************************/
 void create_initial_buffers()
 {
+    DEBUGPORT(0x07);
     int buff_size;
 
 get_buff:
@@ -272,6 +278,7 @@ get_buff:
  ***********************************************************************************/
 void enter_chars()
 {
+    DEBUGPORT(0x08);
     print_menu();
     int rec;
     while (1)
@@ -338,6 +345,7 @@ void enter_chars()
  ***********************************************************************************/
 void dump_buff_zero_ascii()
 {
+    DEBUGPORT(0x09);
     int j = 64;
     if (buffers_array[0].num_char > 0)
     {
@@ -369,6 +377,7 @@ void dump_buff_zero_ascii()
  ***********************************************************************************/
 void dump_buff_zero_hex()
 {
+    DEBUGPORT(0xA);
     if (buffers_array[0].num_char > 0)
     {
         printf("\n\r-------------------------HEXDUMP--------------------------------");
@@ -401,6 +410,7 @@ void dump_buff_zero_hex()
  ***********************************************************************************/
 void print_heap_stats()
 {
+    DEBUGPORT(0xB);
     printf("\n\r****************HEAP*STATS*************\n\r");
     printf("Total Heap Size: %d \n\r", program_stats.total_heap_size);
     printf("Allocated Heap Size: %d \n\r", program_stats.allocated_heap);
@@ -416,6 +426,7 @@ void print_heap_stats()
  ***********************************************************************************/
 void print_all_buffers()
 {
+    DEBUGPORT(0xC)
     for (int i = 0; i < program_stats.total_buffers; i++)
     {
         printf("****************BUFFER*%d***************\n\r", i);
@@ -435,6 +446,7 @@ void print_all_buffers()
  ***********************************************************************************/
 int get_number(int total_chars)
 {
+    DEBUGPORT(0xD);
     int rec;
     int num = 0;
     for (int i = total_chars; i > 0; i--)
@@ -502,7 +514,16 @@ int getchar()
         putchar(SBUF);
     return SBUF;
 }
-
+// ------------------------------------------------getchar--------------------------------------------------
+/***********************************************************************************
+ * function : This function gets characters from user
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void dataout(unsigned char data)
+{
+    DEBUG_LOC = data;
+}
 // ------------------------------------------------sdcc-external-startup------------------------------------------------
 /***********************************************************************************
  * function : This function executes by default when the program starts
