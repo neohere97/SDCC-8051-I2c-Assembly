@@ -18,7 +18,7 @@
 
 // SFR Declaration to initialize xram
 __sfr __at(0x8e) _AUXR;
-__xdata unsigned char __at(0x6FFF) DEBUG_LOC;
+__xdata unsigned char __at(0x8000) DEBUG_LOC;
 
 // function declarations
 int putchar(int c);
