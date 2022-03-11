@@ -7,8 +7,9 @@ make.exe: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Fri Mar 04 11:12:06 2022
+# Make data base, printed on Thu Mar 10 23:57:26 2022
 
 # Variables
 
@@ -41,19 +42,22 @@ CURDIR := c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3
 # environment
 EIDE_OPENOCD = 
 # default
-SHELL := c:/Users/shala/.vscode/extensions/cl.eide-2.16.7/bin/builder/msys/bin/sh.exe
+SHELL := c:/Users/shala/.vscode/extensions/cl.eide-2.16.8/bin/builder/msys/bin/sh.exe
 # environment
 JRE_HOME = C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin\javaw.exe
 # environment
 WINDIR = C:\WINDOWS
 # environment
-VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackS 
+upport":true}
 # environment
 ONEDRIVE = C:\Users\shala\OneDrive
 # environment
 PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
 # makefile (from 'makefile', line 1)
 MAKEFILE_LIST :=  makefile
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
 TMP = C:\Users\shala\AppData\Local\Temp
 # environment
@@ -63,10 +67,9 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-1d395b9b-51b9-4abe-bf27-e40e249af6b8-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-7dbf88df-1501-4140-b6b4-1dab053420c6-sock
 # environment
-VSCO 
-DE_CWD = C:\Program Files\Microsoft VS Code
+VSCODE_CWD = C:\Program Files\Microsoft VS Code
 # environment
 EIDE_ARM_GCC = 
 # default
@@ -98,7 +101,7 @@ ELECTRON_RUN_AS_NODE = 1
 # automatic
 *F = $(notdir $*)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_23724_EIUFCOQBBBJJAUAR
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_18192_WXCLKGUGRHBTDUSD
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -116,9 +119,9 @@ USERNAME = shala
 # environment
 PUBLIC = C:\Users\Public
 # environment
-VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\shala\AppData\Roaming\Code\CachedData\f80445acd5a3dadef24aa209168452a3d97cc326
+VSCODE_CODE_CACHE_PATH = C:\Users\shala\AppData\Roaming\Code\CachedData\c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
@@ -140,7 +143,7 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-PATH = c:\Users\shala\.vscode\extensions\cl.eide-2.16.7\bin\builder;c:\Users\shala\.vscode\extensions\cl.eide-2.16.7\bin\builder\utils;C:\Users\shala\.eide\tools;c:\Users\shala\.vscode\extensions\cl.eide-2.16.7\bin\builder\msys\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;
+PATH = c:\Users\shala\.vscode\extensions\cl.eide-2.16.8\bin\builder;c:\Users\shala\.vscode\extensions\cl.eide-2.16.8\bin\builder\utils;C:\Users\shala\.eide\tools;c:\Users\shala\.vscode\extensions\cl.eide-2.16.8\bin\builder\msys\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;
 # environment
 JAVA_HOME = C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\
 # default
@@ -150,7 +153,7 @@ MAKE_VERSION := 4.2.1_st_20200221-0903_longpath
 # environment
 PROGRAMFILES(X86) = C:\Program Files (x86)
 # environment
-EIDE_MSYS = c:\Users\shala\.vscode\extensions\cl.eide-2.16.7\bin\builder\msys\bin
+EIDE_MSYS = c:\Users\shala\.vscode\extensions\cl.eide-2.16.8\bin\builder\msys\bin
 # automatic
 %D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
 # environment
@@ -168,7 +171,7 @@ PROCESSOR_IDENTIFIER = AMD64 Family 23 Model 8 Stepping 2, AuthenticAMD
 # environment
 OS = Windows_NT
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\d890bcb2928850ac45909cdec0c3bbff-1.64.2-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\d890bcb2928850ac45909cdec0c3bbff-1.65.2-main-sock
 # environment
 HOMEPATH = \Users\shala
 # environment
@@ -220,11 +223,13 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 23
 # environment
-VSCODE_PID = 23724
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+VSCODE_PID = 18192
 # environment
 USERDOMAIN_ROAMINGPROFILE = MATRIX-Z
 # variable set hash-table stats:
-# Load=105/1024=10%, Rehash=0, Collisions=18/125=14%
+# Load=107/1024=10%, Rehash=0, Collisions=18/127=14%
 
 # Pattern-specific Variable Values
 
@@ -232,9 +237,9 @@ USERDOMAIN_ROAMINGPROFILE = MATRIX-Z
 
 # Directories
 
-# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1646416729): 23 files, no impossibilities.
+# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1646981822): 27 files, no impossibilities.
 
-# 23 files, no impossibilities in 1 directories.
+# 27 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -252,7 +257,7 @@ all:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-04 11:11:14
+#  Last modified 2022-03-10 23:45:59
 #  File has been updated.
 #  Successfully updated.
 
@@ -263,9 +268,11 @@ default:
 #  recipe to execute (from 'makefile', line 2):
 	sdcc --std-c99 --model-large --code-size 0x7FFF --xram-loc 0x400 --xram-size 0x7FFF --out-fmt-ihx -c program.c
 	sdcc --model-large -c _heap.c 
-	sdcc --model-large program.rel _heap.rel
+	sdas8051 -o -l asa.asm
+	sdcc --model-large program.rel asa.rel _heap.rel 
 	packihx program.ihx >program.hex
 	batchisp -device at89c51rc2 -hardware RS232 -port COM4 -baudrate 115200 -operation erase f memory flash blankcheck loadbuffer ./program.hex program verify start reset 1
+	plink.exe -serial COM4 -sercfg 115200,8,n,1,N 
 
 # Not a target:
 .DEFAULT:
@@ -281,12 +288,12 @@ default:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 27 / storage = 250 B / avg = 9 B
-# current buf: size = 8162 B / used = 250 B / count = 27 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 31 / storage = 288 B / avg = 9 B
+# current buf: size = 8162 B / used = 288 B / count = 31 / avg = 9 B
 
-# strcache performance: lookups = 31 / hit rate = 12%
+# strcache performance: lookups = 35 / hit rate = 11%
 # hash-table stats:
-# Load=27/8192=0%, Rehash=0, Collisions=1/31=3%
-# Finished Make data base on Fri Mar 04 11:12:06 2022
+# Load=31/8192=0%, Rehash=0, Collisions=1/35=3%
+# Finished Make data base on Thu Mar 10 23:57:26 2022
 
  

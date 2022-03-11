@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 // Virtual debug port location
-#define DEBUGPORT(x)  dataout(x);
+#define DEBUGPORT(x) dataout(x);
 
 // SFR Declaration to initialize xram
 __sfr __at(0x8e) _AUXR;
@@ -31,13 +31,27 @@ void print_all_buffers();
 void print_heap_stats();
 void dump_buff_zero_hex();
 void dump_buff_zero_ascii();
-void user_interface();
+void user_interface_heap();
 void at_clear_all_buffers();
 int create_new_buffer();
 int delete_buffer();
-void print_menu();
+void print_heap_menu();
 void dataout(unsigned char data);
+void main_menu();
+void user_interface_PCA();
+void pca_pdown();
+void pca_idle();
+void pca_watchdog();
+void pca_pwm();
+void pca_high_speed();
+void pca_software_timer();
+void pca_falling_edge();
+void x2_mode_transition();
+void print_pca_menu();
+void fclk_lowest();
+void asm_clang();
 
+extern unsigned char asmtest(unsigned char param1, unsigned char param2, unsigned char param3);
 // Program Metadata struct inits
 struct
 {
@@ -59,6 +73,8 @@ struct buffer_struct
 
 struct buffer_struct buffers_array[25];
 
+unsigned char global_var_test = 2;
+
 // ------------------------------------------------Main--------------------------------------------------------------
 /***********************************************************************************
  * function : Main function where user interface is called, program never comes back to main
@@ -66,23 +82,200 @@ struct buffer_struct buffers_array[25];
  * return : none
  ***********************************************************************************/
 void main(void)
-{    
-    printf("HELLO! \n\r");
+{  
+    printf("\n\r HELLO! Started in X2 Mode \n\r");
     DEBUGPORT(0x01);
-    user_interface();
+    P1_1 = 0;
+
+    main_menu();
 }
-// ------------------------------------------------User-Interface----------------------------------------------------
+// ------------------------------------------------User-Interface-heap---------------------------------------------------
 /***********************************************************************************
  * function : Main UI function, handles different commands and printing, comes back here after '@'
  * parameters : none
  * return : none
  ***********************************************************************************/
-void user_interface()
+void user_interface_heap()
 {
     DEBUGPORT(0x02);
     create_initial_buffers();
     print_all_buffers();
     enter_chars();
+}
+// ------------------------------------------------User-Interface-PCA---------------------------------------------------
+/***********************************************************************************
+ * function : Main UI function, handles different commands and printing, comes back here after '@'
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void user_interface_PCA()
+{
+    DEBUGPORT(0xAA);
+    printf("Hello, In PCA Demo mode \n\r");
+    print_pca_menu();
+
+    int inp;
+wrong_choice_pca:
+    printf("Please make a valid choice \n\r");
+    inp = getchar();
+    if (inp == 0x46)
+        pca_falling_edge();
+    else if (inp == 0x53)
+        pca_software_timer();
+    else if (inp == 0x48)
+        pca_high_speed();
+    else if (inp == 0x50)
+        pca_pwm();
+    else if (inp == 0x57)
+        pca_watchdog();
+    else if (inp == 0x49)
+        pca_idle();
+    else if (inp == 0x44)
+        pca_pdown();
+    else if (inp == 0x4C)
+        fclk_lowest();
+    else
+        goto wrong_choice_pca;
+
+    while(1){
+
+    }
+}
+
+void pca_interrupt() __interrupt(6) __using(1)
+{
+    if (CCF0)
+    {
+        printf("Captured Value CCPL -> %d CCPH -> %d \n\r", CCAP0L, CCAP0H);
+
+        CCF0 = 0;
+    }
+    if (CCF1)
+    {
+        printf("Timer Interrupt on CCF1!!! \n\r");
+
+        CCF1 = 0;
+    }
+}
+
+void idle_interrupt() __interrupt(0) __using(1)
+{
+    EX0 = 0;
+    PCON = 0x80;
+    CR = 0;
+    CCAPM0 = 0;
+    CCAPM1 = 0;
+    CCAPM2 = 0;
+    CCAPM3 = 0;
+    CCAPM4 = 0;   
+}
+
+void pca_falling_edge()
+{
+    printf("Setting P1.3 as falling edge detector, enabling PCA interrupt \n\r");
+    CCAPM0 = 0x21;
+    CR = 1;
+ 
+}
+
+void pca_software_timer()
+{
+    printf("Entering Software Timer Mode \n\r");
+    CCAPM1 = 0x49;
+    CCAP1L = 255;
+    CCAP1H = 255;
+    CR = 1;
+
+}
+
+void pca_high_speed()
+{
+
+    printf("Entering High Speed Toggle Mode\n\r");
+    CCAPM2 = 0x4D;
+    CCAP2L = 255;
+    CCAP2H = 255;
+    CR = 1;
+
+}
+
+void pca_pwm()
+{
+    printf("Entering PWM Mode, 25 percent Duty Cycle\n\r");
+    CCAPM3 = 0x42;
+    CCAP3L = 192;
+    CCAP3H = 192;
+    CMOD = CPS0;
+    CR = 1;
+
+}
+
+void pca_watchdog()
+{
+    printf("Enabling Watchdog Timer..\n\r");
+    CCAPM4 = 0x48;
+    CCAP4L = 255;
+    CCAP4H = 255;
+    CMOD = WDTE;
+    CR = 1;
+
+}
+void pca_idle()
+{
+    pca_pwm();
+    printf("Entering Idle, Will Exit on external interrupt 0\n\r");   
+    EX0 = 1;
+    PCON = IDL; 
+    printf("Woke up from Idle/Power down, going to main menu \n\r");
+    main_menu();
+}
+
+void pca_pdown()
+{
+    pca_pwm();
+    printf("Entering power down, Will Exit on external interrupt 0\n\r");   
+    EX0 = 1;
+    PCON = PD; 
+    printf("Woke up from Idle/Power down, going to main menu \n\r");
+    main_menu();
+}
+
+void fclk_lowest(){
+    printf("Changing Clock prescalar to go to lowest frequency in X2 Mode..\n\r");
+    CKRL = 0 ;
+    main_menu();
+}
+
+void main_menu()
+{
+    printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+    printf("'H' -> Enter Heap Demo Mode \n\r");
+    printf("'P' -> Enter PCA Demo Mode \n\r");
+    printf("'A' -> Assembly C Mix \n\r");
+
+    int inp;
+wrong_choice:
+    printf("Please make a valid choice \n\r");
+    inp = getchar();
+    if (inp == 0x48)
+        user_interface_heap();
+    else if (inp == 0x50)
+        user_interface_PCA();
+    else if (inp == 0x41)
+        asm_clang();
+    else
+        goto wrong_choice;
+}
+
+void asm_clang(){
+    printf("\n\r Give param 1, 8bit \n\r");
+    unsigned char num1 = get_number(3);
+    printf("\n\r Give param 2, 8bit \n\r");
+    unsigned char num2 = get_number(3);
+    printf("\n\r Give param 3, 8bit \n\r");
+    unsigned char num3 = get_number(3);
+
+    printf("\n\r RESULT-> param3<Mod>param2 * param1 = %d \n\r", asmtest(num1,num2,num3));
 }
 
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
@@ -100,7 +293,7 @@ void at_clear_all_buffers()
         printf("Buffer %d Freed ....\n\r", i);
     }
     printf("Let's begin again..\n\r");
-    user_interface();
+    user_interface_heap();
 }
 // ------------------------------------------------delete-buffers--------------------------------------------------
 /***********************************************************************************
@@ -146,22 +339,44 @@ get_del_num:
         goto get_del_num;
     }
 }
-// ------------------------------------------------print-menu-------------------------------------------------
+// ------------------------------------------------print-heap-menu-------------------------------------------------
 /***********************************************************************************
  * function : This funciton prints the menu whenever called with the list of commands
  * parameters : none
  * return : none
  ***********************************************************************************/
-void print_menu()
+void print_pca_menu()
+{
+    DEBUGPORT(0x55);
+    printf("\n\n\r^^^^^^^^^^^^^^^^^^^-PCA-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+    printf("'F' -> Falling Edge Capture Mode\n\r");
+    printf("'S' -> Software Timer Mode\n\r");
+    printf("'H' -> High Speed Output Mode\n\r");
+    printf("'P' -> PWM Mode \n\r");
+    printf("'W' -> Watchdog Timer Mode\n\r");
+    printf("'I' -> Idle Mode with PWM\n\r");
+    printf("'L' -> Change Prescalar to lowest frequency\n\r");
+    printf("'D' -> Power Down Mode\n\n\r");
+
+    printf("'M' -> Go to Main Menu \n\n\r");
+}
+// ------------------------------------------------print-heap-menu-------------------------------------------------
+/***********************************************************************************
+ * function : This funciton prints the menu whenever called with the list of commands
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void print_heap_menu()
 {
     DEBUGPORT(0x05);
-    printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+    printf("\n\n\r^^^^^^^^^^^^^^^^^^^-HEAP-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
     printf("You can enter characters or use commands from below \n\r");
     printf("'?' -> Show heap status, dump & clear Buffer 0 \n\r");
     printf("'+' -> Add a new Buffer\n\r");
     printf("'-' -> Delete existing Buffer\n\r");
     printf("'=' -> Dump Buffer 0 in hex\n\r");
     printf("'@' -> Free all Heap & begin again\n\n\r");
+    printf("'M' -> Go to Main Menu \n\n\r");
 }
 // ------------------------------------------------create-new-buffer--------------------------------------------------
 /***********************************************************************************
@@ -279,7 +494,7 @@ get_buff:
 void enter_chars()
 {
     DEBUGPORT(0x08);
-    print_menu();
+    print_heap_menu();
     int rec;
     while (1)
     {
@@ -304,31 +519,35 @@ void enter_chars()
             dump_buff_zero_ascii();
             program_stats.all_char_count = 0;
             program_stats.storage_char_count = 0;
-            print_menu();
+            print_heap_menu();
         }
         else if (rec == 0x3D)
         {
             //= case, hexdump
             dump_buff_zero_hex();
-            print_menu();
+            print_heap_menu();
         }
         else if (rec == 0x40)
         {
             // @ case, clearing all buffers
             at_clear_all_buffers();
-            print_menu();
+            print_heap_menu();
         }
         else if (rec == 0x2B)
         {
             //+ case, create new buffer
             create_new_buffer();
-            print_menu();
+            print_heap_menu();
         }
         else if (rec == 0x2D)
         {
             //- case, delete a specific buffer
             delete_buffer();
-            print_menu();
+            print_heap_menu();
+        }
+        else if (rec == 0x4D)
+        {
+            main_menu();
         }
         else
         {
@@ -530,8 +749,37 @@ void dataout(unsigned char data)
  * parameters : none
  * return : none
  ***********************************************************************************/
+// _sdcc_external_startup()
+// {
+//     _AUXR = 0xC;
+//     //Enter X2 mode, set
+//     CKCON0 |= 0x1;
+//     // Init UART Hardware
+//     SCON = 0x42;
+//     // Fast UART
+//     PCON = 0x80;
+//     //Selecting Internal Baudrate generator
+
+//     // Set baud rate to 115200
+//     BRL = 0xFD;
+//     BDRCON = 0x7;
+//     BDRCON |= 0x10;
+//     // 16-bit timer
+//     // TMOD = 0x20;
+//     // TL1 = 255;
+//     // TH1 = 255;
+//     // Enable receive
+//     REN = 1;
+//     // Enable timer
+//     // TR1 = 1;
+
+//     return 0;
+// }
+
 _sdcc_external_startup()
 {
+    CKCON0 |= 0x1;
+
     _AUXR = 0xC;
     // Init UART Hardware
     SCON = 0x42;
@@ -546,7 +794,10 @@ _sdcc_external_startup()
     REN = 1;
     // Enable timer
     TR1 = 1;
-
+    // Enable All Interrupts
+    EA = 1;
+    // Enable PCA Interrupt
+    EC = 1;
     return 0;
 }
 // ------------------------------------------------END--------------------------------------------------
