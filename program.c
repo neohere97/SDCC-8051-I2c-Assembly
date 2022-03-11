@@ -75,6 +75,7 @@ struct buffer_struct buffers_array[25];
 
 unsigned char global_var_test = 2;
 
+unsigned char watchdog_flag = 0;
 // ------------------------------------------------Main--------------------------------------------------------------
 /***********************************************************************************
  * function : Main function where user interface is called, program never comes back to main
@@ -137,11 +138,20 @@ wrong_choice_pca:
     else
         goto wrong_choice_pca;
 
-    while(1){
-
-    }
+exit_choice:
+    printf("Please 'E' to exit or Reset \n\r");
+    inp = getchar();
+    if(inp == 0x45)
+    user_interface_PCA();
+    else
+    goto exit_choice;
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void pca_interrupt() __interrupt(6) __using(1)
 {
     if (CCF0)
@@ -152,24 +162,40 @@ void pca_interrupt() __interrupt(6) __using(1)
     }
     if (CCF1)
     {
-        printf("Timer Interrupt on CCF1!!! \n\r");
-
         CCF1 = 0;
+        CH = 0;
+        CL = 0;
+        if(!watchdog_flag)
+        printf("Timer Interrupt\n\r");        
+        
     }
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void idle_interrupt() __interrupt(0) __using(1)
 {
     EX0 = 0;
     PCON = 0x80;
     CR = 0;
+    CKRL = 255;
     CCAPM0 = 0;
     CCAPM1 = 0;
     CCAPM2 = 0;
     CCAPM3 = 0;
     CCAPM4 = 0;   
+    printf("Going to main menu.. \n\r");
+    main_menu();
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void pca_falling_edge()
 {
     printf("Setting P1.3 as falling edge detector, enabling PCA interrupt \n\r");
@@ -177,49 +203,91 @@ void pca_falling_edge()
     CR = 1;
  
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void pca_software_timer()
 {
     printf("Entering Software Timer Mode \n\r");
-    CCAPM1 = 0x49;
     CCAP1L = 255;
     CCAP1H = 255;
+    CCAPM1 = 0x49;    
     CR = 1;
 
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void pca_high_speed()
 {
 
-    printf("Entering High Speed Toggle Mode\n\r");
-    CCAPM2 = 0x4D;
+    printf("Entering High Speed Toggle Mode, P1.5 \n\r");   
     CCAP2L = 255;
-    CCAP2H = 255;
-    CR = 1;
-
-}
-
-void pca_pwm()
-{
-    printf("Entering PWM Mode, 25 percent Duty Cycle\n\r");
-    CCAPM3 = 0x42;
-    CCAP3L = 192;
-    CCAP3H = 192;
+    CCAP2H = 2;
+    CCAPM2 = 0x4D;
     CMOD = CPS0;
     CR = 1;
 
 }
-
-void pca_watchdog()
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void pca_pwm()
 {
-    printf("Enabling Watchdog Timer..\n\r");
-    CCAPM4 = 0x48;
-    CCAP4L = 255;
-    CCAP4H = 255;
-    CMOD = WDTE;
+    printf("Entering PWM Mode, 25 percent Duty Cycle P1.6\n\r");
+    CCAP3L = 192;
+    CCAP3H = 192;
+    CCAPM3 = 0x42;
+    CMOD = CPS0;
     CR = 1;
 
 }
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void pca_watchdog()
+{
+    CCAP1L = 255;
+    CCAP1H = 128;
+    CCAPM1 = 0x49;    
+    watchdog_flag = 1;
+    printf("Enabling Watchdog Timer..\n\r");
+    CCAP4L = 255;
+    CCAP4H = 255;
+    CMOD = WDTE;
+    CCAPM4 = 0x48;        
+    CR = 1;
+    int rec;
+    printf("Currently Watchdog is being serviced\n\rPress 'S' to stop and generate a reset \n\r");
+    
+get_e:    
+    rec = getchar();
+
+    if(rec == 0x53)
+    CCAPM1 = 0;
+    else
+    goto get_e;
+    
+
+}
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void pca_idle()
 {
     pca_pwm();
@@ -229,7 +297,12 @@ void pca_idle()
     printf("Woke up from Idle/Power down, going to main menu \n\r");
     main_menu();
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void pca_pdown()
 {
     pca_pwm();
@@ -239,13 +312,25 @@ void pca_pdown()
     printf("Woke up from Idle/Power down, going to main menu \n\r");
     main_menu();
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void fclk_lowest(){
     printf("Changing Clock prescalar to go to lowest frequency in X2 Mode..\n\r");
+    printf("This UART Session will stop working...\n\r");
+    EX0 = 1;
     CKRL = 0 ;
     main_menu();
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void main_menu()
 {
     printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
@@ -266,7 +351,12 @@ wrong_choice:
     else
         goto wrong_choice;
 }
-
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void asm_clang(){
     printf("\n\r Give param 1, 8bit \n\r");
     unsigned char num1 = get_number(3);
@@ -276,6 +366,8 @@ void asm_clang(){
     unsigned char num3 = get_number(3);
 
     printf("\n\r RESULT-> param3<Mod>param2 * param1 = %d \n\r", asmtest(num1,num2,num3));
+    printf("\n\r Going back to main menu.. \n\r");
+    main_menu();
 }
 
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
@@ -749,33 +841,6 @@ void dataout(unsigned char data)
  * parameters : none
  * return : none
  ***********************************************************************************/
-// _sdcc_external_startup()
-// {
-//     _AUXR = 0xC;
-//     //Enter X2 mode, set
-//     CKCON0 |= 0x1;
-//     // Init UART Hardware
-//     SCON = 0x42;
-//     // Fast UART
-//     PCON = 0x80;
-//     //Selecting Internal Baudrate generator
-
-//     // Set baud rate to 115200
-//     BRL = 0xFD;
-//     BDRCON = 0x7;
-//     BDRCON |= 0x10;
-//     // 16-bit timer
-//     // TMOD = 0x20;
-//     // TL1 = 255;
-//     // TH1 = 255;
-//     // Enable receive
-//     REN = 1;
-//     // Enable timer
-//     // TR1 = 1;
-
-//     return 0;
-// }
-
 _sdcc_external_startup()
 {
     CKCON0 |= 0x1;

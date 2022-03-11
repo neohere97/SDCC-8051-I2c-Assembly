@@ -19,24 +19,24 @@ Hexadecimal [24-Bits]
       00001B                         14 	.ds 1
                                      15 
                                      16 	.area CSEG    
-      001335                         17 _asmtest:
-      001335 AF 82            [24]   18 	mov	r7,dpl
-      001337 90 00 1A         [24]   19 	mov	dptr,#_asmtest_PARM_2
-      00133A E0               [24]   20 	movx a, @dptr
-      00133B FE               [12]   21 	mov r6, a
-      00133C 90 00 1B         [24]   22 	mov dptr,#_asmtest_PARM_3
-      00133F E0               [24]   23 	movx a,@dptr
-      001340 8E F0            [24]   24 	mov b,r6	
-      001342 84               [48]   25 	div	ab
-      001343 EF               [12]   26 	mov	a,r7
-      001344 A4               [48]   27 	mul	ab
+      001427                         17 _asmtest:
+      001427 AF 82            [24]   18 	mov	r7,dpl
+      001429 90 00 1A         [24]   19 	mov	dptr,#_asmtest_PARM_2
+      00142C E0               [24]   20 	movx a, @dptr
+      00142D FE               [12]   21 	mov r6, a
+      00142E 90 00 1B         [24]   22 	mov dptr,#_asmtest_PARM_3
+      001431 E0               [24]   23 	movx a,@dptr
+      001432 8E F0            [24]   24 	mov b,r6	
+      001434 84               [48]   25 	div	ab
+      001435 EF               [12]   26 	mov	a,r7
+      001436 A4               [48]   27 	mul	ab
                                      28 	; mov r7,a
                                      29 	; mov dptr,#_global_var_test
                                      30 	; movx a,@dptr
                                      31 	; mov b,r7
                                      32 	; mul ab
-      001345 F5 82            [12]   33 	mov	dpl,a
-      001347 22               [24]   34 	ret
+      001437 F5 82            [12]   33 	mov	dpl,a
+      001439 22               [24]   34 	ret
                                      35 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 2.
 Hexadecimal [24-Bits]
