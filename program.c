@@ -83,7 +83,7 @@ unsigned char watchdog_flag = 0;
  * return : none
  ***********************************************************************************/
 void main(void)
-{  
+{
     printf("\n\r HELLO! Started in X2 Mode \n\r");
     DEBUGPORT(0x01);
     P1_1 = 0;
@@ -135,16 +135,18 @@ wrong_choice_pca:
         pca_pdown();
     else if (inp == 0x4C)
         fclk_lowest();
+    else if (inp == 0x55)
+        hardware_watchdog();
     else
         goto wrong_choice_pca;
 
 exit_choice:
     printf("Please 'E' to exit or Reset \n\r");
     inp = getchar();
-    if(inp == 0x45)
-    user_interface_PCA();
+    if (inp == 0x45)
+        user_interface_PCA();
     else
-    goto exit_choice;
+        goto exit_choice;
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -165,9 +167,16 @@ void pca_interrupt() __interrupt(6) __using(1)
         CCF1 = 0;
         CH = 0;
         CL = 0;
-        if(!watchdog_flag)
-        printf("Timer Interrupt\n\r");        
-        
+        if (!watchdog_flag)
+            printf("Timer Interrupt\n\r");
+    }
+    if (CCF2)
+    {
+        CCF2 = 0;
+        CH = 0;
+        CL = 0;
+        WDTRST = 0x01E;
+        WDTRST = 0x0E1;
     }
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
@@ -186,7 +195,7 @@ void idle_interrupt() __interrupt(0) __using(1)
     CCAPM1 = 0;
     CCAPM2 = 0;
     CCAPM3 = 0;
-    CCAPM4 = 0;   
+    CCAPM4 = 0;
     printf("Going to main menu.. \n\r");
     main_menu();
 }
@@ -201,7 +210,6 @@ void pca_falling_edge()
     printf("Setting P1.3 as falling edge detector, enabling PCA interrupt \n\r");
     CCAPM0 = 0x21;
     CR = 1;
- 
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -214,9 +222,8 @@ void pca_software_timer()
     printf("Entering Software Timer Mode \n\r");
     CCAP1L = 255;
     CCAP1H = 255;
-    CCAPM1 = 0x49;    
+    CCAPM1 = 0x49;
     CR = 1;
-
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -227,13 +234,12 @@ void pca_software_timer()
 void pca_high_speed()
 {
 
-    printf("Entering High Speed Toggle Mode, P1.5 \n\r");   
+    printf("Entering High Speed Toggle Mode, P1.5 \n\r");
     CCAP2L = 255;
     CCAP2H = 2;
     CCAPM2 = 0x4D;
     CMOD = CPS0;
     CR = 1;
-
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -249,7 +255,6 @@ void pca_pwm()
     CCAPM3 = 0x42;
     CMOD = CPS0;
     CR = 1;
-
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -261,26 +266,49 @@ void pca_watchdog()
 {
     CCAP1L = 255;
     CCAP1H = 128;
-    CCAPM1 = 0x49;    
+    CCAPM1 = 0x49;
     watchdog_flag = 1;
     printf("Enabling Watchdog Timer..\n\r");
     CCAP4L = 255;
     CCAP4H = 255;
     CMOD = WDTE;
-    CCAPM4 = 0x48;        
+    CCAPM4 = 0x48;
     CR = 1;
     int rec;
     printf("Currently Watchdog is being serviced\n\rPress 'S' to stop and generate a reset \n\r");
-    
-get_e:    
+
+get_e:
     rec = getchar();
 
-    if(rec == 0x53)
-    CCAPM1 = 0;
+    if (rec == 0x53)
+        CCAPM1 = 0;
     else
-    goto get_e;
-    
+        goto get_e;
+}
+// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+/***********************************************************************************
+ * function : Clears all the buffers and begins again
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void hardware_watchdog()
+{
+    CCAP2L = 255;
+    CCAP2H = 128;
+    CCAPM2 = 0x49;    
+    printf("Enabling Hardware Watchdog Timer..\n\r");
+    WDTPRG = 0x7;
+    CR = 1;
+    int rec;
+    printf("Currently Hardware Watchdog is being serviced\n\rPress 'S' to stop and generate a reset \n\r");
 
+get_e:
+    rec = getchar();
+
+    if (rec == 0x53)
+        CCAPM2 = 0;
+    else
+        goto get_e;
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -291,9 +319,9 @@ get_e:
 void pca_idle()
 {
     pca_pwm();
-    printf("Entering Idle, Will Exit on external interrupt 0\n\r");   
+    printf("Entering Idle, Will Exit on external interrupt 0\n\r");
     EX0 = 1;
-    PCON = IDL; 
+    PCON = IDL;
     printf("Woke up from Idle/Power down, going to main menu \n\r");
     main_menu();
 }
@@ -306,9 +334,9 @@ void pca_idle()
 void pca_pdown()
 {
     pca_pwm();
-    printf("Entering power down, Will Exit on external interrupt 0\n\r");   
+    printf("Entering power down, Will Exit on external interrupt 0\n\r");
     EX0 = 1;
-    PCON = PD; 
+    PCON = PD;
     printf("Woke up from Idle/Power down, going to main menu \n\r");
     main_menu();
 }
@@ -318,11 +346,12 @@ void pca_pdown()
  * parameters : none
  * return : none
  ***********************************************************************************/
-void fclk_lowest(){
+void fclk_lowest()
+{
     printf("Changing Clock prescalar to go to lowest frequency in X2 Mode..\n\r");
     printf("This UART Session will stop working...\n\r");
     EX0 = 1;
-    CKRL = 0 ;
+    CKRL = 0;
     main_menu();
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
@@ -357,7 +386,8 @@ wrong_choice:
  * parameters : none
  * return : none
  ***********************************************************************************/
-void asm_clang(){
+void asm_clang()
+{
     printf("\n\r Give param 1, 8bit \n\r");
     unsigned char num1 = get_number(3);
     printf("\n\r Give param 2, 8bit \n\r");
@@ -365,7 +395,7 @@ void asm_clang(){
     printf("\n\r Give param 3, 8bit \n\r");
     unsigned char num3 = get_number(3);
 
-    printf("\n\r RESULT-> param3<Mod>param2 * param1 = %d \n\r", asmtest(num1,num2,num3));
+    printf("\n\r RESULT-> param3<Mod>param2 * param1 = %d \n\r", asmtest(num1, num2, num3));
     printf("\n\r Going back to main menu.. \n\r");
     main_menu();
 }
@@ -448,6 +478,7 @@ void print_pca_menu()
     printf("'W' -> Watchdog Timer Mode\n\r");
     printf("'I' -> Idle Mode with PWM\n\r");
     printf("'L' -> Change Prescalar to lowest frequency\n\r");
+    printf("'U' -> Hardware Watchdog Timer\n\r");
     printf("'D' -> Power Down Mode\n\n\r");
 
     printf("'M' -> Go to Main Menu \n\n\r");
