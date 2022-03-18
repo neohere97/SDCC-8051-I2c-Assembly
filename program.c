@@ -12,6 +12,7 @@
 #include <mcs51reg.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "cbfifo.h"
 
 // Virtual debug port location
 #define DEBUGPORT(x) dataout(x);
@@ -50,8 +51,19 @@ void x2_mode_transition();
 void print_pca_menu();
 void fclk_lowest();
 void asm_clang();
+void hardware_watchdog();
+void asm_call(unsigned char sent_from_asm);
+void i2c_testasm();
 
 extern unsigned char asmtest(unsigned char param1, unsigned char param2, unsigned char param3);
+
+extern void i2c_init();
+extern void i2c_stop();
+extern void i2c_write_init(unsigned char page_no);
+extern void i2c_addr(unsigned char addr);
+extern void i2c_write_val(unsigned char write_value);
+extern void i2c_read_init(unsigned char page_no);
+extern void i2c_read_val();
 // Program Metadata struct inits
 struct
 {
@@ -75,7 +87,7 @@ struct buffer_struct buffers_array[25];
 
 unsigned char global_var_test = 2;
 
-unsigned char watchdog_flag = 0;
+volatile int watchdog_flag = 0;
 // ------------------------------------------------Main--------------------------------------------------------------
 /***********************************************************************************
  * function : Main function where user interface is called, program never comes back to main
@@ -84,11 +96,12 @@ unsigned char watchdog_flag = 0;
  ***********************************************************************************/
 void main(void)
 {
-    printf("\n\r HELLO! Started in X2 Mode \n\r");
-    DEBUGPORT(0x01);
-    P1_1 = 0;
+    // printf("\n\r HELLO! Started in X2 Mode \n\r");
+    // DEBUGPORT(0x01);
+    // P1_1 = 0;
 
-    main_menu();
+    // main_menu();
+    i2c_testasm();
 }
 // ------------------------------------------------User-Interface-heap---------------------------------------------------
 /***********************************************************************************
@@ -167,8 +180,7 @@ void pca_interrupt() __interrupt(6) __using(1)
         CCF1 = 0;
         CH = 0;
         CL = 0;
-        if (!watchdog_flag)
-            printf("Timer Interrupt\n\r");
+        
     }
     if (CCF2)
     {
@@ -177,6 +189,11 @@ void pca_interrupt() __interrupt(6) __using(1)
         CL = 0;
         WDTRST = 0x01E;
         WDTRST = 0x0E1;
+    }
+    if (CCF3)
+    {
+        CCF3 = 0;
+        printf("Timer Interrupt\n\r");
     }
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
@@ -220,10 +237,18 @@ void pca_falling_edge()
 void pca_software_timer()
 {
     printf("Entering Software Timer Mode \n\r");
-    CCAP1L = 255;
-    CCAP1H = 255;
-    CCAPM1 = 0x49;
+    CCAP3L = 255;
+    CCAP3H = 255;
+    CCAPM3 = 0x49;
     CR = 1;
+    int rec;
+    get_f:
+    rec = getchar();
+
+    if (rec == 0x53)
+        CCAPM3 = 0;
+    else
+        goto get_f;
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -294,13 +319,13 @@ get_e:
 void hardware_watchdog()
 {
     CCAP2L = 255;
-    CCAP2H = 128;
-    CCAPM2 = 0x49;    
+    CCAP2H = 255;
+    CCAPM2 = 0x49;
     printf("Enabling Hardware Watchdog Timer..\n\r");
     WDTPRG = 0x7;
     CR = 1;
     int rec;
-    printf("Currently Hardware Watchdog is being serviced\n\rPress 'S' to stop and generate a reset \n\r");
+    printf("Currently Hardware Watchdog is being serviced\n\rPress 'S' to stop watchdog service and generate a reset in ~1s \n\r");
 
 get_e:
     rec = getchar();
@@ -366,6 +391,7 @@ void main_menu()
     printf("'H' -> Enter Heap Demo Mode \n\r");
     printf("'P' -> Enter PCA Demo Mode \n\r");
     printf("'A' -> Assembly C Mix \n\r");
+    printf("'E' -> EEPROM Mode \n\r");
 
     int inp;
 wrong_choice:
@@ -377,8 +403,38 @@ wrong_choice:
         user_interface_PCA();
     else if (inp == 0x41)
         asm_clang();
+    else if (inp == 0x45)
+        i2c_testasm();
     else
         goto wrong_choice;
+}
+
+void i2c_testasm(){
+    i2c_init();
+    i2c_write_init(0);
+    i2c_addr(0x44);
+    i2c_write_val(0x77);
+    i2c_stop();
+    for(int i = 0; i<5000; i++){
+     for(int j=0; j<500;j++){
+
+     }
+    }
+
+    int r = getchar();    
+    
+    i2c_init();
+    i2c_write_init(0);
+    i2c_addr(0x44);
+    i2c_init();
+    i2c_read_init(0);
+    i2c_read_val();
+    i2c_stop();
+    printf("Maybe byte has been written \n\r");
+    while(1){
+
+    }
+
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
@@ -826,7 +882,13 @@ int get_num_helper(int times)
     else
         return num;
 }
+
+// void uart_interrupt() __interrupt(4) using(1)
+// {
+
+// }
 // ------------------------------------------------putchar--------------------------------------------------
+
 /***********************************************************************************
  * function : As the name suggests this function dumps characters into uart
  * parameters : none
@@ -865,6 +927,11 @@ int getchar()
 void dataout(unsigned char data)
 {
     DEBUG_LOC = data;
+}
+
+void asm_call(unsigned char sent_from_asm)
+{
+    printf("\n\n\r This function was called from assembly, character sent from there -> %c\n\r", sent_from_asm);
 }
 // ------------------------------------------------sdcc-external-startup------------------------------------------------
 /***********************************************************************************
