@@ -12,7 +12,7 @@
 #include <mcs51reg.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "cbfifo.h"
+
 
 // Virtual debug port location
 #define DEBUGPORT(x) dataout(x);
@@ -54,16 +54,16 @@ void asm_clang();
 void hardware_watchdog();
 void asm_call(unsigned char sent_from_asm);
 void i2c_testasm();
+unsigned char i2c_read_random(unsigned char block, unsigned char address);
+void i2c_write_random(unsigned char block, unsigned char address, unsigned char value);
 
 extern unsigned char asmtest(unsigned char param1, unsigned char param2, unsigned char param3);
 
-extern void i2c_init();
-extern void i2c_stop();
 extern void i2c_write_init(unsigned char page_no);
 extern void i2c_addr(unsigned char addr);
 extern void i2c_write_val(unsigned char write_value);
 extern void i2c_read_init(unsigned char page_no);
-extern void i2c_read_val();
+extern unsigned char i2c_read_val(void);
 // Program Metadata struct inits
 struct
 {
@@ -96,12 +96,11 @@ volatile int watchdog_flag = 0;
  ***********************************************************************************/
 void main(void)
 {
-    // printf("\n\r HELLO! Started in X2 Mode \n\r");
-    // DEBUGPORT(0x01);
-    // P1_1 = 0;
+    printf("\n\r HELLO! Started in X2 Mode \n\r");
+    DEBUGPORT(0x01);
+    P1_1 = 0;
 
-    // main_menu();
-    i2c_testasm();
+    main_menu(); 
 }
 // ------------------------------------------------User-Interface-heap---------------------------------------------------
 /***********************************************************************************
@@ -180,7 +179,6 @@ void pca_interrupt() __interrupt(6) __using(1)
         CCF1 = 0;
         CH = 0;
         CL = 0;
-        
     }
     if (CCF2)
     {
@@ -242,7 +240,7 @@ void pca_software_timer()
     CCAPM3 = 0x49;
     CR = 1;
     int rec;
-    get_f:
+get_f:
     rec = getchar();
 
     if (rec == 0x53)
@@ -409,32 +407,46 @@ wrong_choice:
         goto wrong_choice;
 }
 
-void i2c_testasm(){
-    i2c_init();
-    i2c_write_init(0);
-    i2c_addr(0x44);
-    i2c_write_val(0x77);
-    i2c_stop();
-    for(int i = 0; i<5000; i++){
-     for(int j=0; j<500;j++){
-
-     }
+void i2c_write_random(unsigned char block, unsigned char address, unsigned char value)
+{
+    i2c_write_init(block);
+    i2c_addr(address);
+    i2c_write_val(value);
+    for (int k = 0; k < 90; k++)
+    {
+        for (int l = 0; l < 10; l++)
+        {
+        }
     }
+}
 
-    int r = getchar();    
-    
-    i2c_init();
-    i2c_write_init(0);
-    i2c_addr(0x44);
-    i2c_init();
-    i2c_read_init(0);
-    i2c_read_val();
-    i2c_stop();
-    printf("Maybe byte has been written \n\r");
-    while(1){
+unsigned char i2c_read_random(unsigned char block, unsigned char address)
+{
+    i2c_write_init(block);
+    i2c_addr(address);
+    i2c_read_init(block);
+    unsigned char a = i2c_read_val();
+    return a;
+}
 
+void i2c_testasm()
+{
+    for(int i = 0; i <256;i++){
+        i2c_write_random(0, i, i);
     }
+  
 
+    unsigned char r = getchar();
+
+     for(int k = 0; k <256;k++){
+        unsigned char a = i2c_read_random(0, k);
+        printf("loc ->%d val is -> %x \n\r", k,a);
+    }
+   
+
+    while (1)
+    {
+    }
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************

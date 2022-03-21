@@ -58,73 +58,72 @@ _i2c_init:
 	ret
 
 _i2c_write_init:
+	lcall _i2c_init
 	mov a,dpl
 	rl a
 	orl a,#0xA0
 	mov r2,#9	
-	ljmp devaddr
+	lcall devaddr
 	ret
 
 _i2c_read_init:
+	lcall _i2c_init
 	mov a,dpl
 	rl a
 	orl a,#0xA1
 	mov r2,#9	
-	ljmp devaddr
+	lcall devaddr
 	ret
 
 _i2c_read_val:
-	mov r2,#9
-	ljmp readloop
-	clr p1.0
-	clr p1.7
+	mov r2,#8
+	mov a,#0
+	clr c
+	lcall readloop		
 	nop
+	nop
+	nop
+	clr p1.7	
+	lcall _i2c_stop
+	mov dpl,a
+	ret
+
+readloopc:		
+	djnz r2, readloop	
+	ret
+
+readloop:	
 	nop
 	setb p1.0
 	nop
-	nop
-	nop
-	nop
+	jnb  p1.7, addz
+	setb c
+	rlc a
+	nop		
+	clr p1.0
+	nop		
+	ljmp readloopc
+
+addz:
+	clr c
+	rlc a
 	clr p1.0
 	nop
 	nop
-	nop
-	nop
-	ret
-
-readloopc:
-	djnz r2, readloop
-	ret
-
-readloop:
-	nop
-	nop
-	nop
-	setb p1.0
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	clr p1.0
-	nop
-	nop
-	nop
-	nop
+	nop	
 	ljmp readloopc
 
 _i2c_addr:
 	mov a,dpl
 	mov r2,#9
-	ljmp devaddr
+	lcall devaddr
 	ret
 
 _i2c_write_val:
 	mov a,dpl
 	mov r2,#9
-	ljmp devaddr
+	lcall devaddr
+	lcall _i2c_stop
 	ret
 
 _i2c_stop:
@@ -142,28 +141,13 @@ _i2c_stop:
 devaddr:
 	clr p1.0
 	djnz r2, bitloop
-	setb p1.7
-	nop
-	nop
-	nop
-	nop
-	nop
+	setb p1.7	
 	nop
 	setb p1.0
+	nop	
 	nop
-	nop
-	nop
-	nop
-	clr p1.0
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
+	clr p1.0	
+	nop	
 	ret
 
 bitloop:	
@@ -172,43 +156,19 @@ bitloop:
 	ljmp sendo
 
 sendz:
-	clr p1.7
+	clr p1.7	
 	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	setb p1.0
+	setb p1.0	
 	nop	
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
 	nop
 	nop
 	clr p1.0
 	ljmp devaddr
 
 sendo:
-	setb p1.7
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	setb p1.0
+	setb p1.7		
 	nop	
-	nop
-	nop
-	nop
-	nop
-	nop
+	setb p1.0	
 	nop
 	nop
 	nop
