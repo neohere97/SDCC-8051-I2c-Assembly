@@ -1,0 +1,219 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module i2c
+                                      6 	.optsdcc -mmcs51 --model-large
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _i2c_read_val
+                                     12 	.globl _i2c_read_init
+                                     13 	.globl _i2c_write_val
+                                     14 	.globl _i2c_addr
+                                     15 	.globl _i2c_write_init
+                                     16 	.globl _i2c_read_random_PARM_2
+                                     17 	.globl _i2c_write_random_PARM_3
+                                     18 	.globl _i2c_write_random_PARM_2
+                                     19 	.globl _i2c_write_random
+                                     20 	.globl _i2c_read_random
+                                     21 ;--------------------------------------------------------
+                                     22 ; special function registers
+                                     23 ;--------------------------------------------------------
+                                     24 	.area RSEG    (ABS,DATA)
+      000000                         25 	.org 0x0000
+                                     26 ;--------------------------------------------------------
+                                     27 ; special function bits
+                                     28 ;--------------------------------------------------------
+                                     29 	.area RSEG    (ABS,DATA)
+      000000                         30 	.org 0x0000
+                                     31 ;--------------------------------------------------------
+                                     32 ; overlayable register banks
+                                     33 ;--------------------------------------------------------
+                                     34 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         35 	.ds 8
+                                     36 ;--------------------------------------------------------
+                                     37 ; internal ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area DSEG    (DATA)
+                                     40 ;--------------------------------------------------------
+                                     41 ; overlayable items in internal ram 
+                                     42 ;--------------------------------------------------------
+                                     43 ;--------------------------------------------------------
+                                     44 ; indirectly addressable internal ram data
+                                     45 ;--------------------------------------------------------
+                                     46 	.area ISEG    (DATA)
+                                     47 ;--------------------------------------------------------
+                                     48 ; absolute internal ram data
+                                     49 ;--------------------------------------------------------
+                                     50 	.area IABS    (ABS,DATA)
+                                     51 	.area IABS    (ABS,DATA)
+                                     52 ;--------------------------------------------------------
+                                     53 ; bit data
+                                     54 ;--------------------------------------------------------
+                                     55 	.area BSEG    (BIT)
+                                     56 ;--------------------------------------------------------
+                                     57 ; paged external ram data
+                                     58 ;--------------------------------------------------------
+                                     59 	.area PSEG    (PAG,XDATA)
+                                     60 ;--------------------------------------------------------
+                                     61 ; external ram data
+                                     62 ;--------------------------------------------------------
+                                     63 	.area XSEG    (XDATA)
+      000000                         64 _i2c_write_random_PARM_2:
+      000000                         65 	.ds 1
+      000001                         66 _i2c_write_random_PARM_3:
+      000001                         67 	.ds 1
+      000002                         68 _i2c_write_random_block_65536_8:
+      000002                         69 	.ds 1
+      000003                         70 _i2c_read_random_PARM_2:
+      000003                         71 	.ds 1
+      000004                         72 _i2c_read_random_block_65536_14:
+      000004                         73 	.ds 1
+                                     74 ;--------------------------------------------------------
+                                     75 ; absolute external ram data
+                                     76 ;--------------------------------------------------------
+                                     77 	.area XABS    (ABS,XDATA)
+                                     78 ;--------------------------------------------------------
+                                     79 ; external initialized ram data
+                                     80 ;--------------------------------------------------------
+                                     81 	.area XISEG   (XDATA)
+                                     82 	.area HOME    (CODE)
+                                     83 	.area GSINIT0 (CODE)
+                                     84 	.area GSINIT1 (CODE)
+                                     85 	.area GSINIT2 (CODE)
+                                     86 	.area GSINIT3 (CODE)
+                                     87 	.area GSINIT4 (CODE)
+                                     88 	.area GSINIT5 (CODE)
+                                     89 	.area GSINIT  (CODE)
+                                     90 	.area GSFINAL (CODE)
+                                     91 	.area CSEG    (CODE)
+                                     92 ;--------------------------------------------------------
+                                     93 ; global & static initialisations
+                                     94 ;--------------------------------------------------------
+                                     95 	.area HOME    (CODE)
+                                     96 	.area GSINIT  (CODE)
+                                     97 	.area GSFINAL (CODE)
+                                     98 	.area GSINIT  (CODE)
+                                     99 ;--------------------------------------------------------
+                                    100 ; Home
+                                    101 ;--------------------------------------------------------
+                                    102 	.area HOME    (CODE)
+                                    103 	.area HOME    (CODE)
+                                    104 ;--------------------------------------------------------
+                                    105 ; code
+                                    106 ;--------------------------------------------------------
+                                    107 	.area CSEG    (CODE)
+                                    108 ;------------------------------------------------------------
+                                    109 ;Allocation info for local variables in function 'i2c_write_random'
+                                    110 ;------------------------------------------------------------
+                                    111 ;address                   Allocated with name '_i2c_write_random_PARM_2'
+                                    112 ;value                     Allocated with name '_i2c_write_random_PARM_3'
+                                    113 ;block                     Allocated with name '_i2c_write_random_block_65536_8'
+                                    114 ;k                         Allocated with name '_i2c_write_random_k_131072_10'
+                                    115 ;l                         Allocated with name '_i2c_write_random_l_262144_12'
+                                    116 ;------------------------------------------------------------
+                                    117 ;	i2c.c:25: void i2c_write_random(unsigned char block, unsigned char address, unsigned char value)
+                                    118 ;	-----------------------------------------
+                                    119 ;	 function i2c_write_random
+                                    120 ;	-----------------------------------------
+      000000                        121 _i2c_write_random:
+                           000007   122 	ar7 = 0x07
+                           000006   123 	ar6 = 0x06
+                           000005   124 	ar5 = 0x05
+                           000004   125 	ar4 = 0x04
+                           000003   126 	ar3 = 0x03
+                           000002   127 	ar2 = 0x02
+                           000001   128 	ar1 = 0x01
+                           000000   129 	ar0 = 0x00
+      000000 E5 82            [12]  130 	mov	a,dpl
+      000002 90r00r02         [24]  131 	mov	dptr,#_i2c_write_random_block_65536_8
+      000005 F0               [24]  132 	movx	@dptr,a
+                                    133 ;	i2c.c:27: i2c_write_init(block);
+      000006 E0               [24]  134 	movx	a,@dptr
+      000007 F5 82            [12]  135 	mov	dpl,a
+      000009 12r00r00         [24]  136 	lcall	_i2c_write_init
+                                    137 ;	i2c.c:28: i2c_addr(address);
+      00000C 90r00r00         [24]  138 	mov	dptr,#_i2c_write_random_PARM_2
+      00000F E0               [24]  139 	movx	a,@dptr
+      000010 F5 82            [12]  140 	mov	dpl,a
+      000012 12r00r00         [24]  141 	lcall	_i2c_addr
+                                    142 ;	i2c.c:29: i2c_write_val(value);
+      000015 90r00r01         [24]  143 	mov	dptr,#_i2c_write_random_PARM_3
+      000018 E0               [24]  144 	movx	a,@dptr
+      000019 F5 82            [12]  145 	mov	dpl,a
+      00001B 12r00r00         [24]  146 	lcall	_i2c_write_val
+                                    147 ;	i2c.c:31: for (int k = 0; k < 90; k++)
+      00001E 7E 00            [12]  148 	mov	r6,#0x00
+      000020 7F 00            [12]  149 	mov	r7,#0x00
+      000022                        150 00107$:
+      000022 C3               [12]  151 	clr	c
+      000023 EE               [12]  152 	mov	a,r6
+      000024 94 5A            [12]  153 	subb	a,#0x5a
+      000026 EF               [12]  154 	mov	a,r7
+      000027 64 80            [12]  155 	xrl	a,#0x80
+      000029 94 80            [12]  156 	subb	a,#0x80
+      00002B 50 1D            [24]  157 	jnc	00109$
+                                    158 ;	i2c.c:33: for (int l = 0; l < 10; l++)
+      00002D 7C 00            [12]  159 	mov	r4,#0x00
+      00002F 7D 00            [12]  160 	mov	r5,#0x00
+      000031                        161 00104$:
+      000031 C3               [12]  162 	clr	c
+      000032 EC               [12]  163 	mov	a,r4
+      000033 94 0A            [12]  164 	subb	a,#0x0a
+      000035 ED               [12]  165 	mov	a,r5
+      000036 64 80            [12]  166 	xrl	a,#0x80
+      000038 94 80            [12]  167 	subb	a,#0x80
+      00003A 50 07            [24]  168 	jnc	00108$
+      00003C 0C               [12]  169 	inc	r4
+      00003D BC 00 F1         [24]  170 	cjne	r4,#0x00,00104$
+      000040 0D               [12]  171 	inc	r5
+      000041 80 EE            [24]  172 	sjmp	00104$
+      000043                        173 00108$:
+                                    174 ;	i2c.c:31: for (int k = 0; k < 90; k++)
+      000043 0E               [12]  175 	inc	r6
+      000044 BE 00 DB         [24]  176 	cjne	r6,#0x00,00107$
+      000047 0F               [12]  177 	inc	r7
+      000048 80 D8            [24]  178 	sjmp	00107$
+      00004A                        179 00109$:
+                                    180 ;	i2c.c:37: }
+      00004A 22               [24]  181 	ret
+                                    182 ;------------------------------------------------------------
+                                    183 ;Allocation info for local variables in function 'i2c_read_random'
+                                    184 ;------------------------------------------------------------
+                                    185 ;address                   Allocated with name '_i2c_read_random_PARM_2'
+                                    186 ;block                     Allocated with name '_i2c_read_random_block_65536_14'
+                                    187 ;a                         Allocated with name '_i2c_read_random_a_65537_16'
+                                    188 ;------------------------------------------------------------
+                                    189 ;	i2c.c:44: unsigned char i2c_read_random(unsigned char block, unsigned char address)
+                                    190 ;	-----------------------------------------
+                                    191 ;	 function i2c_read_random
+                                    192 ;	-----------------------------------------
+      00004B                        193 _i2c_read_random:
+      00004B E5 82            [12]  194 	mov	a,dpl
+      00004D 90r00r04         [24]  195 	mov	dptr,#_i2c_read_random_block_65536_14
+      000050 F0               [24]  196 	movx	@dptr,a
+                                    197 ;	i2c.c:46: i2c_write_init(block);
+      000051 E0               [24]  198 	movx	a,@dptr
+      000052 FF               [12]  199 	mov	r7,a
+      000053 F5 82            [12]  200 	mov	dpl,a
+      000055 C0 07            [24]  201 	push	ar7
+      000057 12r00r00         [24]  202 	lcall	_i2c_write_init
+                                    203 ;	i2c.c:47: i2c_addr(address);
+      00005A 90r00r03         [24]  204 	mov	dptr,#_i2c_read_random_PARM_2
+      00005D E0               [24]  205 	movx	a,@dptr
+      00005E F5 82            [12]  206 	mov	dpl,a
+      000060 12r00r00         [24]  207 	lcall	_i2c_addr
+      000063 D0 07            [24]  208 	pop	ar7
+                                    209 ;	i2c.c:48: i2c_read_init(block);
+      000065 8F 82            [24]  210 	mov	dpl,r7
+      000067 12r00r00         [24]  211 	lcall	_i2c_read_init
+                                    212 ;	i2c.c:49: unsigned char a = i2c_read_val();
+                                    213 ;	i2c.c:50: return a;
+                                    214 ;	i2c.c:51: }
+      00006A 02r00r00         [24]  215 	ljmp	_i2c_read_val
+                                    216 	.area CSEG    (CODE)
+                                    217 	.area CONST   (CODE)
+                                    218 	.area XINIT   (CODE)
+                                    219 	.area CABS    (ABS,CODE)

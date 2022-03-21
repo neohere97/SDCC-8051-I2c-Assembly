@@ -28,175 +28,136 @@ Hexadecimal [24-Bits]
       00001B                         23 	.ds 1
                                      24 
                                      25 	.area CSEG    
-      0015E4                         26 _asmtest:
-      0015E4 AF 82            [24]   27 	mov	r7,dpl	
-      0015E6 90 00 1A         [24]   28 	mov	dptr,#_asmtest_PARM_2
-      0015E9 E0               [24]   29 	movx a, @dptr
-      0015EA FE               [12]   30 	mov r6, a
-      0015EB 90 00 1B         [24]   31 	mov dptr,#_asmtest_PARM_3
-      0015EE E0               [24]   32 	movx a,@dptr
-      0015EF 8E F0            [24]   33 	mov b,r6	
-      0015F1 84               [48]   34 	div	ab
-      0015F2 EF               [12]   35 	mov	a,r7
-      0015F3 A4               [48]   36 	mul	ab
-      0015F4 F5 82            [12]   37 	mov	dpl,a	
-      0015F6 90 00 1A         [24]   38 	mov dptr,#_asmtest_PARM_2
-      0015F9 F0               [24]   39 	movx @dptr,a
-      0015FA 75 82 55         [24]   40 	mov dpl,#0x55
-      0015FD 12 15 9F         [24]   41 	lcall _asm_call	
-      001600 90 00 1A         [24]   42 	mov dptr,#_asmtest_PARM_2
-      001603 E0               [24]   43 	movx a,@dptr
-      001604 F5 82            [12]   44 	mov dpl,a
-      001606 22               [24]   45 	ret
+      00031B                         26 _asmtest:
+      00031B AF 82            [24]   27 	mov	r7,dpl	
+      00031D 90 00 1A         [24]   28 	mov	dptr,#_asmtest_PARM_2
+      000320 E0               [24]   29 	movx a, @dptr
+      000321 FE               [12]   30 	mov r6, a
+      000322 90 00 1B         [24]   31 	mov dptr,#_asmtest_PARM_3
+      000325 E0               [24]   32 	movx a,@dptr
+      000326 8E F0            [24]   33 	mov b,r6	
+      000328 84               [48]   34 	div	ab
+      000329 EF               [12]   35 	mov	a,r7
+      00032A A4               [48]   36 	mul	ab
+      00032B F5 82            [12]   37 	mov	dpl,a	
+      00032D 90 00 1A         [24]   38 	mov dptr,#_asmtest_PARM_2
+      000330 F0               [24]   39 	movx @dptr,a
+      000331 75 82 55         [24]   40 	mov dpl,#0x55
+      000334 12 16 06         [24]   41 	lcall _asm_call	
+      000337 90 00 1A         [24]   42 	mov dptr,#_asmtest_PARM_2
+      00033A E0               [24]   43 	movx a,@dptr
+      00033B F5 82            [12]   44 	mov dpl,a
+      00033D 22               [24]   45 	ret
                                      46 
                                      47 
-      001607                         48 _i2c_init:
-      001607 D2 90            [12]   49 	setb p1.0
-      001609 D2 97            [12]   50 	setb p1.7
-      00160B 00               [12]   51 	nop
-      00160C 00               [12]   52 	nop
-      00160D 00               [12]   53 	nop
-      00160E C2 97            [12]   54 	clr p1.7
-      001610 00               [12]   55 	nop
+      00033E                         48 _i2c_init:
+      00033E D2 90            [12]   49 	setb p1.0
+      000340 D2 97            [12]   50 	setb p1.7
+      000342 C2 97            [12]   51 	clr p1.7
+      000344 22               [24]   52 	ret
+                                     53 
+      000345                         54 _i2c_write_init:
+      000345 12 03 3E         [24]   55 	lcall _i2c_init
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 2.
 Hexadecimal [24-Bits]
 
 
 
-      001611 00               [12]   56 	nop
-      001612 00               [12]   57 	nop
-      001613 22               [24]   58 	ret
-                                     59 
-      001614                         60 _i2c_write_init:
-      001614 12 16 07         [24]   61 	lcall _i2c_init
-      001617 E5 82            [12]   62 	mov a,dpl
-      001619 23               [12]   63 	rl a
-      00161A 44 A0            [12]   64 	orl a,#0xA0
-      00161C 7A 09            [12]   65 	mov r2,#9	
-      00161E 12 16 80         [24]   66 	lcall devaddr
-      001621 22               [24]   67 	ret
-                                     68 
-      001622                         69 _i2c_read_init:
-      001622 12 16 07         [24]   70 	lcall _i2c_init
-      001625 E5 82            [12]   71 	mov a,dpl
-      001627 23               [12]   72 	rl a
-      001628 44 A1            [12]   73 	orl a,#0xA1
-      00162A 7A 09            [12]   74 	mov r2,#9	
-      00162C 12 16 80         [24]   75 	lcall devaddr
-      00162F 22               [24]   76 	ret
-                                     77 
-      001630                         78 _i2c_read_val:
-      001630 7A 08            [12]   79 	mov r2,#8
-      001632 74 00            [12]   80 	mov a,#0
-      001634 C3               [12]   81 	clr c
-      001635 12 16 46         [24]   82 	lcall readloop		
-      001638 00               [12]   83 	nop
-      001639 00               [12]   84 	nop
-      00163A 00               [12]   85 	nop
-      00163B C2 97            [12]   86 	clr p1.7	
-      00163D 12 16 73         [24]   87 	lcall _i2c_stop
-      001640 F5 82            [12]   88 	mov dpl,a
-      001642 22               [24]   89 	ret
-                                     90 
-      001643                         91 readloopc:		
-      001643 DA 01            [24]   92 	djnz r2, readloop	
-      001645 22               [24]   93 	ret
-                                     94 
-      001646                         95 readloop:	
-      001646 00               [12]   96 	nop
-      001647 D2 90            [12]   97 	setb p1.0
-      001649 00               [12]   98 	nop
-      00164A 30 97 09         [24]   99 	jnb  p1.7, addz
-      00164D D3               [12]  100 	setb c
-      00164E 33               [12]  101 	rlc a
-      00164F 00               [12]  102 	nop		
-      001650 C2 90            [12]  103 	clr p1.0
-      001652 00               [12]  104 	nop		
-      001653 02 16 43         [24]  105 	ljmp readloopc
-                                    106 
-      001656                        107 addz:
-      001656 C3               [12]  108 	clr c
-      001657 33               [12]  109 	rlc a
-      001658 C2 90            [12]  110 	clr p1.0
+      000348 E5 82            [12]   56 	mov a,dpl
+      00034A 23               [12]   57 	rl a
+      00034B 44 A0            [12]   58 	orl a,#0xA0
+      00034D 7A 09            [12]   59 	mov r2,#9	
+      00034F 12 03 A1         [24]   60 	lcall devaddr
+      000352 22               [24]   61 	ret
+                                     62 
+      000353                         63 _i2c_read_init:
+      000353 12 03 3E         [24]   64 	lcall _i2c_init
+      000356 E5 82            [12]   65 	mov a,dpl
+      000358 23               [12]   66 	rl a
+      000359 44 A1            [12]   67 	orl a,#0xA1
+      00035B 7A 09            [12]   68 	mov r2,#9	
+      00035D 12 03 A1         [24]   69 	lcall devaddr
+      000360 22               [24]   70 	ret
+                                     71 
+      000361                         72 _i2c_read_val:
+      000361 7A 08            [12]   73 	mov r2,#8
+      000363 74 00            [12]   74 	mov a,#0
+      000365 C3               [12]   75 	clr c
+      000366 12 03 74         [24]   76 	lcall readloop	
+      000369 C2 97            [12]   77 	clr p1.7	
+      00036B 12 03 9A         [24]   78 	lcall _i2c_stop
+      00036E F5 82            [12]   79 	mov dpl,a
+      000370 22               [24]   80 	ret
+                                     81 
+      000371                         82 readloopc:		
+      000371 DA 01            [24]   83 	djnz r2, readloop	
+      000373 22               [24]   84 	ret
+                                     85 
+      000374                         86 readloop:	
+      000374 D2 90            [12]   87 	setb p1.0
+      000376 30 97 07         [24]   88 	jnb  p1.7, addz
+      000379 D3               [12]   89 	setb c
+      00037A 33               [12]   90 	rlc a	
+      00037B C2 90            [12]   91 	clr p1.0	
+      00037D 02 03 71         [24]   92 	ljmp readloopc
+                                     93 
+      000380                         94 addz:
+      000380 C3               [12]   95 	clr c
+      000381 33               [12]   96 	rlc a
+      000382 C2 90            [12]   97 	clr p1.0
+      000384 02 03 71         [24]   98 	ljmp readloopc
+                                     99 
+      000387                        100 _i2c_addr:
+      000387 E5 82            [12]  101 	mov a,dpl
+      000389 7A 09            [12]  102 	mov r2,#9
+      00038B 12 03 A1         [24]  103 	lcall devaddr
+      00038E 22               [24]  104 	ret
+                                    105 
+      00038F                        106 _i2c_write_val:
+      00038F E5 82            [12]  107 	mov a,dpl
+      000391 7A 09            [12]  108 	mov r2,#9
+      000393 12 03 A1         [24]  109 	lcall devaddr
+      000396 12 03 9A         [24]  110 	lcall _i2c_stop
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 3.
 Hexadecimal [24-Bits]
 
 
 
-      00165A 00               [12]  111 	nop
-      00165B 00               [12]  112 	nop
-      00165C 00               [12]  113 	nop	
-      00165D 02 16 43         [24]  114 	ljmp readloopc
-                                    115 
-      001660                        116 _i2c_addr:
-      001660 E5 82            [12]  117 	mov a,dpl
-      001662 7A 09            [12]  118 	mov r2,#9
-      001664 12 16 80         [24]  119 	lcall devaddr
-      001667 22               [24]  120 	ret
-                                    121 
-      001668                        122 _i2c_write_val:
-      001668 E5 82            [12]  123 	mov a,dpl
-      00166A 7A 09            [12]  124 	mov r2,#9
-      00166C 12 16 80         [24]  125 	lcall devaddr
-      00166F 12 16 73         [24]  126 	lcall _i2c_stop
-      001672 22               [24]  127 	ret
-                                    128 
-      001673                        129 _i2c_stop:
-      001673 C2 97            [12]  130 	clr p1.7
-      001675 00               [12]  131 	nop
-      001676 00               [12]  132 	nop
-      001677 00               [12]  133 	nop
-      001678 D2 90            [12]  134 	setb p1.0
-      00167A 00               [12]  135 	nop
-      00167B 00               [12]  136 	nop
-      00167C 00               [12]  137 	nop
-      00167D D2 97            [12]  138 	setb p1.7
-      00167F 22               [24]  139 	ret
-                                    140 
-      001680                        141 devaddr:
-      001680 C2 90            [12]  142 	clr p1.0
-      001682 DA 0B            [24]  143 	djnz r2, bitloop
-      001684 D2 97            [12]  144 	setb p1.7	
-      001686 00               [12]  145 	nop
-      001687 D2 90            [12]  146 	setb p1.0
-      001689 00               [12]  147 	nop	
-      00168A 00               [12]  148 	nop
-      00168B C2 90            [12]  149 	clr p1.0	
-      00168D 00               [12]  150 	nop	
-      00168E 22               [24]  151 	ret
-                                    152 
-      00168F                        153 bitloop:	
-      00168F 33               [12]  154 	rlc a
-      001690 50 03            [24]  155 	jnc sendz
-      001692 02 16 A2         [24]  156 	ljmp sendo
-                                    157 
-      001695                        158 sendz:
-      001695 C2 97            [12]  159 	clr p1.7	
-      001697 00               [12]  160 	nop
-      001698 D2 90            [12]  161 	setb p1.0	
-      00169A 00               [12]  162 	nop	
-      00169B 00               [12]  163 	nop
-      00169C 00               [12]  164 	nop
-      00169D C2 90            [12]  165 	clr p1.0
+      000399 22               [24]  111 	ret
+                                    112 
+      00039A                        113 _i2c_stop:
+      00039A C2 97            [12]  114 	clr p1.7
+      00039C D2 90            [12]  115 	setb p1.0
+      00039E D2 97            [12]  116 	setb p1.7
+      0003A0 22               [24]  117 	ret
+                                    118 
+      0003A1                        119 devaddr:
+      0003A1 C2 90            [12]  120 	clr p1.0
+      0003A3 DA 07            [24]  121 	djnz r2, bitloop
+      0003A5 D2 97            [12]  122 	setb p1.7	
+      0003A7 D2 90            [12]  123 	setb p1.0
+      0003A9 C2 90            [12]  124 	clr p1.0		
+      0003AB 22               [24]  125 	ret
+                                    126 
+      0003AC                        127 bitloop:	
+      0003AC 33               [12]  128 	rlc a
+      0003AD 50 03            [24]  129 	jnc sendz
+      0003AF 02 03 BB         [24]  130 	ljmp sendo
+                                    131 
+      0003B2                        132 sendz:
+      0003B2 C2 97            [12]  133 	clr p1.7		
+      0003B4 D2 90            [12]  134 	setb p1.0		
+      0003B6 C2 90            [12]  135 	clr p1.0
+      0003B8 02 03 A1         [24]  136 	ljmp devaddr
+                                    137 
+      0003BB                        138 sendo:
+      0003BB D2 97            [12]  139 	setb p1.7		
+      0003BD D2 90            [12]  140 	setb p1.0		
+      0003BF C2 90            [12]  141 	clr p1.0
+      0003C1 02 03 A1         [24]  142 	ljmp devaddr
+                                    143 
+                                    144 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 4.
-Hexadecimal [24-Bits]
-
-
-
-      00169F 02 16 80         [24]  166 	ljmp devaddr
-                                    167 
-      0016A2                        168 sendo:
-      0016A2 D2 97            [12]  169 	setb p1.7		
-      0016A4 00               [12]  170 	nop	
-      0016A5 D2 90            [12]  171 	setb p1.0	
-      0016A7 00               [12]  172 	nop
-      0016A8 00               [12]  173 	nop
-      0016A9 00               [12]  174 	nop
-      0016AA C2 90            [12]  175 	clr p1.0
-      0016AC 02 16 80         [24]  176 	ljmp devaddr
-                                    177 
-                                    178 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 5.
 Hexadecimal [24-Bits]
 
 Symbol Table
@@ -256,7 +217,7 @@ Symbol Table
     TCON    =  000088 L   |     TCON.0  =  000088 L   |     TCON.1  =  000089 L
     TCON.2  =  00008A L   |     TCON.3  =  00008B L   |     TCON.4  =  00008C L
     TCON.5  =  00008D L   |     TCON.6  =  00008E L   |     TCON.7  =  00008F L
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 6.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 5.
 Hexadecimal [24-Bits]
 
 Symbol Table
@@ -267,21 +228,21 @@ Symbol Table
     TL2     =  0000CC L   |     TMOD    =  000089 L   |     TR0     =  00008C L
     TR1     =  00008E L   |     TR2     =  0000CA L   |     TXD     =  0000B1 L
     _asm_cal   ****** GX  |   2 _asmtest   000000 GR  |   1 _asmtest   000000 GR
-  1 _asmtest   000001 GR  |     _global_   ****** GX  |   2 _i2c_add   00007C GR
-  2 _i2c_ini   000023 GR  |   2 _i2c_rea   00003E GR  |   2 _i2c_rea   00004C GR
-  2 _i2c_sto   00008F GR  |   2 _i2c_wri   000030 GR  |   2 _i2c_wri   000084 GR
+  1 _asmtest   000001 GR  |     _global_   ****** GX  |   2 _i2c_add   00006C GR
+  2 _i2c_ini   000023 GR  |   2 _i2c_rea   000038 GR  |   2 _i2c_rea   000046 GR
+  2 _i2c_sto   00007F GR  |   2 _i2c_wri   00002A GR  |   2 _i2c_wri   000074 GR
     a       =  0000E0 L   |     a.0     =  0000E0 L   |     a.1     =  0000E1 L
     a.2     =  0000E2 L   |     a.3     =  0000E3 L   |     a.4     =  0000E4 L
     a.5     =  0000E5 L   |     a.6     =  0000E6 L   |     a.7     =  0000E7 L
     ac      =  0000D6 L   |     acc     =  0000E0 L   |     acc.0   =  0000E0 L
     acc.1   =  0000E1 L   |     acc.2   =  0000E2 L   |     acc.3   =  0000E3 L
     acc.4   =  0000E4 L   |     acc.5   =  0000E5 L   |     acc.6   =  0000E6 L
-    acc.7   =  0000E7 L   |   2 addz       000072 R   |     b       =  0000F0 L
+    acc.7   =  0000E7 L   |   2 addz       000065 R   |     b       =  0000F0 L
     b.0     =  0000F0 L   |     b.1     =  0000F1 L   |     b.2     =  0000F2 L
     b.3     =  0000F3 L   |     b.4     =  0000F4 L   |     b.5     =  0000F5 L
-    b.6     =  0000F6 L   |     b.7     =  0000F7 L   |   2 bitloop    0000AB R
+    b.6     =  0000F6 L   |     b.7     =  0000F7 L   |   2 bitloop    000091 R
     cprl2   =  0000C8 L   |     ct2     =  0000C9 L   |     cy      =  0000D7 L
-  2 devaddr    00009C R   |     dph     =  000083 L   |     dpl     =  000082 L
+  2 devaddr    000086 R   |     dph     =  000083 L   |     dpl     =  000082 L
     ea      =  0000AF L   |     es      =  0000AC L   |     et0     =  0000A9 L
     et1     =  0000AB L   |     et2     =  0000AD L   |     ex0     =  0000A8 L
     ex1     =  0000AA L   |     exen2   =  0000CB L   |     exf2    =  0000CE L
@@ -311,18 +272,18 @@ Symbol Table
     psw.6   =  0000D6 L   |     psw.7   =  0000D7 L   |     pt0     =  0000B9 L
     pt1     =  0000BB L   |     pt2     =  0000BD L   |     px0     =  0000B8 L
     px1     =  0000BA L   |     rb8     =  00009A L   |     rcap2h  =  0000CB L
-    rcap2l  =  0000CA L   |     rclk    =  0000CD L   |   2 readloop   000062 R
-  2 readloop   00005F R   |     ren     =  00009C L   |     ri      =  000098 L
+    rcap2l  =  0000CA L   |     rclk    =  0000CD L   |   2 readloop   000059 R
+  2 readloop   000056 R   |     ren     =  00009C L   |     ri      =  000098 L
     rs0     =  0000D3 L   |     rs1     =  0000D4 L   |     rxd     =  0000B0 L
     sbuf    =  000099 L   |     scon    =  000098 L   |     scon.0  =  000098 L
     scon.1  =  000099 L   |     scon.2  =  00009A L   |     scon.3  =  00009B L
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 7.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 6.
 Hexadecimal [24-Bits]
 
 Symbol Table
 
     scon.4  =  00009C L   |     scon.5  =  00009D L   |     scon.6  =  00009E L
-    scon.7  =  00009F L   |   2 sendo      0000BE R   |   2 sendz      0000B1 R
+    scon.7  =  00009F L   |   2 sendo      0000A0 R   |   2 sendz      000097 R
     sm0     =  00009F L   |     sm1     =  00009E L   |     sm2     =  00009D L
     sp      =  000081 L   |     t2con   =  0000C8 L   |     t2con.0 =  0000C8 L
     t2con.1 =  0000C9 L   |     t2con.2 =  0000CA L   |     t2con.3 =  0000CB L
@@ -337,12 +298,12 @@ Symbol Table
     tl2     =  0000CC L   |     tmod    =  000089 L   |     tr0     =  00008C L
     tr1     =  00008E L   |     tr2     =  0000CA L   |     txd     =  0000B1 L
 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 8.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 7.
 Hexadecimal [24-Bits]
 
 Area Table
 
    0 _CODE      size      0   flags    0
    1 OSEG       size      2   flags    0
-   2 CSEG       size     CB   flags    0
+   2 CSEG       size     A9   flags    0
 

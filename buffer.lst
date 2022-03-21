@@ -1,0 +1,2728 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.0 #12072 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module buffer
+                                      6 	.optsdcc -mmcs51 --model-large
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main_menu
+                                     12 	.globl _get_number
+                                     13 	.globl _getchar
+                                     14 	.globl _putchar
+                                     15 	.globl _free
+                                     16 	.globl _malloc
+                                     17 	.globl _printf
+                                     18 	.globl _buffers_array
+                                     19 	.globl _program_stats
+                                     20 	.globl _user_interface_heap
+                                     21 	.globl _at_clear_all_buffers
+                                     22 	.globl _delete_buffer
+                                     23 	.globl _print_heap_menu
+                                     24 	.globl _create_new_buffer
+                                     25 	.globl _create_initial_buffers
+                                     26 	.globl _buffer_input_loop
+                                     27 	.globl _dump_buff_zero_ascii
+                                     28 	.globl _dump_buff_zero_hex
+                                     29 	.globl _print_heap_stats
+                                     30 	.globl _print_all_buffers
+                                     31 ;--------------------------------------------------------
+                                     32 ; special function registers
+                                     33 ;--------------------------------------------------------
+                                     34 	.area RSEG    (ABS,DATA)
+      000000                         35 	.org 0x0000
+                                     36 ;--------------------------------------------------------
+                                     37 ; special function bits
+                                     38 ;--------------------------------------------------------
+                                     39 	.area RSEG    (ABS,DATA)
+      000000                         40 	.org 0x0000
+                                     41 ;--------------------------------------------------------
+                                     42 ; overlayable register banks
+                                     43 ;--------------------------------------------------------
+                                     44 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         45 	.ds 8
+                                     46 ;--------------------------------------------------------
+                                     47 ; internal ram data
+                                     48 ;--------------------------------------------------------
+                                     49 	.area DSEG    (DATA)
+      000000                         50 _delete_buffer_sloc0_1_0:
+      000000                         51 	.ds 2
+      000002                         52 _delete_buffer_sloc1_1_0:
+      000002                         53 	.ds 2
+      000004                         54 _delete_buffer_sloc2_1_0:
+      000004                         55 	.ds 3
+                                     56 ;--------------------------------------------------------
+                                     57 ; overlayable items in internal ram 
+                                     58 ;--------------------------------------------------------
+                                     59 ;--------------------------------------------------------
+                                     60 ; indirectly addressable internal ram data
+                                     61 ;--------------------------------------------------------
+                                     62 	.area ISEG    (DATA)
+                                     63 ;--------------------------------------------------------
+                                     64 ; absolute internal ram data
+                                     65 ;--------------------------------------------------------
+                                     66 	.area IABS    (ABS,DATA)
+                                     67 	.area IABS    (ABS,DATA)
+                                     68 ;--------------------------------------------------------
+                                     69 ; bit data
+                                     70 ;--------------------------------------------------------
+                                     71 	.area BSEG    (BIT)
+                                     72 ;--------------------------------------------------------
+                                     73 ; paged external ram data
+                                     74 ;--------------------------------------------------------
+                                     75 	.area PSEG    (PAG,XDATA)
+                                     76 ;--------------------------------------------------------
+                                     77 ; external ram data
+                                     78 ;--------------------------------------------------------
+                                     79 	.area XSEG    (XDATA)
+      000000                         80 _program_stats::
+      000000                         81 	.ds 10
+      00000A                         82 _buffers_array::
+      00000A                         83 	.ds 300
+      000136                         84 _create_new_buffer_buff_65536_57:
+      000136                         85 	.ds 12
+      000142                         86 _create_initial_buffers_buff_65537_63:
+      000142                         87 	.ds 12
+      00014E                         88 _create_initial_buffers_buff1_65537_63:
+      00014E                         89 	.ds 12
+      00015A                         90 _dump_buff_zero_ascii_j_65536_79:
+      00015A                         91 	.ds 2
+      00015C                         92 _dump_buff_zero_hex_j_131073_87:
+      00015C                         93 	.ds 2
+                                     94 ;--------------------------------------------------------
+                                     95 ; absolute external ram data
+                                     96 ;--------------------------------------------------------
+                                     97 	.area XABS    (ABS,XDATA)
+                                     98 ;--------------------------------------------------------
+                                     99 ; external initialized ram data
+                                    100 ;--------------------------------------------------------
+                                    101 	.area XISEG   (XDATA)
+                                    102 	.area HOME    (CODE)
+                                    103 	.area GSINIT0 (CODE)
+                                    104 	.area GSINIT1 (CODE)
+                                    105 	.area GSINIT2 (CODE)
+                                    106 	.area GSINIT3 (CODE)
+                                    107 	.area GSINIT4 (CODE)
+                                    108 	.area GSINIT5 (CODE)
+                                    109 	.area GSINIT  (CODE)
+                                    110 	.area GSFINAL (CODE)
+                                    111 	.area CSEG    (CODE)
+                                    112 ;--------------------------------------------------------
+                                    113 ; global & static initialisations
+                                    114 ;--------------------------------------------------------
+                                    115 	.area HOME    (CODE)
+                                    116 	.area GSINIT  (CODE)
+                                    117 	.area GSFINAL (CODE)
+                                    118 	.area GSINIT  (CODE)
+                                    119 ;--------------------------------------------------------
+                                    120 ; Home
+                                    121 ;--------------------------------------------------------
+                                    122 	.area HOME    (CODE)
+                                    123 	.area HOME    (CODE)
+                                    124 ;--------------------------------------------------------
+                                    125 ; code
+                                    126 ;--------------------------------------------------------
+                                    127 	.area CSEG    (CODE)
+                                    128 ;------------------------------------------------------------
+                                    129 ;Allocation info for local variables in function 'user_interface_heap'
+                                    130 ;------------------------------------------------------------
+                                    131 ;	buffer.c:45: void user_interface_heap()
+                                    132 ;	-----------------------------------------
+                                    133 ;	 function user_interface_heap
+                                    134 ;	-----------------------------------------
+      000000                        135 _user_interface_heap:
+                           000007   136 	ar7 = 0x07
+                           000006   137 	ar6 = 0x06
+                           000005   138 	ar5 = 0x05
+                           000004   139 	ar4 = 0x04
+                           000003   140 	ar3 = 0x03
+                           000002   141 	ar2 = 0x02
+                           000001   142 	ar1 = 0x01
+                           000000   143 	ar0 = 0x00
+                                    144 ;	buffer.c:47: create_initial_buffers();
+      000000 12r04r90         [24]  145 	lcall	_create_initial_buffers
+                                    146 ;	buffer.c:48: print_all_buffers();
+      000003 12r0ArA3         [24]  147 	lcall	_print_all_buffers
+                                    148 ;	buffer.c:49: buffer_input_loop();
+                                    149 ;	buffer.c:50: }
+      000006 02r06r67         [24]  150 	ljmp	_buffer_input_loop
+                                    151 ;------------------------------------------------------------
+                                    152 ;Allocation info for local variables in function 'at_clear_all_buffers'
+                                    153 ;------------------------------------------------------------
+                                    154 ;i                         Allocated with name '_at_clear_all_buffers_i_131072_48'
+                                    155 ;------------------------------------------------------------
+                                    156 ;	buffer.c:58: void at_clear_all_buffers()
+                                    157 ;	-----------------------------------------
+                                    158 ;	 function at_clear_all_buffers
+                                    159 ;	-----------------------------------------
+      000009                        160 _at_clear_all_buffers:
+                                    161 ;	buffer.c:60: for (int i = 0; i < program_stats.total_buffers; i++)
+      000009 7E 00            [12]  162 	mov	r6,#0x00
+      00000B 7F 00            [12]  163 	mov	r7,#0x00
+      00000D                        164 00103$:
+      00000D 90r00r08         [24]  165 	mov	dptr,#(_program_stats + 0x0008)
+      000010 E0               [24]  166 	movx	a,@dptr
+      000011 FC               [12]  167 	mov	r4,a
+      000012 A3               [24]  168 	inc	dptr
+      000013 E0               [24]  169 	movx	a,@dptr
+      000014 FD               [12]  170 	mov	r5,a
+      000015 C3               [12]  171 	clr	c
+      000016 EE               [12]  172 	mov	a,r6
+      000017 9C               [12]  173 	subb	a,r4
+      000018 EF               [12]  174 	mov	a,r7
+      000019 64 80            [12]  175 	xrl	a,#0x80
+      00001B 8D F0            [24]  176 	mov	b,r5
+      00001D 63 F0 80         [24]  177 	xrl	b,#0x80
+      000020 95 F0            [12]  178 	subb	a,b
+      000022 50 61            [24]  179 	jnc	00101$
+                                    180 ;	buffer.c:62: free(buffers_array[i].buffer_start);
+      000024 90r00r00         [24]  181 	mov	dptr,#__mulint_PARM_2
+      000027 EE               [12]  182 	mov	a,r6
+      000028 F0               [24]  183 	movx	@dptr,a
+      000029 EF               [12]  184 	mov	a,r7
+      00002A A3               [24]  185 	inc	dptr
+      00002B F0               [24]  186 	movx	@dptr,a
+      00002C 90 00 0C         [24]  187 	mov	dptr,#0x000c
+      00002F C0 07            [24]  188 	push	ar7
+      000031 C0 06            [24]  189 	push	ar6
+      000033 12r00r00         [24]  190 	lcall	__mulint
+      000036 AC 82            [24]  191 	mov	r4,dpl
+      000038 AD 83            [24]  192 	mov	r5,dph
+      00003A EC               [12]  193 	mov	a,r4
+      00003B 24r0A            [12]  194 	add	a,#_buffers_array
+      00003D FC               [12]  195 	mov	r4,a
+      00003E ED               [12]  196 	mov	a,r5
+      00003F 34s00            [12]  197 	addc	a,#(_buffers_array >> 8)
+      000041 FD               [12]  198 	mov	r5,a
+      000042 8C 82            [24]  199 	mov	dpl,r4
+      000044 8D 83            [24]  200 	mov	dph,r5
+      000046 A3               [24]  201 	inc	dptr
+      000047 A3               [24]  202 	inc	dptr
+      000048 E0               [24]  203 	movx	a,@dptr
+      000049 FB               [12]  204 	mov	r3,a
+      00004A A3               [24]  205 	inc	dptr
+      00004B E0               [24]  206 	movx	a,@dptr
+      00004C FC               [12]  207 	mov	r4,a
+      00004D A3               [24]  208 	inc	dptr
+      00004E E0               [24]  209 	movx	a,@dptr
+      00004F FD               [12]  210 	mov	r5,a
+      000050 8B 82            [24]  211 	mov	dpl,r3
+      000052 8C 83            [24]  212 	mov	dph,r4
+      000054 8D F0            [24]  213 	mov	b,r5
+      000056 12r00r00         [24]  214 	lcall	_free
+      000059 D0 06            [24]  215 	pop	ar6
+      00005B D0 07            [24]  216 	pop	ar7
+                                    217 ;	buffer.c:63: printf("Buffer %d Freed ....\n\r", i);
+      00005D C0 07            [24]  218 	push	ar7
+      00005F C0 06            [24]  219 	push	ar6
+      000061 C0 06            [24]  220 	push	ar6
+      000063 C0 07            [24]  221 	push	ar7
+      000065 74r00            [12]  222 	mov	a,#___str_0
+      000067 C0 E0            [24]  223 	push	acc
+      000069 74s00            [12]  224 	mov	a,#(___str_0 >> 8)
+      00006B C0 E0            [24]  225 	push	acc
+      00006D 74 80            [12]  226 	mov	a,#0x80
+      00006F C0 E0            [24]  227 	push	acc
+      000071 12r00r00         [24]  228 	lcall	_printf
+      000074 E5 81            [12]  229 	mov	a,sp
+      000076 24 FB            [12]  230 	add	a,#0xfb
+      000078 F5 81            [12]  231 	mov	sp,a
+      00007A D0 06            [24]  232 	pop	ar6
+      00007C D0 07            [24]  233 	pop	ar7
+                                    234 ;	buffer.c:60: for (int i = 0; i < program_stats.total_buffers; i++)
+      00007E 0E               [12]  235 	inc	r6
+      00007F BE 00 8B         [24]  236 	cjne	r6,#0x00,00103$
+      000082 0F               [12]  237 	inc	r7
+      000083 80 88            [24]  238 	sjmp	00103$
+      000085                        239 00101$:
+                                    240 ;	buffer.c:65: printf("Let's begin again..\n\r");
+      000085 74r17            [12]  241 	mov	a,#___str_1
+      000087 C0 E0            [24]  242 	push	acc
+      000089 74s00            [12]  243 	mov	a,#(___str_1 >> 8)
+      00008B C0 E0            [24]  244 	push	acc
+      00008D 74 80            [12]  245 	mov	a,#0x80
+      00008F C0 E0            [24]  246 	push	acc
+      000091 12r00r00         [24]  247 	lcall	_printf
+      000094 15 81            [12]  248 	dec	sp
+      000096 15 81            [12]  249 	dec	sp
+      000098 15 81            [12]  250 	dec	sp
+                                    251 ;	buffer.c:66: user_interface_heap();
+                                    252 ;	buffer.c:67: }
+      00009A 02r00r00         [24]  253 	ljmp	_user_interface_heap
+                                    254 ;------------------------------------------------------------
+                                    255 ;Allocation info for local variables in function 'delete_buffer'
+                                    256 ;------------------------------------------------------------
+                                    257 ;sloc0                     Allocated with name '_delete_buffer_sloc0_1_0'
+                                    258 ;sloc1                     Allocated with name '_delete_buffer_sloc1_1_0'
+                                    259 ;sloc2                     Allocated with name '_delete_buffer_sloc2_1_0'
+                                    260 ;buff_number               Allocated with name '_delete_buffer_buff_number_65536_50'
+                                    261 ;buff_to_free              Allocated with name '_delete_buffer_buff_to_free_65536_50'
+                                    262 ;buffer_freed_size         Allocated with name '_delete_buffer_buffer_freed_size_65536_50'
+                                    263 ;i                         Allocated with name '_delete_buffer_i_196608_52'
+                                    264 ;------------------------------------------------------------
+                                    265 ;	buffer.c:74: int delete_buffer()
+                                    266 ;	-----------------------------------------
+                                    267 ;	 function delete_buffer
+                                    268 ;	-----------------------------------------
+      00009D                        269 _delete_buffer:
+                                    270 ;	buffer.c:79: get_del_num:
+      00009D                        271 00101$:
+                                    272 ;	buffer.c:80: printf("\n\rGive Valid Buffer Number to delete(1-%d) in 3 digits\n\r", (program_stats.total_buffers - 1));
+      00009D 90r00r08         [24]  273 	mov	dptr,#(_program_stats + 0x0008)
+      0000A0 E0               [24]  274 	movx	a,@dptr
+      0000A1 FE               [12]  275 	mov	r6,a
+      0000A2 A3               [24]  276 	inc	dptr
+      0000A3 E0               [24]  277 	movx	a,@dptr
+      0000A4 FF               [12]  278 	mov	r7,a
+      0000A5 1E               [12]  279 	dec	r6
+      0000A6 BE FF 01         [24]  280 	cjne	r6,#0xff,00139$
+      0000A9 1F               [12]  281 	dec	r7
+      0000AA                        282 00139$:
+      0000AA C0 06            [24]  283 	push	ar6
+      0000AC C0 07            [24]  284 	push	ar7
+      0000AE 74r2D            [12]  285 	mov	a,#___str_2
+      0000B0 C0 E0            [24]  286 	push	acc
+      0000B2 74s00            [12]  287 	mov	a,#(___str_2 >> 8)
+      0000B4 C0 E0            [24]  288 	push	acc
+      0000B6 74 80            [12]  289 	mov	a,#0x80
+      0000B8 C0 E0            [24]  290 	push	acc
+      0000BA 12r00r00         [24]  291 	lcall	_printf
+      0000BD E5 81            [12]  292 	mov	a,sp
+      0000BF 24 FB            [12]  293 	add	a,#0xfb
+      0000C1 F5 81            [12]  294 	mov	sp,a
+                                    295 ;	buffer.c:81: buff_number = get_number(3);
+      0000C3 90 00 03         [24]  296 	mov	dptr,#0x0003
+      0000C6 12r00r00         [24]  297 	lcall	_get_number
+      0000C9 AE 82            [24]  298 	mov	r6,dpl
+      0000CB AF 83            [24]  299 	mov	r7,dph
+                                    300 ;	buffer.c:83: if (buff_number > 0 && buff_number < program_stats.total_buffers)
+      0000CD C3               [12]  301 	clr	c
+      0000CE E4               [12]  302 	clr	a
+      0000CF 9E               [12]  303 	subb	a,r6
+      0000D0 74 80            [12]  304 	mov	a,#(0x00 ^ 0x80)
+      0000D2 8F F0            [24]  305 	mov	b,r7
+      0000D4 63 F0 80         [24]  306 	xrl	b,#0x80
+      0000D7 95 F0            [12]  307 	subb	a,b
+      0000D9 50 C2            [24]  308 	jnc	00101$
+      0000DB 90r00r08         [24]  309 	mov	dptr,#(_program_stats + 0x0008)
+      0000DE E0               [24]  310 	movx	a,@dptr
+      0000DF FC               [12]  311 	mov	r4,a
+      0000E0 A3               [24]  312 	inc	dptr
+      0000E1 E0               [24]  313 	movx	a,@dptr
+      0000E2 FD               [12]  314 	mov	r5,a
+      0000E3 C3               [12]  315 	clr	c
+      0000E4 EE               [12]  316 	mov	a,r6
+      0000E5 9C               [12]  317 	subb	a,r4
+      0000E6 EF               [12]  318 	mov	a,r7
+      0000E7 64 80            [12]  319 	xrl	a,#0x80
+      0000E9 8D F0            [24]  320 	mov	b,r5
+      0000EB 63 F0 80         [24]  321 	xrl	b,#0x80
+      0000EE 95 F0            [12]  322 	subb	a,b
+      0000F0 50 AB            [24]  323 	jnc	00101$
+                                    324 ;	buffer.c:87: buff_to_free = buffers_array[buff_number].buffer_start;
+      0000F2 90r00r00         [24]  325 	mov	dptr,#__mulint_PARM_2
+      0000F5 EE               [12]  326 	mov	a,r6
+      0000F6 F0               [24]  327 	movx	@dptr,a
+      0000F7 EF               [12]  328 	mov	a,r7
+      0000F8 A3               [24]  329 	inc	dptr
+      0000F9 F0               [24]  330 	movx	@dptr,a
+      0000FA 90 00 0C         [24]  331 	mov	dptr,#0x000c
+      0000FD C0 07            [24]  332 	push	ar7
+      0000FF C0 06            [24]  333 	push	ar6
+      000101 12r00r00         [24]  334 	lcall	__mulint
+      000104 AC 82            [24]  335 	mov	r4,dpl
+      000106 AD 83            [24]  336 	mov	r5,dph
+      000108 D0 06            [24]  337 	pop	ar6
+      00010A D0 07            [24]  338 	pop	ar7
+      00010C EC               [12]  339 	mov	a,r4
+      00010D 24r0A            [12]  340 	add	a,#_buffers_array
+      00010F FC               [12]  341 	mov	r4,a
+      000110 ED               [12]  342 	mov	a,r5
+      000111 34s00            [12]  343 	addc	a,#(_buffers_array >> 8)
+      000113 FD               [12]  344 	mov	r5,a
+      000114 8C 82            [24]  345 	mov	dpl,r4
+      000116 8D 83            [24]  346 	mov	dph,r5
+      000118 A3               [24]  347 	inc	dptr
+      000119 A3               [24]  348 	inc	dptr
+      00011A E0               [24]  349 	movx	a,@dptr
+      00011B F5*04            [12]  350 	mov	_delete_buffer_sloc2_1_0,a
+      00011D A3               [24]  351 	inc	dptr
+      00011E E0               [24]  352 	movx	a,@dptr
+      00011F F5*05            [12]  353 	mov	(_delete_buffer_sloc2_1_0 + 1),a
+      000121 A3               [24]  354 	inc	dptr
+      000122 E0               [24]  355 	movx	a,@dptr
+      000123 F5*06            [12]  356 	mov	(_delete_buffer_sloc2_1_0 + 2),a
+                                    357 ;	buffer.c:88: buffer_freed_size = buffers_array[buff_number].buff_size;
+      000125 74 08            [12]  358 	mov	a,#0x08
+      000127 2C               [12]  359 	add	a,r4
+      000128 F5 82            [12]  360 	mov	dpl,a
+      00012A E4               [12]  361 	clr	a
+      00012B 3D               [12]  362 	addc	a,r5
+      00012C F5 83            [12]  363 	mov	dph,a
+      00012E E0               [24]  364 	movx	a,@dptr
+      00012F FC               [12]  365 	mov	r4,a
+      000130 A3               [24]  366 	inc	dptr
+      000131 E0               [24]  367 	movx	a,@dptr
+      000132 FD               [12]  368 	mov	r5,a
+                                    369 ;	buffer.c:90: for (int i = 0; i < (program_stats.total_buffers - 1); i++)
+      000133 E4               [12]  370 	clr	a
+      000134 F5*00            [12]  371 	mov	_delete_buffer_sloc0_1_0,a
+      000136 F5*01            [12]  372 	mov	(_delete_buffer_sloc0_1_0 + 1),a
+      000138                        373 00110$:
+      000138 C0 04            [24]  374 	push	ar4
+      00013A C0 05            [24]  375 	push	ar5
+      00013C 90r00r08         [24]  376 	mov	dptr,#(_program_stats + 0x0008)
+      00013F E0               [24]  377 	movx	a,@dptr
+      000140 F5*02            [12]  378 	mov	_delete_buffer_sloc1_1_0,a
+      000142 A3               [24]  379 	inc	dptr
+      000143 E0               [24]  380 	movx	a,@dptr
+      000144 F5*03            [12]  381 	mov	(_delete_buffer_sloc1_1_0 + 1),a
+      000146 E5*02            [12]  382 	mov	a,_delete_buffer_sloc1_1_0
+      000148 24 FF            [12]  383 	add	a,#0xff
+      00014A F8               [12]  384 	mov	r0,a
+      00014B E5*03            [12]  385 	mov	a,(_delete_buffer_sloc1_1_0 + 1)
+      00014D 34 FF            [12]  386 	addc	a,#0xff
+      00014F FD               [12]  387 	mov	r5,a
+      000150 C3               [12]  388 	clr	c
+      000151 E5*00            [12]  389 	mov	a,_delete_buffer_sloc0_1_0
+      000153 98               [12]  390 	subb	a,r0
+      000154 E5*01            [12]  391 	mov	a,(_delete_buffer_sloc0_1_0 + 1)
+      000156 64 80            [12]  392 	xrl	a,#0x80
+      000158 8D F0            [24]  393 	mov	b,r5
+      00015A 63 F0 80         [24]  394 	xrl	b,#0x80
+      00015D 95 F0            [12]  395 	subb	a,b
+      00015F D0 05            [24]  396 	pop	ar5
+      000161 D0 04            [24]  397 	pop	ar4
+      000163 40 03            [24]  398 	jc	00142$
+      000165 02r02r16         [24]  399 	ljmp	00104$
+      000168                        400 00142$:
+                                    401 ;	buffer.c:92: if (i >= buff_number)
+      000168 C3               [12]  402 	clr	c
+      000169 E5*00            [12]  403 	mov	a,_delete_buffer_sloc0_1_0
+      00016B 9E               [12]  404 	subb	a,r6
+      00016C E5*01            [12]  405 	mov	a,(_delete_buffer_sloc0_1_0 + 1)
+      00016E 64 80            [12]  406 	xrl	a,#0x80
+      000170 8F F0            [24]  407 	mov	b,r7
+      000172 63 F0 80         [24]  408 	xrl	b,#0x80
+      000175 95 F0            [12]  409 	subb	a,b
+      000177 50 03            [24]  410 	jnc	00143$
+      000179 02r02r0B         [24]  411 	ljmp	00111$
+      00017C                        412 00143$:
+                                    413 ;	buffer.c:94: buffers_array[i + 1].buffer_num = i;
+      00017C C0 04            [24]  414 	push	ar4
+      00017E C0 05            [24]  415 	push	ar5
+      000180 90r00r00         [24]  416 	mov	dptr,#__mulint_PARM_2
+      000183 74 01            [12]  417 	mov	a,#0x01
+      000185 25*00            [12]  418 	add	a,_delete_buffer_sloc0_1_0
+      000187 F0               [24]  419 	movx	@dptr,a
+      000188 E4               [12]  420 	clr	a
+      000189 35*01            [12]  421 	addc	a,(_delete_buffer_sloc0_1_0 + 1)
+      00018B A3               [24]  422 	inc	dptr
+      00018C F0               [24]  423 	movx	@dptr,a
+      00018D 90 00 0C         [24]  424 	mov	dptr,#0x000c
+      000190 C0 07            [24]  425 	push	ar7
+      000192 C0 06            [24]  426 	push	ar6
+      000194 C0 04            [24]  427 	push	ar4
+      000196 12r00r00         [24]  428 	lcall	__mulint
+      000199 A8 82            [24]  429 	mov	r0,dpl
+      00019B AD 83            [24]  430 	mov	r5,dph
+      00019D D0 04            [24]  431 	pop	ar4
+      00019F E8               [12]  432 	mov	a,r0
+      0001A0 24r0A            [12]  433 	add	a,#_buffers_array
+      0001A2 F5 82            [12]  434 	mov	dpl,a
+      0001A4 ED               [12]  435 	mov	a,r5
+      0001A5 34s00            [12]  436 	addc	a,#(_buffers_array >> 8)
+      0001A7 F5 83            [12]  437 	mov	dph,a
+      0001A9 E5*00            [12]  438 	mov	a,_delete_buffer_sloc0_1_0
+      0001AB F0               [24]  439 	movx	@dptr,a
+      0001AC E5*01            [12]  440 	mov	a,(_delete_buffer_sloc0_1_0 + 1)
+      0001AE A3               [24]  441 	inc	dptr
+      0001AF F0               [24]  442 	movx	@dptr,a
+                                    443 ;	buffer.c:95: buffers_array[i] = buffers_array[i + 1];
+      0001B0 90r00r00         [24]  444 	mov	dptr,#__mulint_PARM_2
+      0001B3 E5*00            [12]  445 	mov	a,_delete_buffer_sloc0_1_0
+      0001B5 F0               [24]  446 	movx	@dptr,a
+      0001B6 E5*01            [12]  447 	mov	a,(_delete_buffer_sloc0_1_0 + 1)
+      0001B8 A3               [24]  448 	inc	dptr
+      0001B9 F0               [24]  449 	movx	@dptr,a
+      0001BA 90 00 0C         [24]  450 	mov	dptr,#0x000c
+      0001BD C0 05            [24]  451 	push	ar5
+      0001BF C0 00            [24]  452 	push	ar0
+      0001C1 12r00r00         [24]  453 	lcall	__mulint
+      0001C4 AB 82            [24]  454 	mov	r3,dpl
+      0001C6 AC 83            [24]  455 	mov	r4,dph
+      0001C8 D0 00            [24]  456 	pop	ar0
+      0001CA D0 05            [24]  457 	pop	ar5
+      0001CC EB               [12]  458 	mov	a,r3
+      0001CD 24r0A            [12]  459 	add	a,#_buffers_array
+      0001CF FB               [12]  460 	mov	r3,a
+      0001D0 EC               [12]  461 	mov	a,r4
+      0001D1 34s00            [12]  462 	addc	a,#(_buffers_array >> 8)
+      0001D3 FC               [12]  463 	mov	r4,a
+      0001D4 7A 00            [12]  464 	mov	r2,#0x00
+      0001D6 E8               [12]  465 	mov	a,r0
+      0001D7 24r0A            [12]  466 	add	a,#_buffers_array
+      0001D9 F8               [12]  467 	mov	r0,a
+      0001DA ED               [12]  468 	mov	a,r5
+      0001DB 34s00            [12]  469 	addc	a,#(_buffers_array >> 8)
+      0001DD FD               [12]  470 	mov	r5,a
+      0001DE 90r00r00         [24]  471 	mov	dptr,#___memcpy_PARM_2
+      0001E1 E8               [12]  472 	mov	a,r0
+      0001E2 F0               [24]  473 	movx	@dptr,a
+      0001E3 ED               [12]  474 	mov	a,r5
+      0001E4 A3               [24]  475 	inc	dptr
+      0001E5 F0               [24]  476 	movx	@dptr,a
+      0001E6 E4               [12]  477 	clr	a
+      0001E7 A3               [24]  478 	inc	dptr
+      0001E8 F0               [24]  479 	movx	@dptr,a
+      0001E9 90r00r00         [24]  480 	mov	dptr,#___memcpy_PARM_3
+      0001EC 74 0C            [12]  481 	mov	a,#0x0c
+      0001EE F0               [24]  482 	movx	@dptr,a
+      0001EF E4               [12]  483 	clr	a
+      0001F0 A3               [24]  484 	inc	dptr
+      0001F1 F0               [24]  485 	movx	@dptr,a
+      0001F2 8B 82            [24]  486 	mov	dpl,r3
+      0001F4 8C 83            [24]  487 	mov	dph,r4
+      0001F6 8A F0            [24]  488 	mov	b,r2
+      0001F8 C0 05            [24]  489 	push	ar5
+      0001FA C0 04            [24]  490 	push	ar4
+      0001FC 12r00r00         [24]  491 	lcall	___memcpy
+      0001FF D0 04            [24]  492 	pop	ar4
+      000201 D0 05            [24]  493 	pop	ar5
+      000203 D0 06            [24]  494 	pop	ar6
+      000205 D0 07            [24]  495 	pop	ar7
+                                    496 ;	buffer.c:108: goto get_del_num;
+      000207 D0 05            [24]  497 	pop	ar5
+      000209 D0 04            [24]  498 	pop	ar4
+                                    499 ;	buffer.c:95: buffers_array[i] = buffers_array[i + 1];
+      00020B                        500 00111$:
+                                    501 ;	buffer.c:90: for (int i = 0; i < (program_stats.total_buffers - 1); i++)
+      00020B 05*00            [12]  502 	inc	_delete_buffer_sloc0_1_0
+      00020D E4               [12]  503 	clr	a
+      00020E B5*00 02         [24]  504 	cjne	a,_delete_buffer_sloc0_1_0,00144$
+      000211 05*01            [12]  505 	inc	(_delete_buffer_sloc0_1_0 + 1)
+      000213                        506 00144$:
+      000213 02r01r38         [24]  507 	ljmp	00110$
+      000216                        508 00104$:
+                                    509 ;	buffer.c:99: program_stats.total_buffers -= 1;
+      000216 E5*02            [12]  510 	mov	a,_delete_buffer_sloc1_1_0
+      000218 24 FF            [12]  511 	add	a,#0xff
+      00021A FA               [12]  512 	mov	r2,a
+      00021B E5*03            [12]  513 	mov	a,(_delete_buffer_sloc1_1_0 + 1)
+      00021D 34 FF            [12]  514 	addc	a,#0xff
+      00021F FB               [12]  515 	mov	r3,a
+      000220 90r00r08         [24]  516 	mov	dptr,#(_program_stats + 0x0008)
+      000223 EA               [12]  517 	mov	a,r2
+      000224 F0               [24]  518 	movx	@dptr,a
+      000225 EB               [12]  519 	mov	a,r3
+      000226 A3               [24]  520 	inc	dptr
+      000227 F0               [24]  521 	movx	@dptr,a
+                                    522 ;	buffer.c:100: program_stats.allocated_heap -= buffer_freed_size;
+      000228 90r00r02         [24]  523 	mov	dptr,#(_program_stats + 0x0002)
+      00022B E0               [24]  524 	movx	a,@dptr
+      00022C FA               [12]  525 	mov	r2,a
+      00022D A3               [24]  526 	inc	dptr
+      00022E E0               [24]  527 	movx	a,@dptr
+      00022F FB               [12]  528 	mov	r3,a
+      000230 EA               [12]  529 	mov	a,r2
+      000231 C3               [12]  530 	clr	c
+      000232 9C               [12]  531 	subb	a,r4
+      000233 FC               [12]  532 	mov	r4,a
+      000234 EB               [12]  533 	mov	a,r3
+      000235 9D               [12]  534 	subb	a,r5
+      000236 FD               [12]  535 	mov	r5,a
+      000237 90r00r02         [24]  536 	mov	dptr,#(_program_stats + 0x0002)
+      00023A EC               [12]  537 	mov	a,r4
+      00023B F0               [24]  538 	movx	@dptr,a
+      00023C ED               [12]  539 	mov	a,r5
+      00023D A3               [24]  540 	inc	dptr
+      00023E F0               [24]  541 	movx	@dptr,a
+                                    542 ;	buffer.c:102: free(buff_to_free);
+      00023F AB*04            [24]  543 	mov	r3,_delete_buffer_sloc2_1_0
+      000241 AC*05            [24]  544 	mov	r4,(_delete_buffer_sloc2_1_0 + 1)
+      000243 AD*06            [24]  545 	mov	r5,(_delete_buffer_sloc2_1_0 + 2)
+      000245 8B 82            [24]  546 	mov	dpl,r3
+      000247 8C 83            [24]  547 	mov	dph,r4
+      000249 8D F0            [24]  548 	mov	b,r5
+      00024B C0 07            [24]  549 	push	ar7
+      00024D C0 06            [24]  550 	push	ar6
+      00024F 12r00r00         [24]  551 	lcall	_free
+      000252 D0 06            [24]  552 	pop	ar6
+      000254 D0 07            [24]  553 	pop	ar7
+                                    554 ;	buffer.c:103: printf("Buffer %d Successfully Deleted.. \n\r", buff_number);
+      000256 C0 06            [24]  555 	push	ar6
+      000258 C0 07            [24]  556 	push	ar7
+      00025A 74r66            [12]  557 	mov	a,#___str_3
+      00025C C0 E0            [24]  558 	push	acc
+      00025E 74s00            [12]  559 	mov	a,#(___str_3 >> 8)
+      000260 C0 E0            [24]  560 	push	acc
+      000262 74 80            [12]  561 	mov	a,#0x80
+      000264 C0 E0            [24]  562 	push	acc
+      000266 12r00r00         [24]  563 	lcall	_printf
+      000269 E5 81            [12]  564 	mov	a,sp
+      00026B 24 FB            [12]  565 	add	a,#0xfb
+      00026D F5 81            [12]  566 	mov	sp,a
+                                    567 ;	buffer.c:104: return 0;
+      00026F 90 00 00         [24]  568 	mov	dptr,#0x0000
+                                    569 ;	buffer.c:108: goto get_del_num;
+                                    570 ;	buffer.c:110: }
+      000272 22               [24]  571 	ret
+                                    572 ;------------------------------------------------------------
+                                    573 ;Allocation info for local variables in function 'print_heap_menu'
+                                    574 ;------------------------------------------------------------
+                                    575 ;	buffer.c:117: void print_heap_menu()
+                                    576 ;	-----------------------------------------
+                                    577 ;	 function print_heap_menu
+                                    578 ;	-----------------------------------------
+      000273                        579 _print_heap_menu:
+                                    580 ;	buffer.c:119: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-HEAP-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+      000273 74r8A            [12]  581 	mov	a,#___str_4
+      000275 C0 E0            [24]  582 	push	acc
+      000277 74s00            [12]  583 	mov	a,#(___str_4 >> 8)
+      000279 C0 E0            [24]  584 	push	acc
+      00027B 74 80            [12]  585 	mov	a,#0x80
+      00027D C0 E0            [24]  586 	push	acc
+      00027F 12r00r00         [24]  587 	lcall	_printf
+      000282 15 81            [12]  588 	dec	sp
+      000284 15 81            [12]  589 	dec	sp
+      000286 15 81            [12]  590 	dec	sp
+                                    591 ;	buffer.c:120: printf("You can enter characters or use commands from below \n\r");
+      000288 74rCA            [12]  592 	mov	a,#___str_5
+      00028A C0 E0            [24]  593 	push	acc
+      00028C 74s00            [12]  594 	mov	a,#(___str_5 >> 8)
+      00028E C0 E0            [24]  595 	push	acc
+      000290 74 80            [12]  596 	mov	a,#0x80
+      000292 C0 E0            [24]  597 	push	acc
+      000294 12r00r00         [24]  598 	lcall	_printf
+      000297 15 81            [12]  599 	dec	sp
+      000299 15 81            [12]  600 	dec	sp
+      00029B 15 81            [12]  601 	dec	sp
+                                    602 ;	buffer.c:121: printf("'?' -> Show heap status, dump & clear Buffer 0 \n\r");
+      00029D 74r01            [12]  603 	mov	a,#___str_6
+      00029F C0 E0            [24]  604 	push	acc
+      0002A1 74s01            [12]  605 	mov	a,#(___str_6 >> 8)
+      0002A3 C0 E0            [24]  606 	push	acc
+      0002A5 74 80            [12]  607 	mov	a,#0x80
+      0002A7 C0 E0            [24]  608 	push	acc
+      0002A9 12r00r00         [24]  609 	lcall	_printf
+      0002AC 15 81            [12]  610 	dec	sp
+      0002AE 15 81            [12]  611 	dec	sp
+      0002B0 15 81            [12]  612 	dec	sp
+                                    613 ;	buffer.c:122: printf("'+' -> Add a new Buffer\n\r");
+      0002B2 74r33            [12]  614 	mov	a,#___str_7
+      0002B4 C0 E0            [24]  615 	push	acc
+      0002B6 74s01            [12]  616 	mov	a,#(___str_7 >> 8)
+      0002B8 C0 E0            [24]  617 	push	acc
+      0002BA 74 80            [12]  618 	mov	a,#0x80
+      0002BC C0 E0            [24]  619 	push	acc
+      0002BE 12r00r00         [24]  620 	lcall	_printf
+      0002C1 15 81            [12]  621 	dec	sp
+      0002C3 15 81            [12]  622 	dec	sp
+      0002C5 15 81            [12]  623 	dec	sp
+                                    624 ;	buffer.c:123: printf("'-' -> Delete existing Buffer\n\r");
+      0002C7 74r4D            [12]  625 	mov	a,#___str_8
+      0002C9 C0 E0            [24]  626 	push	acc
+      0002CB 74s01            [12]  627 	mov	a,#(___str_8 >> 8)
+      0002CD C0 E0            [24]  628 	push	acc
+      0002CF 74 80            [12]  629 	mov	a,#0x80
+      0002D1 C0 E0            [24]  630 	push	acc
+      0002D3 12r00r00         [24]  631 	lcall	_printf
+      0002D6 15 81            [12]  632 	dec	sp
+      0002D8 15 81            [12]  633 	dec	sp
+      0002DA 15 81            [12]  634 	dec	sp
+                                    635 ;	buffer.c:124: printf("'=' -> Dump Buffer 0 in hex\n\r");
+      0002DC 74r6D            [12]  636 	mov	a,#___str_9
+      0002DE C0 E0            [24]  637 	push	acc
+      0002E0 74s01            [12]  638 	mov	a,#(___str_9 >> 8)
+      0002E2 C0 E0            [24]  639 	push	acc
+      0002E4 74 80            [12]  640 	mov	a,#0x80
+      0002E6 C0 E0            [24]  641 	push	acc
+      0002E8 12r00r00         [24]  642 	lcall	_printf
+      0002EB 15 81            [12]  643 	dec	sp
+      0002ED 15 81            [12]  644 	dec	sp
+      0002EF 15 81            [12]  645 	dec	sp
+                                    646 ;	buffer.c:125: printf("'@' -> Free all Heap & begin again\n\n\r");
+      0002F1 74r8B            [12]  647 	mov	a,#___str_10
+      0002F3 C0 E0            [24]  648 	push	acc
+      0002F5 74s01            [12]  649 	mov	a,#(___str_10 >> 8)
+      0002F7 C0 E0            [24]  650 	push	acc
+      0002F9 74 80            [12]  651 	mov	a,#0x80
+      0002FB C0 E0            [24]  652 	push	acc
+      0002FD 12r00r00         [24]  653 	lcall	_printf
+      000300 15 81            [12]  654 	dec	sp
+      000302 15 81            [12]  655 	dec	sp
+      000304 15 81            [12]  656 	dec	sp
+                                    657 ;	buffer.c:126: printf("'M' -> Go to Main Menu \n\n\r");
+      000306 74rB1            [12]  658 	mov	a,#___str_11
+      000308 C0 E0            [24]  659 	push	acc
+      00030A 74s01            [12]  660 	mov	a,#(___str_11 >> 8)
+      00030C C0 E0            [24]  661 	push	acc
+      00030E 74 80            [12]  662 	mov	a,#0x80
+      000310 C0 E0            [24]  663 	push	acc
+      000312 12r00r00         [24]  664 	lcall	_printf
+      000315 15 81            [12]  665 	dec	sp
+      000317 15 81            [12]  666 	dec	sp
+      000319 15 81            [12]  667 	dec	sp
+                                    668 ;	buffer.c:127: }
+      00031B 22               [24]  669 	ret
+                                    670 ;------------------------------------------------------------
+                                    671 ;Allocation info for local variables in function 'create_new_buffer'
+                                    672 ;------------------------------------------------------------
+                                    673 ;buff_size                 Allocated with name '_create_new_buffer_buff_size_65536_57'
+                                    674 ;buff                      Allocated with name '_create_new_buffer_buff_65536_57'
+                                    675 ;------------------------------------------------------------
+                                    676 ;	buffer.c:135: int create_new_buffer()
+                                    677 ;	-----------------------------------------
+                                    678 ;	 function create_new_buffer
+                                    679 ;	-----------------------------------------
+      00031C                        680 _create_new_buffer:
+                                    681 ;	buffer.c:139: if (program_stats.allocated_heap == program_stats.total_heap_size)
+      00031C 90r00r02         [24]  682 	mov	dptr,#(_program_stats + 0x0002)
+      00031F E0               [24]  683 	movx	a,@dptr
+      000320 FE               [12]  684 	mov	r6,a
+      000321 A3               [24]  685 	inc	dptr
+      000322 E0               [24]  686 	movx	a,@dptr
+      000323 FF               [12]  687 	mov	r7,a
+      000324 90r00r00         [24]  688 	mov	dptr,#_program_stats
+      000327 E0               [24]  689 	movx	a,@dptr
+      000328 FC               [12]  690 	mov	r4,a
+      000329 A3               [24]  691 	inc	dptr
+      00032A E0               [24]  692 	movx	a,@dptr
+      00032B FD               [12]  693 	mov	r5,a
+      00032C EE               [12]  694 	mov	a,r6
+      00032D B5 04 07         [24]  695 	cjne	a,ar4,00133$
+      000330 EF               [12]  696 	mov	a,r7
+      000331 B5 05 03         [24]  697 	cjne	a,ar5,00133$
+      000334 02r04r77         [24]  698 	ljmp	00111$
+      000337                        699 00133$:
+                                    700 ;	buffer.c:142: get_new_buff:
+      000337                        701 00103$:
+                                    702 ;	buffer.c:143: printf("\n\rGive Valid Buffer Size(030-300):");
+      000337 74rCC            [12]  703 	mov	a,#___str_12
+      000339 C0 E0            [24]  704 	push	acc
+      00033B 74s01            [12]  705 	mov	a,#(___str_12 >> 8)
+      00033D C0 E0            [24]  706 	push	acc
+      00033F 74 80            [12]  707 	mov	a,#0x80
+      000341 C0 E0            [24]  708 	push	acc
+      000343 12r00r00         [24]  709 	lcall	_printf
+      000346 15 81            [12]  710 	dec	sp
+      000348 15 81            [12]  711 	dec	sp
+      00034A 15 81            [12]  712 	dec	sp
+                                    713 ;	buffer.c:144: buff_size = get_number(3);
+      00034C 90 00 03         [24]  714 	mov	dptr,#0x0003
+      00034F 12r00r00         [24]  715 	lcall	_get_number
+      000352 AE 82            [24]  716 	mov	r6,dpl
+      000354 AF 83            [24]  717 	mov	r7,dph
+                                    718 ;	buffer.c:145: if (buff_size >= 30 && buff_size <= 300)
+      000356 C3               [12]  719 	clr	c
+      000357 EE               [12]  720 	mov	a,r6
+      000358 94 1E            [12]  721 	subb	a,#0x1e
+      00035A EF               [12]  722 	mov	a,r7
+      00035B 64 80            [12]  723 	xrl	a,#0x80
+      00035D 94 80            [12]  724 	subb	a,#0x80
+      00035F 40 D6            [24]  725 	jc	00103$
+      000361 74 2C            [12]  726 	mov	a,#0x2c
+      000363 9E               [12]  727 	subb	a,r6
+      000364 74 81            [12]  728 	mov	a,#(0x01 ^ 0x80)
+      000366 8F F0            [24]  729 	mov	b,r7
+      000368 63 F0 80         [24]  730 	xrl	b,#0x80
+      00036B 95 F0            [12]  731 	subb	a,b
+      00036D 40 C8            [24]  732 	jc	00103$
+                                    733 ;	buffer.c:147: buff.buffer_start = malloc(buff_size);
+      00036F 8E 82            [24]  734 	mov	dpl,r6
+      000371 8F 83            [24]  735 	mov	dph,r7
+      000373 C0 07            [24]  736 	push	ar7
+      000375 C0 06            [24]  737 	push	ar6
+      000377 12r00r00         [24]  738 	lcall	_malloc
+      00037A AC 82            [24]  739 	mov	r4,dpl
+      00037C AD 83            [24]  740 	mov	r5,dph
+      00037E D0 06            [24]  741 	pop	ar6
+      000380 D0 07            [24]  742 	pop	ar7
+      000382 7B 00            [12]  743 	mov	r3,#0x00
+      000384 90r01r38         [24]  744 	mov	dptr,#(_create_new_buffer_buff_65536_57 + 0x0002)
+      000387 EC               [12]  745 	mov	a,r4
+      000388 F0               [24]  746 	movx	@dptr,a
+      000389 ED               [12]  747 	mov	a,r5
+      00038A A3               [24]  748 	inc	dptr
+      00038B F0               [24]  749 	movx	@dptr,a
+      00038C EB               [12]  750 	mov	a,r3
+      00038D A3               [24]  751 	inc	dptr
+      00038E F0               [24]  752 	movx	@dptr,a
+                                    753 ;	buffer.c:148: if (buff.buffer_start == NULL)
+      00038F EC               [12]  754 	mov	a,r4
+      000390 4D               [12]  755 	orl	a,r5
+      000391 70 18            [24]  756 	jnz	00105$
+                                    757 ;	buffer.c:150: printf("Failed, give smaller buffer\n\r");
+      000393 74rEF            [12]  758 	mov	a,#___str_13
+      000395 C0 E0            [24]  759 	push	acc
+      000397 74s01            [12]  760 	mov	a,#(___str_13 >> 8)
+      000399 C0 E0            [24]  761 	push	acc
+      00039B 74 80            [12]  762 	mov	a,#0x80
+      00039D C0 E0            [24]  763 	push	acc
+      00039F 12r00r00         [24]  764 	lcall	_printf
+      0003A2 15 81            [12]  765 	dec	sp
+      0003A4 15 81            [12]  766 	dec	sp
+      0003A6 15 81            [12]  767 	dec	sp
+      0003A8 02r04r73         [24]  768 	ljmp	00106$
+      0003AB                        769 00105$:
+                                    770 ;	buffer.c:154: printf("\n\n\r####SUCCESS, BUFFER Created####\n\n\r");
+      0003AB C0 07            [24]  771 	push	ar7
+      0003AD C0 06            [24]  772 	push	ar6
+      0003AF 74r0D            [12]  773 	mov	a,#___str_14
+      0003B1 C0 E0            [24]  774 	push	acc
+      0003B3 74s02            [12]  775 	mov	a,#(___str_14 >> 8)
+      0003B5 C0 E0            [24]  776 	push	acc
+      0003B7 74 80            [12]  777 	mov	a,#0x80
+      0003B9 C0 E0            [24]  778 	push	acc
+      0003BB 12r00r00         [24]  779 	lcall	_printf
+      0003BE 15 81            [12]  780 	dec	sp
+      0003C0 15 81            [12]  781 	dec	sp
+      0003C2 15 81            [12]  782 	dec	sp
+      0003C4 D0 06            [24]  783 	pop	ar6
+      0003C6 D0 07            [24]  784 	pop	ar7
+                                    785 ;	buffer.c:156: program_stats.allocated_heap += buff_size;
+      0003C8 90r00r02         [24]  786 	mov	dptr,#(_program_stats + 0x0002)
+      0003CB E0               [24]  787 	movx	a,@dptr
+      0003CC FC               [12]  788 	mov	r4,a
+      0003CD A3               [24]  789 	inc	dptr
+      0003CE E0               [24]  790 	movx	a,@dptr
+      0003CF FD               [12]  791 	mov	r5,a
+      0003D0 EE               [12]  792 	mov	a,r6
+      0003D1 2C               [12]  793 	add	a,r4
+      0003D2 FC               [12]  794 	mov	r4,a
+      0003D3 EF               [12]  795 	mov	a,r7
+      0003D4 3D               [12]  796 	addc	a,r5
+      0003D5 FD               [12]  797 	mov	r5,a
+      0003D6 90r00r02         [24]  798 	mov	dptr,#(_program_stats + 0x0002)
+      0003D9 EC               [12]  799 	mov	a,r4
+      0003DA F0               [24]  800 	movx	@dptr,a
+      0003DB ED               [12]  801 	mov	a,r5
+      0003DC A3               [24]  802 	inc	dptr
+      0003DD F0               [24]  803 	movx	@dptr,a
+                                    804 ;	buffer.c:157: buff.buff_size = buff_size;
+      0003DE 90r01r3E         [24]  805 	mov	dptr,#(_create_new_buffer_buff_65536_57 + 0x0008)
+      0003E1 EE               [12]  806 	mov	a,r6
+      0003E2 F0               [24]  807 	movx	@dptr,a
+      0003E3 EF               [12]  808 	mov	a,r7
+      0003E4 A3               [24]  809 	inc	dptr
+      0003E5 F0               [24]  810 	movx	@dptr,a
+                                    811 ;	buffer.c:158: buff.buffer_num = program_stats.total_buffers;
+      0003E6 90r00r08         [24]  812 	mov	dptr,#(_program_stats + 0x0008)
+      0003E9 E0               [24]  813 	movx	a,@dptr
+      0003EA FC               [12]  814 	mov	r4,a
+      0003EB A3               [24]  815 	inc	dptr
+      0003EC E0               [24]  816 	movx	a,@dptr
+      0003ED FD               [12]  817 	mov	r5,a
+      0003EE 90r01r36         [24]  818 	mov	dptr,#_create_new_buffer_buff_65536_57
+      0003F1 EC               [12]  819 	mov	a,r4
+      0003F2 F0               [24]  820 	movx	@dptr,a
+      0003F3 ED               [12]  821 	mov	a,r5
+      0003F4 A3               [24]  822 	inc	dptr
+      0003F5 F0               [24]  823 	movx	@dptr,a
+                                    824 ;	buffer.c:159: buff.buffer_end = buff.buffer_start + buff_size;
+      0003F6 90r01r38         [24]  825 	mov	dptr,#(_create_new_buffer_buff_65536_57 + 0x0002)
+      0003F9 E0               [24]  826 	movx	a,@dptr
+      0003FA FB               [12]  827 	mov	r3,a
+      0003FB A3               [24]  828 	inc	dptr
+      0003FC E0               [24]  829 	movx	a,@dptr
+      0003FD FC               [12]  830 	mov	r4,a
+      0003FE A3               [24]  831 	inc	dptr
+      0003FF E0               [24]  832 	movx	a,@dptr
+      000400 FD               [12]  833 	mov	r5,a
+      000401 EE               [12]  834 	mov	a,r6
+      000402 2B               [12]  835 	add	a,r3
+      000403 FE               [12]  836 	mov	r6,a
+      000404 EF               [12]  837 	mov	a,r7
+      000405 3C               [12]  838 	addc	a,r4
+      000406 FF               [12]  839 	mov	r7,a
+      000407 8D 02            [24]  840 	mov	ar2,r5
+      000409 90r01r3B         [24]  841 	mov	dptr,#(_create_new_buffer_buff_65536_57 + 0x0005)
+      00040C EE               [12]  842 	mov	a,r6
+      00040D F0               [24]  843 	movx	@dptr,a
+      00040E EF               [12]  844 	mov	a,r7
+      00040F A3               [24]  845 	inc	dptr
+      000410 F0               [24]  846 	movx	@dptr,a
+      000411 EA               [12]  847 	mov	a,r2
+      000412 A3               [24]  848 	inc	dptr
+      000413 F0               [24]  849 	movx	@dptr,a
+                                    850 ;	buffer.c:160: buff.num_char = 0;
+      000414 90r01r40         [24]  851 	mov	dptr,#(_create_new_buffer_buff_65536_57 + 0x000a)
+      000417 E4               [12]  852 	clr	a
+      000418 F0               [24]  853 	movx	@dptr,a
+      000419 A3               [24]  854 	inc	dptr
+      00041A F0               [24]  855 	movx	@dptr,a
+                                    856 ;	buffer.c:162: buffers_array[program_stats.total_buffers] = buff;
+      00041B 90r00r08         [24]  857 	mov	dptr,#(_program_stats + 0x0008)
+      00041E E0               [24]  858 	movx	a,@dptr
+      00041F FE               [12]  859 	mov	r6,a
+      000420 A3               [24]  860 	inc	dptr
+      000421 E0               [24]  861 	movx	a,@dptr
+      000422 FF               [12]  862 	mov	r7,a
+      000423 90r00r00         [24]  863 	mov	dptr,#__mulint_PARM_2
+      000426 EE               [12]  864 	mov	a,r6
+      000427 F0               [24]  865 	movx	@dptr,a
+      000428 EF               [12]  866 	mov	a,r7
+      000429 A3               [24]  867 	inc	dptr
+      00042A F0               [24]  868 	movx	@dptr,a
+      00042B 90 00 0C         [24]  869 	mov	dptr,#0x000c
+      00042E 12r00r00         [24]  870 	lcall	__mulint
+      000431 AE 82            [24]  871 	mov	r6,dpl
+      000433 AF 83            [24]  872 	mov	r7,dph
+      000435 EE               [12]  873 	mov	a,r6
+      000436 24r0A            [12]  874 	add	a,#_buffers_array
+      000438 FE               [12]  875 	mov	r6,a
+      000439 EF               [12]  876 	mov	a,r7
+      00043A 34s00            [12]  877 	addc	a,#(_buffers_array >> 8)
+      00043C FF               [12]  878 	mov	r7,a
+      00043D 7D 00            [12]  879 	mov	r5,#0x00
+      00043F 90r00r00         [24]  880 	mov	dptr,#___memcpy_PARM_2
+      000442 74r36            [12]  881 	mov	a,#_create_new_buffer_buff_65536_57
+      000444 F0               [24]  882 	movx	@dptr,a
+      000445 74s01            [12]  883 	mov	a,#(_create_new_buffer_buff_65536_57 >> 8)
+      000447 A3               [24]  884 	inc	dptr
+      000448 F0               [24]  885 	movx	@dptr,a
+      000449 E4               [12]  886 	clr	a
+      00044A A3               [24]  887 	inc	dptr
+      00044B F0               [24]  888 	movx	@dptr,a
+      00044C 90r00r00         [24]  889 	mov	dptr,#___memcpy_PARM_3
+      00044F 74 0C            [12]  890 	mov	a,#0x0c
+      000451 F0               [24]  891 	movx	@dptr,a
+      000452 E4               [12]  892 	clr	a
+      000453 A3               [24]  893 	inc	dptr
+      000454 F0               [24]  894 	movx	@dptr,a
+      000455 8E 82            [24]  895 	mov	dpl,r6
+      000457 8F 83            [24]  896 	mov	dph,r7
+      000459 8D F0            [24]  897 	mov	b,r5
+      00045B 12r00r00         [24]  898 	lcall	___memcpy
+                                    899 ;	buffer.c:163: program_stats.total_buffers += 1;
+      00045E 90r00r08         [24]  900 	mov	dptr,#(_program_stats + 0x0008)
+      000461 E0               [24]  901 	movx	a,@dptr
+      000462 FE               [12]  902 	mov	r6,a
+      000463 A3               [24]  903 	inc	dptr
+      000464 E0               [24]  904 	movx	a,@dptr
+      000465 FF               [12]  905 	mov	r7,a
+      000466 0E               [12]  906 	inc	r6
+      000467 BE 00 01         [24]  907 	cjne	r6,#0x00,00137$
+      00046A 0F               [12]  908 	inc	r7
+      00046B                        909 00137$:
+      00046B 90r00r08         [24]  910 	mov	dptr,#(_program_stats + 0x0008)
+      00046E EE               [12]  911 	mov	a,r6
+      00046F F0               [24]  912 	movx	@dptr,a
+      000470 EF               [12]  913 	mov	a,r7
+      000471 A3               [24]  914 	inc	dptr
+      000472 F0               [24]  915 	movx	@dptr,a
+      000473                        916 00106$:
+                                    917 ;	buffer.c:165: return 0;
+      000473 90 00 00         [24]  918 	mov	dptr,#0x0000
+                                    919 ;	buffer.c:171: no_heap_left:
+      000476 22               [24]  920 	ret
+      000477                        921 00111$:
+                                    922 ;	buffer.c:172: printf("No Heap Memory Left, Delete some buffers...\n\r");
+      000477 74r33            [12]  923 	mov	a,#___str_15
+      000479 C0 E0            [24]  924 	push	acc
+      00047B 74s02            [12]  925 	mov	a,#(___str_15 >> 8)
+      00047D C0 E0            [24]  926 	push	acc
+      00047F 74 80            [12]  927 	mov	a,#0x80
+      000481 C0 E0            [24]  928 	push	acc
+      000483 12r00r00         [24]  929 	lcall	_printf
+      000486 15 81            [12]  930 	dec	sp
+      000488 15 81            [12]  931 	dec	sp
+      00048A 15 81            [12]  932 	dec	sp
+                                    933 ;	buffer.c:173: return 0;
+      00048C 90 00 00         [24]  934 	mov	dptr,#0x0000
+                                    935 ;	buffer.c:174: }
+      00048F 22               [24]  936 	ret
+                                    937 ;------------------------------------------------------------
+                                    938 ;Allocation info for local variables in function 'create_initial_buffers'
+                                    939 ;------------------------------------------------------------
+                                    940 ;buff_size                 Allocated with name '_create_initial_buffers_buff_size_65536_62'
+                                    941 ;buff                      Allocated with name '_create_initial_buffers_buff_65537_63'
+                                    942 ;buff1                     Allocated with name '_create_initial_buffers_buff1_65537_63'
+                                    943 ;------------------------------------------------------------
+                                    944 ;	buffer.c:182: void create_initial_buffers()
+                                    945 ;	-----------------------------------------
+                                    946 ;	 function create_initial_buffers
+                                    947 ;	-----------------------------------------
+      000490                        948 _create_initial_buffers:
+                                    949 ;	buffer.c:186: get_buff:
+      000490                        950 00101$:
+                                    951 ;	buffer.c:187: printf("\n\rGive Valid Initial Buffer Size(0048-4800):");
+      000490 74r61            [12]  952 	mov	a,#___str_16
+      000492 C0 E0            [24]  953 	push	acc
+      000494 74s02            [12]  954 	mov	a,#(___str_16 >> 8)
+      000496 C0 E0            [24]  955 	push	acc
+      000498 74 80            [12]  956 	mov	a,#0x80
+      00049A C0 E0            [24]  957 	push	acc
+      00049C 12r00r00         [24]  958 	lcall	_printf
+      00049F 15 81            [12]  959 	dec	sp
+      0004A1 15 81            [12]  960 	dec	sp
+      0004A3 15 81            [12]  961 	dec	sp
+                                    962 ;	buffer.c:188: buff_size = get_number(4);
+      0004A5 90 00 04         [24]  963 	mov	dptr,#0x0004
+      0004A8 12r00r00         [24]  964 	lcall	_get_number
+      0004AB AE 82            [24]  965 	mov	r6,dpl
+      0004AD AF 83            [24]  966 	mov	r7,dph
+                                    967 ;	buffer.c:192: if (buff_size >= 48 && buff_size <= 4800)
+      0004AF C3               [12]  968 	clr	c
+      0004B0 EE               [12]  969 	mov	a,r6
+      0004B1 94 30            [12]  970 	subb	a,#0x30
+      0004B3 EF               [12]  971 	mov	a,r7
+      0004B4 64 80            [12]  972 	xrl	a,#0x80
+      0004B6 94 80            [12]  973 	subb	a,#0x80
+      0004B8 40 D6            [24]  974 	jc	00101$
+      0004BA 74 C0            [12]  975 	mov	a,#0xc0
+      0004BC 9E               [12]  976 	subb	a,r6
+      0004BD 74 92            [12]  977 	mov	a,#(0x12 ^ 0x80)
+      0004BF 8F F0            [24]  978 	mov	b,r7
+      0004C1 63 F0 80         [24]  979 	xrl	b,#0x80
+      0004C4 95 F0            [12]  980 	subb	a,b
+      0004C6 40 C8            [24]  981 	jc	00101$
+                                    982 ;	buffer.c:194: buff.buffer_start = malloc(buff_size);
+      0004C8 8E 82            [24]  983 	mov	dpl,r6
+      0004CA 8F 83            [24]  984 	mov	dph,r7
+      0004CC C0 07            [24]  985 	push	ar7
+      0004CE C0 06            [24]  986 	push	ar6
+      0004D0 12r00r00         [24]  987 	lcall	_malloc
+      0004D3 AC 82            [24]  988 	mov	r4,dpl
+      0004D5 AD 83            [24]  989 	mov	r5,dph
+      0004D7 D0 06            [24]  990 	pop	ar6
+      0004D9 D0 07            [24]  991 	pop	ar7
+      0004DB 7B 00            [12]  992 	mov	r3,#0x00
+      0004DD 90r01r44         [24]  993 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x0002)
+      0004E0 EC               [12]  994 	mov	a,r4
+      0004E1 F0               [24]  995 	movx	@dptr,a
+      0004E2 ED               [12]  996 	mov	a,r5
+      0004E3 A3               [24]  997 	inc	dptr
+      0004E4 F0               [24]  998 	movx	@dptr,a
+      0004E5 EB               [12]  999 	mov	a,r3
+      0004E6 A3               [24] 1000 	inc	dptr
+      0004E7 F0               [24] 1001 	movx	@dptr,a
+                                   1002 ;	buffer.c:195: buff1.buffer_start = malloc(buff_size);
+      0004E8 8E 82            [24] 1003 	mov	dpl,r6
+      0004EA 8F 83            [24] 1004 	mov	dph,r7
+      0004EC C0 07            [24] 1005 	push	ar7
+      0004EE C0 06            [24] 1006 	push	ar6
+      0004F0 12r00r00         [24] 1007 	lcall	_malloc
+      0004F3 AC 82            [24] 1008 	mov	r4,dpl
+      0004F5 AD 83            [24] 1009 	mov	r5,dph
+      0004F7 D0 06            [24] 1010 	pop	ar6
+      0004F9 D0 07            [24] 1011 	pop	ar7
+      0004FB 7B 00            [12] 1012 	mov	r3,#0x00
+      0004FD 90r01r50         [24] 1013 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x0002)
+      000500 EC               [12] 1014 	mov	a,r4
+      000501 F0               [24] 1015 	movx	@dptr,a
+      000502 ED               [12] 1016 	mov	a,r5
+      000503 A3               [24] 1017 	inc	dptr
+      000504 F0               [24] 1018 	movx	@dptr,a
+      000505 EB               [12] 1019 	mov	a,r3
+      000506 A3               [24] 1020 	inc	dptr
+      000507 F0               [24] 1021 	movx	@dptr,a
+                                   1022 ;	buffer.c:197: if (buff.buffer_start == NULL || buff1.buffer_start == NULL)
+      000508 90r01r44         [24] 1023 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x0002)
+      00050B E0               [24] 1024 	movx	a,@dptr
+      00050C FB               [12] 1025 	mov	r3,a
+      00050D A3               [24] 1026 	inc	dptr
+      00050E E0               [24] 1027 	movx	a,@dptr
+      00050F FC               [12] 1028 	mov	r4,a
+      000510 A3               [24] 1029 	inc	dptr
+      000511 E0               [24] 1030 	movx	a,@dptr
+      000512 EB               [12] 1031 	mov	a,r3
+      000513 4C               [12] 1032 	orl	a,r4
+      000514 60 0F            [24] 1033 	jz	00106$
+      000516 90r01r50         [24] 1034 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x0002)
+      000519 E0               [24] 1035 	movx	a,@dptr
+      00051A FB               [12] 1036 	mov	r3,a
+      00051B A3               [24] 1037 	inc	dptr
+      00051C E0               [24] 1038 	movx	a,@dptr
+      00051D FC               [12] 1039 	mov	r4,a
+      00051E A3               [24] 1040 	inc	dptr
+      00051F E0               [24] 1041 	movx	a,@dptr
+      000520 FD               [12] 1042 	mov	r5,a
+      000521 EB               [12] 1043 	mov	a,r3
+      000522 4C               [12] 1044 	orl	a,r4
+      000523 70 60            [24] 1045 	jnz	00107$
+      000525                       1046 00106$:
+                                   1047 ;	buffer.c:199: printf("\n\r####FAIL, Please give a smaller buffer size####\n\n\r");
+      000525 74r8E            [12] 1048 	mov	a,#___str_17
+      000527 C0 E0            [24] 1049 	push	acc
+      000529 74s02            [12] 1050 	mov	a,#(___str_17 >> 8)
+      00052B C0 E0            [24] 1051 	push	acc
+      00052D 74 80            [12] 1052 	mov	a,#0x80
+      00052F C0 E0            [24] 1053 	push	acc
+      000531 12r00r00         [24] 1054 	lcall	_printf
+      000534 15 81            [12] 1055 	dec	sp
+      000536 15 81            [12] 1056 	dec	sp
+      000538 15 81            [12] 1057 	dec	sp
+                                   1058 ;	buffer.c:201: if (buff.buffer_start != NULL)
+      00053A 90r01r44         [24] 1059 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x0002)
+      00053D E0               [24] 1060 	movx	a,@dptr
+      00053E FB               [12] 1061 	mov	r3,a
+      00053F A3               [24] 1062 	inc	dptr
+      000540 E0               [24] 1063 	movx	a,@dptr
+      000541 FC               [12] 1064 	mov	r4,a
+      000542 A3               [24] 1065 	inc	dptr
+      000543 E0               [24] 1066 	movx	a,@dptr
+      000544 EB               [12] 1067 	mov	a,r3
+      000545 4C               [12] 1068 	orl	a,r4
+      000546 60 14            [24] 1069 	jz	00103$
+                                   1070 ;	buffer.c:202: free(buff.buffer_start);
+      000548 90r01r44         [24] 1071 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x0002)
+      00054B E0               [24] 1072 	movx	a,@dptr
+      00054C FB               [12] 1073 	mov	r3,a
+      00054D A3               [24] 1074 	inc	dptr
+      00054E E0               [24] 1075 	movx	a,@dptr
+      00054F FC               [12] 1076 	mov	r4,a
+      000550 A3               [24] 1077 	inc	dptr
+      000551 E0               [24] 1078 	movx	a,@dptr
+      000552 FD               [12] 1079 	mov	r5,a
+      000553 8B 82            [24] 1080 	mov	dpl,r3
+      000555 8C 83            [24] 1081 	mov	dph,r4
+      000557 8D F0            [24] 1082 	mov	b,r5
+      000559 12r00r00         [24] 1083 	lcall	_free
+      00055C                       1084 00103$:
+                                   1085 ;	buffer.c:203: if (buff1.buffer_start != NULL)
+      00055C 90r01r50         [24] 1086 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x0002)
+      00055F E0               [24] 1087 	movx	a,@dptr
+      000560 FB               [12] 1088 	mov	r3,a
+      000561 A3               [24] 1089 	inc	dptr
+      000562 E0               [24] 1090 	movx	a,@dptr
+      000563 FC               [12] 1091 	mov	r4,a
+      000564 A3               [24] 1092 	inc	dptr
+      000565 E0               [24] 1093 	movx	a,@dptr
+      000566 FD               [12] 1094 	mov	r5,a
+      000567 EB               [12] 1095 	mov	a,r3
+      000568 4C               [12] 1096 	orl	a,r4
+      000569 70 03            [24] 1097 	jnz	00145$
+      00056B 02r04r90         [24] 1098 	ljmp	00101$
+      00056E                       1099 00145$:
+                                   1100 ;	buffer.c:204: free(buff1.buffer_start);
+      00056E 90r01r50         [24] 1101 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x0002)
+      000571 E0               [24] 1102 	movx	a,@dptr
+      000572 FB               [12] 1103 	mov	r3,a
+      000573 A3               [24] 1104 	inc	dptr
+      000574 E0               [24] 1105 	movx	a,@dptr
+      000575 FC               [12] 1106 	mov	r4,a
+      000576 A3               [24] 1107 	inc	dptr
+      000577 E0               [24] 1108 	movx	a,@dptr
+      000578 FD               [12] 1109 	mov	r5,a
+      000579 8B 82            [24] 1110 	mov	dpl,r3
+      00057B 8C 83            [24] 1111 	mov	dph,r4
+      00057D 8D F0            [24] 1112 	mov	b,r5
+      00057F 12r00r00         [24] 1113 	lcall	_free
+                                   1114 ;	buffer.c:206: goto get_buff;
+      000582 02r04r90         [24] 1115 	ljmp	00101$
+      000585                       1116 00107$:
+                                   1117 ;	buffer.c:211: printf("\n\n\r####SUCCESS, INITIAL BUFFERS Created####\n\n\r");
+      000585 C0 07            [24] 1118 	push	ar7
+      000587 C0 06            [24] 1119 	push	ar6
+      000589 74rC3            [12] 1120 	mov	a,#___str_18
+      00058B C0 E0            [24] 1121 	push	acc
+      00058D 74s02            [12] 1122 	mov	a,#(___str_18 >> 8)
+      00058F C0 E0            [24] 1123 	push	acc
+      000591 74 80            [12] 1124 	mov	a,#0x80
+      000593 C0 E0            [24] 1125 	push	acc
+      000595 12r00r00         [24] 1126 	lcall	_printf
+      000598 15 81            [12] 1127 	dec	sp
+      00059A 15 81            [12] 1128 	dec	sp
+      00059C 15 81            [12] 1129 	dec	sp
+      00059E D0 06            [24] 1130 	pop	ar6
+      0005A0 D0 07            [24] 1131 	pop	ar7
+                                   1132 ;	buffer.c:212: program_stats.allocated_heap = 2 * buff_size;
+      0005A2 EE               [12] 1133 	mov	a,r6
+      0005A3 2E               [12] 1134 	add	a,r6
+      0005A4 FC               [12] 1135 	mov	r4,a
+      0005A5 EF               [12] 1136 	mov	a,r7
+      0005A6 33               [12] 1137 	rlc	a
+      0005A7 FD               [12] 1138 	mov	r5,a
+      0005A8 90r00r02         [24] 1139 	mov	dptr,#(_program_stats + 0x0002)
+      0005AB EC               [12] 1140 	mov	a,r4
+      0005AC F0               [24] 1141 	movx	@dptr,a
+      0005AD ED               [12] 1142 	mov	a,r5
+      0005AE A3               [24] 1143 	inc	dptr
+      0005AF F0               [24] 1144 	movx	@dptr,a
+                                   1145 ;	buffer.c:213: program_stats.total_heap_size = 4996;
+      0005B0 90r00r00         [24] 1146 	mov	dptr,#_program_stats
+      0005B3 74 84            [12] 1147 	mov	a,#0x84
+      0005B5 F0               [24] 1148 	movx	@dptr,a
+      0005B6 74 13            [12] 1149 	mov	a,#0x13
+      0005B8 A3               [24] 1150 	inc	dptr
+      0005B9 F0               [24] 1151 	movx	@dptr,a
+                                   1152 ;	buffer.c:214: program_stats.total_buffers = 2;
+      0005BA 90r00r08         [24] 1153 	mov	dptr,#(_program_stats + 0x0008)
+      0005BD 74 02            [12] 1154 	mov	a,#0x02
+      0005BF F0               [24] 1155 	movx	@dptr,a
+      0005C0 E4               [12] 1156 	clr	a
+      0005C1 A3               [24] 1157 	inc	dptr
+      0005C2 F0               [24] 1158 	movx	@dptr,a
+                                   1159 ;	buffer.c:216: buff.buff_size = buff_size;
+      0005C3 90r01r4A         [24] 1160 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x0008)
+      0005C6 EE               [12] 1161 	mov	a,r6
+      0005C7 F0               [24] 1162 	movx	@dptr,a
+      0005C8 EF               [12] 1163 	mov	a,r7
+      0005C9 A3               [24] 1164 	inc	dptr
+      0005CA F0               [24] 1165 	movx	@dptr,a
+                                   1166 ;	buffer.c:217: buff1.buff_size = buff_size;
+      0005CB 90r01r56         [24] 1167 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x0008)
+      0005CE EE               [12] 1168 	mov	a,r6
+      0005CF F0               [24] 1169 	movx	@dptr,a
+      0005D0 EF               [12] 1170 	mov	a,r7
+      0005D1 A3               [24] 1171 	inc	dptr
+      0005D2 F0               [24] 1172 	movx	@dptr,a
+                                   1173 ;	buffer.c:218: buff.buffer_num = 0;
+      0005D3 90r01r42         [24] 1174 	mov	dptr,#_create_initial_buffers_buff_65537_63
+      0005D6 E4               [12] 1175 	clr	a
+      0005D7 F0               [24] 1176 	movx	@dptr,a
+      0005D8 A3               [24] 1177 	inc	dptr
+      0005D9 F0               [24] 1178 	movx	@dptr,a
+                                   1179 ;	buffer.c:219: buff1.buffer_num = 1;
+      0005DA 90r01r4E         [24] 1180 	mov	dptr,#_create_initial_buffers_buff1_65537_63
+      0005DD 04               [12] 1181 	inc	a
+      0005DE F0               [24] 1182 	movx	@dptr,a
+      0005DF E4               [12] 1183 	clr	a
+      0005E0 A3               [24] 1184 	inc	dptr
+      0005E1 F0               [24] 1185 	movx	@dptr,a
+                                   1186 ;	buffer.c:220: buff1.buffer_end = buff1.buffer_start + buff_size;
+      0005E2 90r01r50         [24] 1187 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x0002)
+      0005E5 E0               [24] 1188 	movx	a,@dptr
+      0005E6 FB               [12] 1189 	mov	r3,a
+      0005E7 A3               [24] 1190 	inc	dptr
+      0005E8 E0               [24] 1191 	movx	a,@dptr
+      0005E9 FC               [12] 1192 	mov	r4,a
+      0005EA A3               [24] 1193 	inc	dptr
+      0005EB E0               [24] 1194 	movx	a,@dptr
+      0005EC FD               [12] 1195 	mov	r5,a
+      0005ED EE               [12] 1196 	mov	a,r6
+      0005EE 2B               [12] 1197 	add	a,r3
+      0005EF FB               [12] 1198 	mov	r3,a
+      0005F0 EF               [12] 1199 	mov	a,r7
+      0005F1 3C               [12] 1200 	addc	a,r4
+      0005F2 FC               [12] 1201 	mov	r4,a
+      0005F3 90r01r53         [24] 1202 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x0005)
+      0005F6 EB               [12] 1203 	mov	a,r3
+      0005F7 F0               [24] 1204 	movx	@dptr,a
+      0005F8 EC               [12] 1205 	mov	a,r4
+      0005F9 A3               [24] 1206 	inc	dptr
+      0005FA F0               [24] 1207 	movx	@dptr,a
+      0005FB ED               [12] 1208 	mov	a,r5
+      0005FC A3               [24] 1209 	inc	dptr
+      0005FD F0               [24] 1210 	movx	@dptr,a
+                                   1211 ;	buffer.c:221: buff.buffer_end = buff.buffer_start + buff_size;
+      0005FE 90r01r44         [24] 1212 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x0002)
+      000601 E0               [24] 1213 	movx	a,@dptr
+      000602 FB               [12] 1214 	mov	r3,a
+      000603 A3               [24] 1215 	inc	dptr
+      000604 E0               [24] 1216 	movx	a,@dptr
+      000605 FC               [12] 1217 	mov	r4,a
+      000606 A3               [24] 1218 	inc	dptr
+      000607 E0               [24] 1219 	movx	a,@dptr
+      000608 FD               [12] 1220 	mov	r5,a
+      000609 EE               [12] 1221 	mov	a,r6
+      00060A 2B               [12] 1222 	add	a,r3
+      00060B FE               [12] 1223 	mov	r6,a
+      00060C EF               [12] 1224 	mov	a,r7
+      00060D 3C               [12] 1225 	addc	a,r4
+      00060E FF               [12] 1226 	mov	r7,a
+      00060F 8D 02            [24] 1227 	mov	ar2,r5
+      000611 90r01r47         [24] 1228 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x0005)
+      000614 EE               [12] 1229 	mov	a,r6
+      000615 F0               [24] 1230 	movx	@dptr,a
+      000616 EF               [12] 1231 	mov	a,r7
+      000617 A3               [24] 1232 	inc	dptr
+      000618 F0               [24] 1233 	movx	@dptr,a
+      000619 EA               [12] 1234 	mov	a,r2
+      00061A A3               [24] 1235 	inc	dptr
+      00061B F0               [24] 1236 	movx	@dptr,a
+                                   1237 ;	buffer.c:222: buff.num_char = 0;
+      00061C 90r01r4C         [24] 1238 	mov	dptr,#(_create_initial_buffers_buff_65537_63 + 0x000a)
+      00061F E4               [12] 1239 	clr	a
+      000620 F0               [24] 1240 	movx	@dptr,a
+      000621 A3               [24] 1241 	inc	dptr
+      000622 F0               [24] 1242 	movx	@dptr,a
+                                   1243 ;	buffer.c:223: buff1.num_char = 0;
+      000623 90r01r58         [24] 1244 	mov	dptr,#(_create_initial_buffers_buff1_65537_63 + 0x000a)
+      000626 F0               [24] 1245 	movx	@dptr,a
+      000627 A3               [24] 1246 	inc	dptr
+      000628 F0               [24] 1247 	movx	@dptr,a
+                                   1248 ;	buffer.c:225: buffers_array[0] = buff;
+      000629 90r00r00         [24] 1249 	mov	dptr,#___memcpy_PARM_2
+      00062C 74r42            [12] 1250 	mov	a,#_create_initial_buffers_buff_65537_63
+      00062E F0               [24] 1251 	movx	@dptr,a
+      00062F 74s01            [12] 1252 	mov	a,#(_create_initial_buffers_buff_65537_63 >> 8)
+      000631 A3               [24] 1253 	inc	dptr
+      000632 F0               [24] 1254 	movx	@dptr,a
+      000633 E4               [12] 1255 	clr	a
+      000634 A3               [24] 1256 	inc	dptr
+      000635 F0               [24] 1257 	movx	@dptr,a
+      000636 90r00r00         [24] 1258 	mov	dptr,#___memcpy_PARM_3
+      000639 74 0C            [12] 1259 	mov	a,#0x0c
+      00063B F0               [24] 1260 	movx	@dptr,a
+      00063C E4               [12] 1261 	clr	a
+      00063D A3               [24] 1262 	inc	dptr
+      00063E F0               [24] 1263 	movx	@dptr,a
+      00063F 90r00r0A         [24] 1264 	mov	dptr,#_buffers_array
+      000642 75 F0 00         [24] 1265 	mov	b,#0x00
+      000645 12r00r00         [24] 1266 	lcall	___memcpy
+                                   1267 ;	buffer.c:226: buffers_array[1] = buff1;
+      000648 90r00r00         [24] 1268 	mov	dptr,#___memcpy_PARM_2
+      00064B 74r4E            [12] 1269 	mov	a,#_create_initial_buffers_buff1_65537_63
+      00064D F0               [24] 1270 	movx	@dptr,a
+      00064E 74s01            [12] 1271 	mov	a,#(_create_initial_buffers_buff1_65537_63 >> 8)
+      000650 A3               [24] 1272 	inc	dptr
+      000651 F0               [24] 1273 	movx	@dptr,a
+      000652 E4               [12] 1274 	clr	a
+      000653 A3               [24] 1275 	inc	dptr
+      000654 F0               [24] 1276 	movx	@dptr,a
+      000655 90r00r00         [24] 1277 	mov	dptr,#___memcpy_PARM_3
+      000658 74 0C            [12] 1278 	mov	a,#0x0c
+      00065A F0               [24] 1279 	movx	@dptr,a
+      00065B E4               [12] 1280 	clr	a
+      00065C A3               [24] 1281 	inc	dptr
+      00065D F0               [24] 1282 	movx	@dptr,a
+      00065E 90r00r16         [24] 1283 	mov	dptr,#(_buffers_array + 0x000c)
+      000661 75 F0 00         [24] 1284 	mov	b,#0x00
+                                   1285 ;	buffer.c:230: goto get_buff;
+                                   1286 ;	buffer.c:231: }
+      000664 02r00r00         [24] 1287 	ljmp	___memcpy
+                                   1288 ;------------------------------------------------------------
+                                   1289 ;Allocation info for local variables in function 'buffer_input_loop'
+                                   1290 ;------------------------------------------------------------
+                                   1291 ;rec                       Allocated with name '_buffer_input_loop_rec_65537_68'
+                                   1292 ;------------------------------------------------------------
+                                   1293 ;	buffer.c:239: void buffer_input_loop()
+                                   1294 ;	-----------------------------------------
+                                   1295 ;	 function buffer_input_loop
+                                   1296 ;	-----------------------------------------
+      000667                       1297 _buffer_input_loop:
+                                   1298 ;	buffer.c:241: print_heap_menu();
+      000667 12r02r73         [24] 1299 	lcall	_print_heap_menu
+                                   1300 ;	buffer.c:243: while (1)
+      00066A                       1301 00126$:
+                                   1302 ;	buffer.c:245: rec = getchar();
+      00066A 12r00r00         [24] 1303 	lcall	_getchar
+      00066D AE 82            [24] 1304 	mov	r6,dpl
+      00066F AF 83            [24] 1305 	mov	r7,dph
+                                   1306 ;	buffer.c:246: if (rec > 0x60 && rec < 0x7B)
+      000671 C3               [12] 1307 	clr	c
+      000672 74 60            [12] 1308 	mov	a,#0x60
+      000674 9E               [12] 1309 	subb	a,r6
+      000675 74 80            [12] 1310 	mov	a,#(0x00 ^ 0x80)
+      000677 8F F0            [24] 1311 	mov	b,r7
+      000679 63 F0 80         [24] 1312 	xrl	b,#0x80
+      00067C 95 F0            [12] 1313 	subb	a,b
+      00067E 40 03            [24] 1314 	jc	00170$
+      000680 02r07r0F         [24] 1315 	ljmp	00122$
+      000683                       1316 00170$:
+      000683 C3               [12] 1317 	clr	c
+      000684 EE               [12] 1318 	mov	a,r6
+      000685 94 7B            [12] 1319 	subb	a,#0x7b
+      000687 EF               [12] 1320 	mov	a,r7
+      000688 64 80            [12] 1321 	xrl	a,#0x80
+      00068A 94 80            [12] 1322 	subb	a,#0x80
+      00068C 40 03            [24] 1323 	jc	00171$
+      00068E 02r07r0F         [24] 1324 	ljmp	00122$
+      000691                       1325 00171$:
+                                   1326 ;	buffer.c:250: if (buffers_array[0].num_char < buffers_array[0].buff_size)
+      000691 90r00r14         [24] 1327 	mov	dptr,#(_buffers_array + 0x000a)
+      000694 E0               [24] 1328 	movx	a,@dptr
+      000695 FC               [12] 1329 	mov	r4,a
+      000696 A3               [24] 1330 	inc	dptr
+      000697 E0               [24] 1331 	movx	a,@dptr
+      000698 FD               [12] 1332 	mov	r5,a
+      000699 90r00r12         [24] 1333 	mov	dptr,#(_buffers_array + 0x0008)
+      00069C E0               [24] 1334 	movx	a,@dptr
+      00069D FA               [12] 1335 	mov	r2,a
+      00069E A3               [24] 1336 	inc	dptr
+      00069F E0               [24] 1337 	movx	a,@dptr
+      0006A0 FB               [12] 1338 	mov	r3,a
+      0006A1 C3               [12] 1339 	clr	c
+      0006A2 EC               [12] 1340 	mov	a,r4
+      0006A3 9A               [12] 1341 	subb	a,r2
+      0006A4 ED               [12] 1342 	mov	a,r5
+      0006A5 64 80            [12] 1343 	xrl	a,#0x80
+      0006A7 8B F0            [24] 1344 	mov	b,r3
+      0006A9 63 F0 80         [24] 1345 	xrl	b,#0x80
+      0006AC 95 F0            [12] 1346 	subb	a,b
+      0006AE 50 32            [24] 1347 	jnc	00102$
+                                   1348 ;	buffer.c:252: *(buffers_array[0].buffer_start + buffers_array[0].num_char) = rec;
+      0006B0 90r00r0C         [24] 1349 	mov	dptr,#(_buffers_array + 0x0002)
+      0006B3 E0               [24] 1350 	movx	a,@dptr
+      0006B4 F9               [12] 1351 	mov	r1,a
+      0006B5 A3               [24] 1352 	inc	dptr
+      0006B6 E0               [24] 1353 	movx	a,@dptr
+      0006B7 FA               [12] 1354 	mov	r2,a
+      0006B8 A3               [24] 1355 	inc	dptr
+      0006B9 E0               [24] 1356 	movx	a,@dptr
+      0006BA FB               [12] 1357 	mov	r3,a
+      0006BB EC               [12] 1358 	mov	a,r4
+      0006BC 29               [12] 1359 	add	a,r1
+      0006BD F9               [12] 1360 	mov	r1,a
+      0006BE ED               [12] 1361 	mov	a,r5
+      0006BF 3A               [12] 1362 	addc	a,r2
+      0006C0 FA               [12] 1363 	mov	r2,a
+      0006C1 8E 05            [24] 1364 	mov	ar5,r6
+      0006C3 89 82            [24] 1365 	mov	dpl,r1
+      0006C5 8A 83            [24] 1366 	mov	dph,r2
+      0006C7 8B F0            [24] 1367 	mov	b,r3
+      0006C9 ED               [12] 1368 	mov	a,r5
+      0006CA 12r00r00         [24] 1369 	lcall	__gptrput
+                                   1370 ;	buffer.c:253: buffers_array[0].num_char += 1;
+      0006CD 90r00r14         [24] 1371 	mov	dptr,#(_buffers_array + 0x000a)
+      0006D0 E0               [24] 1372 	movx	a,@dptr
+      0006D1 FC               [12] 1373 	mov	r4,a
+      0006D2 A3               [24] 1374 	inc	dptr
+      0006D3 E0               [24] 1375 	movx	a,@dptr
+      0006D4 FD               [12] 1376 	mov	r5,a
+      0006D5 0C               [12] 1377 	inc	r4
+      0006D6 BC 00 01         [24] 1378 	cjne	r4,#0x00,00173$
+      0006D9 0D               [12] 1379 	inc	r5
+      0006DA                       1380 00173$:
+      0006DA 90r00r14         [24] 1381 	mov	dptr,#(_buffers_array + 0x000a)
+      0006DD EC               [12] 1382 	mov	a,r4
+      0006DE F0               [24] 1383 	movx	@dptr,a
+      0006DF ED               [12] 1384 	mov	a,r5
+      0006E0 A3               [24] 1385 	inc	dptr
+      0006E1 F0               [24] 1386 	movx	@dptr,a
+      0006E2                       1387 00102$:
+                                   1388 ;	buffer.c:255: program_stats.all_char_count += 1;
+      0006E2 90r00r04         [24] 1389 	mov	dptr,#(_program_stats + 0x0004)
+      0006E5 E0               [24] 1390 	movx	a,@dptr
+      0006E6 FC               [12] 1391 	mov	r4,a
+      0006E7 A3               [24] 1392 	inc	dptr
+      0006E8 E0               [24] 1393 	movx	a,@dptr
+      0006E9 FD               [12] 1394 	mov	r5,a
+      0006EA 0C               [12] 1395 	inc	r4
+      0006EB BC 00 01         [24] 1396 	cjne	r4,#0x00,00174$
+      0006EE 0D               [12] 1397 	inc	r5
+      0006EF                       1398 00174$:
+      0006EF 90r00r04         [24] 1399 	mov	dptr,#(_program_stats + 0x0004)
+      0006F2 EC               [12] 1400 	mov	a,r4
+      0006F3 F0               [24] 1401 	movx	@dptr,a
+      0006F4 ED               [12] 1402 	mov	a,r5
+      0006F5 A3               [24] 1403 	inc	dptr
+      0006F6 F0               [24] 1404 	movx	@dptr,a
+                                   1405 ;	buffer.c:256: program_stats.storage_char_count += 1;
+      0006F7 90r00r06         [24] 1406 	mov	dptr,#(_program_stats + 0x0006)
+      0006FA E0               [24] 1407 	movx	a,@dptr
+      0006FB FC               [12] 1408 	mov	r4,a
+      0006FC A3               [24] 1409 	inc	dptr
+      0006FD E0               [24] 1410 	movx	a,@dptr
+      0006FE FD               [12] 1411 	mov	r5,a
+      0006FF 0C               [12] 1412 	inc	r4
+      000700 BC 00 01         [24] 1413 	cjne	r4,#0x00,00175$
+      000703 0D               [12] 1414 	inc	r5
+      000704                       1415 00175$:
+      000704 90r00r06         [24] 1416 	mov	dptr,#(_program_stats + 0x0006)
+      000707 EC               [12] 1417 	mov	a,r4
+      000708 F0               [24] 1418 	movx	@dptr,a
+      000709 ED               [12] 1419 	mov	a,r5
+      00070A A3               [24] 1420 	inc	dptr
+      00070B F0               [24] 1421 	movx	@dptr,a
+      00070C 02r06r6A         [24] 1422 	ljmp	00126$
+      00070F                       1423 00122$:
+                                   1424 ;	buffer.c:258: else if (rec == 0x3F)
+      00070F BE 3F 1F         [24] 1425 	cjne	r6,#0x3f,00119$
+      000712 BF 00 1C         [24] 1426 	cjne	r7,#0x00,00119$
+                                   1427 ;	buffer.c:261: print_heap_stats();
+      000715 12r09rE8         [24] 1428 	lcall	_print_heap_stats
+                                   1429 ;	buffer.c:262: print_all_buffers();
+      000718 12r0ArA3         [24] 1430 	lcall	_print_all_buffers
+                                   1431 ;	buffer.c:263: dump_buff_zero_ascii();
+      00071B 12r07r91         [24] 1432 	lcall	_dump_buff_zero_ascii
+                                   1433 ;	buffer.c:264: program_stats.all_char_count = 0;
+      00071E 90r00r04         [24] 1434 	mov	dptr,#(_program_stats + 0x0004)
+      000721 E4               [12] 1435 	clr	a
+      000722 F0               [24] 1436 	movx	@dptr,a
+      000723 A3               [24] 1437 	inc	dptr
+      000724 F0               [24] 1438 	movx	@dptr,a
+                                   1439 ;	buffer.c:265: program_stats.storage_char_count = 0;
+      000725 90r00r06         [24] 1440 	mov	dptr,#(_program_stats + 0x0006)
+      000728 F0               [24] 1441 	movx	@dptr,a
+      000729 A3               [24] 1442 	inc	dptr
+      00072A F0               [24] 1443 	movx	@dptr,a
+                                   1444 ;	buffer.c:266: print_heap_menu();
+      00072B 12r02r73         [24] 1445 	lcall	_print_heap_menu
+      00072E 02r06r6A         [24] 1446 	ljmp	00126$
+      000731                       1447 00119$:
+                                   1448 ;	buffer.c:268: else if (rec == 0x3D)
+      000731 BE 3D 0C         [24] 1449 	cjne	r6,#0x3d,00116$
+      000734 BF 00 09         [24] 1450 	cjne	r7,#0x00,00116$
+                                   1451 ;	buffer.c:271: dump_buff_zero_hex();
+      000737 12r08rA1         [24] 1452 	lcall	_dump_buff_zero_hex
+                                   1453 ;	buffer.c:272: print_heap_menu();
+      00073A 12r02r73         [24] 1454 	lcall	_print_heap_menu
+      00073D 02r06r6A         [24] 1455 	ljmp	00126$
+      000740                       1456 00116$:
+                                   1457 ;	buffer.c:274: else if (rec == 0x40)
+      000740 BE 40 0C         [24] 1458 	cjne	r6,#0x40,00113$
+      000743 BF 00 09         [24] 1459 	cjne	r7,#0x00,00113$
+                                   1460 ;	buffer.c:277: at_clear_all_buffers();
+      000746 12r00r09         [24] 1461 	lcall	_at_clear_all_buffers
+                                   1462 ;	buffer.c:278: print_heap_menu();
+      000749 12r02r73         [24] 1463 	lcall	_print_heap_menu
+      00074C 02r06r6A         [24] 1464 	ljmp	00126$
+      00074F                       1465 00113$:
+                                   1466 ;	buffer.c:280: else if (rec == 0x2B)
+      00074F BE 2B 0C         [24] 1467 	cjne	r6,#0x2b,00110$
+      000752 BF 00 09         [24] 1468 	cjne	r7,#0x00,00110$
+                                   1469 ;	buffer.c:283: create_new_buffer();
+      000755 12r03r1C         [24] 1470 	lcall	_create_new_buffer
+                                   1471 ;	buffer.c:284: print_heap_menu();
+      000758 12r02r73         [24] 1472 	lcall	_print_heap_menu
+      00075B 02r06r6A         [24] 1473 	ljmp	00126$
+      00075E                       1474 00110$:
+                                   1475 ;	buffer.c:286: else if (rec == 0x2D)
+      00075E BE 2D 0C         [24] 1476 	cjne	r6,#0x2d,00107$
+      000761 BF 00 09         [24] 1477 	cjne	r7,#0x00,00107$
+                                   1478 ;	buffer.c:289: delete_buffer();
+      000764 12r00r9D         [24] 1479 	lcall	_delete_buffer
+                                   1480 ;	buffer.c:290: print_heap_menu();
+      000767 12r02r73         [24] 1481 	lcall	_print_heap_menu
+      00076A 02r06r6A         [24] 1482 	ljmp	00126$
+      00076D                       1483 00107$:
+                                   1484 ;	buffer.c:292: else if (rec == 0x4D)
+      00076D BE 4D 09         [24] 1485 	cjne	r6,#0x4d,00104$
+      000770 BF 00 06         [24] 1486 	cjne	r7,#0x00,00104$
+                                   1487 ;	buffer.c:294: main_menu();
+      000773 12r00r00         [24] 1488 	lcall	_main_menu
+      000776 02r06r6A         [24] 1489 	ljmp	00126$
+      000779                       1490 00104$:
+                                   1491 ;	buffer.c:298: program_stats.all_char_count += 1;
+      000779 90r00r04         [24] 1492 	mov	dptr,#(_program_stats + 0x0004)
+      00077C E0               [24] 1493 	movx	a,@dptr
+      00077D FE               [12] 1494 	mov	r6,a
+      00077E A3               [24] 1495 	inc	dptr
+      00077F E0               [24] 1496 	movx	a,@dptr
+      000780 FF               [12] 1497 	mov	r7,a
+      000781 0E               [12] 1498 	inc	r6
+      000782 BE 00 01         [24] 1499 	cjne	r6,#0x00,00188$
+      000785 0F               [12] 1500 	inc	r7
+      000786                       1501 00188$:
+      000786 90r00r04         [24] 1502 	mov	dptr,#(_program_stats + 0x0004)
+      000789 EE               [12] 1503 	mov	a,r6
+      00078A F0               [24] 1504 	movx	@dptr,a
+      00078B EF               [12] 1505 	mov	a,r7
+      00078C A3               [24] 1506 	inc	dptr
+      00078D F0               [24] 1507 	movx	@dptr,a
+                                   1508 ;	buffer.c:301: }
+      00078E 02r06r6A         [24] 1509 	ljmp	00126$
+                                   1510 ;------------------------------------------------------------
+                                   1511 ;Allocation info for local variables in function 'dump_buff_zero_ascii'
+                                   1512 ;------------------------------------------------------------
+                                   1513 ;j                         Allocated with name '_dump_buff_zero_ascii_j_65536_79'
+                                   1514 ;i                         Allocated with name '_dump_buff_zero_ascii_i_196608_81'
+                                   1515 ;------------------------------------------------------------
+                                   1516 ;	buffer.c:309: void dump_buff_zero_ascii()
+                                   1517 ;	-----------------------------------------
+                                   1518 ;	 function dump_buff_zero_ascii
+                                   1519 ;	-----------------------------------------
+      000791                       1520 _dump_buff_zero_ascii:
+                                   1521 ;	buffer.c:311: int j = 64;
+      000791 90r01r5A         [24] 1522 	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+      000794 74 40            [12] 1523 	mov	a,#0x40
+      000796 F0               [24] 1524 	movx	@dptr,a
+      000797 E4               [12] 1525 	clr	a
+      000798 A3               [24] 1526 	inc	dptr
+      000799 F0               [24] 1527 	movx	@dptr,a
+                                   1528 ;	buffer.c:312: if (buffers_array[0].num_char > 0)
+      00079A 90r00r14         [24] 1529 	mov	dptr,#(_buffers_array + 0x000a)
+      00079D E0               [24] 1530 	movx	a,@dptr
+      00079E FE               [12] 1531 	mov	r6,a
+      00079F A3               [24] 1532 	inc	dptr
+      0007A0 E0               [24] 1533 	movx	a,@dptr
+      0007A1 FF               [12] 1534 	mov	r7,a
+      0007A2 C3               [12] 1535 	clr	c
+      0007A3 E4               [12] 1536 	clr	a
+      0007A4 9E               [12] 1537 	subb	a,r6
+      0007A5 74 80            [12] 1538 	mov	a,#(0x00 ^ 0x80)
+      0007A7 8F F0            [24] 1539 	mov	b,r7
+      0007A9 63 F0 80         [24] 1540 	xrl	b,#0x80
+      0007AC 95 F0            [12] 1541 	subb	a,b
+      0007AE 40 03            [24] 1542 	jc	00135$
+      0007B0 02r08r8B         [24] 1543 	ljmp	00107$
+      0007B3                       1544 00135$:
+                                   1545 ;	buffer.c:314: printf("\n\n\r***********Buffer-0-Contents*********** \n\r");
+      0007B3 74rF2            [12] 1546 	mov	a,#___str_19
+      0007B5 C0 E0            [24] 1547 	push	acc
+      0007B7 74s02            [12] 1548 	mov	a,#(___str_19 >> 8)
+      0007B9 C0 E0            [24] 1549 	push	acc
+      0007BB 74 80            [12] 1550 	mov	a,#0x80
+      0007BD C0 E0            [24] 1551 	push	acc
+      0007BF 12r00r00         [24] 1552 	lcall	_printf
+      0007C2 15 81            [12] 1553 	dec	sp
+      0007C4 15 81            [12] 1554 	dec	sp
+      0007C6 15 81            [12] 1555 	dec	sp
+                                   1556 ;	buffer.c:315: for (int i = 0; i < buffers_array[0].num_char; i++)
+      0007C8 7E 00            [12] 1557 	mov	r6,#0x00
+      0007CA 7F 00            [12] 1558 	mov	r7,#0x00
+      0007CC                       1559 00110$:
+      0007CC 90r00r14         [24] 1560 	mov	dptr,#(_buffers_array + 0x000a)
+      0007CF E0               [24] 1561 	movx	a,@dptr
+      0007D0 FC               [12] 1562 	mov	r4,a
+      0007D1 A3               [24] 1563 	inc	dptr
+      0007D2 E0               [24] 1564 	movx	a,@dptr
+      0007D3 FD               [12] 1565 	mov	r5,a
+      0007D4 C3               [12] 1566 	clr	c
+      0007D5 EE               [12] 1567 	mov	a,r6
+      0007D6 9C               [12] 1568 	subb	a,r4
+      0007D7 EF               [12] 1569 	mov	a,r7
+      0007D8 64 80            [12] 1570 	xrl	a,#0x80
+      0007DA 8D F0            [24] 1571 	mov	b,r5
+      0007DC 63 F0 80         [24] 1572 	xrl	b,#0x80
+      0007DF 95 F0            [12] 1573 	subb	a,b
+      0007E1 40 03            [24] 1574 	jc	00136$
+      0007E3 02r08r6E         [24] 1575 	ljmp	00105$
+      0007E6                       1576 00136$:
+                                   1577 ;	buffer.c:317: if (j == 64)
+      0007E6 90r01r5A         [24] 1578 	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+      0007E9 E0               [24] 1579 	movx	a,@dptr
+      0007EA FC               [12] 1580 	mov	r4,a
+      0007EB A3               [24] 1581 	inc	dptr
+      0007EC E0               [24] 1582 	movx	a,@dptr
+      0007ED FD               [12] 1583 	mov	r5,a
+      0007EE BC 40 20         [24] 1584 	cjne	r4,#0x40,00102$
+      0007F1 BD 00 1D         [24] 1585 	cjne	r5,#0x00,00102$
+                                   1586 ;	buffer.c:319: printf("\n\r");
+      0007F4 C0 07            [24] 1587 	push	ar7
+      0007F6 C0 06            [24] 1588 	push	ar6
+      0007F8 74r20            [12] 1589 	mov	a,#___str_20
+      0007FA C0 E0            [24] 1590 	push	acc
+      0007FC 74s03            [12] 1591 	mov	a,#(___str_20 >> 8)
+      0007FE C0 E0            [24] 1592 	push	acc
+      000800 74 80            [12] 1593 	mov	a,#0x80
+      000802 C0 E0            [24] 1594 	push	acc
+      000804 12r00r00         [24] 1595 	lcall	_printf
+      000807 15 81            [12] 1596 	dec	sp
+      000809 15 81            [12] 1597 	dec	sp
+      00080B 15 81            [12] 1598 	dec	sp
+      00080D D0 06            [24] 1599 	pop	ar6
+      00080F D0 07            [24] 1600 	pop	ar7
+      000811                       1601 00102$:
+                                   1602 ;	buffer.c:321: putchar(*(buffers_array[0].buffer_start + i));
+      000811 90r00r0C         [24] 1603 	mov	dptr,#(_buffers_array + 0x0002)
+      000814 E0               [24] 1604 	movx	a,@dptr
+      000815 FB               [12] 1605 	mov	r3,a
+      000816 A3               [24] 1606 	inc	dptr
+      000817 E0               [24] 1607 	movx	a,@dptr
+      000818 FC               [12] 1608 	mov	r4,a
+      000819 A3               [24] 1609 	inc	dptr
+      00081A E0               [24] 1610 	movx	a,@dptr
+      00081B FD               [12] 1611 	mov	r5,a
+      00081C EE               [12] 1612 	mov	a,r6
+      00081D 2B               [12] 1613 	add	a,r3
+      00081E FB               [12] 1614 	mov	r3,a
+      00081F EF               [12] 1615 	mov	a,r7
+      000820 3C               [12] 1616 	addc	a,r4
+      000821 FC               [12] 1617 	mov	r4,a
+      000822 8B 82            [24] 1618 	mov	dpl,r3
+      000824 8C 83            [24] 1619 	mov	dph,r4
+      000826 8D F0            [24] 1620 	mov	b,r5
+      000828 12r00r00         [24] 1621 	lcall	__gptrget
+      00082B FB               [12] 1622 	mov	r3,a
+      00082C 7D 00            [12] 1623 	mov	r5,#0x00
+      00082E 8B 82            [24] 1624 	mov	dpl,r3
+      000830 8D 83            [24] 1625 	mov	dph,r5
+      000832 C0 07            [24] 1626 	push	ar7
+      000834 C0 06            [24] 1627 	push	ar6
+      000836 12r00r00         [24] 1628 	lcall	_putchar
+      000839 D0 06            [24] 1629 	pop	ar6
+      00083B D0 07            [24] 1630 	pop	ar7
+                                   1631 ;	buffer.c:322: j--;
+      00083D 90r01r5A         [24] 1632 	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+      000840 E0               [24] 1633 	movx	a,@dptr
+      000841 24 FF            [12] 1634 	add	a,#0xff
+      000843 FC               [12] 1635 	mov	r4,a
+      000844 A3               [24] 1636 	inc	dptr
+      000845 E0               [24] 1637 	movx	a,@dptr
+      000846 34 FF            [12] 1638 	addc	a,#0xff
+      000848 FD               [12] 1639 	mov	r5,a
+      000849 90r01r5A         [24] 1640 	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+      00084C EC               [12] 1641 	mov	a,r4
+      00084D F0               [24] 1642 	movx	@dptr,a
+      00084E ED               [12] 1643 	mov	a,r5
+      00084F A3               [24] 1644 	inc	dptr
+      000850 F0               [24] 1645 	movx	@dptr,a
+                                   1646 ;	buffer.c:323: if (j == 0)
+      000851 90r01r5A         [24] 1647 	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+      000854 E0               [24] 1648 	movx	a,@dptr
+      000855 F5 F0            [12] 1649 	mov	b,a
+      000857 A3               [24] 1650 	inc	dptr
+      000858 E0               [24] 1651 	movx	a,@dptr
+      000859 45 F0            [12] 1652 	orl	a,b
+      00085B 70 09            [24] 1653 	jnz	00111$
+                                   1654 ;	buffer.c:324: j = 64;
+      00085D 90r01r5A         [24] 1655 	mov	dptr,#_dump_buff_zero_ascii_j_65536_79
+      000860 74 40            [12] 1656 	mov	a,#0x40
+      000862 F0               [24] 1657 	movx	@dptr,a
+      000863 E4               [12] 1658 	clr	a
+      000864 A3               [24] 1659 	inc	dptr
+      000865 F0               [24] 1660 	movx	@dptr,a
+      000866                       1661 00111$:
+                                   1662 ;	buffer.c:315: for (int i = 0; i < buffers_array[0].num_char; i++)
+      000866 0E               [12] 1663 	inc	r6
+      000867 BE 00 01         [24] 1664 	cjne	r6,#0x00,00140$
+      00086A 0F               [12] 1665 	inc	r7
+      00086B                       1666 00140$:
+      00086B 02r07rCC         [24] 1667 	ljmp	00110$
+      00086E                       1668 00105$:
+                                   1669 ;	buffer.c:326: buffers_array[0].num_char = 0;
+      00086E 90r00r14         [24] 1670 	mov	dptr,#(_buffers_array + 0x000a)
+      000871 E4               [12] 1671 	clr	a
+      000872 F0               [24] 1672 	movx	@dptr,a
+      000873 A3               [24] 1673 	inc	dptr
+      000874 F0               [24] 1674 	movx	@dptr,a
+                                   1675 ;	buffer.c:327: printf("\n\n\r");
+      000875 74r23            [12] 1676 	mov	a,#___str_21
+      000877 C0 E0            [24] 1677 	push	acc
+      000879 74s03            [12] 1678 	mov	a,#(___str_21 >> 8)
+      00087B C0 E0            [24] 1679 	push	acc
+      00087D 74 80            [12] 1680 	mov	a,#0x80
+      00087F C0 E0            [24] 1681 	push	acc
+      000881 12r00r00         [24] 1682 	lcall	_printf
+      000884 15 81            [12] 1683 	dec	sp
+      000886 15 81            [12] 1684 	dec	sp
+      000888 15 81            [12] 1685 	dec	sp
+      00088A 22               [24] 1686 	ret
+      00088B                       1687 00107$:
+                                   1688 ;	buffer.c:331: printf("Buffer0 is Empty....\n\r");
+      00088B 74r27            [12] 1689 	mov	a,#___str_22
+      00088D C0 E0            [24] 1690 	push	acc
+      00088F 74s03            [12] 1691 	mov	a,#(___str_22 >> 8)
+      000891 C0 E0            [24] 1692 	push	acc
+      000893 74 80            [12] 1693 	mov	a,#0x80
+      000895 C0 E0            [24] 1694 	push	acc
+      000897 12r00r00         [24] 1695 	lcall	_printf
+      00089A 15 81            [12] 1696 	dec	sp
+      00089C 15 81            [12] 1697 	dec	sp
+      00089E 15 81            [12] 1698 	dec	sp
+                                   1699 ;	buffer.c:333: }
+      0008A0 22               [24] 1700 	ret
+                                   1701 ;------------------------------------------------------------
+                                   1702 ;Allocation info for local variables in function 'dump_buff_zero_hex'
+                                   1703 ;------------------------------------------------------------
+                                   1704 ;j                         Allocated with name '_dump_buff_zero_hex_j_131073_87'
+                                   1705 ;i                         Allocated with name '_dump_buff_zero_hex_i_196609_88'
+                                   1706 ;------------------------------------------------------------
+                                   1707 ;	buffer.c:340: void dump_buff_zero_hex()
+                                   1708 ;	-----------------------------------------
+                                   1709 ;	 function dump_buff_zero_hex
+                                   1710 ;	-----------------------------------------
+      0008A1                       1711 _dump_buff_zero_hex:
+                                   1712 ;	buffer.c:342: if (buffers_array[0].num_char > 0)
+      0008A1 90r00r14         [24] 1713 	mov	dptr,#(_buffers_array + 0x000a)
+      0008A4 E0               [24] 1714 	movx	a,@dptr
+      0008A5 FE               [12] 1715 	mov	r6,a
+      0008A6 A3               [24] 1716 	inc	dptr
+      0008A7 E0               [24] 1717 	movx	a,@dptr
+      0008A8 FF               [12] 1718 	mov	r7,a
+      0008A9 C3               [12] 1719 	clr	c
+      0008AA E4               [12] 1720 	clr	a
+      0008AB 9E               [12] 1721 	subb	a,r6
+      0008AC 74 80            [12] 1722 	mov	a,#(0x00 ^ 0x80)
+      0008AE 8F F0            [24] 1723 	mov	b,r7
+      0008B0 63 F0 80         [24] 1724 	xrl	b,#0x80
+      0008B3 95 F0            [12] 1725 	subb	a,b
+      0008B5 40 03            [24] 1726 	jc	00135$
+      0008B7 02r09rD2         [24] 1727 	ljmp	00107$
+      0008BA                       1728 00135$:
+                                   1729 ;	buffer.c:344: printf("\n\r-------------------------HEXDUMP--------------------------------");
+      0008BA 74r3E            [12] 1730 	mov	a,#___str_23
+      0008BC C0 E0            [24] 1731 	push	acc
+      0008BE 74s03            [12] 1732 	mov	a,#(___str_23 >> 8)
+      0008C0 C0 E0            [24] 1733 	push	acc
+      0008C2 74 80            [12] 1734 	mov	a,#0x80
+      0008C4 C0 E0            [24] 1735 	push	acc
+      0008C6 12r00r00         [24] 1736 	lcall	_printf
+      0008C9 15 81            [12] 1737 	dec	sp
+      0008CB 15 81            [12] 1738 	dec	sp
+      0008CD 15 81            [12] 1739 	dec	sp
+                                   1740 ;	buffer.c:345: printf("\n\r    ADDR: +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F \n\r");
+      0008CF 74r81            [12] 1741 	mov	a,#___str_24
+      0008D1 C0 E0            [24] 1742 	push	acc
+      0008D3 74s03            [12] 1743 	mov	a,#(___str_24 >> 8)
+      0008D5 C0 E0            [24] 1744 	push	acc
+      0008D7 74 80            [12] 1745 	mov	a,#0x80
+      0008D9 C0 E0            [24] 1746 	push	acc
+      0008DB 12r00r00         [24] 1747 	lcall	_printf
+      0008DE 15 81            [12] 1748 	dec	sp
+      0008E0 15 81            [12] 1749 	dec	sp
+      0008E2 15 81            [12] 1750 	dec	sp
+                                   1751 ;	buffer.c:346: int j = 16;
+      0008E4 90r01r5C         [24] 1752 	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+      0008E7 74 10            [12] 1753 	mov	a,#0x10
+      0008E9 F0               [24] 1754 	movx	@dptr,a
+      0008EA E4               [12] 1755 	clr	a
+      0008EB A3               [24] 1756 	inc	dptr
+      0008EC F0               [24] 1757 	movx	@dptr,a
+                                   1758 ;	buffer.c:348: for (int i = 0; i < buffers_array[0].num_char; i++)
+      0008ED 7E 00            [12] 1759 	mov	r6,#0x00
+      0008EF 7F 00            [12] 1760 	mov	r7,#0x00
+      0008F1                       1761 00110$:
+      0008F1 90r00r14         [24] 1762 	mov	dptr,#(_buffers_array + 0x000a)
+      0008F4 E0               [24] 1763 	movx	a,@dptr
+      0008F5 FC               [12] 1764 	mov	r4,a
+      0008F6 A3               [24] 1765 	inc	dptr
+      0008F7 E0               [24] 1766 	movx	a,@dptr
+      0008F8 FD               [12] 1767 	mov	r5,a
+      0008F9 C3               [12] 1768 	clr	c
+      0008FA EE               [12] 1769 	mov	a,r6
+      0008FB 9C               [12] 1770 	subb	a,r4
+      0008FC EF               [12] 1771 	mov	a,r7
+      0008FD 64 80            [12] 1772 	xrl	a,#0x80
+      0008FF 8D F0            [24] 1773 	mov	b,r5
+      000901 63 F0 80         [24] 1774 	xrl	b,#0x80
+      000904 95 F0            [12] 1775 	subb	a,b
+      000906 40 03            [24] 1776 	jc	00136$
+      000908 02r09rBC         [24] 1777 	ljmp	00105$
+      00090B                       1778 00136$:
+                                   1779 ;	buffer.c:350: if (j == 16)
+      00090B 90r01r5C         [24] 1780 	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+      00090E E0               [24] 1781 	movx	a,@dptr
+      00090F FC               [12] 1782 	mov	r4,a
+      000910 A3               [24] 1783 	inc	dptr
+      000911 E0               [24] 1784 	movx	a,@dptr
+      000912 FD               [12] 1785 	mov	r5,a
+      000913 BC 10 37         [24] 1786 	cjne	r4,#0x10,00102$
+      000916 BD 00 34         [24] 1787 	cjne	r5,#0x00,00102$
+                                   1788 ;	buffer.c:352: printf("\n\r%p: ", (buffers_array[0].buffer_start + i));
+      000919 90r00r0C         [24] 1789 	mov	dptr,#(_buffers_array + 0x0002)
+      00091C E0               [24] 1790 	movx	a,@dptr
+      00091D FB               [12] 1791 	mov	r3,a
+      00091E A3               [24] 1792 	inc	dptr
+      00091F E0               [24] 1793 	movx	a,@dptr
+      000920 FC               [12] 1794 	mov	r4,a
+      000921 A3               [24] 1795 	inc	dptr
+      000922 E0               [24] 1796 	movx	a,@dptr
+      000923 FD               [12] 1797 	mov	r5,a
+      000924 EE               [12] 1798 	mov	a,r6
+      000925 2B               [12] 1799 	add	a,r3
+      000926 FB               [12] 1800 	mov	r3,a
+      000927 EF               [12] 1801 	mov	a,r7
+      000928 3C               [12] 1802 	addc	a,r4
+      000929 FC               [12] 1803 	mov	r4,a
+      00092A C0 07            [24] 1804 	push	ar7
+      00092C C0 06            [24] 1805 	push	ar6
+      00092E C0 03            [24] 1806 	push	ar3
+      000930 C0 04            [24] 1807 	push	ar4
+      000932 C0 05            [24] 1808 	push	ar5
+      000934 74rC0            [12] 1809 	mov	a,#___str_25
+      000936 C0 E0            [24] 1810 	push	acc
+      000938 74s03            [12] 1811 	mov	a,#(___str_25 >> 8)
+      00093A C0 E0            [24] 1812 	push	acc
+      00093C 74 80            [12] 1813 	mov	a,#0x80
+      00093E C0 E0            [24] 1814 	push	acc
+      000940 12r00r00         [24] 1815 	lcall	_printf
+      000943 E5 81            [12] 1816 	mov	a,sp
+      000945 24 FA            [12] 1817 	add	a,#0xfa
+      000947 F5 81            [12] 1818 	mov	sp,a
+      000949 D0 06            [24] 1819 	pop	ar6
+      00094B D0 07            [24] 1820 	pop	ar7
+      00094D                       1821 00102$:
+                                   1822 ;	buffer.c:354: printf("%x ", *(buffers_array[0].buffer_start + i));
+      00094D 90r00r0C         [24] 1823 	mov	dptr,#(_buffers_array + 0x0002)
+      000950 E0               [24] 1824 	movx	a,@dptr
+      000951 FB               [12] 1825 	mov	r3,a
+      000952 A3               [24] 1826 	inc	dptr
+      000953 E0               [24] 1827 	movx	a,@dptr
+      000954 FC               [12] 1828 	mov	r4,a
+      000955 A3               [24] 1829 	inc	dptr
+      000956 E0               [24] 1830 	movx	a,@dptr
+      000957 FD               [12] 1831 	mov	r5,a
+      000958 EE               [12] 1832 	mov	a,r6
+      000959 2B               [12] 1833 	add	a,r3
+      00095A FB               [12] 1834 	mov	r3,a
+      00095B EF               [12] 1835 	mov	a,r7
+      00095C 3C               [12] 1836 	addc	a,r4
+      00095D FC               [12] 1837 	mov	r4,a
+      00095E 8B 82            [24] 1838 	mov	dpl,r3
+      000960 8C 83            [24] 1839 	mov	dph,r4
+      000962 8D F0            [24] 1840 	mov	b,r5
+      000964 12r00r00         [24] 1841 	lcall	__gptrget
+      000967 FB               [12] 1842 	mov	r3,a
+      000968 7D 00            [12] 1843 	mov	r5,#0x00
+      00096A C0 07            [24] 1844 	push	ar7
+      00096C C0 06            [24] 1845 	push	ar6
+      00096E C0 03            [24] 1846 	push	ar3
+      000970 C0 05            [24] 1847 	push	ar5
+      000972 74rC7            [12] 1848 	mov	a,#___str_26
+      000974 C0 E0            [24] 1849 	push	acc
+      000976 74s03            [12] 1850 	mov	a,#(___str_26 >> 8)
+      000978 C0 E0            [24] 1851 	push	acc
+      00097A 74 80            [12] 1852 	mov	a,#0x80
+      00097C C0 E0            [24] 1853 	push	acc
+      00097E 12r00r00         [24] 1854 	lcall	_printf
+      000981 E5 81            [12] 1855 	mov	a,sp
+      000983 24 FB            [12] 1856 	add	a,#0xfb
+      000985 F5 81            [12] 1857 	mov	sp,a
+      000987 D0 06            [24] 1858 	pop	ar6
+      000989 D0 07            [24] 1859 	pop	ar7
+                                   1860 ;	buffer.c:355: j--;
+      00098B 90r01r5C         [24] 1861 	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+      00098E E0               [24] 1862 	movx	a,@dptr
+      00098F 24 FF            [12] 1863 	add	a,#0xff
+      000991 FC               [12] 1864 	mov	r4,a
+      000992 A3               [24] 1865 	inc	dptr
+      000993 E0               [24] 1866 	movx	a,@dptr
+      000994 34 FF            [12] 1867 	addc	a,#0xff
+      000996 FD               [12] 1868 	mov	r5,a
+      000997 90r01r5C         [24] 1869 	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+      00099A EC               [12] 1870 	mov	a,r4
+      00099B F0               [24] 1871 	movx	@dptr,a
+      00099C ED               [12] 1872 	mov	a,r5
+      00099D A3               [24] 1873 	inc	dptr
+      00099E F0               [24] 1874 	movx	@dptr,a
+                                   1875 ;	buffer.c:356: if (j == 0)
+      00099F 90r01r5C         [24] 1876 	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+      0009A2 E0               [24] 1877 	movx	a,@dptr
+      0009A3 F5 F0            [12] 1878 	mov	b,a
+      0009A5 A3               [24] 1879 	inc	dptr
+      0009A6 E0               [24] 1880 	movx	a,@dptr
+      0009A7 45 F0            [12] 1881 	orl	a,b
+      0009A9 70 09            [24] 1882 	jnz	00111$
+                                   1883 ;	buffer.c:357: j = 16;
+      0009AB 90r01r5C         [24] 1884 	mov	dptr,#_dump_buff_zero_hex_j_131073_87
+      0009AE 74 10            [12] 1885 	mov	a,#0x10
+      0009B0 F0               [24] 1886 	movx	@dptr,a
+      0009B1 E4               [12] 1887 	clr	a
+      0009B2 A3               [24] 1888 	inc	dptr
+      0009B3 F0               [24] 1889 	movx	@dptr,a
+      0009B4                       1890 00111$:
+                                   1891 ;	buffer.c:348: for (int i = 0; i < buffers_array[0].num_char; i++)
+      0009B4 0E               [12] 1892 	inc	r6
+      0009B5 BE 00 01         [24] 1893 	cjne	r6,#0x00,00140$
+      0009B8 0F               [12] 1894 	inc	r7
+      0009B9                       1895 00140$:
+      0009B9 02r08rF1         [24] 1896 	ljmp	00110$
+      0009BC                       1897 00105$:
+                                   1898 ;	buffer.c:359: printf("\n\n\r");
+      0009BC 74r23            [12] 1899 	mov	a,#___str_21
+      0009BE C0 E0            [24] 1900 	push	acc
+      0009C0 74s03            [12] 1901 	mov	a,#(___str_21 >> 8)
+      0009C2 C0 E0            [24] 1902 	push	acc
+      0009C4 74 80            [12] 1903 	mov	a,#0x80
+      0009C6 C0 E0            [24] 1904 	push	acc
+      0009C8 12r00r00         [24] 1905 	lcall	_printf
+      0009CB 15 81            [12] 1906 	dec	sp
+      0009CD 15 81            [12] 1907 	dec	sp
+      0009CF 15 81            [12] 1908 	dec	sp
+      0009D1 22               [24] 1909 	ret
+      0009D2                       1910 00107$:
+                                   1911 ;	buffer.c:363: printf("Buffer 0 is empty...\n\r");
+      0009D2 74rCB            [12] 1912 	mov	a,#___str_27
+      0009D4 C0 E0            [24] 1913 	push	acc
+      0009D6 74s03            [12] 1914 	mov	a,#(___str_27 >> 8)
+      0009D8 C0 E0            [24] 1915 	push	acc
+      0009DA 74 80            [12] 1916 	mov	a,#0x80
+      0009DC C0 E0            [24] 1917 	push	acc
+      0009DE 12r00r00         [24] 1918 	lcall	_printf
+      0009E1 15 81            [12] 1919 	dec	sp
+      0009E3 15 81            [12] 1920 	dec	sp
+      0009E5 15 81            [12] 1921 	dec	sp
+                                   1922 ;	buffer.c:365: }
+      0009E7 22               [24] 1923 	ret
+                                   1924 ;------------------------------------------------------------
+                                   1925 ;Allocation info for local variables in function 'print_heap_stats'
+                                   1926 ;------------------------------------------------------------
+                                   1927 ;	buffer.c:372: void print_heap_stats()
+                                   1928 ;	-----------------------------------------
+                                   1929 ;	 function print_heap_stats
+                                   1930 ;	-----------------------------------------
+      0009E8                       1931 _print_heap_stats:
+                                   1932 ;	buffer.c:374: printf("\n\r****************HEAP*STATS*************\n\r");
+      0009E8 74rE2            [12] 1933 	mov	a,#___str_28
+      0009EA C0 E0            [24] 1934 	push	acc
+      0009EC 74s03            [12] 1935 	mov	a,#(___str_28 >> 8)
+      0009EE C0 E0            [24] 1936 	push	acc
+      0009F0 74 80            [12] 1937 	mov	a,#0x80
+      0009F2 C0 E0            [24] 1938 	push	acc
+      0009F4 12r00r00         [24] 1939 	lcall	_printf
+      0009F7 15 81            [12] 1940 	dec	sp
+      0009F9 15 81            [12] 1941 	dec	sp
+      0009FB 15 81            [12] 1942 	dec	sp
+                                   1943 ;	buffer.c:375: printf("Total Heap Size: %d \n\r", program_stats.total_heap_size);
+      0009FD 90r00r00         [24] 1944 	mov	dptr,#_program_stats
+      000A00 E0               [24] 1945 	movx	a,@dptr
+      000A01 FE               [12] 1946 	mov	r6,a
+      000A02 A3               [24] 1947 	inc	dptr
+      000A03 E0               [24] 1948 	movx	a,@dptr
+      000A04 FF               [12] 1949 	mov	r7,a
+      000A05 C0 06            [24] 1950 	push	ar6
+      000A07 C0 07            [24] 1951 	push	ar7
+      000A09 74r0E            [12] 1952 	mov	a,#___str_29
+      000A0B C0 E0            [24] 1953 	push	acc
+      000A0D 74s04            [12] 1954 	mov	a,#(___str_29 >> 8)
+      000A0F C0 E0            [24] 1955 	push	acc
+      000A11 74 80            [12] 1956 	mov	a,#0x80
+      000A13 C0 E0            [24] 1957 	push	acc
+      000A15 12r00r00         [24] 1958 	lcall	_printf
+      000A18 E5 81            [12] 1959 	mov	a,sp
+      000A1A 24 FB            [12] 1960 	add	a,#0xfb
+      000A1C F5 81            [12] 1961 	mov	sp,a
+                                   1962 ;	buffer.c:376: printf("Allocated Heap Size: %d \n\r", program_stats.allocated_heap);
+      000A1E 90r00r02         [24] 1963 	mov	dptr,#(_program_stats + 0x0002)
+      000A21 E0               [24] 1964 	movx	a,@dptr
+      000A22 FE               [12] 1965 	mov	r6,a
+      000A23 A3               [24] 1966 	inc	dptr
+      000A24 E0               [24] 1967 	movx	a,@dptr
+      000A25 FF               [12] 1968 	mov	r7,a
+      000A26 C0 06            [24] 1969 	push	ar6
+      000A28 C0 07            [24] 1970 	push	ar7
+      000A2A 74r25            [12] 1971 	mov	a,#___str_30
+      000A2C C0 E0            [24] 1972 	push	acc
+      000A2E 74s04            [12] 1973 	mov	a,#(___str_30 >> 8)
+      000A30 C0 E0            [24] 1974 	push	acc
+      000A32 74 80            [12] 1975 	mov	a,#0x80
+      000A34 C0 E0            [24] 1976 	push	acc
+      000A36 12r00r00         [24] 1977 	lcall	_printf
+      000A39 E5 81            [12] 1978 	mov	a,sp
+      000A3B 24 FB            [12] 1979 	add	a,#0xfb
+      000A3D F5 81            [12] 1980 	mov	sp,a
+                                   1981 ;	buffer.c:377: printf("All Chars: %d \n\r", program_stats.all_char_count);
+      000A3F 90r00r04         [24] 1982 	mov	dptr,#(_program_stats + 0x0004)
+      000A42 E0               [24] 1983 	movx	a,@dptr
+      000A43 FE               [12] 1984 	mov	r6,a
+      000A44 A3               [24] 1985 	inc	dptr
+      000A45 E0               [24] 1986 	movx	a,@dptr
+      000A46 FF               [12] 1987 	mov	r7,a
+      000A47 C0 06            [24] 1988 	push	ar6
+      000A49 C0 07            [24] 1989 	push	ar7
+      000A4B 74r40            [12] 1990 	mov	a,#___str_31
+      000A4D C0 E0            [24] 1991 	push	acc
+      000A4F 74s04            [12] 1992 	mov	a,#(___str_31 >> 8)
+      000A51 C0 E0            [24] 1993 	push	acc
+      000A53 74 80            [12] 1994 	mov	a,#0x80
+      000A55 C0 E0            [24] 1995 	push	acc
+      000A57 12r00r00         [24] 1996 	lcall	_printf
+      000A5A E5 81            [12] 1997 	mov	a,sp
+      000A5C 24 FB            [12] 1998 	add	a,#0xfb
+      000A5E F5 81            [12] 1999 	mov	sp,a
+                                   2000 ;	buffer.c:378: printf("Storage Chars: %d \n\r", program_stats.storage_char_count);
+      000A60 90r00r06         [24] 2001 	mov	dptr,#(_program_stats + 0x0006)
+      000A63 E0               [24] 2002 	movx	a,@dptr
+      000A64 FE               [12] 2003 	mov	r6,a
+      000A65 A3               [24] 2004 	inc	dptr
+      000A66 E0               [24] 2005 	movx	a,@dptr
+      000A67 FF               [12] 2006 	mov	r7,a
+      000A68 C0 06            [24] 2007 	push	ar6
+      000A6A C0 07            [24] 2008 	push	ar7
+      000A6C 74r51            [12] 2009 	mov	a,#___str_32
+      000A6E C0 E0            [24] 2010 	push	acc
+      000A70 74s04            [12] 2011 	mov	a,#(___str_32 >> 8)
+      000A72 C0 E0            [24] 2012 	push	acc
+      000A74 74 80            [12] 2013 	mov	a,#0x80
+      000A76 C0 E0            [24] 2014 	push	acc
+      000A78 12r00r00         [24] 2015 	lcall	_printf
+      000A7B E5 81            [12] 2016 	mov	a,sp
+      000A7D 24 FB            [12] 2017 	add	a,#0xfb
+      000A7F F5 81            [12] 2018 	mov	sp,a
+                                   2019 ;	buffer.c:379: printf("Total Buffers: %d \n\r", program_stats.total_buffers);
+      000A81 90r00r08         [24] 2020 	mov	dptr,#(_program_stats + 0x0008)
+      000A84 E0               [24] 2021 	movx	a,@dptr
+      000A85 FE               [12] 2022 	mov	r6,a
+      000A86 A3               [24] 2023 	inc	dptr
+      000A87 E0               [24] 2024 	movx	a,@dptr
+      000A88 FF               [12] 2025 	mov	r7,a
+      000A89 C0 06            [24] 2026 	push	ar6
+      000A8B C0 07            [24] 2027 	push	ar7
+      000A8D 74r66            [12] 2028 	mov	a,#___str_33
+      000A8F C0 E0            [24] 2029 	push	acc
+      000A91 74s04            [12] 2030 	mov	a,#(___str_33 >> 8)
+      000A93 C0 E0            [24] 2031 	push	acc
+      000A95 74 80            [12] 2032 	mov	a,#0x80
+      000A97 C0 E0            [24] 2033 	push	acc
+      000A99 12r00r00         [24] 2034 	lcall	_printf
+      000A9C E5 81            [12] 2035 	mov	a,sp
+      000A9E 24 FB            [12] 2036 	add	a,#0xfb
+      000AA0 F5 81            [12] 2037 	mov	sp,a
+                                   2038 ;	buffer.c:380: }
+      000AA2 22               [24] 2039 	ret
+                                   2040 ;------------------------------------------------------------
+                                   2041 ;Allocation info for local variables in function 'print_all_buffers'
+                                   2042 ;------------------------------------------------------------
+                                   2043 ;i                         Allocated with name '_print_all_buffers_i_131072_94'
+                                   2044 ;------------------------------------------------------------
+                                   2045 ;	buffer.c:387: void print_all_buffers()
+                                   2046 ;	-----------------------------------------
+                                   2047 ;	 function print_all_buffers
+                                   2048 ;	-----------------------------------------
+      000AA3                       2049 _print_all_buffers:
+                                   2050 ;	buffer.c:389: for (int i = 0; i < program_stats.total_buffers; i++)
+      000AA3 7E 00            [12] 2051 	mov	r6,#0x00
+      000AA5 7F 00            [12] 2052 	mov	r7,#0x00
+      000AA7                       2053 00103$:
+      000AA7 90r00r08         [24] 2054 	mov	dptr,#(_program_stats + 0x0008)
+      000AAA E0               [24] 2055 	movx	a,@dptr
+      000AAB FC               [12] 2056 	mov	r4,a
+      000AAC A3               [24] 2057 	inc	dptr
+      000AAD E0               [24] 2058 	movx	a,@dptr
+      000AAE FD               [12] 2059 	mov	r5,a
+      000AAF C3               [12] 2060 	clr	c
+      000AB0 EE               [12] 2061 	mov	a,r6
+      000AB1 9C               [12] 2062 	subb	a,r4
+      000AB2 EF               [12] 2063 	mov	a,r7
+      000AB3 64 80            [12] 2064 	xrl	a,#0x80
+      000AB5 8D F0            [24] 2065 	mov	b,r5
+      000AB7 63 F0 80         [24] 2066 	xrl	b,#0x80
+      000ABA 95 F0            [12] 2067 	subb	a,b
+      000ABC 40 03            [24] 2068 	jc	00116$
+      000ABE 02r0BrF7         [24] 2069 	ljmp	00101$
+      000AC1                       2070 00116$:
+                                   2071 ;	buffer.c:391: printf("****************BUFFER*%d***************\n\r", i);
+      000AC1 C0 07            [24] 2072 	push	ar7
+      000AC3 C0 06            [24] 2073 	push	ar6
+      000AC5 C0 06            [24] 2074 	push	ar6
+      000AC7 C0 07            [24] 2075 	push	ar7
+      000AC9 74r7B            [12] 2076 	mov	a,#___str_34
+      000ACB C0 E0            [24] 2077 	push	acc
+      000ACD 74s04            [12] 2078 	mov	a,#(___str_34 >> 8)
+      000ACF C0 E0            [24] 2079 	push	acc
+      000AD1 74 80            [12] 2080 	mov	a,#0x80
+      000AD3 C0 E0            [24] 2081 	push	acc
+      000AD5 12r00r00         [24] 2082 	lcall	_printf
+      000AD8 E5 81            [12] 2083 	mov	a,sp
+      000ADA 24 FB            [12] 2084 	add	a,#0xfb
+      000ADC F5 81            [12] 2085 	mov	sp,a
+      000ADE D0 06            [24] 2086 	pop	ar6
+      000AE0 D0 07            [24] 2087 	pop	ar7
+                                   2088 ;	buffer.c:392: printf("Buffer#: %d \n\r", buffers_array[i].buffer_num);
+      000AE2 90r00r00         [24] 2089 	mov	dptr,#__mulint_PARM_2
+      000AE5 EE               [12] 2090 	mov	a,r6
+      000AE6 F0               [24] 2091 	movx	@dptr,a
+      000AE7 EF               [12] 2092 	mov	a,r7
+      000AE8 A3               [24] 2093 	inc	dptr
+      000AE9 F0               [24] 2094 	movx	@dptr,a
+      000AEA 90 00 0C         [24] 2095 	mov	dptr,#0x000c
+      000AED C0 07            [24] 2096 	push	ar7
+      000AEF C0 06            [24] 2097 	push	ar6
+      000AF1 12r00r00         [24] 2098 	lcall	__mulint
+      000AF4 AC 82            [24] 2099 	mov	r4,dpl
+      000AF6 AD 83            [24] 2100 	mov	r5,dph
+      000AF8 EC               [12] 2101 	mov	a,r4
+      000AF9 24r0A            [12] 2102 	add	a,#_buffers_array
+      000AFB F5 82            [12] 2103 	mov	dpl,a
+      000AFD ED               [12] 2104 	mov	a,r5
+      000AFE 34s00            [12] 2105 	addc	a,#(_buffers_array >> 8)
+      000B00 F5 83            [12] 2106 	mov	dph,a
+      000B02 E0               [24] 2107 	movx	a,@dptr
+      000B03 FA               [12] 2108 	mov	r2,a
+      000B04 A3               [24] 2109 	inc	dptr
+      000B05 E0               [24] 2110 	movx	a,@dptr
+      000B06 FB               [12] 2111 	mov	r3,a
+      000B07 C0 05            [24] 2112 	push	ar5
+      000B09 C0 04            [24] 2113 	push	ar4
+      000B0B C0 02            [24] 2114 	push	ar2
+      000B0D C0 03            [24] 2115 	push	ar3
+      000B0F 74rA6            [12] 2116 	mov	a,#___str_35
+      000B11 C0 E0            [24] 2117 	push	acc
+      000B13 74s04            [12] 2118 	mov	a,#(___str_35 >> 8)
+      000B15 C0 E0            [24] 2119 	push	acc
+      000B17 74 80            [12] 2120 	mov	a,#0x80
+      000B19 C0 E0            [24] 2121 	push	acc
+      000B1B 12r00r00         [24] 2122 	lcall	_printf
+      000B1E E5 81            [12] 2123 	mov	a,sp
+      000B20 24 FB            [12] 2124 	add	a,#0xfb
+      000B22 F5 81            [12] 2125 	mov	sp,a
+      000B24 D0 04            [24] 2126 	pop	ar4
+      000B26 D0 05            [24] 2127 	pop	ar5
+                                   2128 ;	buffer.c:393: printf("BufferStart: %p \n\r", buffers_array[i].buffer_start);
+      000B28 EC               [12] 2129 	mov	a,r4
+      000B29 24r0A            [12] 2130 	add	a,#_buffers_array
+      000B2B FC               [12] 2131 	mov	r4,a
+      000B2C ED               [12] 2132 	mov	a,r5
+      000B2D 34s00            [12] 2133 	addc	a,#(_buffers_array >> 8)
+      000B2F FD               [12] 2134 	mov	r5,a
+      000B30 8C 82            [24] 2135 	mov	dpl,r4
+      000B32 8D 83            [24] 2136 	mov	dph,r5
+      000B34 A3               [24] 2137 	inc	dptr
+      000B35 A3               [24] 2138 	inc	dptr
+      000B36 E0               [24] 2139 	movx	a,@dptr
+      000B37 F9               [12] 2140 	mov	r1,a
+      000B38 A3               [24] 2141 	inc	dptr
+      000B39 E0               [24] 2142 	movx	a,@dptr
+      000B3A FA               [12] 2143 	mov	r2,a
+      000B3B A3               [24] 2144 	inc	dptr
+      000B3C E0               [24] 2145 	movx	a,@dptr
+      000B3D FB               [12] 2146 	mov	r3,a
+      000B3E C0 05            [24] 2147 	push	ar5
+      000B40 C0 04            [24] 2148 	push	ar4
+      000B42 C0 01            [24] 2149 	push	ar1
+      000B44 C0 02            [24] 2150 	push	ar2
+      000B46 C0 03            [24] 2151 	push	ar3
+      000B48 74rB5            [12] 2152 	mov	a,#___str_36
+      000B4A C0 E0            [24] 2153 	push	acc
+      000B4C 74s04            [12] 2154 	mov	a,#(___str_36 >> 8)
+      000B4E C0 E0            [24] 2155 	push	acc
+      000B50 74 80            [12] 2156 	mov	a,#0x80
+      000B52 C0 E0            [24] 2157 	push	acc
+      000B54 12r00r00         [24] 2158 	lcall	_printf
+      000B57 E5 81            [12] 2159 	mov	a,sp
+      000B59 24 FA            [12] 2160 	add	a,#0xfa
+      000B5B F5 81            [12] 2161 	mov	sp,a
+      000B5D D0 04            [24] 2162 	pop	ar4
+      000B5F D0 05            [24] 2163 	pop	ar5
+                                   2164 ;	buffer.c:394: printf("BufferEnd: %p \n\r", buffers_array[i].buffer_end);
+      000B61 8C 82            [24] 2165 	mov	dpl,r4
+      000B63 8D 83            [24] 2166 	mov	dph,r5
+      000B65 A3               [24] 2167 	inc	dptr
+      000B66 A3               [24] 2168 	inc	dptr
+      000B67 A3               [24] 2169 	inc	dptr
+      000B68 A3               [24] 2170 	inc	dptr
+      000B69 A3               [24] 2171 	inc	dptr
+      000B6A E0               [24] 2172 	movx	a,@dptr
+      000B6B F9               [12] 2173 	mov	r1,a
+      000B6C A3               [24] 2174 	inc	dptr
+      000B6D E0               [24] 2175 	movx	a,@dptr
+      000B6E FA               [12] 2176 	mov	r2,a
+      000B6F A3               [24] 2177 	inc	dptr
+      000B70 E0               [24] 2178 	movx	a,@dptr
+      000B71 FB               [12] 2179 	mov	r3,a
+      000B72 C0 05            [24] 2180 	push	ar5
+      000B74 C0 04            [24] 2181 	push	ar4
+      000B76 C0 01            [24] 2182 	push	ar1
+      000B78 C0 02            [24] 2183 	push	ar2
+      000B7A C0 03            [24] 2184 	push	ar3
+      000B7C 74rC8            [12] 2185 	mov	a,#___str_37
+      000B7E C0 E0            [24] 2186 	push	acc
+      000B80 74s04            [12] 2187 	mov	a,#(___str_37 >> 8)
+      000B82 C0 E0            [24] 2188 	push	acc
+      000B84 74 80            [12] 2189 	mov	a,#0x80
+      000B86 C0 E0            [24] 2190 	push	acc
+      000B88 12r00r00         [24] 2191 	lcall	_printf
+      000B8B E5 81            [12] 2192 	mov	a,sp
+      000B8D 24 FA            [12] 2193 	add	a,#0xfa
+      000B8F F5 81            [12] 2194 	mov	sp,a
+      000B91 D0 04            [24] 2195 	pop	ar4
+      000B93 D0 05            [24] 2196 	pop	ar5
+                                   2197 ;	buffer.c:395: printf("BufferSize: %d \n\r", buffers_array[i].buff_size);
+      000B95 74 08            [12] 2198 	mov	a,#0x08
+      000B97 2C               [12] 2199 	add	a,r4
+      000B98 F5 82            [12] 2200 	mov	dpl,a
+      000B9A E4               [12] 2201 	clr	a
+      000B9B 3D               [12] 2202 	addc	a,r5
+      000B9C F5 83            [12] 2203 	mov	dph,a
+      000B9E E0               [24] 2204 	movx	a,@dptr
+      000B9F FA               [12] 2205 	mov	r2,a
+      000BA0 A3               [24] 2206 	inc	dptr
+      000BA1 E0               [24] 2207 	movx	a,@dptr
+      000BA2 FB               [12] 2208 	mov	r3,a
+      000BA3 C0 05            [24] 2209 	push	ar5
+      000BA5 C0 04            [24] 2210 	push	ar4
+      000BA7 C0 02            [24] 2211 	push	ar2
+      000BA9 C0 03            [24] 2212 	push	ar3
+      000BAB 74rD9            [12] 2213 	mov	a,#___str_38
+      000BAD C0 E0            [24] 2214 	push	acc
+      000BAF 74s04            [12] 2215 	mov	a,#(___str_38 >> 8)
+      000BB1 C0 E0            [24] 2216 	push	acc
+      000BB3 74 80            [12] 2217 	mov	a,#0x80
+      000BB5 C0 E0            [24] 2218 	push	acc
+      000BB7 12r00r00         [24] 2219 	lcall	_printf
+      000BBA E5 81            [12] 2220 	mov	a,sp
+      000BBC 24 FB            [12] 2221 	add	a,#0xfb
+      000BBE F5 81            [12] 2222 	mov	sp,a
+      000BC0 D0 04            [24] 2223 	pop	ar4
+      000BC2 D0 05            [24] 2224 	pop	ar5
+                                   2225 ;	buffer.c:396: printf("TotalUsed: %d \n\r", buffers_array[i].num_char);
+      000BC4 74 0A            [12] 2226 	mov	a,#0x0a
+      000BC6 2C               [12] 2227 	add	a,r4
+      000BC7 F5 82            [12] 2228 	mov	dpl,a
+      000BC9 E4               [12] 2229 	clr	a
+      000BCA 3D               [12] 2230 	addc	a,r5
+      000BCB F5 83            [12] 2231 	mov	dph,a
+      000BCD E0               [24] 2232 	movx	a,@dptr
+      000BCE FC               [12] 2233 	mov	r4,a
+      000BCF A3               [24] 2234 	inc	dptr
+      000BD0 E0               [24] 2235 	movx	a,@dptr
+      000BD1 FD               [12] 2236 	mov	r5,a
+      000BD2 C0 04            [24] 2237 	push	ar4
+      000BD4 C0 05            [24] 2238 	push	ar5
+      000BD6 74rEB            [12] 2239 	mov	a,#___str_39
+      000BD8 C0 E0            [24] 2240 	push	acc
+      000BDA 74s04            [12] 2241 	mov	a,#(___str_39 >> 8)
+      000BDC C0 E0            [24] 2242 	push	acc
+      000BDE 74 80            [12] 2243 	mov	a,#0x80
+      000BE0 C0 E0            [24] 2244 	push	acc
+      000BE2 12r00r00         [24] 2245 	lcall	_printf
+      000BE5 E5 81            [12] 2246 	mov	a,sp
+      000BE7 24 FB            [12] 2247 	add	a,#0xfb
+      000BE9 F5 81            [12] 2248 	mov	sp,a
+      000BEB D0 06            [24] 2249 	pop	ar6
+      000BED D0 07            [24] 2250 	pop	ar7
+                                   2251 ;	buffer.c:389: for (int i = 0; i < program_stats.total_buffers; i++)
+      000BEF 0E               [12] 2252 	inc	r6
+      000BF0 BE 00 01         [24] 2253 	cjne	r6,#0x00,00117$
+      000BF3 0F               [12] 2254 	inc	r7
+      000BF4                       2255 00117$:
+      000BF4 02r0ArA7         [24] 2256 	ljmp	00103$
+      000BF7                       2257 00101$:
+                                   2258 ;	buffer.c:398: printf("***************************************\n\r");
+      000BF7 74rFC            [12] 2259 	mov	a,#___str_40
+      000BF9 C0 E0            [24] 2260 	push	acc
+      000BFB 74s04            [12] 2261 	mov	a,#(___str_40 >> 8)
+      000BFD C0 E0            [24] 2262 	push	acc
+      000BFF 74 80            [12] 2263 	mov	a,#0x80
+      000C01 C0 E0            [24] 2264 	push	acc
+      000C03 12r00r00         [24] 2265 	lcall	_printf
+      000C06 15 81            [12] 2266 	dec	sp
+      000C08 15 81            [12] 2267 	dec	sp
+      000C0A 15 81            [12] 2268 	dec	sp
+                                   2269 ;	buffer.c:399: }
+      000C0C 22               [24] 2270 	ret
+                                   2271 	.area CSEG    (CODE)
+                                   2272 	.area CONST   (CODE)
+                                   2273 	.area CONST   (CODE)
+      000000                       2274 ___str_0:
+      000000 42 75 66 66 65 72 20  2275 	.ascii "Buffer %d Freed ...."
+             25 64 20 46 72 65 65
+             64 20 2E 2E 2E 2E
+      000014 0A                    2276 	.db 0x0a
+      000015 0D                    2277 	.db 0x0d
+      000016 00                    2278 	.db 0x00
+                                   2279 	.area CSEG    (CODE)
+                                   2280 	.area CONST   (CODE)
+      000017                       2281 ___str_1:
+      000017 4C 65 74 27 73 20 62  2282 	.ascii "Let's begin again.."
+             65 67 69 6E 20 61 67
+             61 69 6E 2E 2E
+      00002A 0A                    2283 	.db 0x0a
+      00002B 0D                    2284 	.db 0x0d
+      00002C 00                    2285 	.db 0x00
+                                   2286 	.area CSEG    (CODE)
+                                   2287 	.area CONST   (CODE)
+      00002D                       2288 ___str_2:
+      00002D 0A                    2289 	.db 0x0a
+      00002E 0D                    2290 	.db 0x0d
+      00002F 47 69 76 65 20 56 61  2291 	.ascii "Give Valid Buffer Number to delete(1-%d) in 3 digits"
+             6C 69 64 20 42 75 66
+             66 65 72 20 4E 75 6D
+             62 65 72 20 74 6F 20
+             64 65 6C 65 74 65 28
+             31 2D 25 64 29 20 69
+             6E 20 33 20 64 69 67
+             69 74 73
+      000063 0A                    2292 	.db 0x0a
+      000064 0D                    2293 	.db 0x0d
+      000065 00                    2294 	.db 0x00
+                                   2295 	.area CSEG    (CODE)
+                                   2296 	.area CONST   (CODE)
+      000066                       2297 ___str_3:
+      000066 42 75 66 66 65 72 20  2298 	.ascii "Buffer %d Successfully Deleted.. "
+             25 64 20 53 75 63 63
+             65 73 73 66 75 6C 6C
+             79 20 44 65 6C 65 74
+             65 64 2E 2E 20
+      000087 0A                    2299 	.db 0x0a
+      000088 0D                    2300 	.db 0x0d
+      000089 00                    2301 	.db 0x00
+                                   2302 	.area CSEG    (CODE)
+                                   2303 	.area CONST   (CODE)
+      00008A                       2304 ___str_4:
+      00008A 0A                    2305 	.db 0x0a
+      00008B 0A                    2306 	.db 0x0a
+      00008C 0D                    2307 	.db 0x0d
+      00008D 5E 5E 5E 5E 5E 5E 5E  2308 	.ascii "^^^^^^^^^^^^^^^^^^^-HEAP-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+             5E 5E 5E 5E 5E 5E 5E
+             5E 5E 5E 5E 5E 2D 48
+             45 41 50 2D 4D 45 4E
+             55 2D 5E 5E 5E 5E 5E
+             5E 5E 5E 5E 5E 5E 5E
+             5E 5E 5E 5E 5E 5E 5E
+             5E 5E 5E 5E 5E 5E 5E
+             20
+      0000C6 0A                    2309 	.db 0x0a
+      0000C7 0A                    2310 	.db 0x0a
+      0000C8 0D                    2311 	.db 0x0d
+      0000C9 00                    2312 	.db 0x00
+                                   2313 	.area CSEG    (CODE)
+                                   2314 	.area CONST   (CODE)
+      0000CA                       2315 ___str_5:
+      0000CA 59 6F 75 20 63 61 6E  2316 	.ascii "You can enter characters or use commands from below "
+             20 65 6E 74 65 72 20
+             63 68 61 72 61 63 74
+             65 72 73 20 6F 72 20
+             75 73 65 20 63 6F 6D
+             6D 61 6E 64 73 20 66
+             72 6F 6D 20 62 65 6C
+             6F 77 20
+      0000FE 0A                    2317 	.db 0x0a
+      0000FF 0D                    2318 	.db 0x0d
+      000100 00                    2319 	.db 0x00
+                                   2320 	.area CSEG    (CODE)
+                                   2321 	.area CONST   (CODE)
+      000101                       2322 ___str_6:
+      000101 27 3F 27 20 2D 3E 20  2323 	.ascii "'?' -> Show heap status, dump & clear Buffer 0 "
+             53 68 6F 77 20 68 65
+             61 70 20 73 74 61 74
+             75 73 2C 20 64 75 6D
+             70 20 26 20 63 6C 65
+             61 72 20 42 75 66 66
+             65 72 20 30 20
+      000130 0A                    2324 	.db 0x0a
+      000131 0D                    2325 	.db 0x0d
+      000132 00                    2326 	.db 0x00
+                                   2327 	.area CSEG    (CODE)
+                                   2328 	.area CONST   (CODE)
+      000133                       2329 ___str_7:
+      000133 27 2B 27 20 2D 3E 20  2330 	.ascii "'+' -> Add a new Buffer"
+             41 64 64 20 61 20 6E
+             65 77 20 42 75 66 66
+             65 72
+      00014A 0A                    2331 	.db 0x0a
+      00014B 0D                    2332 	.db 0x0d
+      00014C 00                    2333 	.db 0x00
+                                   2334 	.area CSEG    (CODE)
+                                   2335 	.area CONST   (CODE)
+      00014D                       2336 ___str_8:
+      00014D 27 2D 27 20 2D 3E 20  2337 	.ascii "'-' -> Delete existing Buffer"
+             44 65 6C 65 74 65 20
+             65 78 69 73 74 69 6E
+             67 20 42 75 66 66 65
+             72
+      00016A 0A                    2338 	.db 0x0a
+      00016B 0D                    2339 	.db 0x0d
+      00016C 00                    2340 	.db 0x00
+                                   2341 	.area CSEG    (CODE)
+                                   2342 	.area CONST   (CODE)
+      00016D                       2343 ___str_9:
+      00016D 27 3D 27 20 2D 3E 20  2344 	.ascii "'=' -> Dump Buffer 0 in hex"
+             44 75 6D 70 20 42 75
+             66 66 65 72 20 30 20
+             69 6E 20 68 65 78
+      000188 0A                    2345 	.db 0x0a
+      000189 0D                    2346 	.db 0x0d
+      00018A 00                    2347 	.db 0x00
+                                   2348 	.area CSEG    (CODE)
+                                   2349 	.area CONST   (CODE)
+      00018B                       2350 ___str_10:
+      00018B 27 40 27 20 2D 3E 20  2351 	.ascii "'@' -> Free all Heap & begin again"
+             46 72 65 65 20 61 6C
+             6C 20 48 65 61 70 20
+             26 20 62 65 67 69 6E
+             20 61 67 61 69 6E
+      0001AD 0A                    2352 	.db 0x0a
+      0001AE 0A                    2353 	.db 0x0a
+      0001AF 0D                    2354 	.db 0x0d
+      0001B0 00                    2355 	.db 0x00
+                                   2356 	.area CSEG    (CODE)
+                                   2357 	.area CONST   (CODE)
+      0001B1                       2358 ___str_11:
+      0001B1 27 4D 27 20 2D 3E 20  2359 	.ascii "'M' -> Go to Main Menu "
+             47 6F 20 74 6F 20 4D
+             61 69 6E 20 4D 65 6E
+             75 20
+      0001C8 0A                    2360 	.db 0x0a
+      0001C9 0A                    2361 	.db 0x0a
+      0001CA 0D                    2362 	.db 0x0d
+      0001CB 00                    2363 	.db 0x00
+                                   2364 	.area CSEG    (CODE)
+                                   2365 	.area CONST   (CODE)
+      0001CC                       2366 ___str_12:
+      0001CC 0A                    2367 	.db 0x0a
+      0001CD 0D                    2368 	.db 0x0d
+      0001CE 47 69 76 65 20 56 61  2369 	.ascii "Give Valid Buffer Size(030-300):"
+             6C 69 64 20 42 75 66
+             66 65 72 20 53 69 7A
+             65 28 30 33 30 2D 33
+             30 30 29 3A
+      0001EE 00                    2370 	.db 0x00
+                                   2371 	.area CSEG    (CODE)
+                                   2372 	.area CONST   (CODE)
+      0001EF                       2373 ___str_13:
+      0001EF 46 61 69 6C 65 64 2C  2374 	.ascii "Failed, give smaller buffer"
+             20 67 69 76 65 20 73
+             6D 61 6C 6C 65 72 20
+             62 75 66 66 65 72
+      00020A 0A                    2375 	.db 0x0a
+      00020B 0D                    2376 	.db 0x0d
+      00020C 00                    2377 	.db 0x00
+                                   2378 	.area CSEG    (CODE)
+                                   2379 	.area CONST   (CODE)
+      00020D                       2380 ___str_14:
+      00020D 0A                    2381 	.db 0x0a
+      00020E 0A                    2382 	.db 0x0a
+      00020F 0D                    2383 	.db 0x0d
+      000210 23 23 23 23 53 55 43  2384 	.ascii "####SUCCESS, BUFFER Created####"
+             43 45 53 53 2C 20 42
+             55 46 46 45 52 20 43
+             72 65 61 74 65 64 23
+             23 23 23
+      00022F 0A                    2385 	.db 0x0a
+      000230 0A                    2386 	.db 0x0a
+      000231 0D                    2387 	.db 0x0d
+      000232 00                    2388 	.db 0x00
+                                   2389 	.area CSEG    (CODE)
+                                   2390 	.area CONST   (CODE)
+      000233                       2391 ___str_15:
+      000233 4E 6F 20 48 65 61 70  2392 	.ascii "No Heap Memory Left, Delete some buffers..."
+             20 4D 65 6D 6F 72 79
+             20 4C 65 66 74 2C 20
+             44 65 6C 65 74 65 20
+             73 6F 6D 65 20 62 75
+             66 66 65 72 73 2E 2E
+             2E
+      00025E 0A                    2393 	.db 0x0a
+      00025F 0D                    2394 	.db 0x0d
+      000260 00                    2395 	.db 0x00
+                                   2396 	.area CSEG    (CODE)
+                                   2397 	.area CONST   (CODE)
+      000261                       2398 ___str_16:
+      000261 0A                    2399 	.db 0x0a
+      000262 0D                    2400 	.db 0x0d
+      000263 47 69 76 65 20 56 61  2401 	.ascii "Give Valid Initial Buffer Size(0048-4800):"
+             6C 69 64 20 49 6E 69
+             74 69 61 6C 20 42 75
+             66 66 65 72 20 53 69
+             7A 65 28 30 30 34 38
+             2D 34 38 30 30 29 3A
+      00028D 00                    2402 	.db 0x00
+                                   2403 	.area CSEG    (CODE)
+                                   2404 	.area CONST   (CODE)
+      00028E                       2405 ___str_17:
+      00028E 0A                    2406 	.db 0x0a
+      00028F 0D                    2407 	.db 0x0d
+      000290 23 23 23 23 46 41 49  2408 	.ascii "####FAIL, Please give a smaller buffer size####"
+             4C 2C 20 50 6C 65 61
+             73 65 20 67 69 76 65
+             20 61 20 73 6D 61 6C
+             6C 65 72 20 62 75 66
+             66 65 72 20 73 69 7A
+             65 23 23 23 23
+      0002BF 0A                    2409 	.db 0x0a
+      0002C0 0A                    2410 	.db 0x0a
+      0002C1 0D                    2411 	.db 0x0d
+      0002C2 00                    2412 	.db 0x00
+                                   2413 	.area CSEG    (CODE)
+                                   2414 	.area CONST   (CODE)
+      0002C3                       2415 ___str_18:
+      0002C3 0A                    2416 	.db 0x0a
+      0002C4 0A                    2417 	.db 0x0a
+      0002C5 0D                    2418 	.db 0x0d
+      0002C6 23 23 23 23 53 55 43  2419 	.ascii "####SUCCESS, INITIAL BUFFERS Created####"
+             43 45 53 53 2C 20 49
+             4E 49 54 49 41 4C 20
+             42 55 46 46 45 52 53
+             20 43 72 65 61 74 65
+             64 23 23 23 23
+      0002EE 0A                    2420 	.db 0x0a
+      0002EF 0A                    2421 	.db 0x0a
+      0002F0 0D                    2422 	.db 0x0d
+      0002F1 00                    2423 	.db 0x00
+                                   2424 	.area CSEG    (CODE)
+                                   2425 	.area CONST   (CODE)
+      0002F2                       2426 ___str_19:
+      0002F2 0A                    2427 	.db 0x0a
+      0002F3 0A                    2428 	.db 0x0a
+      0002F4 0D                    2429 	.db 0x0d
+      0002F5 2A 2A 2A 2A 2A 2A 2A  2430 	.ascii "***********Buffer-0-Contents*********** "
+             2A 2A 2A 2A 42 75 66
+             66 65 72 2D 30 2D 43
+             6F 6E 74 65 6E 74 73
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 2A 2A 20
+      00031D 0A                    2431 	.db 0x0a
+      00031E 0D                    2432 	.db 0x0d
+      00031F 00                    2433 	.db 0x00
+                                   2434 	.area CSEG    (CODE)
+                                   2435 	.area CONST   (CODE)
+      000320                       2436 ___str_20:
+      000320 0A                    2437 	.db 0x0a
+      000321 0D                    2438 	.db 0x0d
+      000322 00                    2439 	.db 0x00
+                                   2440 	.area CSEG    (CODE)
+                                   2441 	.area CONST   (CODE)
+      000323                       2442 ___str_21:
+      000323 0A                    2443 	.db 0x0a
+      000324 0A                    2444 	.db 0x0a
+      000325 0D                    2445 	.db 0x0d
+      000326 00                    2446 	.db 0x00
+                                   2447 	.area CSEG    (CODE)
+                                   2448 	.area CONST   (CODE)
+      000327                       2449 ___str_22:
+      000327 42 75 66 66 65 72 30  2450 	.ascii "Buffer0 is Empty...."
+             20 69 73 20 45 6D 70
+             74 79 2E 2E 2E 2E
+      00033B 0A                    2451 	.db 0x0a
+      00033C 0D                    2452 	.db 0x0d
+      00033D 00                    2453 	.db 0x00
+                                   2454 	.area CSEG    (CODE)
+                                   2455 	.area CONST   (CODE)
+      00033E                       2456 ___str_23:
+      00033E 0A                    2457 	.db 0x0a
+      00033F 0D                    2458 	.db 0x0d
+      000340 2D 2D 2D 2D 2D 2D 2D  2459 	.ascii "-------------------------HEXDUMP----------------------------"
+             2D 2D 2D 2D 2D 2D 2D
+             2D 2D 2D 2D 2D 2D 2D
+             2D 2D 2D 2D 48 45 58
+             44 55 4D 50 2D 2D 2D
+             2D 2D 2D 2D 2D 2D 2D
+             2D 2D 2D 2D 2D 2D 2D
+             2D 2D 2D 2D 2D 2D 2D
+             2D 2D 2D 2D
+      00037C 2D 2D 2D 2D           2460 	.ascii "----"
+      000380 00                    2461 	.db 0x00
+                                   2462 	.area CSEG    (CODE)
+                                   2463 	.area CONST   (CODE)
+      000381                       2464 ___str_24:
+      000381 0A                    2465 	.db 0x0a
+      000382 0D                    2466 	.db 0x0d
+      000383 20 20 20 20 41 44 44  2467 	.ascii "    ADDR: +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F "
+             52 3A 20 2B 30 20 2B
+             31 20 2B 32 20 2B 33
+             20 2B 34 20 2B 35 20
+             2B 36 20 2B 37 20 2B
+             38 20 2B 39 20 2B 41
+             20 2B 42 20 2B 43 20
+             2B 44 20 2B 45 20 2B
+             46 20
+      0003BD 0A                    2468 	.db 0x0a
+      0003BE 0D                    2469 	.db 0x0d
+      0003BF 00                    2470 	.db 0x00
+                                   2471 	.area CSEG    (CODE)
+                                   2472 	.area CONST   (CODE)
+      0003C0                       2473 ___str_25:
+      0003C0 0A                    2474 	.db 0x0a
+      0003C1 0D                    2475 	.db 0x0d
+      0003C2 25 70 3A 20           2476 	.ascii "%p: "
+      0003C6 00                    2477 	.db 0x00
+                                   2478 	.area CSEG    (CODE)
+                                   2479 	.area CONST   (CODE)
+      0003C7                       2480 ___str_26:
+      0003C7 25 78 20              2481 	.ascii "%x "
+      0003CA 00                    2482 	.db 0x00
+                                   2483 	.area CSEG    (CODE)
+                                   2484 	.area CONST   (CODE)
+      0003CB                       2485 ___str_27:
+      0003CB 42 75 66 66 65 72 20  2486 	.ascii "Buffer 0 is empty..."
+             30 20 69 73 20 65 6D
+             70 74 79 2E 2E 2E
+      0003DF 0A                    2487 	.db 0x0a
+      0003E0 0D                    2488 	.db 0x0d
+      0003E1 00                    2489 	.db 0x00
+                                   2490 	.area CSEG    (CODE)
+                                   2491 	.area CONST   (CODE)
+      0003E2                       2492 ___str_28:
+      0003E2 0A                    2493 	.db 0x0a
+      0003E3 0D                    2494 	.db 0x0d
+      0003E4 2A 2A 2A 2A 2A 2A 2A  2495 	.ascii "****************HEAP*STATS*************"
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 48 45 41 50 2A
+             53 54 41 54 53 2A 2A
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 2A 2A
+      00040B 0A                    2496 	.db 0x0a
+      00040C 0D                    2497 	.db 0x0d
+      00040D 00                    2498 	.db 0x00
+                                   2499 	.area CSEG    (CODE)
+                                   2500 	.area CONST   (CODE)
+      00040E                       2501 ___str_29:
+      00040E 54 6F 74 61 6C 20 48  2502 	.ascii "Total Heap Size: %d "
+             65 61 70 20 53 69 7A
+             65 3A 20 25 64 20
+      000422 0A                    2503 	.db 0x0a
+      000423 0D                    2504 	.db 0x0d
+      000424 00                    2505 	.db 0x00
+                                   2506 	.area CSEG    (CODE)
+                                   2507 	.area CONST   (CODE)
+      000425                       2508 ___str_30:
+      000425 41 6C 6C 6F 63 61 74  2509 	.ascii "Allocated Heap Size: %d "
+             65 64 20 48 65 61 70
+             20 53 69 7A 65 3A 20
+             25 64 20
+      00043D 0A                    2510 	.db 0x0a
+      00043E 0D                    2511 	.db 0x0d
+      00043F 00                    2512 	.db 0x00
+                                   2513 	.area CSEG    (CODE)
+                                   2514 	.area CONST   (CODE)
+      000440                       2515 ___str_31:
+      000440 41 6C 6C 20 43 68 61  2516 	.ascii "All Chars: %d "
+             72 73 3A 20 25 64 20
+      00044E 0A                    2517 	.db 0x0a
+      00044F 0D                    2518 	.db 0x0d
+      000450 00                    2519 	.db 0x00
+                                   2520 	.area CSEG    (CODE)
+                                   2521 	.area CONST   (CODE)
+      000451                       2522 ___str_32:
+      000451 53 74 6F 72 61 67 65  2523 	.ascii "Storage Chars: %d "
+             20 43 68 61 72 73 3A
+             20 25 64 20
+      000463 0A                    2524 	.db 0x0a
+      000464 0D                    2525 	.db 0x0d
+      000465 00                    2526 	.db 0x00
+                                   2527 	.area CSEG    (CODE)
+                                   2528 	.area CONST   (CODE)
+      000466                       2529 ___str_33:
+      000466 54 6F 74 61 6C 20 42  2530 	.ascii "Total Buffers: %d "
+             75 66 66 65 72 73 3A
+             20 25 64 20
+      000478 0A                    2531 	.db 0x0a
+      000479 0D                    2532 	.db 0x0d
+      00047A 00                    2533 	.db 0x00
+                                   2534 	.area CSEG    (CODE)
+                                   2535 	.area CONST   (CODE)
+      00047B                       2536 ___str_34:
+      00047B 2A 2A 2A 2A 2A 2A 2A  2537 	.ascii "****************BUFFER*%d***************"
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 42 55 46 46 45
+             52 2A 25 64 2A 2A 2A
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 2A 2A 2A
+      0004A3 0A                    2538 	.db 0x0a
+      0004A4 0D                    2539 	.db 0x0d
+      0004A5 00                    2540 	.db 0x00
+                                   2541 	.area CSEG    (CODE)
+                                   2542 	.area CONST   (CODE)
+      0004A6                       2543 ___str_35:
+      0004A6 42 75 66 66 65 72 23  2544 	.ascii "Buffer#: %d "
+             3A 20 25 64 20
+      0004B2 0A                    2545 	.db 0x0a
+      0004B3 0D                    2546 	.db 0x0d
+      0004B4 00                    2547 	.db 0x00
+                                   2548 	.area CSEG    (CODE)
+                                   2549 	.area CONST   (CODE)
+      0004B5                       2550 ___str_36:
+      0004B5 42 75 66 66 65 72 53  2551 	.ascii "BufferStart: %p "
+             74 61 72 74 3A 20 25
+             70 20
+      0004C5 0A                    2552 	.db 0x0a
+      0004C6 0D                    2553 	.db 0x0d
+      0004C7 00                    2554 	.db 0x00
+                                   2555 	.area CSEG    (CODE)
+                                   2556 	.area CONST   (CODE)
+      0004C8                       2557 ___str_37:
+      0004C8 42 75 66 66 65 72 45  2558 	.ascii "BufferEnd: %p "
+             6E 64 3A 20 25 70 20
+      0004D6 0A                    2559 	.db 0x0a
+      0004D7 0D                    2560 	.db 0x0d
+      0004D8 00                    2561 	.db 0x00
+                                   2562 	.area CSEG    (CODE)
+                                   2563 	.area CONST   (CODE)
+      0004D9                       2564 ___str_38:
+      0004D9 42 75 66 66 65 72 53  2565 	.ascii "BufferSize: %d "
+             69 7A 65 3A 20 25 64
+             20
+      0004E8 0A                    2566 	.db 0x0a
+      0004E9 0D                    2567 	.db 0x0d
+      0004EA 00                    2568 	.db 0x00
+                                   2569 	.area CSEG    (CODE)
+                                   2570 	.area CONST   (CODE)
+      0004EB                       2571 ___str_39:
+      0004EB 54 6F 74 61 6C 55 73  2572 	.ascii "TotalUsed: %d "
+             65 64 3A 20 25 64 20
+      0004F9 0A                    2573 	.db 0x0a
+      0004FA 0D                    2574 	.db 0x0d
+      0004FB 00                    2575 	.db 0x00
+                                   2576 	.area CSEG    (CODE)
+                                   2577 	.area CONST   (CODE)
+      0004FC                       2578 ___str_40:
+      0004FC 2A 2A 2A 2A 2A 2A 2A  2579 	.ascii "***************************************"
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 2A 2A 2A 2A 2A
+             2A 2A 2A 2A
+      000523 0A                    2580 	.db 0x0a
+      000524 0D                    2581 	.db 0x0d
+      000525 00                    2582 	.db 0x00
+                                   2583 	.area CSEG    (CODE)
+                                   2584 	.area XINIT   (CODE)
+                                   2585 	.area CABS    (ABS,CODE)

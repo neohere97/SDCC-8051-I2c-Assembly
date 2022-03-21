@@ -2,21 +2,12 @@
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 4.1.0 #12072 (MINGW64)
 ;--------------------------------------------------------
-	.module program
+	.module getput
 	.optsdcc -mmcs51 --model-large
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl __sdcc_external_startup
-	.globl _idle_interrupt
-	.globl _pca_interrupt
-	.globl _main
-	.globl _eeprom_menu
-	.globl _asm_clang
-	.globl _user_interface_heap
-	.globl _getchar
-	.globl _user_interface_PCA
 	.globl _printf
 	.globl _TF1
 	.globl _TR1
@@ -152,7 +143,6 @@
 	.globl _T2CON_0
 	.globl _PT2
 	.globl _ET2
-	.globl __AUXR
 	.globl _TMOD
 	.globl _TL1
 	.globl _TL0
@@ -228,10 +218,10 @@
 	.globl _RCAP2H
 	.globl _RCAP2L
 	.globl _T2CON
-	.globl _global_var_test
-	.globl _DEBUG_LOC
-	.globl _main_menu
-	.globl _dataout
+	.globl _get_number
+	.globl _get_num_helper
+	.globl _putchar
+	.globl _getchar
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -312,7 +302,6 @@ _TH1	=	0x008d
 _TL0	=	0x008a
 _TL1	=	0x008b
 _TMOD	=	0x0089
-__AUXR	=	0x008e
 ;--------------------------------------------------------
 ; special function bits
 ;--------------------------------------------------------
@@ -457,22 +446,6 @@ _TF1	=	0x008f
 ;--------------------------------------------------------
 	.area REG_BANK_0	(REL,OVR,DATA)
 	.ds 8
-	.area REG_BANK_1	(REL,OVR,DATA)
-	.ds 8
-;--------------------------------------------------------
-; overlayable bit register bank
-;--------------------------------------------------------
-	.area BIT_BANK	(REL,OVR,DATA)
-bits:
-	.ds 1
-	b0 = bits[0]
-	b1 = bits[1]
-	b2 = bits[2]
-	b3 = bits[3]
-	b4 = bits[4]
-	b5 = bits[5]
-	b6 = bits[6]
-	b7 = bits[7]
 ;--------------------------------------------------------
 ; internal ram data
 ;--------------------------------------------------------
@@ -480,13 +453,6 @@ bits:
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
-;--------------------------------------------------------
-; Stack segment in internal ram 
-;--------------------------------------------------------
-	.area	SSEG
-__start__stack:
-	.ds	1
-
 ;--------------------------------------------------------
 ; indirectly addressable internal ram data
 ;--------------------------------------------------------
@@ -508,9 +474,16 @@ __start__stack:
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
-_DEBUG_LOC	=	0x8000
-_dataout_data_65536_56:
-	.ds 1
+_get_number_total_chars_65536_46:
+	.ds 2
+_get_number_num_65536_47:
+	.ds 2
+_get_num_helper_times_65536_52:
+	.ds 2
+_get_num_helper_num_65536_53:
+	.ds 2
+_putchar_c_65536_56:
+	.ds 2
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -519,8 +492,6 @@ _dataout_data_65536_56:
 ; external initialized ram data
 ;--------------------------------------------------------
 	.area XISEG   (XDATA)
-_global_var_test::
-	.ds 1
 	.area HOME    (CODE)
 	.area GSINIT0 (CODE)
 	.area GSINIT1 (CODE)
@@ -532,59 +503,34 @@ _global_var_test::
 	.area GSFINAL (CODE)
 	.area CSEG    (CODE)
 ;--------------------------------------------------------
-; interrupt vector 
-;--------------------------------------------------------
-	.area HOME    (CODE)
-__interrupt_vect:
-	ljmp	__sdcc_gsinit_startup
-	ljmp	_idle_interrupt
-	.ds	5
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	ljmp	_pca_interrupt
-;--------------------------------------------------------
 ; global & static initialisations
 ;--------------------------------------------------------
 	.area HOME    (CODE)
 	.area GSINIT  (CODE)
 	.area GSFINAL (CODE)
 	.area GSINIT  (CODE)
-	.globl __sdcc_gsinit_startup
-	.globl __sdcc_program_startup
-	.globl __start__stack
-	.globl __mcs51_genXINIT
-	.globl __mcs51_genXRAMCLEAR
-	.globl __mcs51_genRAMCLEAR
-	.area GSFINAL (CODE)
-	ljmp	__sdcc_program_startup
 ;--------------------------------------------------------
 ; Home
 ;--------------------------------------------------------
 	.area HOME    (CODE)
 	.area HOME    (CODE)
-__sdcc_program_startup:
-	ljmp	_main
-;	return from main will return to caller
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
 	.area CSEG    (CODE)
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'main'
+;Allocation info for local variables in function 'get_number'
 ;------------------------------------------------------------
-;	program.c:44: void main(void)
+;total_chars               Allocated with name '_get_number_total_chars_65536_46'
+;rec                       Allocated with name '_get_number_rec_65536_47'
+;num                       Allocated with name '_get_number_num_65536_47'
+;i                         Allocated with name '_get_number_i_131072_48'
+;------------------------------------------------------------
+;	getput.c:14: int get_number(int total_chars){    
 ;	-----------------------------------------
-;	 function main
+;	 function get_number
 ;	-----------------------------------------
-_main:
+_get_number:
 	ar7 = 0x07
 	ar6 = 0x06
 	ar5 = 0x05
@@ -593,7 +539,114 @@ _main:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	program.c:46: printf("\n\r HELLO! Started in X2 Mode \n\r");
+	mov	r7,dph
+	mov	a,dpl
+	mov	dptr,#_get_number_total_chars_65536_46
+	movx	@dptr,a
+	mov	a,r7
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:16: int num = 0;
+	mov	dptr,#_get_number_num_65536_47
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:17: for (int i = total_chars; i > 0; i--)
+	mov	dptr,#_get_number_total_chars_65536_46
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r7,a
+00107$:
+	clr	c
+	clr	a
+	subb	a,r6
+	mov	a,#(0x00 ^ 0x80)
+	mov	b,r7
+	xrl	b,#0x80
+	subb	a,b
+	jc	00127$
+	ljmp	00105$
+00127$:
+;	getput.c:19: rec = getchar();
+	push	ar7
+	push	ar6
+	lcall	_getchar
+	mov	r4,dpl
+	mov	r5,dph
+	pop	ar6
+	pop	ar7
+;	getput.c:21: if (rec <= 0x39 && rec >= 0x30)
+	clr	c
+	mov	a,#0x39
+	subb	a,r4
+	mov	a,#(0x00 ^ 0x80)
+	mov	b,r5
+	xrl	b,#0x80
+	subb	a,b
+	jc	00102$
+	mov	a,r4
+	subb	a,#0x30
+	mov	a,r5
+	xrl	a,#0x80
+	subb	a,#0x80
+	jc	00102$
+;	getput.c:23: num += ((rec - 0x30) * get_num_helper(i - 1));
+	mov	a,r4
+	add	a,#0xd0
+	mov	r4,a
+	mov	a,r5
+	addc	a,#0xff
+	mov	r5,a
+	mov	a,r6
+	add	a,#0xff
+	mov	r2,a
+	mov	a,r7
+	addc	a,#0xff
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar4
+	lcall	_get_num_helper
+	mov	r2,dpl
+	mov	r3,dph
+	pop	ar4
+	pop	ar5
+	mov	dptr,#__mulint_PARM_2
+	mov	a,r2
+	movx	@dptr,a
+	mov	a,r3
+	inc	dptr
+	movx	@dptr,a
+	mov	dpl,r4
+	mov	dph,r5
+	lcall	__mulint
+	mov	r4,dpl
+	mov	r5,dph
+	pop	ar6
+	pop	ar7
+	mov	dptr,#_get_number_num_65536_47
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	mov	dptr,#_get_number_num_65536_47
+	mov	a,r4
+	add	a,r2
+	movx	@dptr,a
+	mov	a,r5
+	addc	a,r3
+	inc	dptr
+	movx	@dptr,a
+	sjmp	00108$
+00102$:
+;	getput.c:27: printf("ERR,Numbers ONLY!\n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -604,466 +657,219 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:47: DEBUGPORT(0x01);
-	mov	dpl,#0x01
-	lcall	_dataout
-;	program.c:48: P1_1 = 0;
-;	assignBit
-	clr	_P1_1
-;	program.c:49: main_menu();
-;	program.c:50: }
-	ljmp	_main_menu
-;------------------------------------------------------------
-;Allocation info for local variables in function 'main_menu'
-;------------------------------------------------------------
-;inp                       Allocated with name '_main_menu_inp_65537_49'
-;------------------------------------------------------------
-;	program.c:52: void main_menu()
-;	-----------------------------------------
-;	 function main_menu
-;	-----------------------------------------
-_main_menu:
-;	program.c:54: DEBUGPORT(0x02);
-	mov	dpl,#0x02
-	lcall	_dataout
-;	program.c:55: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
-	mov	a,#___str_1
-	push	acc
-	mov	a,#(___str_1 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	program.c:56: printf("'H' -> Enter Heap Demo Mode \n\r");
-	mov	a,#___str_2
-	push	acc
-	mov	a,#(___str_2 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	program.c:57: printf("'P' -> Enter PCA Demo Mode \n\r");
-	mov	a,#___str_3
-	push	acc
-	mov	a,#(___str_3 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	program.c:58: printf("'A' -> Assembly C Mix \n\r");
-	mov	a,#___str_4
-	push	acc
-	mov	a,#(___str_4 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	program.c:59: printf("'E' -> EEPROM Mode \n\r");
-	mov	a,#___str_5
-	push	acc
-	mov	a,#(___str_5 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	program.c:62: wrong_choice:
-00101$:
-;	program.c:63: printf("Please make a valid choice \n\r");
-	mov	a,#___str_6
-	push	acc
-	mov	a,#(___str_6 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	program.c:64: inp = getchar();
-	lcall	_getchar
-	mov	r6,dpl
-	mov	r7,dph
-;	program.c:65: if (inp == 0x48)
-	cjne	r6,#0x48,00112$
-	cjne	r7,#0x00,00112$
-;	program.c:66: user_interface_heap();
-	ljmp	_user_interface_heap
-00112$:
-;	program.c:67: else if (inp == 0x50)
-	cjne	r6,#0x50,00109$
-	cjne	r7,#0x00,00109$
-;	program.c:68: user_interface_PCA();
-	ljmp	_user_interface_PCA
-00109$:
-;	program.c:69: else if (inp == 0x41)
-	cjne	r6,#0x41,00106$
-	cjne	r7,#0x00,00106$
-;	program.c:70: asm_clang();
-	ljmp	_asm_clang
-00106$:
-;	program.c:71: else if (inp == 0x45)
-	cjne	r6,#0x45,00101$
-	cjne	r7,#0x00,00101$
-;	program.c:72: eeprom_menu();
-;	program.c:74: goto wrong_choice;
-;	program.c:75: }
-	ljmp	_eeprom_menu
-;------------------------------------------------------------
-;Allocation info for local variables in function 'pca_interrupt'
-;------------------------------------------------------------
-;	program.c:83: void pca_interrupt() __interrupt(6) __using(1)
-;	-----------------------------------------
-;	 function pca_interrupt
-;	-----------------------------------------
-_pca_interrupt:
-	ar7 = 0x0f
-	ar6 = 0x0e
-	ar5 = 0x0d
-	ar4 = 0x0c
-	ar3 = 0x0b
-	ar2 = 0x0a
-	ar1 = 0x09
-	ar0 = 0x08
-	push	bits
-	push	acc
-	push	b
-	push	dpl
-	push	dph
-	push	(0+7)
-	push	(0+6)
-	push	(0+5)
-	push	(0+4)
-	push	(0+3)
-	push	(0+2)
-	push	(0+1)
-	push	(0+0)
-	push	psw
-	mov	psw,#0x08
-;	program.c:85: if (CCF0)
-	jnb	_CCF0,00102$
-;	program.c:87: printf("Captured Value CCPL -> %d CCPH -> %d \n\r", CCAP0L, CCAP0H);
-	mov	r6,_CCAP0H
-	mov	r7,#0x00
-	mov	r4,_CCAP0L
-	mov	r5,#0x00
-	push	ar6
-	push	ar7
-	push	ar4
-	push	ar5
-	mov	a,#___str_7
-	push	acc
-	mov	a,#(___str_7 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	psw,#0x00
-	lcall	_printf
-	mov	psw,#0x08
-	mov	a,sp
-	add	a,#0xf9
-	mov	sp,a
-;	program.c:89: CCF0 = 0;
-;	assignBit
-	clr	_CCF0
-00102$:
-;	program.c:91: if (CCF1)
-;	program.c:93: CCF1 = 0;
-;	assignBit
-	jbc	_CCF1,00128$
-	sjmp	00104$
-00128$:
-;	program.c:94: CH = 0;
-	mov	_CH,#0x00
-;	program.c:95: CL = 0;
-	mov	_CL,#0x00
-00104$:
-;	program.c:97: if (CCF2)
-;	program.c:99: CCF2 = 0;
-;	assignBit
-	jbc	_CCF2,00129$
-	sjmp	00106$
-00129$:
-;	program.c:100: CH = 0;
-	mov	_CH,#0x00
-;	program.c:101: CL = 0;
-	mov	_CL,#0x00
-;	program.c:102: WDTRST = 0x01E;
-	mov	_WDTRST,#0x1e
-;	program.c:103: WDTRST = 0x0E1;
-	mov	_WDTRST,#0xe1
-00106$:
-;	program.c:105: if (CCF3)
-;	program.c:107: CCF3 = 0;
-;	assignBit
-	jbc	_CCF3,00130$
-	sjmp	00109$
+;	getput.c:28: return -1;
+	mov	dptr,#0xffff
+	ret
+00108$:
+;	getput.c:17: for (int i = total_chars; i > 0; i--)
+	dec	r6
+	cjne	r6,#0xff,00130$
+	dec	r7
 00130$:
-;	program.c:108: printf("Timer Interrupt\n\r");
-	mov	a,#___str_8
-	push	acc
-	mov	a,#(___str_8 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	psw,#0x00
-	lcall	_printf
-	mov	psw,#0x08
-	dec	sp
-	dec	sp
-	dec	sp
-00109$:
-;	program.c:110: }
-	pop	psw
-	pop	(0+0)
-	pop	(0+1)
-	pop	(0+2)
-	pop	(0+3)
-	pop	(0+4)
-	pop	(0+5)
-	pop	(0+6)
-	pop	(0+7)
-	pop	dph
-	pop	dpl
-	pop	b
-	pop	acc
-	pop	bits
-	reti
-;------------------------------------------------------------
-;Allocation info for local variables in function 'idle_interrupt'
-;------------------------------------------------------------
-;	program.c:117: void idle_interrupt() __interrupt(0) __using(1)
-;	-----------------------------------------
-;	 function idle_interrupt
-;	-----------------------------------------
-_idle_interrupt:
-	push	bits
-	push	acc
-	push	b
-	push	dpl
-	push	dph
-	push	(0+7)
-	push	(0+6)
-	push	(0+5)
-	push	(0+4)
-	push	(0+3)
-	push	(0+2)
-	push	(0+1)
-	push	(0+0)
-	push	psw
-	mov	psw,#0x08
-;	program.c:119: EX0 = 0;
-;	assignBit
-	clr	_EX0
-;	program.c:120: PCON = 0x80;
-	mov	_PCON,#0x80
-;	program.c:121: CR = 0;
-;	assignBit
-	clr	_CR
-;	program.c:122: CKRL = 255;
-	mov	_CKRL,#0xff
-;	program.c:123: CCAPM0 = 0;
-;	program.c:124: CCAPM1 = 0;
-;	program.c:125: CCAPM2 = 0;
-;	program.c:126: CCAPM3 = 0;
-;	program.c:127: CCAPM4 = 0;
-;	program.c:128: printf("Going to main menu.. \n\r");
-	clr	a
-	mov	_CCAPM0,a
-	mov	_CCAPM1,a
-	mov	_CCAPM2,a
-	mov	_CCAPM3,a
-	mov	_CCAPM4,a
-	mov	a,#___str_9
-	push	acc
-	mov	a,#(___str_9 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	psw,#0x00
-	lcall	_printf
-	mov	psw,#0x08
-	dec	sp
-	dec	sp
-	dec	sp
-;	program.c:129: main_menu();
-	mov	psw,#0x00
-	lcall	_main_menu
-	mov	psw,#0x08
-;	program.c:130: }
-	pop	psw
-	pop	(0+0)
-	pop	(0+1)
-	pop	(0+2)
-	pop	(0+3)
-	pop	(0+4)
-	pop	(0+5)
-	pop	(0+6)
-	pop	(0+7)
-	pop	dph
-	pop	dpl
-	pop	b
-	pop	acc
-	pop	bits
-	reti
-;------------------------------------------------------------
-;Allocation info for local variables in function 'dataout'
-;------------------------------------------------------------
-;data                      Allocated with name '_dataout_data_65536_56'
-;------------------------------------------------------------
-;	program.c:138: void dataout(unsigned char data)
-;	-----------------------------------------
-;	 function dataout
-;	-----------------------------------------
-_dataout:
-	ar7 = 0x07
-	ar6 = 0x06
-	ar5 = 0x05
-	ar4 = 0x04
-	ar3 = 0x03
-	ar2 = 0x02
-	ar1 = 0x01
-	ar0 = 0x00
-	mov	a,dpl
-	mov	dptr,#_dataout_data_65536_56
-	movx	@dptr,a
-;	program.c:140: DEBUG_LOC = data;
+	ljmp	00107$
+00105$:
+;	getput.c:31: return num;
+	mov	dptr,#_get_number_num_65536_47
 	movx	a,@dptr
-	mov	dptr,#_DEBUG_LOC
-	movx	@dptr,a
-;	program.c:141: }
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+;	getput.c:32: }
+	mov	dpl,r6
+	mov	dph,a
 	ret
 ;------------------------------------------------------------
-;Allocation info for local variables in function '_sdcc_external_startup'
+;Allocation info for local variables in function 'get_num_helper'
 ;------------------------------------------------------------
-;	program.c:150: _sdcc_external_startup()
+;times                     Allocated with name '_get_num_helper_times_65536_52'
+;num                       Allocated with name '_get_num_helper_num_65536_53'
+;i                         Allocated with name '_get_num_helper_i_131072_54'
+;------------------------------------------------------------
+;	getput.c:39: int get_num_helper(int times)
 ;	-----------------------------------------
-;	 function _sdcc_external_startup
+;	 function get_num_helper
 ;	-----------------------------------------
-__sdcc_external_startup:
-;	program.c:152: CKCON0 |= 0x1;
-	orl	_CKCON0,#0x01
-;	program.c:154: _AUXR = 0xC;
-	mov	__AUXR,#0x0c
-;	program.c:156: SCON = 0x42;
-	mov	_SCON,#0x42
-;	program.c:158: PCON = 0x80;
-	mov	_PCON,#0x80
-;	program.c:160: TH1 = 255;
-	mov	_TH1,#0xff
-;	program.c:161: TL1 = 255;
-	mov	_TL1,#0xff
-;	program.c:163: TMOD = 0x20;
-	mov	_TMOD,#0x20
-;	program.c:165: REN = 1;
+_get_num_helper:
+	mov	r7,dph
+	mov	a,dpl
+	mov	dptr,#_get_num_helper_times_65536_52
+	movx	@dptr,a
+	mov	a,r7
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:41: int num = 1;
+	mov	dptr,#_get_num_helper_num_65536_53
+	mov	a,#0x01
+	movx	@dptr,a
+	clr	a
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:43: for (int i = 0; i < times; i++)
+	mov	dptr,#_get_num_helper_times_65536_52
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r7,a
+	mov	r4,#0x00
+	mov	r5,#0x00
+00106$:
+	clr	c
+	mov	a,r4
+	subb	a,r6
+	mov	a,r5
+	xrl	a,#0x80
+	mov	b,r7
+	xrl	b,#0x80
+	subb	a,b
+	jnc	00101$
+;	getput.c:45: num = num * 10;
+	mov	dptr,#_get_num_helper_num_65536_53
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	mov	dptr,#__mulint_PARM_2
+	mov	a,r2
+	movx	@dptr,a
+	mov	a,r3
+	inc	dptr
+	movx	@dptr,a
+	mov	dptr,#0x000a
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar4
+	lcall	__mulint
+	mov	a,dpl
+	mov	b,dph
+	pop	ar4
+	pop	ar5
+	pop	ar6
+	pop	ar7
+	mov	dptr,#_get_num_helper_num_65536_53
+	movx	@dptr,a
+	mov	a,b
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:43: for (int i = 0; i < times; i++)
+	inc	r4
+	cjne	r4,#0x00,00106$
+	inc	r5
+	sjmp	00106$
+00101$:
+;	getput.c:47: if (times == 0)
+	mov	a,r6
+	orl	a,r7
+	jnz	00103$
+;	getput.c:48: return 1;
+	mov	dptr,#0x0001
+	ret
+00103$:
+;	getput.c:50: return num;
+	mov	dptr,#_get_num_helper_num_65536_53
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+;	getput.c:51: }
+	mov	dpl,r6
+	mov	dph,a
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'putchar'
+;------------------------------------------------------------
+;c                         Allocated with name '_putchar_c_65536_56'
+;------------------------------------------------------------
+;	getput.c:60: int putchar(int c)
+;	-----------------------------------------
+;	 function putchar
+;	-----------------------------------------
+_putchar:
+	mov	r7,dph
+	mov	a,dpl
+	mov	dptr,#_putchar_c_65536_56
+	movx	@dptr,a
+	mov	a,r7
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:62: while ((SCON & 0x02) == 0)
+00101$:
+	mov	a,_SCON
+	jnb	acc.1,00101$
+;	getput.c:64: TI = 0;
 ;	assignBit
-	setb	_REN
-;	program.c:167: TR1 = 1;
-;	assignBit
-	setb	_TR1
-;	program.c:169: EA = 1;
-;	assignBit
-	setb	_EA
-;	program.c:171: EC = 1;
-;	assignBit
-	setb	_EC
-;	program.c:172: return 0;
+	clr	_TI
+;	getput.c:65: SBUF = c;
+	mov	dptr,#_putchar_c_65536_56
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+	mov	_SBUF,r6
+;	getput.c:66: return 0;
 	mov	dptr,#0x0000
-;	program.c:173: }
+;	getput.c:67: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'getchar'
+;------------------------------------------------------------
+;	getput.c:74: int getchar()
+;	-----------------------------------------
+;	 function getchar
+;	-----------------------------------------
+_getchar:
+;	getput.c:76: while (RI == 0)
+00101$:
+;	getput.c:78: RI = 0;
+;	assignBit
+	jbc	_RI,00140$
+	sjmp	00101$
+00140$:
+;	getput.c:80: if (SBUF != 0x3F && SBUF != 0x3D && SBUF != 0x40 && SBUF != 0x2B && SBUF != 0x2D)
+	mov	a,#0x3f
+	cjne	a,_SBUF,00141$
+	sjmp	00105$
+00141$:
+	mov	a,#0x3d
+	cjne	a,_SBUF,00142$
+	sjmp	00105$
+00142$:
+	mov	a,#0x40
+	cjne	a,_SBUF,00143$
+	sjmp	00105$
+00143$:
+	mov	a,#0x2b
+	cjne	a,_SBUF,00144$
+	sjmp	00105$
+00144$:
+	mov	a,#0x2d
+	cjne	a,_SBUF,00145$
+	sjmp	00105$
+00145$:
+;	getput.c:81: putchar(SBUF);
+	mov	r6,_SBUF
+	mov	r7,#0x00
+	mov	dpl,r6
+	mov	dph,r7
+	lcall	_putchar
+00105$:
+;	getput.c:82: return SBUF;
+	mov	r6,_SBUF
+	mov	r7,#0x00
+	mov	dpl,r6
+	mov	dph,r7
+;	getput.c:83: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area CONST   (CODE)
 ___str_0:
-	.db 0x0a
-	.db 0x0d
-	.ascii " HELLO! Started in X2 Mode "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_1:
-	.db 0x0a
-	.db 0x0a
-	.db 0x0d
-	.ascii "^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ "
-	.db 0x0a
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_2:
-	.ascii "'H' -> Enter Heap Demo Mode "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_3:
-	.ascii "'P' -> Enter PCA Demo Mode "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_4:
-	.ascii "'A' -> Assembly C Mix "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_5:
-	.ascii "'E' -> EEPROM Mode "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_6:
-	.ascii "Please make a valid choice "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_7:
-	.ascii "Captured Value CCPL -> %d CCPH -> %d "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_8:
-	.ascii "Timer Interrupt"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_9:
-	.ascii "Going to main menu.. "
+	.ascii "ERR,Numbers ONLY!"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area XINIT   (CODE)
-__xinit__global_var_test:
-	.db #0x02	; 2
 	.area CABS    (ABS,CODE)

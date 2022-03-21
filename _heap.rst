@@ -91,7 +91,7 @@
                                      91 	.area CSEG    (CODE)
                                      92 	.area CSEG    (CODE)
                                      93 	.area CONST   (CODE)
-      0030AA                         94 ___sdcc_heap_size:
-      0030AA 8A 13                   95 	.byte #0x8a, #0x13	; 5002
+      003043                         94 ___sdcc_heap_size:
+      003043 8A 13                   95 	.byte #0x8a, #0x13	; 5002
                                      96 	.area XINIT   (CODE)
                                      97 	.area CABS    (ABS,CODE)

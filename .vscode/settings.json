@@ -1,4 +1,7 @@
 {
     "makefile.extensionOutputFolder": "./.vscode",
-    "EIDE.SerialPortMonitor.BaudRate": 57600
+    "EIDE.SerialPortMonitor.BaudRate": 57600,
+    "files.associations": {
+        "buffer.h": "c"
+    }
 }

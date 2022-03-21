@@ -13,7 +13,13 @@
 -l liblong
 -l libfloat
 program.rel
+i2c.rel
 asa.rel
+getput.rel
+buffer.rel
+pca.rel
+eeprom.rel
+asm_c.rel
 _heap.rel
 
 -e

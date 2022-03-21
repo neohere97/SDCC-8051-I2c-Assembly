@@ -77,12 +77,12 @@ C:   00000092  s_GSINIT5
 C:   00000095  s_CSEG                          
 C:   000000D5  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   00000BD4  l_CONST                         
+C:   00000BF2  l_CONST                         
 C:   0000154C  l_XSEG                          
 C:   0000154D  s_XISEG                         
-C:   0000244E  l_CSEG                          
-C:   000024E3  s_CONST                         
-C:   000030B7  s_XINIT                         
+C:   000023C9  l_CSEG                          
+C:   0000245E  s_CONST                         
+C:   00003050  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -94,55 +94,55 @@ Area                                    Addr        Size        Decimal Bytes (A
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00000000  .__.ABS.                           _bp
-     00000080  _P0                                program
-     00000080  _P0_0                              program
-     00000081  _P0_1                              program
-     00000081  _SP                                program
-     00000082  _DP0L                              program
-     00000082  _DPL                               program
-     00000082  _P0_2                              program
-     00000083  _DP0H                              program
-     00000083  _DPH                               program
-     00000083  _P0_3                              program
-     00000084  _P0_4                              program
-     00000085  _P0_5                              program
-     00000086  _P0_6                              program
-     00000087  _P0_7                              program
-     00000087  _PCON                              program
-     00000088  _IT0                               program
-     00000088  _TCON                              program
-     00000089  _IE0                               program
-     00000089  _TMOD                              program
-     0000008A  _IT1                               program
-     0000008A  _TL0                               program
-     0000008B  _IE1                               program
-     0000008B  _TL1                               program
-     0000008C  _TH0                               program
-     0000008C  _TR0                               program
-     0000008D  _TF0                               program
-     0000008D  _TH1                               program
-     0000008E  _AUXR                              program
-     0000008E  _TR1                               program
+     00000080  _P0                                pca
+     00000080  _P0_0                              pca
+     00000081  _P0_1                              pca
+     00000081  _SP                                pca
+     00000082  _DP0L                              pca
+     00000082  _DPL                               pca
+     00000082  _P0_2                              pca
+     00000083  _DP0H                              pca
+     00000083  _DPH                               pca
+     00000083  _P0_3                              pca
+     00000084  _P0_4                              pca
+     00000085  _P0_5                              pca
+     00000086  _P0_6                              pca
+     00000087  _P0_7                              pca
+     00000087  _PCON                              pca
+     00000088  _IT0                               pca
+     00000088  _TCON                              pca
+     00000089  _IE0                               pca
+     00000089  _TMOD                              pca
+     0000008A  _IT1                               pca
+     0000008A  _TL0                               pca
+     0000008B  _IE1                               pca
+     0000008B  _TL1                               pca
+     0000008C  _TH0                               pca
+     0000008C  _TR0                               pca
+     0000008D  _TF0                               pca
+     0000008D  _TH1                               pca
+     0000008E  _AUXR                              pca
+     0000008E  _TR1                               pca
      0000008E  __AUXR                             program
-     0000008F  _CKCON0                            program
-     0000008F  _TF1                               program
-     00000090  _P1                                program
-     00000090  _P1_0                              program
-     00000091  _P1_1                              program
-     00000092  _P1_2                              program
-     00000093  _P1_3                              program
-     00000094  _P1_4                              program
-     00000095  _P1_5                              program
-     00000096  _P1_6                              program
-     00000097  _CKRL                              program
-     00000097  _P1_7                              program
-     00000098  _RI                                program
-     00000098  _SCON                              program
-     00000099  _SBUF                              program
-     00000099  _SBUF0                             program
-     00000099  _TI                                program
-     0000009A  _BRL                               program
-     0000009A  _RB8                               program
+     0000008F  _CKCON0                            pca
+     0000008F  _TF1                               pca
+     00000090  _P1                                pca
+     00000090  _P1_0                              pca
+     00000091  _P1_1                              pca
+     00000092  _P1_2                              pca
+     00000093  _P1_3                              pca
+     00000094  _P1_4                              pca
+     00000095  _P1_5                              pca
+     00000096  _P1_6                              pca
+     00000097  _CKRL                              pca
+     00000097  _P1_7                              pca
+     00000098  _RI                                pca
+     00000098  _SCON                              pca
+     00000099  _SBUF                              pca
+     00000099  _SBUF0                             pca
+     00000099  _TI                                pca
+     0000009A  _BRL                               pca
+     0000009A  _RB8                               pca
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -152,57 +152,57 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000009B  _BDRCON                            program
-     0000009B  _TB8                               program
-     0000009C  _KBLS                              program
-     0000009C  _REN                               program
-     0000009D  _KBE                               program
-     0000009D  _SM2                               program
-     0000009E  _KBF                               program
-     0000009E  _SM1                               program
-     0000009F  _SM0                               program
-     000000A0  _P2                                program
-     000000A0  _P2_0                              program
+     0000009B  _BDRCON                            pca
+     0000009B  _TB8                               pca
+     0000009C  _KBLS                              pca
+     0000009C  _REN                               pca
+     0000009D  _KBE                               pca
+     0000009D  _SM2                               pca
+     0000009E  _KBF                               pca
+     0000009E  _SM1                               pca
+     0000009F  _SM0                               pca
+     000000A0  _P2                                pca
+     000000A0  _P2_0                              pca
      000000A0  __XPAGE                            
-     000000A1  _P2_1                              program
-     000000A2  _AUXR1                             program
-     000000A2  _P2_2                              program
-     000000A3  _P2_3                              program
-     000000A4  _P2_4                              program
-     000000A5  _P2_5                              program
-     000000A6  _P2_6                              program
-     000000A6  _WDTRST                            program
-     000000A7  _P2_7                              program
-     000000A7  _WDTPRG                            program
-     000000A8  _EX0                               program
-     000000A8  _IE                                program
-     000000A8  _IEN0                              program
-     000000A9  _ET0                               program
-     000000A9  _SADDR                             program
-     000000AA  _EX1                               program
-     000000AB  _ET1                               program
-     000000AC  _ES                                program
-     000000AD  _ET2                               program
-     000000AE  _EC                                program
-     000000AF  _CKCON1                            program
-     000000AF  _EA                                program
-     000000B0  _P3                                program
-     000000B0  _P3_0                              program
-     000000B0  _RXD                               program
-     000000B0  _RXD0                              program
-     000000B1  _IEN1                              program
-     000000B1  _P3_1                              program
-     000000B1  _TXD                               program
-     000000B1  _TXD0                              program
-     000000B2  _INT0                              program
-     000000B2  _IPL1                              program
-     000000B2  _P3_2                              program
-     000000B3  _INT1                              program
-     000000B3  _IPH1                              program
-     000000B3  _P3_3                              program
-     000000B4  _P3_4                              program
-     000000B4  _T0                                program
-     000000B5  _P3_5                              program
+     000000A1  _P2_1                              pca
+     000000A2  _AUXR1                             pca
+     000000A2  _P2_2                              pca
+     000000A3  _P2_3                              pca
+     000000A4  _P2_4                              pca
+     000000A5  _P2_5                              pca
+     000000A6  _P2_6                              pca
+     000000A6  _WDTRST                            pca
+     000000A7  _P2_7                              pca
+     000000A7  _WDTPRG                            pca
+     000000A8  _EX0                               pca
+     000000A8  _IE                                pca
+     000000A8  _IEN0                              pca
+     000000A9  _ET0                               pca
+     000000A9  _SADDR                             pca
+     000000AA  _EX1                               pca
+     000000AB  _ET1                               pca
+     000000AC  _ES                                pca
+     000000AD  _ET2                               pca
+     000000AE  _EC                                pca
+     000000AF  _CKCON1                            pca
+     000000AF  _EA                                pca
+     000000B0  _P3                                pca
+     000000B0  _P3_0                              pca
+     000000B0  _RXD                               pca
+     000000B0  _RXD0                              pca
+     000000B1  _IEN1                              pca
+     000000B1  _P3_1                              pca
+     000000B1  _TXD                               pca
+     000000B1  _TXD0                              pca
+     000000B2  _INT0                              pca
+     000000B2  _IPL1                              pca
+     000000B2  _P3_2                              pca
+     000000B3  _INT1                              pca
+     000000B3  _IPH1                              pca
+     000000B3  _P3_3                              pca
+     000000B4  _P3_4                              pca
+     000000B4  _T0                                pca
+     000000B5  _P3_5                              pca
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
@@ -212,57 +212,57 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000000B5  _T1                                program
-     000000B6  _P3_6                              program
-     000000B6  _WR                                program
-     000000B7  _IPH0                              program
-     000000B7  _P3_7                              program
-     000000B7  _RD                                program
-     000000B8  _IP                                program
-     000000B8  _IPL0                              program
-     000000B8  _PX0                               program
-     000000B8  _PX0L                              program
-     000000B9  _PT0                               program
-     000000B9  _PT0L                              program
-     000000B9  _SADEN                             program
-     000000BA  _PX1                               program
-     000000BA  _PX1L                              program
-     000000BB  _PT1                               program
-     000000BB  _PT1L                              program
-     000000BC  _PS                                program
-     000000BC  _PSL                               program
-     000000BD  _PT2                               program
-     000000BD  _PT2L                              program
-     000000BE  _PPCL                              program
-     000000C0  _P4                                program
-     000000C0  _P4_0                              program
-     000000C1  _P4_1                              program
-     000000C2  _P4_2                              program
-     000000C3  _P4_3                              program
-     000000C3  _SPCON                             program
-     000000C4  _P4_4                              program
-     000000C4  _SPSTA                             program
-     000000C5  _P4_5                              program
-     000000C5  _SPDAT                             program
-     000000C6  _P4_6                              program
-     000000C7  _P4_7                              program
-     000000C8  _CP_RL2                            program
-     000000C8  _T2CON                             program
-     000000C8  _T2CON_0                           program
-     000000C9  _C_T2                              program
-     000000C9  _T2CON_1                           program
-     000000C9  _T2MOD                             program
-     000000CA  _RCAP2L                            program
-     000000CA  _T2CON_2                           program
-     000000CA  _TR2                               program
-     000000CB  _EXEN2                             program
-     000000CB  _RCAP2H                            program
-     000000CB  _T2CON_3                           program
-     000000CC  _T2CON_4                           program
-     000000CC  _TCLK                              program
-     000000CC  _TL2                               program
-     000000CD  _RCLK                              program
-     000000CD  _T2CON_5                           program
+     000000B5  _T1                                pca
+     000000B6  _P3_6                              pca
+     000000B6  _WR                                pca
+     000000B7  _IPH0                              pca
+     000000B7  _P3_7                              pca
+     000000B7  _RD                                pca
+     000000B8  _IP                                pca
+     000000B8  _IPL0                              pca
+     000000B8  _PX0                               pca
+     000000B8  _PX0L                              pca
+     000000B9  _PT0                               pca
+     000000B9  _PT0L                              pca
+     000000B9  _SADEN                             pca
+     000000BA  _PX1                               pca
+     000000BA  _PX1L                              pca
+     000000BB  _PT1                               pca
+     000000BB  _PT1L                              pca
+     000000BC  _PS                                pca
+     000000BC  _PSL                               pca
+     000000BD  _PT2                               pca
+     000000BD  _PT2L                              pca
+     000000BE  _PPCL                              pca
+     000000C0  _P4                                pca
+     000000C0  _P4_0                              pca
+     000000C1  _P4_1                              pca
+     000000C2  _P4_2                              pca
+     000000C3  _P4_3                              pca
+     000000C3  _SPCON                             pca
+     000000C4  _P4_4                              pca
+     000000C4  _SPSTA                             pca
+     000000C5  _P4_5                              pca
+     000000C5  _SPDAT                             pca
+     000000C6  _P4_6                              pca
+     000000C7  _P4_7                              pca
+     000000C8  _CP_RL2                            pca
+     000000C8  _T2CON                             pca
+     000000C8  _T2CON_0                           pca
+     000000C9  _C_T2                              pca
+     000000C9  _T2CON_1                           pca
+     000000C9  _T2MOD                             pca
+     000000CA  _RCAP2L                            pca
+     000000CA  _T2CON_2                           pca
+     000000CA  _TR2                               pca
+     000000CB  _EXEN2                             pca
+     000000CB  _RCAP2H                            pca
+     000000CB  _T2CON_3                           pca
+     000000CC  _T2CON_4                           pca
+     000000CC  _TCLK                              pca
+     000000CC  _TL2                               pca
+     000000CD  _RCLK                              pca
+     000000CD  _T2CON_5                           pca
 ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
@@ -272,57 +272,57 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000000CD  _TH2                               program
-     000000CE  _EXF2                              program
-     000000CE  _T2CON_6                           program
-     000000CF  _T2CON_7                           program
-     000000CF  _TF2                               program
-     000000D0  _P                                 program
-     000000D0  _PSW                               program
-     000000D1  _F1                                program
-     000000D2  _EECON                             program
-     000000D2  _OV                                program
-     000000D3  _RS0                               program
-     000000D4  _RS1                               program
-     000000D5  _F0                                program
-     000000D6  _AC                                program
-     000000D7  _CY                                program
-     000000D8  _CCF0                              program
-     000000D8  _CCON                              program
-     000000D9  _CCF1                              program
-     000000D9  _CMOD                              program
-     000000DA  _CCAPM0                            program
-     000000DA  _CCF2                              program
-     000000DB  _CCAPM1                            program
-     000000DB  _CCF3                              program
-     000000DC  _CCAPM2                            program
-     000000DC  _CCF4                              program
-     000000DD  _CCAPM3                            program
-     000000DE  _CCAPM4                            program
-     000000DE  _CR                                program
-     000000DF  _CF                                program
-     000000E0  _ACC                               program
-     000000E8  _P5                                program
-     000000E8  _P5_0                              program
-     000000E9  _CL                                program
-     000000E9  _P5_1                              program
-     000000EA  _CCAP0L                            program
-     000000EA  _P5_2                              program
-     000000EB  _CCAP1L                            program
-     000000EB  _P5_3                              program
-     000000EC  _CCAP2L                            program
-     000000EC  _P5_4                              program
-     000000ED  _CCAP3L                            program
-     000000ED  _P5_5                              program
-     000000EE  _CCAP4L                            program
-     000000EE  _P5_6                              program
-     000000EF  _P5_7                              program
-     000000F0  _B                                 program
-     000000F0  _BREG_F0                           program
-     000000F1  _BREG_F1                           program
-     000000F2  _BREG_F2                           program
-     000000F3  _BREG_F3                           program
-     000000F4  _BREG_F4                           program
+     000000CD  _TH2                               pca
+     000000CE  _EXF2                              pca
+     000000CE  _T2CON_6                           pca
+     000000CF  _T2CON_7                           pca
+     000000CF  _TF2                               pca
+     000000D0  _P                                 pca
+     000000D0  _PSW                               pca
+     000000D1  _F1                                pca
+     000000D2  _EECON                             pca
+     000000D2  _OV                                pca
+     000000D3  _RS0                               pca
+     000000D4  _RS1                               pca
+     000000D5  _F0                                pca
+     000000D6  _AC                                pca
+     000000D7  _CY                                pca
+     000000D8  _CCF0                              pca
+     000000D8  _CCON                              pca
+     000000D9  _CCF1                              pca
+     000000D9  _CMOD                              pca
+     000000DA  _CCAPM0                            pca
+     000000DA  _CCF2                              pca
+     000000DB  _CCAPM1                            pca
+     000000DB  _CCF3                              pca
+     000000DC  _CCAPM2                            pca
+     000000DC  _CCF4                              pca
+     000000DD  _CCAPM3                            pca
+     000000DE  _CCAPM4                            pca
+     000000DE  _CR                                pca
+     000000DF  _CF                                pca
+     000000E0  _ACC                               pca
+     000000E8  _P5                                pca
+     000000E8  _P5_0                              pca
+     000000E9  _CL                                pca
+     000000E9  _P5_1                              pca
+     000000EA  _CCAP0L                            pca
+     000000EA  _P5_2                              pca
+     000000EB  _CCAP1L                            pca
+     000000EB  _P5_3                              pca
+     000000EC  _CCAP2L                            pca
+     000000EC  _P5_4                              pca
+     000000ED  _CCAP3L                            pca
+     000000ED  _P5_5                              pca
+     000000EE  _CCAP4L                            pca
+     000000EE  _P5_6                              pca
+     000000EF  _P5_7                              pca
+     000000F0  _B                                 pca
+     000000F0  _BREG_F0                           pca
+     000000F1  _BREG_F1                           pca
+     000000F2  _BREG_F2                           pca
+     000000F3  _BREG_F3                           pca
+     000000F4  _BREG_F4                           pca
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
@@ -332,18 +332,18 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000000F5  _BREG_F5                           program
+     000000F5  _BREG_F5                           pca
      000000F5  _B_5                               _gptrget
-     000000F6  _BREG_F6                           program
+     000000F6  _BREG_F6                           pca
      000000F6  _B_6                               _gptrget
-     000000F7  _BREG_F7                           program
+     000000F7  _BREG_F7                           pca
      000000F7  _B_7                               _gptrget
-     000000F9  _CH                                program
-     000000FA  _CCAP0H                            program
-     000000FB  _CCAP1H                            program
-     000000FC  _CCAP2H                            program
-     000000FD  _CCAP3H                            program
-     000000FE  _CCAP4H                            program
+     000000F9  _CH                                pca
+     000000FA  _CCAP0H                            pca
+     000000FB  _CCAP1H                            pca
+     000000FC  _CCAP2H                            pca
+     000000FD  _CCAP3H                            pca
+     000000FE  _CCAP4H                            pca
      00008000  _DEBUG_LOC                         program
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
@@ -415,11 +415,11 @@ XSEG                                00000001    0000154C =        5452. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-D:   00000001  _program_stats                     program
-D:   0000000B  _buffers_array                     program
-D:   00000137  _i2c_write_random_PARM_2           program
-D:   00000138  _i2c_write_random_PARM_3           program
-D:   0000013A  _i2c_read_random_PARM_2            program
+D:   00000002  _i2c_write_random_PARM_2           i2c
+D:   00000003  _i2c_write_random_PARM_3           i2c
+D:   00000005  _i2c_read_random_PARM_2            i2c
+D:   00000011  _program_stats                     buffer
+D:   0000001B  _buffers_array                     buffer
 D:   00000170  ___sdcc_heap                       _heap
 D:   00001503  ___memcpy_PARM_2                   __memcpy
 D:   00001506  ___memcpy_PARM_3                   __memcpy
@@ -440,7 +440,7 @@ XISEG                               0000154D    00000003 =           3. bytes (R
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 D:   0000154D  _global_var_test                   program
-D:   0000154E  _watchdog_flag                     program
+D:   0000154E  _watchdog_flag                     pca
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 16.
 Hexadecimal  [32-Bits]
@@ -510,93 +510,93 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000095    0000244E =        9294. bytes (REL,CON,CODE)
+CSEG                                00000095    000023C9 =        9161. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00000095  _main                              program
-C:   000000B5  _user_interface_heap               program
-C:   000000C4  _user_interface_PCA                program
-C:   0000018A  _pca_interrupt                     program
-C:   00000232  _idle_interrupt                    program
-C:   000002A7  _pca_falling_edge                  program
-C:   000002C2  _pca_software_timer                program
-C:   000002F3  _pca_high_speed                    program
-C:   00000317  _pca_pwm                           program
-C:   0000033B  _pca_watchdog                      program
-C:   00000396  _hardware_watchdog                 program
-C:   000003DF  _pca_idle                          program
-C:   00000414  _pca_pdown                         program
-C:   00000449  _fclk_lowest                       program
-C:   0000047B  _main_menu                         program
-C:   00000524  _i2c_write_random                  program
-C:   0000056F  _i2c_read_random                   program
-C:   00000591  _i2c_testasm                       program
-C:   00000612  _asm_clang                         program
-C:   000006B5  _at_clear_all_buffers              program
-C:   0000074F  _delete_buffer                     program
-C:   0000092B  _print_pca_menu                    program
-C:   00000A19  _print_heap_menu                   program
-C:   00000AC8  _create_new_buffer                 program
-C:   00000C42  _create_initial_buffers            program
-C:   00000E1F  _enter_chars                       program
-C:   00000F4F  _dump_buff_zero_ascii              program
-C:   00001065  _dump_buff_zero_hex                program
-C:   000011B2  _print_heap_stats                  program
-C:   00001273  _print_all_buffers                 program
-C:   000013E3  _get_number                        program
-C:   000014BB  _get_num_helper                    program
-C:   00001538  _putchar                           program
-C:   00001557  _getchar                           program
-C:   00001593  _dataout                           program
-C:   0000159F  _asm_call                          program
-C:   000015C3  __sdcc_external_startup            program
-C:   000015E4  _asmtest                           program
-C:   00001607  _i2c_init                          program
-C:   00001614  _i2c_write_init                    program
-C:   00001622  _i2c_read_init                     program
-C:   00001630  _i2c_read_val                      program
-C:   00001660  _i2c_addr                          program
-C:   00001668  _i2c_write_val                     program
-C:   00001673  _i2c_stop                          program
-C:   000016AF  _free                              free
-C:   00001806  ___memcpy                          __memcpy
-C:   0000187A  __gptrput                          _gptrput
-C:   00001895  ___sdcc_heap_init                  malloc
-C:   000018D1  _malloc                            malloc
+C:   000000B5  _main_menu                         program
+C:   00000164  _pca_interrupt                     program
+C:   0000020C  _idle_interrupt                    program
+C:   00000281  _dataout                           program
+C:   0000028D  __sdcc_external_startup            program
+C:   000002AE  _i2c_write_random                  i2c
+C:   000002F9  _i2c_read_random                   i2c
+C:   0000031B  _asmtest                           program
+C:   0000033E  _i2c_init                          program
+C:   00000345  _i2c_write_init                    program
+C:   00000353  _i2c_read_init                     program
+C:   00000361  _i2c_read_val                      program
+C:   00000387  _i2c_addr                          program
+C:   0000038F  _i2c_write_val                     program
+C:   0000039A  _i2c_stop                          program
+C:   000003C4  _get_number                        getput
+C:   00000496  _get_num_helper                    getput
+C:   00000513  _putchar                           getput
+C:   00000532  _getchar                           getput
+C:   0000056E  _user_interface_heap               buffer
+C:   00000577  _at_clear_all_buffers              buffer
+C:   0000060B  _delete_buffer                     buffer
+C:   000007E1  _print_heap_menu                   buffer
+C:   0000088A  _create_new_buffer                 buffer
+C:   000009FE  _create_initial_buffers            buffer
+C:   00000BD5  _buffer_input_loop                 buffer
+C:   00000CFF  _dump_buff_zero_ascii              buffer
+C:   00000E0F  _dump_buff_zero_hex                buffer
+C:   00000F56  _print_heap_stats                  buffer
+C:   00001011  _print_all_buffers                 buffer
+C:   0000117B  _user_interface_PCA                pca
+C:   0000123B  _pca_falling_edge                  pca
+C:   00001256  _pca_software_timer                pca
+C:   00001287  _pca_high_speed                    pca
+C:   000012AB  _pca_pwm                           pca
+C:   000012CF  _pca_watchdog                      pca
+C:   0000132A  _hardware_watchdog                 pca
+C:   00001373  _pca_idle                          pca
+C:   000013A8  _pca_pdown                         pca
+C:   000013DD  _fclk_lowest                       pca
+C:   0000140F  _print_pca_menu                    pca
+C:   000014E2  _eeprom_menu                       eeprom
+C:   00001563  _asm_clang                         asm_c
+C:   00001606  _asm_call                          asm_c
+C:   0000162A  _free                              free
+C:   00001781  ___memcpy                          __memcpy
+C:   000017F5  __gptrput                          _gptrput
+C:   00001810  ___sdcc_heap_init                  malloc
+C:   0000184C  _malloc                            malloc
 ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000095    0000244E =        9294. bytes (REL,CON,CODE)
+CSEG                                00000095    000023C9 =        9161. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   00001A3A  __mulint                           _mulint
-C:   00001A69  _vprintf                           vprintf
-C:   00001AA8  _printf                            vprintf
-C:   00001BAE  __print_format                     printf_large
-C:   000024AF  _strlen                            _strlen
-C:   000024C7  __gptrget                          _gptrget
+C:   000019B5  __mulint                           _mulint
+C:   000019E4  _vprintf                           vprintf
+C:   00001A23  _printf                            vprintf
+C:   00001B29  __print_format                     printf_large
+C:   0000242A  _strlen                            _strlen
+C:   00002442  __gptrget                          _gptrget
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 24.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               000024E3    00000BD4 =        3028. bytes (REL,CON,CODE)
+CONST                               0000245E    00000BF2 =        3058. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   000030AA  ___sdcc_heap_size                  _heap
+C:   00003043  ___sdcc_heap_size                  _heap
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-XINIT                               000030B7    00000003 =           3. bytes (REL,CON,CODE)
+XINIT                               00003050    00000003 =           3. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -605,7 +605,13 @@ XINIT                               000030B7    00000003 =           3. bytes (R
 Files Linked                              [ module(s) ]
 
 program.rel                               [  ]
+i2c.rel                                   [  ]
 asa.rel                                   [  ]
+getput.rel                                [  ]
+buffer.rel                                [  ]
+pca.rel                                   [  ]
+eeprom.rel                                [  ]
+asm_c.rel                                 [  ]
 _heap.rel                                 [  ]
 
 

@@ -48,13 +48,7 @@ _asmtest:
 _i2c_init:
 	setb p1.0
 	setb p1.7
-	nop
-	nop
-	nop
 	clr p1.7
-	nop
-	nop
-	nop
 	ret
 
 _i2c_write_init:
@@ -79,10 +73,7 @@ _i2c_read_val:
 	mov r2,#8
 	mov a,#0
 	clr c
-	lcall readloop		
-	nop
-	nop
-	nop
+	lcall readloop	
 	clr p1.7	
 	lcall _i2c_stop
 	mov dpl,a
@@ -93,24 +84,17 @@ readloopc:
 	ret
 
 readloop:	
-	nop
 	setb p1.0
-	nop
 	jnb  p1.7, addz
 	setb c
-	rlc a
-	nop		
-	clr p1.0
-	nop		
+	rlc a	
+	clr p1.0	
 	ljmp readloopc
 
 addz:
 	clr c
 	rlc a
 	clr p1.0
-	nop
-	nop
-	nop	
 	ljmp readloopc
 
 _i2c_addr:
@@ -128,13 +112,7 @@ _i2c_write_val:
 
 _i2c_stop:
 	clr p1.7
-	nop
-	nop
-	nop
 	setb p1.0
-	nop
-	nop
-	nop
 	setb p1.7
 	ret
 
@@ -142,12 +120,8 @@ devaddr:
 	clr p1.0
 	djnz r2, bitloop
 	setb p1.7	
-	nop
 	setb p1.0
-	nop	
-	nop
-	clr p1.0	
-	nop	
+	clr p1.0		
 	ret
 
 bitloop:	
@@ -156,22 +130,14 @@ bitloop:
 	ljmp sendo
 
 sendz:
-	clr p1.7	
-	nop
-	setb p1.0	
-	nop	
-	nop
-	nop
+	clr p1.7		
+	setb p1.0		
 	clr p1.0
 	ljmp devaddr
 
 sendo:
 	setb p1.7		
-	nop	
-	setb p1.0	
-	nop
-	nop
-	nop
+	setb p1.0		
 	clr p1.0
 	ljmp devaddr
 
