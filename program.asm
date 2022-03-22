@@ -637,7 +637,7 @@ _main_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:56: printf("'H' -> Enter Heap Demo Mode \n\r");
+;	program.c:56: printf("'H' -> Heap Demo Mode \n\r");
 	mov	a,#___str_2
 	push	acc
 	mov	a,#(___str_2 >> 8)
@@ -648,7 +648,7 @@ _main_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:57: printf("'P' -> Enter PCA Demo Mode \n\r");
+;	program.c:57: printf("'P' -> PCA Demo Mode \n\r");
 	mov	a,#___str_3
 	push	acc
 	mov	a,#(___str_3 >> 8)
@@ -681,9 +681,7 @@ _main_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:62: wrong_choice:
-00101$:
-;	program.c:63: printf("Please make a valid choice \n\r");
+;	program.c:60: printf("'I' -> I/O Expander Demo Mode \n\r");
 	mov	a,#___str_6
 	push	acc
 	mov	a,#(___str_6 >> 8)
@@ -694,39 +692,63 @@ _main_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:64: inp = getchar();
+;	program.c:61: printf("'L' -> LCD Demo Mode \n\r");
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+;	program.c:64: wrong_choice:
+00101$:
+;	program.c:65: printf("Please make a valid choice \n\r");
+	mov	a,#___str_8
+	push	acc
+	mov	a,#(___str_8 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+;	program.c:66: inp = getchar();
 	lcall	_getchar
 	mov	r6,dpl
 	mov	r7,dph
-;	program.c:65: if (inp == 0x48)
+;	program.c:67: if (inp == 0x48)
 	cjne	r6,#0x48,00112$
 	cjne	r7,#0x00,00112$
-;	program.c:66: user_interface_heap();
+;	program.c:68: user_interface_heap();
 	ljmp	_user_interface_heap
 00112$:
-;	program.c:67: else if (inp == 0x50)
+;	program.c:69: else if (inp == 0x50)
 	cjne	r6,#0x50,00109$
 	cjne	r7,#0x00,00109$
-;	program.c:68: user_interface_PCA();
+;	program.c:70: user_interface_PCA();
 	ljmp	_user_interface_PCA
 00109$:
-;	program.c:69: else if (inp == 0x41)
+;	program.c:71: else if (inp == 0x41)
 	cjne	r6,#0x41,00106$
 	cjne	r7,#0x00,00106$
-;	program.c:70: asm_clang();
+;	program.c:72: asm_clang();
 	ljmp	_asm_clang
 00106$:
-;	program.c:71: else if (inp == 0x45)
+;	program.c:73: else if (inp == 0x45)
 	cjne	r6,#0x45,00101$
 	cjne	r7,#0x00,00101$
-;	program.c:72: eeprom_menu();
-;	program.c:74: goto wrong_choice;
-;	program.c:75: }
+;	program.c:74: eeprom_menu();
+;	program.c:76: goto wrong_choice;
+;	program.c:77: }
 	ljmp	_eeprom_menu
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_interrupt'
 ;------------------------------------------------------------
-;	program.c:83: void pca_interrupt() __interrupt(6) __using(1)
+;	program.c:85: void pca_interrupt() __interrupt(6) __using(1)
 ;	-----------------------------------------
 ;	 function pca_interrupt
 ;	-----------------------------------------
@@ -754,9 +776,9 @@ _pca_interrupt:
 	push	(0+0)
 	push	psw
 	mov	psw,#0x08
-;	program.c:85: if (CCF0)
+;	program.c:87: if (CCF0)
 	jnb	_CCF0,00102$
-;	program.c:87: printf("Captured Value CCPL -> %d CCPH -> %d \n\r", CCAP0L, CCAP0H);
+;	program.c:89: printf("Captured Value CCPL -> %d CCPH -> %d \n\r", CCAP0L, CCAP0H);
 	mov	r6,_CCAP0H
 	mov	r7,#0x00
 	mov	r4,_CCAP0L
@@ -765,9 +787,9 @@ _pca_interrupt:
 	push	ar7
 	push	ar4
 	push	ar5
-	mov	a,#___str_7
+	mov	a,#___str_9
 	push	acc
-	mov	a,#(___str_7 >> 8)
+	mov	a,#(___str_9 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -777,46 +799,46 @@ _pca_interrupt:
 	mov	a,sp
 	add	a,#0xf9
 	mov	sp,a
-;	program.c:89: CCF0 = 0;
+;	program.c:91: CCF0 = 0;
 ;	assignBit
 	clr	_CCF0
 00102$:
-;	program.c:91: if (CCF1)
-;	program.c:93: CCF1 = 0;
+;	program.c:93: if (CCF1)
+;	program.c:95: CCF1 = 0;
 ;	assignBit
 	jbc	_CCF1,00128$
 	sjmp	00104$
 00128$:
-;	program.c:94: CH = 0;
+;	program.c:96: CH = 0;
 	mov	_CH,#0x00
-;	program.c:95: CL = 0;
+;	program.c:97: CL = 0;
 	mov	_CL,#0x00
 00104$:
-;	program.c:97: if (CCF2)
-;	program.c:99: CCF2 = 0;
+;	program.c:99: if (CCF2)
+;	program.c:101: CCF2 = 0;
 ;	assignBit
 	jbc	_CCF2,00129$
 	sjmp	00106$
 00129$:
-;	program.c:100: CH = 0;
+;	program.c:102: CH = 0;
 	mov	_CH,#0x00
-;	program.c:101: CL = 0;
+;	program.c:103: CL = 0;
 	mov	_CL,#0x00
-;	program.c:102: WDTRST = 0x01E;
+;	program.c:104: WDTRST = 0x01E;
 	mov	_WDTRST,#0x1e
-;	program.c:103: WDTRST = 0x0E1;
+;	program.c:105: WDTRST = 0x0E1;
 	mov	_WDTRST,#0xe1
 00106$:
-;	program.c:105: if (CCF3)
-;	program.c:107: CCF3 = 0;
+;	program.c:107: if (CCF3)
+;	program.c:109: CCF3 = 0;
 ;	assignBit
 	jbc	_CCF3,00130$
 	sjmp	00109$
 00130$:
-;	program.c:108: printf("Timer Interrupt\n\r");
-	mov	a,#___str_8
+;	program.c:110: printf("Timer Interrupt\n\r");
+	mov	a,#___str_10
 	push	acc
-	mov	a,#(___str_8 >> 8)
+	mov	a,#(___str_10 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -827,7 +849,7 @@ _pca_interrupt:
 	dec	sp
 	dec	sp
 00109$:
-;	program.c:110: }
+;	program.c:112: }
 	pop	psw
 	pop	(0+0)
 	pop	(0+1)
@@ -846,7 +868,7 @@ _pca_interrupt:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'idle_interrupt'
 ;------------------------------------------------------------
-;	program.c:117: void idle_interrupt() __interrupt(0) __using(1)
+;	program.c:119: void idle_interrupt() __interrupt(0) __using(1)
 ;	-----------------------------------------
 ;	 function idle_interrupt
 ;	-----------------------------------------
@@ -866,31 +888,31 @@ _idle_interrupt:
 	push	(0+0)
 	push	psw
 	mov	psw,#0x08
-;	program.c:119: EX0 = 0;
+;	program.c:121: EX0 = 0;
 ;	assignBit
 	clr	_EX0
-;	program.c:120: PCON = 0x80;
+;	program.c:122: PCON = 0x80;
 	mov	_PCON,#0x80
-;	program.c:121: CR = 0;
+;	program.c:123: CR = 0;
 ;	assignBit
 	clr	_CR
-;	program.c:122: CKRL = 255;
+;	program.c:124: CKRL = 255;
 	mov	_CKRL,#0xff
-;	program.c:123: CCAPM0 = 0;
-;	program.c:124: CCAPM1 = 0;
-;	program.c:125: CCAPM2 = 0;
-;	program.c:126: CCAPM3 = 0;
-;	program.c:127: CCAPM4 = 0;
-;	program.c:128: printf("Going to main menu.. \n\r");
+;	program.c:125: CCAPM0 = 0;
+;	program.c:126: CCAPM1 = 0;
+;	program.c:127: CCAPM2 = 0;
+;	program.c:128: CCAPM3 = 0;
+;	program.c:129: CCAPM4 = 0;
+;	program.c:130: printf("Going to main menu.. \n\r");
 	clr	a
 	mov	_CCAPM0,a
 	mov	_CCAPM1,a
 	mov	_CCAPM2,a
 	mov	_CCAPM3,a
 	mov	_CCAPM4,a
-	mov	a,#___str_9
+	mov	a,#___str_11
 	push	acc
-	mov	a,#(___str_9 >> 8)
+	mov	a,#(___str_11 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -900,11 +922,11 @@ _idle_interrupt:
 	dec	sp
 	dec	sp
 	dec	sp
-;	program.c:129: main_menu();
+;	program.c:131: main_menu();
 	mov	psw,#0x00
 	lcall	_main_menu
 	mov	psw,#0x08
-;	program.c:130: }
+;	program.c:132: }
 	pop	psw
 	pop	(0+0)
 	pop	(0+1)
@@ -925,7 +947,7 @@ _idle_interrupt:
 ;------------------------------------------------------------
 ;data                      Allocated with name '_dataout_data_65536_56'
 ;------------------------------------------------------------
-;	program.c:138: void dataout(unsigned char data)
+;	program.c:140: void dataout(unsigned char data)
 ;	-----------------------------------------
 ;	 function dataout
 ;	-----------------------------------------
@@ -941,49 +963,49 @@ _dataout:
 	mov	a,dpl
 	mov	dptr,#_dataout_data_65536_56
 	movx	@dptr,a
-;	program.c:140: DEBUG_LOC = data;
+;	program.c:142: DEBUG_LOC = data;
 	movx	a,@dptr
 	mov	dptr,#_DEBUG_LOC
 	movx	@dptr,a
-;	program.c:141: }
+;	program.c:143: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function '_sdcc_external_startup'
 ;------------------------------------------------------------
-;	program.c:150: _sdcc_external_startup()
+;	program.c:152: _sdcc_external_startup()
 ;	-----------------------------------------
 ;	 function _sdcc_external_startup
 ;	-----------------------------------------
 __sdcc_external_startup:
-;	program.c:152: CKCON0 |= 0x1;
+;	program.c:154: CKCON0 |= 0x1;
 	orl	_CKCON0,#0x01
-;	program.c:154: _AUXR = 0xC;
+;	program.c:156: _AUXR = 0xC;
 	mov	__AUXR,#0x0c
-;	program.c:156: SCON = 0x42;
+;	program.c:158: SCON = 0x42;
 	mov	_SCON,#0x42
-;	program.c:158: PCON = 0x80;
+;	program.c:160: PCON = 0x80;
 	mov	_PCON,#0x80
-;	program.c:160: TH1 = 255;
+;	program.c:162: TH1 = 255;
 	mov	_TH1,#0xff
-;	program.c:161: TL1 = 255;
+;	program.c:163: TL1 = 255;
 	mov	_TL1,#0xff
-;	program.c:163: TMOD = 0x20;
+;	program.c:165: TMOD = 0x20;
 	mov	_TMOD,#0x20
-;	program.c:165: REN = 1;
+;	program.c:167: REN = 1;
 ;	assignBit
 	setb	_REN
-;	program.c:167: TR1 = 1;
+;	program.c:169: TR1 = 1;
 ;	assignBit
 	setb	_TR1
-;	program.c:169: EA = 1;
+;	program.c:171: EA = 1;
 ;	assignBit
 	setb	_EA
-;	program.c:171: EC = 1;
+;	program.c:173: EC = 1;
 ;	assignBit
 	setb	_EC
-;	program.c:172: return 0;
+;	program.c:174: return 0;
 	mov	dptr,#0x0000
-;	program.c:173: }
+;	program.c:175: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -1009,14 +1031,14 @@ ___str_1:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_2:
-	.ascii "'H' -> Enter Heap Demo Mode "
+	.ascii "'H' -> Heap Demo Mode "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_3:
-	.ascii "'P' -> Enter PCA Demo Mode "
+	.ascii "'P' -> PCA Demo Mode "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
@@ -1037,27 +1059,41 @@ ___str_5:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_6:
-	.ascii "Please make a valid choice "
+	.ascii "'I' -> I/O Expander Demo Mode "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_7:
-	.ascii "Captured Value CCPL -> %d CCPH -> %d "
+	.ascii "'L' -> LCD Demo Mode "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_8:
-	.ascii "Timer Interrupt"
+	.ascii "Please make a valid choice "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_9:
+	.ascii "Captured Value CCPL -> %d CCPH -> %d "
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_10:
+	.ascii "Timer Interrupt"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_11:
 	.ascii "Going to main menu.. "
 	.db 0x0a
 	.db 0x0d

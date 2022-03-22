@@ -431,33 +431,35 @@ Symbol Table
     __AUXR                                                      =  00008E G
  1A ___str_0                                                       000000 R
  1A ___str_1                                                       000020 R
+ 1A ___str_10                                                      00013A R
+ 1A ___str_11                                                      00014C R
  1A ___str_2                                                       00005B R
- 1A ___str_3                                                       00007A R
- 1A ___str_4                                                       000098 R
- 1A ___str_5                                                       0000B1 R
- 1A ___str_6                                                       0000C7 R
- 1A ___str_7                                                       0000E5 R
- 1A ___str_8                                                       00010D R
- 1A ___str_9                                                       00011F R
+ 1A ___str_3                                                       000074 R
+ 1A ___str_4                                                       00008C R
+ 1A ___str_5                                                       0000A5 R
+ 1A ___str_6                                                       0000BB R
+ 1A ___str_7                                                       0000DC R
+ 1A ___str_8                                                       0000F4 R
+ 1A ___str_9                                                       000112 R
  10 __interrupt_vect                                               000000 R
     __mcs51_genRAMCLEAR                                            ****** GX
     __mcs51_genXINIT                                               ****** GX
     __mcs51_genXRAMCLEAR                                           ****** GX
- 19 __sdcc_external_startup                                        0001F8 GR
+ 19 __sdcc_external_startup                                        000222 GR
     __sdcc_gsinit_startup                                          ****** GX
  10 __sdcc_program_startup                                         000036 GR
   8 __start__stack                                                 000000 GR
  1B __xinit__global_var_test                                       000000 R
     _asm_clang                                                     ****** GX
- 19 _dataout                                                       0001EC GR
+ 19 _dataout                                                       000216 GR
   D _dataout_data_65536_56                                         000000 R
     _eeprom_menu                                                   ****** GX
     _getchar                                                       ****** GX
   F _global_var_test                                               000000 GR
- 19 _idle_interrupt                                                000177 GR
+ 19 _idle_interrupt                                                0001A1 GR
  19 _main                                                          000000 GR
  19 _main_menu                                                     000020 GR
- 19 _pca_interrupt                                                 0000CF GR
+ 19 _pca_interrupt                                                 0000F9 GR
     _printf                                                        ****** GX
     _user_interface_PCA                                            ****** GX
     _user_interface_heap                                           ****** GX
@@ -476,13 +478,13 @@ Symbol Table
     acc.1                                                       =  0000E1 L
     acc.2                                                       =  0000E2 L
     acc.3                                                       =  0000E3 L
-    acc.4                                                       =  0000E4 L
-    acc.5                                                       =  0000E5 L
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 9.
 Hexadecimal [24-Bits]
 
 Symbol Table
 
+    acc.4                                                       =  0000E4 L
+    acc.5                                                       =  0000E5 L
     acc.6                                                       =  0000E6 L
     acc.7                                                       =  0000E7 L
     ar0                                                         =  000000 
@@ -536,13 +538,13 @@ Symbol Table
     ie.7                                                        =  0000AF L
     ie0                                                         =  000089 L
     ie1                                                         =  00008B L
-    int0                                                        =  0000B2 L
-    int1                                                        =  0000B3 L
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 10.
 Hexadecimal [24-Bits]
 
 Symbol Table
 
+    int0                                                        =  0000B2 L
+    int1                                                        =  0000B3 L
     ip                                                          =  0000B8 L
     ip.0                                                        =  0000B8 L
     ip.1                                                        =  0000B9 L
@@ -596,13 +598,13 @@ Symbol Table
     psw.0                                                       =  0000D0 L
     psw.1                                                       =  0000D1 L
     psw.2                                                       =  0000D2 L
-    psw.3                                                       =  0000D3 L
-    psw.4                                                       =  0000D4 L
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 11.
 Hexadecimal [24-Bits]
 
 Symbol Table
 
+    psw.3                                                       =  0000D3 L
+    psw.4                                                       =  0000D4 L
     psw.5                                                       =  0000D5 L
     psw.6                                                       =  0000D6 L
     psw.7                                                       =  0000D7 L
@@ -656,13 +658,13 @@ Symbol Table
     tcon.7                                                      =  00008F L
     tf0                                                         =  00008D L
     tf1                                                         =  00008F L
-    tf2                                                         =  0000CF L
-    th0                                                         =  00008C L
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 12.
 Hexadecimal [24-Bits]
 
 Symbol Table
 
+    tf2                                                         =  0000CF L
+    th0                                                         =  00008C L
     th1                                                         =  00008D L
     th2                                                         =  0000CD L
     ti                                                          =  000099 L
@@ -674,7 +676,6 @@ Symbol Table
     tr1                                                         =  00008E L
     tr2                                                         =  0000CA L
     txd                                                         =  0000B1 L
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 13.
 Hexadecimal [24-Bits]
@@ -706,8 +707,8 @@ Area Table
   16 GSINIT5                                    size      0   flags   20
   17 GSINIT                                     size      0   flags   20
   18 GSFINAL                                    size      3   flags   20
-  19 CSEG                                       size    219   flags   20
-  1A CONST                                      size    137   flags   20
+  19 CSEG                                       size    243   flags   20
+  1A CONST                                      size    164   flags   20
   1B XINIT                                      size      1   flags   20
   1C CABS                                       size      0   flags   28
 

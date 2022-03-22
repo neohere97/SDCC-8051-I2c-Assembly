@@ -3,45 +3,53 @@ Hexadecimal [24-Bits]
 
 
 
-                                      1 	.module program
-                                      2 	.optsdcc -mmcs51 --model-large
-                                      3 	
-                                      4 	.globl _asmtest_PARM_3
-                                      5 	.globl _asmtest_PARM_2
-                                      6 	.globl _global_var_test
-                                      7 	.globl _asmtest
-                                      8 	.globl _asm_call	
-                                      9 	
-                                     10 	.area	OSEG   
-                                     11 
-      000000                         12 _asmtest_PARM_2:
-      000000                         13 	.ds 1
-      000001                         14 _asmtest_PARM_3:
-      000001                         15 	.ds 1
-                                     16 
-                                     17 	.area CSEG    
-      000000                         18 _asmtest:
-      000000 AF 82            [24]   19 	mov	r7,dpl	
-      000002 90 00 00         [24]   20 	mov	dptr,#_asmtest_PARM_2
-      000005 E0               [24]   21 	movx a, @dptr
-      000006 FE               [12]   22 	mov r6, a
-      000007 90 00 01         [24]   23 	mov dptr,#_asmtest_PARM_3
-      00000A E0               [24]   24 	movx a,@dptr
-      00000B 8E F0            [24]   25 	mov b,r6	
-      00000D 84               [48]   26 	div	ab
-      00000E EF               [12]   27 	mov	a,r7
-      00000F A4               [48]   28 	mul	ab
-      000010 F5 82            [12]   29 	mov	dpl,a	
-      000012 90 00 00         [24]   30 	mov dptr,#_asmtest_PARM_2
-      000015 F0               [24]   31 	movx @dptr,a
-      000016 75 82 55         [24]   32 	mov dpl,#0x55
-      000019 12 00 00         [24]   33 	lcall _asm_call	
-      00001C 90 00 00         [24]   34 	mov dptr,#_asmtest_PARM_2
-      00001F E0               [24]   35 	movx a,@dptr
-      000020 F5 82            [12]   36 	mov dpl,a
-      000022 22               [24]   37 	ret
-                                     38 
-                                     39 
+                                      1 ;/***************************************************************************
+                                      2 ; * ESD Lab 4
+                                      3 ; * Tools: VSCode,make,batchisp,tera term
+                                      4 ; * Author: Chinmay Shalawadi
+                                      5 ; * Institution: University of Colorado Boulder
+                                      6 ; * Mail id: chsh1552@colorado.edu
+                                      7 ; * References: lecture slides
+                                      8 ; ***************************************************************************/
+                                      9 	.module program
+                                     10 	.optsdcc -mmcs51 --model-large
+                                     11 	
+                                     12 	.globl _asmtest_PARM_3
+                                     13 	.globl _asmtest_PARM_2
+                                     14 	.globl _global_var_test
+                                     15 	.globl _asmtest
+                                     16 	.globl _asm_call	
+                                     17 	
+                                     18 	.area	OSEG   
+                                     19 
+      000000                         20 _asmtest_PARM_2:
+      000000                         21 	.ds 1
+      000001                         22 _asmtest_PARM_3:
+      000001                         23 	.ds 1
+                                     24 
+                                     25 	.area CSEG    
+      000000                         26 _asmtest:
+      000000 AF 82            [24]   27 	mov	r7,dpl	
+      000002 90 00 00         [24]   28 	mov	dptr,#_asmtest_PARM_2
+      000005 E0               [24]   29 	movx a, @dptr
+      000006 FE               [12]   30 	mov r6, a
+      000007 90 00 01         [24]   31 	mov dptr,#_asmtest_PARM_3
+      00000A E0               [24]   32 	movx a,@dptr
+      00000B 8E F0            [24]   33 	mov b,r6	
+      00000D 84               [48]   34 	div	ab
+      00000E EF               [12]   35 	mov	a,r7
+      00000F A4               [48]   36 	mul	ab
+      000010 F5 82            [12]   37 	mov	dpl,a	
+      000012 90 00 00         [24]   38 	mov dptr,#_asmtest_PARM_2
+      000015 F0               [24]   39 	movx @dptr,a
+      000016 75 82 55         [24]   40 	mov dpl,#0x55
+      000019 12 00 00         [24]   41 	lcall _asm_call	
+      00001C 90 00 00         [24]   42 	mov dptr,#_asmtest_PARM_2
+      00001F E0               [24]   43 	movx a,@dptr
+      000020 F5 82            [12]   44 	mov dpl,a
+      000022 22               [24]   45 	ret
+                                     46 
+                                     47 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 2.
 Hexadecimal [24-Bits]
 

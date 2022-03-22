@@ -77,12 +77,12 @@ C:   00000092  s_GSINIT5
 C:   00000095  s_CSEG                          
 C:   000000D0  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   00000FE1  l_CONST                         
+C:   0000100E  l_CONST                         
 C:   00001567  l_XSEG                          
 C:   00001568  s_XISEG                         
-C:   00002BD4  l_CSEG                          
-C:   00002C69  s_CONST                         
-C:   00003C4A  s_XINIT                         
+C:   00002BFE  l_CSEG                          
+C:   00002C93  s_CONST                         
+C:   00003CA1  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -512,102 +512,102 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000095    00002BD4 =       11220. bytes (REL,CON,CODE)
+CSEG                                00000095    00002BFE =       11262. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00000095  _main                              program
 C:   000000B5  _main_menu                         program
-C:   00000164  _pca_interrupt                     program
-C:   0000020C  _idle_interrupt                    program
-C:   00000281  _dataout                           program
-C:   0000028D  __sdcc_external_startup            program
-C:   000002AE  _i2c_init                          program
-C:   000002B5  _i2c_write_init                    program
-C:   000002C3  _i2c_read_init                     program
-C:   000002D1  _i2c_read_val                      program
-C:   000002F7  _i2c_addr                          program
-C:   000002FF  _i2c_write_val                     program
-C:   0000030A  _i2c_stop                          program
-C:   00000334  _i2c_eeprom_reset                  program
-C:   00000345  _i2c_write_random                  i2c
-C:   0000039E  _i2c_read_random                   i2c
-C:   000003D8  _i2c_activity                      i2c
-C:   000003E8  _asmtest                           program
-C:   0000040B  _get_number                        getput
-C:   000004DD  _get_num_helper                    getput
-C:   0000055A  _get_number_hex                    getput
-C:   000006D9  _get_num_helper_hex                getput
-C:   0000073F  _putchar                           getput
-C:   0000075E  _getchar                           getput
-C:   0000079A  _user_interface_heap               buffer
-C:   000007A3  _at_clear_all_buffers              buffer
-C:   00000837  _delete_buffer                     buffer
-C:   00000A0D  _print_heap_menu                   buffer
-C:   00000AB6  _create_new_buffer                 buffer
-C:   00000C2A  _create_initial_buffers            buffer
-C:   00000E01  _buffer_input_loop                 buffer
-C:   00000F2B  _dump_buff_zero_ascii              buffer
-C:   0000103B  _dump_buff_zero_hex                buffer
-C:   00001182  _print_heap_stats                  buffer
-C:   0000123D  _print_all_buffers                 buffer
-C:   000013A7  _user_interface_PCA                pca
-C:   00001467  _pca_falling_edge                  pca
-C:   00001482  _pca_software_timer                pca
-C:   000014B3  _pca_high_speed                    pca
-C:   000014D7  _pca_pwm                           pca
-C:   000014FB  _pca_watchdog                      pca
-C:   00001556  _hardware_watchdog                 pca
-C:   0000159F  _pca_idle                          pca
-C:   000015D4  _pca_pdown                         pca
-C:   00001609  _fclk_lowest                       pca
-C:   0000163B  _print_pca_menu                    pca
-C:   0000170E  _eeprom_menu                       eeprom
-C:   000017B1  _read_random_byte                  eeprom
-C:   00001858  _write_random_byte                 eeprom
-C:   000018EE  _hexdump_eeprom                    eeprom
+C:   0000018E  _pca_interrupt                     program
+C:   00000236  _idle_interrupt                    program
+C:   000002AB  _dataout                           program
+C:   000002B7  __sdcc_external_startup            program
+C:   000002D8  _i2c_init                          program
+C:   000002DF  _i2c_write_init                    program
+C:   000002ED  _i2c_read_init                     program
+C:   000002FB  _i2c_read_val                      program
+C:   00000321  _i2c_addr                          program
+C:   00000329  _i2c_write_val                     program
+C:   00000334  _i2c_stop                          program
+C:   0000035E  _i2c_eeprom_reset                  program
+C:   0000036F  _i2c_write_random                  i2c
+C:   000003C8  _i2c_read_random                   i2c
+C:   00000402  _i2c_activity                      i2c
+C:   00000412  _asmtest                           program
+C:   00000435  _get_number                        getput
+C:   00000507  _get_num_helper                    getput
+C:   00000584  _get_number_hex                    getput
+C:   00000703  _get_num_helper_hex                getput
+C:   00000769  _putchar                           getput
+C:   00000788  _getchar                           getput
+C:   000007C4  _user_interface_heap               buffer
+C:   000007CD  _at_clear_all_buffers              buffer
+C:   00000861  _delete_buffer                     buffer
+C:   00000A37  _print_heap_menu                   buffer
+C:   00000AE0  _create_new_buffer                 buffer
+C:   00000C54  _create_initial_buffers            buffer
+C:   00000E2B  _buffer_input_loop                 buffer
+C:   00000F55  _dump_buff_zero_ascii              buffer
+C:   00001065  _dump_buff_zero_hex                buffer
+C:   000011AC  _print_heap_stats                  buffer
+C:   00001267  _print_all_buffers                 buffer
+C:   000013D1  _user_interface_PCA                pca
+C:   00001491  _pca_falling_edge                  pca
+C:   000014AC  _pca_software_timer                pca
+C:   000014DD  _pca_high_speed                    pca
+C:   00001501  _pca_pwm                           pca
+C:   00001525  _pca_watchdog                      pca
+C:   00001580  _hardware_watchdog                 pca
+C:   000015C9  _pca_idle                          pca
+C:   000015FE  _pca_pdown                         pca
+C:   00001633  _fclk_lowest                       pca
+C:   00001665  _print_pca_menu                    pca
+C:   00001738  _eeprom_menu                       eeprom
+C:   000017DB  _read_random_byte                  eeprom
+C:   00001882  _write_random_byte                 eeprom
+C:   00001918  _hexdump_eeprom                    eeprom
 ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000095    00002BD4 =       11220. bytes (REL,CON,CODE)
+CSEG                                00000095    00002BFE =       11262. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   00001AA4  _blockfill_eeprom                  eeprom
-C:   00001BC1  _print_eeprom_menu                 eeprom
-C:   00001C40  _dump_eeprom_buffer                eeprom
-C:   00001D6E  _asm_clang                         asm_c
-C:   00001E11  _asm_call                          asm_c
-C:   00001E35  _free                              free
-C:   00001F8C  ___memcpy                          __memcpy
-C:   00002000  __gptrput                          _gptrput
-C:   0000201B  ___sdcc_heap_init                  malloc
-C:   00002057  _malloc                            malloc
-C:   000021C0  __mulint                           _mulint
-C:   000021EF  _vprintf                           vprintf
-C:   0000222E  _printf                            vprintf
-C:   00002334  __print_format                     printf_large
-C:   00002C35  _strlen                            _strlen
-C:   00002C4D  __gptrget                          _gptrget
+C:   00001ACE  _blockfill_eeprom                  eeprom
+C:   00001BEB  _print_eeprom_menu                 eeprom
+C:   00001C6A  _dump_eeprom_buffer                eeprom
+C:   00001D98  _asm_clang                         asm_c
+C:   00001E3B  _asm_call                          asm_c
+C:   00001E5F  _free                              free
+C:   00001FB6  ___memcpy                          __memcpy
+C:   0000202A  __gptrput                          _gptrput
+C:   00002045  ___sdcc_heap_init                  malloc
+C:   00002081  _malloc                            malloc
+C:   000021EA  __mulint                           _mulint
+C:   00002219  _vprintf                           vprintf
+C:   00002258  _printf                            vprintf
+C:   0000235E  __print_format                     printf_large
+C:   00002C5F  _strlen                            _strlen
+C:   00002C77  __gptrget                          _gptrget
 ASxxxx Linker V03.00 + NoICE + sdld,  page 24.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               00002C69    00000FE1 =        4065. bytes (REL,CON,CODE)
+CONST                               00002C93    0000100E =        4110. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   00003C3D  ___sdcc_heap_size                  _heap
+C:   00003C94  ___sdcc_heap_size                  _heap
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-XINIT                               00003C4A    00000003 =           3. bytes (REL,CON,CODE)
+XINIT                               00003CA1    00000003 =           3. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

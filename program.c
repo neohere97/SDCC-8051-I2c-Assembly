@@ -53,10 +53,12 @@ void main_menu()
 {
     DEBUGPORT(0x02);
     printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
-    printf("'H' -> Enter Heap Demo Mode \n\r");
-    printf("'P' -> Enter PCA Demo Mode \n\r");
+    printf("'H' -> Heap Demo Mode \n\r");
+    printf("'P' -> PCA Demo Mode \n\r");
     printf("'A' -> Assembly C Mix \n\r");
     printf("'E' -> EEPROM Mode \n\r");
+    printf("'I' -> I/O Expander Demo Mode \n\r");
+    printf("'L' -> LCD Demo Mode \n\r");
 
     int inp;
 wrong_choice:

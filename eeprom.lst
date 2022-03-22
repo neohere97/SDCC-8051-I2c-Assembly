@@ -114,7 +114,7 @@
                                     114 ;------------------------------------------------------------
                                     115 ;inp                       Allocated with name '_eeprom_menu_inp_65537_51'
                                     116 ;------------------------------------------------------------
-                                    117 ;	eeprom.c:26: void eeprom_menu()
+                                    117 ;	eeprom.c:42: void eeprom_menu()
                                     118 ;	-----------------------------------------
                                     119 ;	 function eeprom_menu
                                     120 ;	-----------------------------------------
@@ -127,7 +127,7 @@
                            000002   127 	ar2 = 0x02
                            000001   128 	ar1 = 0x01
                            000000   129 	ar0 = 0x00
-                                    130 ;	eeprom.c:28: printf(" \n\r Hello, In EEPROM Demo mode");
+                                    130 ;	eeprom.c:44: printf(" \n\r Hello, In EEPROM Demo mode");
       000000 74r00            [12]  131 	mov	a,#___str_0
       000002 C0 E0            [24]  132 	push	acc
       000004 74s00            [12]  133 	mov	a,#(___str_0 >> 8)
@@ -138,11 +138,11 @@
       00000F 15 81            [12]  138 	dec	sp
       000011 15 81            [12]  139 	dec	sp
       000013 15 81            [12]  140 	dec	sp
-                                    141 ;	eeprom.c:29: print_eeprom_menu();
+                                    141 ;	eeprom.c:45: print_eeprom_menu();
       000015 12r04rB3         [24]  142 	lcall	_print_eeprom_menu
-                                    143 ;	eeprom.c:32: wrong_choice_pca:
+                                    143 ;	eeprom.c:48: wrong_choice_pca:
       000018                        144 00101$:
-                                    145 ;	eeprom.c:33: printf("Please make a valid choice\n\r");
+                                    145 ;	eeprom.c:49: printf("Please make a valid choice\n\r");
       000018 74r1F            [12]  146 	mov	a,#___str_1
       00001A C0 E0            [24]  147 	push	acc
       00001C 74s00            [12]  148 	mov	a,#(___str_1 >> 8)
@@ -153,44 +153,44 @@
       000027 15 81            [12]  153 	dec	sp
       000029 15 81            [12]  154 	dec	sp
       00002B 15 81            [12]  155 	dec	sp
-                                    156 ;	eeprom.c:34: inp = getchar();
+                                    156 ;	eeprom.c:50: inp = getchar();
       00002D 12r00r00         [24]  157 	lcall	_getchar
       000030 AE 82            [24]  158 	mov	r6,dpl
       000032 AF 83            [24]  159 	mov	r7,dph
-                                    160 ;	eeprom.c:35: if (inp == 0x52)
+                                    160 ;	eeprom.c:51: if (inp == 0x52)
       000034 BE 52 08         [24]  161 	cjne	r6,#0x52,00115$
       000037 BF 00 05         [24]  162 	cjne	r7,#0x00,00115$
-                                    163 ;	eeprom.c:36: read_random_byte();
+                                    163 ;	eeprom.c:52: read_random_byte();
       00003A 12r00rA3         [24]  164 	lcall	_read_random_byte
       00003D 80 3F            [24]  165 	sjmp	00129$
       00003F                        166 00115$:
-                                    167 ;	eeprom.c:37: else if (inp == 0x57)
+                                    167 ;	eeprom.c:53: else if (inp == 0x57)
       00003F BE 57 08         [24]  168 	cjne	r6,#0x57,00112$
       000042 BF 00 05         [24]  169 	cjne	r7,#0x00,00112$
-                                    170 ;	eeprom.c:38: write_random_byte();
+                                    170 ;	eeprom.c:54: write_random_byte();
       000045 12r01r4A         [24]  171 	lcall	_write_random_byte
       000048 80 34            [24]  172 	sjmp	00129$
       00004A                        173 00112$:
-                                    174 ;	eeprom.c:39: else if (inp == 0x44)
+                                    174 ;	eeprom.c:55: else if (inp == 0x44)
       00004A BE 44 08         [24]  175 	cjne	r6,#0x44,00109$
       00004D BF 00 05         [24]  176 	cjne	r7,#0x00,00109$
-                                    177 ;	eeprom.c:40: hexdump_eeprom();
+                                    177 ;	eeprom.c:56: hexdump_eeprom();
       000050 12r01rE0         [24]  178 	lcall	_hexdump_eeprom
       000053 80 29            [24]  179 	sjmp	00129$
       000055                        180 00109$:
-                                    181 ;	eeprom.c:41: else if (inp == 0x42)
+                                    181 ;	eeprom.c:57: else if (inp == 0x42)
       000055 BE 42 08         [24]  182 	cjne	r6,#0x42,00106$
       000058 BF 00 05         [24]  183 	cjne	r7,#0x00,00106$
-                                    184 ;	eeprom.c:42: blockfill_eeprom();
+                                    184 ;	eeprom.c:58: blockfill_eeprom();
       00005B 12r03r96         [24]  185 	lcall	_blockfill_eeprom
       00005E 80 1E            [24]  186 	sjmp	00129$
       000060                        187 00106$:
-                                    188 ;	eeprom.c:43: else if (inp == 0x46)
+                                    188 ;	eeprom.c:59: else if (inp == 0x46)
       000060 BE 46 B5         [24]  189 	cjne	r6,#0x46,00101$
       000063 BF 00 B2         [24]  190 	cjne	r7,#0x00,00101$
-                                    191 ;	eeprom.c:45: i2c_eeprom_reset();
+                                    191 ;	eeprom.c:61: i2c_eeprom_reset();
       000066 12r00r00         [24]  192 	lcall	_i2c_eeprom_reset
-                                    193 ;	eeprom.c:46: printf("\n\rI2C Reset has been performed \n\r");
+                                    193 ;	eeprom.c:62: printf("\n\rI2C Reset has been performed \n\r");
       000069 74r3C            [12]  194 	mov	a,#___str_2
       00006B C0 E0            [24]  195 	push	acc
       00006D 74s00            [12]  196 	mov	a,#(___str_2 >> 8)
@@ -201,10 +201,10 @@
       000078 15 81            [12]  201 	dec	sp
       00007A 15 81            [12]  202 	dec	sp
       00007C 15 81            [12]  203 	dec	sp
-                                    204 ;	eeprom.c:51: exit_choice:
+                                    204 ;	eeprom.c:67: exit_choice:
       00007E                        205 00129$:
       00007E                        206 00117$:
-                                    207 ;	eeprom.c:52: printf("\n\rPlease 'E' to go to EEPROM Menu \n\r");
+                                    207 ;	eeprom.c:68: printf("\n\rPlease 'E' to go to EEPROM Menu \n\r");
       00007E 74r5E            [12]  208 	mov	a,#___str_3
       000080 C0 E0            [24]  209 	push	acc
       000082 74s00            [12]  210 	mov	a,#(___str_3 >> 8)
@@ -215,16 +215,16 @@
       00008D 15 81            [12]  215 	dec	sp
       00008F 15 81            [12]  216 	dec	sp
       000091 15 81            [12]  217 	dec	sp
-                                    218 ;	eeprom.c:53: inp = getchar();
+                                    218 ;	eeprom.c:69: inp = getchar();
       000093 12r00r00         [24]  219 	lcall	_getchar
       000096 AE 82            [24]  220 	mov	r6,dpl
       000098 AF 83            [24]  221 	mov	r7,dph
-                                    222 ;	eeprom.c:54: if (inp == 0x45)
+                                    222 ;	eeprom.c:70: if (inp == 0x45)
       00009A BE 45 E1         [24]  223 	cjne	r6,#0x45,00117$
       00009D BF 00 DE         [24]  224 	cjne	r7,#0x00,00117$
-                                    225 ;	eeprom.c:55: eeprom_menu();
-                                    226 ;	eeprom.c:57: goto exit_choice;
-                                    227 ;	eeprom.c:58: }
+                                    225 ;	eeprom.c:71: eeprom_menu();
+                                    226 ;	eeprom.c:73: goto exit_choice;
+                                    227 ;	eeprom.c:74: }
       0000A0 02r00r00         [24]  228 	ljmp	_eeprom_menu
                                     229 ;------------------------------------------------------------
                                     230 ;Allocation info for local variables in function 'read_random_byte'
@@ -233,14 +233,14 @@
                                     233 ;address                   Allocated with name '_read_random_byte_address_65536_53'
                                     234 ;a                         Allocated with name '_read_random_byte_a_65536_53'
                                     235 ;------------------------------------------------------------
-                                    236 ;	eeprom.c:60: void read_random_byte()
+                                    236 ;	eeprom.c:82: void read_random_byte()
                                     237 ;	-----------------------------------------
                                     238 ;	 function read_random_byte
                                     239 ;	-----------------------------------------
       0000A3                        240 _read_random_byte:
-                                    241 ;	eeprom.c:65: get_valid_hex:
+                                    241 ;	eeprom.c:87: get_valid_hex:
       0000A3                        242 00101$:
-                                    243 ;	eeprom.c:66: printf("\n\r Please give a valid address to read from (0x000 - 0x7FF) \n\r");
+                                    243 ;	eeprom.c:88: printf("\n\r Please give a valid address to read from (0x000 - 0x7FF) \n\r");
       0000A3 74r83            [12]  244 	mov	a,#___str_4
       0000A5 C0 E0            [24]  245 	push	acc
       0000A7 74s00            [12]  246 	mov	a,#(___str_4 >> 8)
@@ -251,11 +251,11 @@
       0000B2 15 81            [12]  251 	dec	sp
       0000B4 15 81            [12]  252 	dec	sp
       0000B6 15 81            [12]  253 	dec	sp
-                                    254 ;	eeprom.c:67: a = get_number_hex(3);
+                                    254 ;	eeprom.c:89: a = get_number_hex(3);
       0000B8 90 00 03         [24]  255 	mov	dptr,#0x0003
       0000BB 12r00r00         [24]  256 	lcall	_get_number_hex
       0000BE AE 82            [24]  257 	mov	r6,dpl
-                                    258 ;	eeprom.c:69: if (a >= 0 && a <= 2047)
+                                    258 ;	eeprom.c:91: if (a >= 0 && a <= 2047)
       0000C0 E5 83            [12]  259 	mov	a,dph
       0000C2 FF               [12]  260 	mov	r7,a
       0000C3 20 E7 DD         [24]  261 	jb	acc.7,00101$
@@ -267,11 +267,11 @@
       0000CE 63 F0 80         [24]  267 	xrl	b,#0x80
       0000D1 95 F0            [12]  268 	subb	a,b
       0000D3 40 CE            [24]  269 	jc	00101$
-                                    270 ;	eeprom.c:71: block = (a & 0xF00) >> 8;
+                                    270 ;	eeprom.c:93: block = (a & 0xF00) >> 8;
       0000D5 74 0F            [12]  271 	mov	a,#0x0f
       0000D7 5F               [12]  272 	anl	a,r7
-                                    273 ;	eeprom.c:72: address = a & 0x0FF;
-                                    274 ;	eeprom.c:79: printf("Block is is %x \n\r", block);
+                                    273 ;	eeprom.c:94: address = a & 0x0FF;
+                                    274 ;	eeprom.c:101: printf("Block is is %x \n\r", block);
       0000D8 FC               [12]  275 	mov	r4,a
       0000D9 FD               [12]  276 	mov	r5,a
       0000DA 7F 00            [12]  277 	mov	r7,#0x00
@@ -291,7 +291,7 @@
       0000F7 F5 81            [12]  291 	mov	sp,a
       0000F9 D0 04            [24]  292 	pop	ar4
       0000FB D0 06            [24]  293 	pop	ar6
-                                    294 ;	eeprom.c:80: printf("Address is 0x%X \n\r", address);
+                                    294 ;	eeprom.c:102: printf("Address is 0x%X \n\r", address);
       0000FD 8E 05            [24]  295 	mov	ar5,r6
       0000FF 7F 00            [12]  296 	mov	r7,#0x00
       000101 C0 06            [24]  297 	push	ar6
@@ -310,7 +310,7 @@
       00011C F5 81            [12]  310 	mov	sp,a
       00011E D0 04            [24]  311 	pop	ar4
       000120 D0 06            [24]  312 	pop	ar6
-                                    313 ;	eeprom.c:81: printf("\n\r The value at the address is -> 0x%X \n\r", i2c_read_random(block, address));
+                                    313 ;	eeprom.c:103: printf("\n\r The value at the address is -> 0x%X \n\r", i2c_read_random(block, address));
       000122 90r00r00         [24]  314 	mov	dptr,#_i2c_read_random_PARM_2
       000125 EE               [12]  315 	mov	a,r6
       000126 F0               [24]  316 	movx	@dptr,a
@@ -330,7 +330,7 @@
       000143 E5 81            [12]  330 	mov	a,sp
       000145 24 FB            [12]  331 	add	a,#0xfb
       000147 F5 81            [12]  332 	mov	sp,a
-                                    333 ;	eeprom.c:82: }
+                                    333 ;	eeprom.c:104: }
       000149 22               [24]  334 	ret
                                     335 ;------------------------------------------------------------
                                     336 ;Allocation info for local variables in function 'write_random_byte'
@@ -339,14 +339,14 @@
                                     339 ;address                   Allocated with name '_write_random_byte_address_65536_56'
                                     340 ;a                         Allocated with name '_write_random_byte_a_65536_56'
                                     341 ;------------------------------------------------------------
-                                    342 ;	eeprom.c:84: void write_random_byte()
+                                    342 ;	eeprom.c:111: void write_random_byte()
                                     343 ;	-----------------------------------------
                                     344 ;	 function write_random_byte
                                     345 ;	-----------------------------------------
       00014A                        346 _write_random_byte:
-                                    347 ;	eeprom.c:89: get_valid_hex_address:
+                                    347 ;	eeprom.c:116: get_valid_hex_address:
       00014A                        348 00101$:
-                                    349 ;	eeprom.c:90: printf("Please give a valid address to write to (0x000 - 0x7FF) \n\r");
+                                    349 ;	eeprom.c:117: printf("Please give a valid address to write to (0x000 - 0x7FF) \n\r");
       00014A 74r11            [12]  350 	mov	a,#___str_8
       00014C C0 E0            [24]  351 	push	acc
       00014E 74s01            [12]  352 	mov	a,#(___str_8 >> 8)
@@ -357,11 +357,11 @@
       000159 15 81            [12]  357 	dec	sp
       00015B 15 81            [12]  358 	dec	sp
       00015D 15 81            [12]  359 	dec	sp
-                                    360 ;	eeprom.c:91: a = get_number_hex(3);
+                                    360 ;	eeprom.c:118: a = get_number_hex(3);
       00015F 90 00 03         [24]  361 	mov	dptr,#0x0003
       000162 12r00r00         [24]  362 	lcall	_get_number_hex
       000165 AE 82            [24]  363 	mov	r6,dpl
-                                    364 ;	eeprom.c:93: if (a >= 0 && a <= 2047)
+                                    364 ;	eeprom.c:120: if (a >= 0 && a <= 2047)
       000167 E5 83            [12]  365 	mov	a,dph
       000169 FF               [12]  366 	mov	r7,a
       00016A 20 E7 DD         [24]  367 	jb	acc.7,00101$
@@ -373,15 +373,15 @@
       000175 63 F0 80         [24]  373 	xrl	b,#0x80
       000178 95 F0            [12]  374 	subb	a,b
       00017A 40 CE            [24]  375 	jc	00101$
-                                    376 ;	eeprom.c:95: block = (a & 0xF00) >> 8;
+                                    376 ;	eeprom.c:122: block = (a & 0xF00) >> 8;
       00017C 7C 00            [12]  377 	mov	r4,#0x00
       00017E 74 0F            [12]  378 	mov	a,#0x0f
       000180 5F               [12]  379 	anl	a,r7
       000181 FD               [12]  380 	mov	r5,a
-                                    381 ;	eeprom.c:96: address = a & 0x0FF;
-                                    382 ;	eeprom.c:103: get_valid_hex_value:
+                                    381 ;	eeprom.c:123: address = a & 0x0FF;
+                                    382 ;	eeprom.c:130: get_valid_hex_value:
       000182                        383 00106$:
-                                    384 ;	eeprom.c:104: printf("\n\rPlease give a valid data to write (0x00 - 0xFF) \n\r");
+                                    384 ;	eeprom.c:131: printf("\n\rPlease give a valid data to write (0x00 - 0xFF) \n\r");
       000182 C0 06            [24]  385 	push	ar6
       000184 C0 05            [24]  386 	push	ar5
       000186 74r4C            [12]  387 	mov	a,#___str_9
@@ -394,17 +394,17 @@
       000195 15 81            [12]  394 	dec	sp
       000197 15 81            [12]  395 	dec	sp
       000199 15 81            [12]  396 	dec	sp
-                                    397 ;	eeprom.c:105: a = get_number_hex(2);
+                                    397 ;	eeprom.c:132: a = get_number_hex(2);
       00019B 90 00 02         [24]  398 	mov	dptr,#0x0002
       00019E 12r00r00         [24]  399 	lcall	_get_number_hex
       0001A1 AC 82            [24]  400 	mov	r4,dpl
       0001A3 AF 83            [24]  401 	mov	r7,dph
       0001A5 D0 05            [24]  402 	pop	ar5
       0001A7 D0 06            [24]  403 	pop	ar6
-                                    404 ;	eeprom.c:107: if (a >= 0)
+                                    404 ;	eeprom.c:134: if (a >= 0)
       0001A9 EF               [12]  405 	mov	a,r7
       0001AA 20 E7 D5         [24]  406 	jb	acc.7,00106$
-                                    407 ;	eeprom.c:109: i2c_write_random(block, address, (unsigned char)a);
+                                    407 ;	eeprom.c:136: i2c_write_random(block, address, (unsigned char)a);
       0001AD 8C 03            [24]  408 	mov	ar3,r4
       0001AF 90r00r00         [24]  409 	mov	dptr,#_i2c_write_random_PARM_2
       0001B2 EE               [12]  410 	mov	a,r6
@@ -418,7 +418,7 @@
       0001BF 12r00r00         [24]  418 	lcall	_i2c_write_random
       0001C2 D0 04            [24]  419 	pop	ar4
       0001C4 D0 07            [24]  420 	pop	ar7
-                                    421 ;	eeprom.c:116: printf("\n\rThe data has been successfully written at the address 0x%X \n\r", a);
+                                    421 ;	eeprom.c:143: printf("\n\rThe data has been successfully written at the address 0x%X \n\r", a);
       0001C6 C0 04            [24]  422 	push	ar4
       0001C8 C0 07            [24]  423 	push	ar7
       0001CA 74r81            [12]  424 	mov	a,#___str_10
@@ -431,7 +431,7 @@
       0001D9 E5 81            [12]  431 	mov	a,sp
       0001DB 24 FB            [12]  432 	add	a,#0xfb
       0001DD F5 81            [12]  433 	mov	sp,a
-                                    434 ;	eeprom.c:117: }
+                                    434 ;	eeprom.c:144: }
       0001DF 22               [24]  435 	ret
                                     436 ;------------------------------------------------------------
                                     437 ;Allocation info for local variables in function 'hexdump_eeprom'
@@ -442,14 +442,14 @@
                                     442 ;data                      Allocated with name '_hexdump_eeprom_data_65537_64'
                                     443 ;l                         Allocated with name '_hexdump_eeprom_l_131073_65'
                                     444 ;------------------------------------------------------------
-                                    445 ;	eeprom.c:119: void hexdump_eeprom()
+                                    445 ;	eeprom.c:151: void hexdump_eeprom()
                                     446 ;	-----------------------------------------
                                     447 ;	 function hexdump_eeprom
                                     448 ;	-----------------------------------------
       0001E0                        449 _hexdump_eeprom:
-                                    450 ;	eeprom.c:123: get_valid_from_address:
+                                    450 ;	eeprom.c:155: get_valid_from_address:
       0001E0                        451 00101$:
-                                    452 ;	eeprom.c:124: printf("Please give a valid starting address (0x000 - 0x7FF) \n\r");
+                                    452 ;	eeprom.c:156: printf("Please give a valid starting address (0x000 - 0x7FF) \n\r");
       0001E0 74rC1            [12]  453 	mov	a,#___str_11
       0001E2 C0 E0            [24]  454 	push	acc
       0001E4 74s01            [12]  455 	mov	a,#(___str_11 >> 8)
@@ -460,11 +460,11 @@
       0001EF 15 81            [12]  460 	dec	sp
       0001F1 15 81            [12]  461 	dec	sp
       0001F3 15 81            [12]  462 	dec	sp
-                                    463 ;	eeprom.c:125: a = get_number_hex(3);
+                                    463 ;	eeprom.c:157: a = get_number_hex(3);
       0001F5 90 00 03         [24]  464 	mov	dptr,#0x0003
       0001F8 12r00r00         [24]  465 	lcall	_get_number_hex
       0001FB AE 82            [24]  466 	mov	r6,dpl
-                                    467 ;	eeprom.c:127: if (a < 0 || a > 2047)
+                                    467 ;	eeprom.c:159: if (a < 0 || a > 2047)
       0001FD E5 83            [12]  468 	mov	a,dph
       0001FF FF               [12]  469 	mov	r7,a
       000200 20 E7 DD         [24]  470 	jb	acc.7,00101$
@@ -476,9 +476,9 @@
       00020B 63 F0 80         [24]  476 	xrl	b,#0x80
       00020E 95 F0            [12]  477 	subb	a,b
       000210 40 CE            [24]  478 	jc	00101$
-                                    479 ;	eeprom.c:132: get_valid_to_address:
+                                    479 ;	eeprom.c:164: get_valid_to_address:
       000212                        480 00105$:
-                                    481 ;	eeprom.c:133: printf("Please give a valid ending address (0x%X - 0x7FF) \n\r", a);
+                                    481 ;	eeprom.c:165: printf("Please give a valid ending address (0x%X - 0x7FF) \n\r", a);
       000212 C0 07            [24]  482 	push	ar7
       000214 C0 06            [24]  483 	push	ar6
       000216 C0 06            [24]  484 	push	ar6
@@ -493,14 +493,14 @@
       000229 E5 81            [12]  493 	mov	a,sp
       00022B 24 FB            [12]  494 	add	a,#0xfb
       00022D F5 81            [12]  495 	mov	sp,a
-                                    496 ;	eeprom.c:134: b = get_number_hex(3);
+                                    496 ;	eeprom.c:166: b = get_number_hex(3);
       00022F 90 00 03         [24]  497 	mov	dptr,#0x0003
       000232 12r00r00         [24]  498 	lcall	_get_number_hex
       000235 AC 82            [24]  499 	mov	r4,dpl
       000237 AD 83            [24]  500 	mov	r5,dph
       000239 D0 06            [24]  501 	pop	ar6
       00023B D0 07            [24]  502 	pop	ar7
-                                    503 ;	eeprom.c:136: if (b < a || b > 2047)
+                                    503 ;	eeprom.c:168: if (b < a || b > 2047)
       00023D C3               [12]  504 	clr	c
       00023E EC               [12]  505 	mov	a,r4
       00023F 9E               [12]  506 	subb	a,r6
@@ -517,7 +517,7 @@
       000253 63 F0 80         [24]  517 	xrl	b,#0x80
       000256 95 F0            [12]  518 	subb	a,b
       000258 40 B8            [24]  519 	jc	00105$
-                                    520 ;	eeprom.c:141: eeprom_buffer.buffer_start = malloc((b - a) + 5);
+                                    520 ;	eeprom.c:173: eeprom_buffer.buffer_start = malloc((b - a) + 5);
       00025A EC               [12]  521 	mov	a,r4
       00025B C3               [12]  522 	clr	c
       00025C 9E               [12]  523 	subb	a,r6
@@ -560,20 +560,20 @@
       00029D ED               [12]  560 	mov	a,r5
       00029E A3               [24]  561 	inc	dptr
       00029F F0               [24]  562 	movx	@dptr,a
-                                    563 ;	eeprom.c:143: eeprom_buffer.buff_size = (b - a) + 5;
+                                    563 ;	eeprom.c:175: eeprom_buffer.buff_size = (b - a) + 5;
       0002A0 90r00r08         [24]  564 	mov	dptr,#(_eeprom_buffer + 0x0008)
       0002A3 E5*00            [12]  565 	mov	a,_hexdump_eeprom_sloc0_1_0
       0002A5 F0               [24]  566 	movx	@dptr,a
       0002A6 E5*01            [12]  567 	mov	a,(_hexdump_eeprom_sloc0_1_0 + 1)
       0002A8 A3               [24]  568 	inc	dptr
       0002A9 F0               [24]  569 	movx	@dptr,a
-                                    570 ;	eeprom.c:144: eeprom_buffer.buffer_num = 0;
+                                    570 ;	eeprom.c:176: eeprom_buffer.buffer_num = 0;
       0002AA 90r00r00         [24]  571 	mov	dptr,#_eeprom_buffer
       0002AD E4               [12]  572 	clr	a
       0002AE F0               [24]  573 	movx	@dptr,a
       0002AF A3               [24]  574 	inc	dptr
       0002B0 F0               [24]  575 	movx	@dptr,a
-                                    576 ;	eeprom.c:145: eeprom_buffer.buffer_end = eeprom_buffer.buffer_start + (b - a) + 5;
+                                    576 ;	eeprom.c:177: eeprom_buffer.buffer_end = eeprom_buffer.buffer_start + (b - a) + 5;
       0002B1 EA               [12]  577 	mov	a,r2
       0002B2 28               [12]  578 	add	a,r0
       0002B3 FA               [12]  579 	mov	r2,a
@@ -596,12 +596,12 @@
       0002C8 EC               [12]  596 	mov	a,r4
       0002C9 A3               [24]  597 	inc	dptr
       0002CA F0               [24]  598 	movx	@dptr,a
-                                    599 ;	eeprom.c:146: eeprom_buffer.num_char = 0;
+                                    599 ;	eeprom.c:178: eeprom_buffer.num_char = 0;
       0002CB 90r00r0A         [24]  600 	mov	dptr,#(_eeprom_buffer + 0x000a)
       0002CE F0               [24]  601 	movx	@dptr,a
       0002CF A3               [24]  602 	inc	dptr
       0002D0 F0               [24]  603 	movx	@dptr,a
-                                    604 ;	eeprom.c:148: printf("Reading EEPROM...\n\r");
+                                    604 ;	eeprom.c:180: printf("Reading EEPROM...\n\r");
       0002D1 C0 07            [24]  605 	push	ar7
       0002D3 C0 06            [24]  606 	push	ar6
       0002D5 C0 05            [24]  607 	push	ar5
@@ -620,13 +620,13 @@
       0002F0 D0 05            [24]  620 	pop	ar5
       0002F2 D0 06            [24]  621 	pop	ar6
       0002F4 D0 07            [24]  622 	pop	ar7
-                                    623 ;	eeprom.c:150: for (int l = a; l <= b; l++)
+                                    623 ;	eeprom.c:182: for (int l = a; l <= b; l++)
       0002F6 8E*00            [24]  624 	mov	_hexdump_eeprom_sloc0_1_0,r6
       0002F8 8F*01            [24]  625 	mov	(_hexdump_eeprom_sloc0_1_0 + 1),r7
-                                    626 ;	eeprom.c:159: free(eeprom_buffer.buffer_start);
+                                    626 ;	eeprom.c:191: free(eeprom_buffer.buffer_start);
       0002FA D0 05            [24]  627 	pop	ar5
       0002FC D0 04            [24]  628 	pop	ar4
-                                    629 ;	eeprom.c:150: for (int l = a; l <= b; l++)
+                                    629 ;	eeprom.c:182: for (int l = a; l <= b; l++)
       0002FE                        630 00111$:
       0002FE C3               [12]  631 	clr	c
       0002FF EC               [12]  632 	mov	a,r4
@@ -637,7 +637,7 @@
       000308 63 F0 80         [24]  637 	xrl	b,#0x80
       00030B 95 F0            [12]  638 	subb	a,b
       00030D 40 6C            [24]  639 	jc	00109$
-                                    640 ;	eeprom.c:153: data = i2c_read_random((l & 0xF00) >> 8, (l & 0x0FF));
+                                    640 ;	eeprom.c:185: data = i2c_read_random((l & 0xF00) >> 8, (l & 0x0FF));
       00030F C0 04            [24]  641 	push	ar4
       000311 C0 05            [24]  642 	push	ar5
       000313 74 0F            [12]  643 	mov	a,#0x0f
@@ -657,7 +657,7 @@
       00032F D0 05            [24]  657 	pop	ar5
       000331 D0 06            [24]  658 	pop	ar6
       000333 D0 07            [24]  659 	pop	ar7
-                                    660 ;	eeprom.c:154: *(eeprom_buffer.buffer_start + eeprom_buffer.num_char) = data;
+                                    660 ;	eeprom.c:186: *(eeprom_buffer.buffer_start + eeprom_buffer.num_char) = data;
       000335 90r00r02         [24]  661 	mov	dptr,#(_eeprom_buffer + 0x0002)
       000338 E0               [24]  662 	movx	a,@dptr
       000339 F8               [12]  663 	mov	r0,a
@@ -684,7 +684,7 @@
       000352 8A F0            [24]  684 	mov	b,r2
       000354 EB               [12]  685 	mov	a,r3
       000355 12r00r00         [24]  686 	lcall	__gptrput
-                                    687 ;	eeprom.c:155: eeprom_buffer.num_char += 1;
+                                    687 ;	eeprom.c:187: eeprom_buffer.num_char += 1;
       000358 90r00r0A         [24]  688 	mov	dptr,#(_eeprom_buffer + 0x000a)
       00035B E0               [24]  689 	movx	a,@dptr
       00035C FC               [12]  690 	mov	r4,a
@@ -701,7 +701,7 @@
       00036A ED               [12]  701 	mov	a,r5
       00036B A3               [24]  702 	inc	dptr
       00036C F0               [24]  703 	movx	@dptr,a
-                                    704 ;	eeprom.c:150: for (int l = a; l <= b; l++)
+                                    704 ;	eeprom.c:182: for (int l = a; l <= b; l++)
       00036D 05*00            [12]  705 	inc	_hexdump_eeprom_sloc0_1_0
       00036F E4               [12]  706 	clr	a
       000370 B5*00 02         [24]  707 	cjne	a,_hexdump_eeprom_sloc0_1_0,00153$
@@ -711,11 +711,11 @@
       000377 D0 04            [24]  711 	pop	ar4
       000379 80 83            [24]  712 	sjmp	00111$
       00037B                        713 00109$:
-                                    714 ;	eeprom.c:158: dump_eeprom_buffer(a);
+                                    714 ;	eeprom.c:190: dump_eeprom_buffer(a);
       00037B 8E 82            [24]  715 	mov	dpl,r6
       00037D 8F 83            [24]  716 	mov	dph,r7
       00037F 12r05r32         [24]  717 	lcall	_dump_eeprom_buffer
-                                    718 ;	eeprom.c:159: free(eeprom_buffer.buffer_start);
+                                    718 ;	eeprom.c:191: free(eeprom_buffer.buffer_start);
       000382 90r00r02         [24]  719 	mov	dptr,#(_eeprom_buffer + 0x0002)
       000385 E0               [24]  720 	movx	a,@dptr
       000386 FD               [12]  721 	mov	r5,a
@@ -728,7 +728,7 @@
       00038D 8D 82            [24]  728 	mov	dpl,r5
       00038F 8E 83            [24]  729 	mov	dph,r6
       000391 8F F0            [24]  730 	mov	b,r7
-                                    731 ;	eeprom.c:160: }
+                                    731 ;	eeprom.c:192: }
       000393 02r00r00         [24]  732 	ljmp	_free
                                     733 ;------------------------------------------------------------
                                     734 ;Allocation info for local variables in function 'blockfill_eeprom'
@@ -738,14 +738,14 @@
                                     738 ;c                         Allocated with name '_blockfill_eeprom_c_65536_67'
                                     739 ;l                         Allocated with name '_blockfill_eeprom_l_131072_70'
                                     740 ;------------------------------------------------------------
-                                    741 ;	eeprom.c:162: void blockfill_eeprom()
+                                    741 ;	eeprom.c:199: void blockfill_eeprom()
                                     742 ;	-----------------------------------------
                                     743 ;	 function blockfill_eeprom
                                     744 ;	-----------------------------------------
       000396                        745 _blockfill_eeprom:
-                                    746 ;	eeprom.c:166: get_blockfill_from_address:
+                                    746 ;	eeprom.c:203: get_blockfill_from_address:
       000396                        747 00101$:
-                                    748 ;	eeprom.c:167: printf("Please give a valid starting address (0x000 - 0x7FF) \n\r");
+                                    748 ;	eeprom.c:204: printf("Please give a valid starting address (0x000 - 0x7FF) \n\r");
       000396 74rC1            [12]  749 	mov	a,#___str_11
       000398 C0 E0            [24]  750 	push	acc
       00039A 74s01            [12]  751 	mov	a,#(___str_11 >> 8)
@@ -756,11 +756,11 @@
       0003A5 15 81            [12]  756 	dec	sp
       0003A7 15 81            [12]  757 	dec	sp
       0003A9 15 81            [12]  758 	dec	sp
-                                    759 ;	eeprom.c:168: a = get_number_hex(3);
+                                    759 ;	eeprom.c:205: a = get_number_hex(3);
       0003AB 90 00 03         [24]  760 	mov	dptr,#0x0003
       0003AE 12r00r00         [24]  761 	lcall	_get_number_hex
       0003B1 AE 82            [24]  762 	mov	r6,dpl
-                                    763 ;	eeprom.c:170: if (a < 0 || a > 2047)
+                                    763 ;	eeprom.c:207: if (a < 0 || a > 2047)
       0003B3 E5 83            [12]  764 	mov	a,dph
       0003B5 FF               [12]  765 	mov	r7,a
       0003B6 20 E7 DD         [24]  766 	jb	acc.7,00101$
@@ -772,9 +772,9 @@
       0003C1 63 F0 80         [24]  772 	xrl	b,#0x80
       0003C4 95 F0            [12]  773 	subb	a,b
       0003C6 40 CE            [24]  774 	jc	00101$
-                                    775 ;	eeprom.c:175: get_blockfill_to_address:
+                                    775 ;	eeprom.c:212: get_blockfill_to_address:
       0003C8                        776 00105$:
-                                    777 ;	eeprom.c:176: printf("Please give a valid ending address (0x%X - 0x7FF) \n\r", a);
+                                    777 ;	eeprom.c:213: printf("Please give a valid ending address (0x%X - 0x7FF) \n\r", a);
       0003C8 C0 07            [24]  778 	push	ar7
       0003CA C0 06            [24]  779 	push	ar6
       0003CC C0 06            [24]  780 	push	ar6
@@ -789,14 +789,14 @@
       0003DF E5 81            [12]  789 	mov	a,sp
       0003E1 24 FB            [12]  790 	add	a,#0xfb
       0003E3 F5 81            [12]  791 	mov	sp,a
-                                    792 ;	eeprom.c:177: b = get_number_hex(3);
+                                    792 ;	eeprom.c:214: b = get_number_hex(3);
       0003E5 90 00 03         [24]  793 	mov	dptr,#0x0003
       0003E8 12r00r00         [24]  794 	lcall	_get_number_hex
       0003EB AC 82            [24]  795 	mov	r4,dpl
       0003ED AD 83            [24]  796 	mov	r5,dph
       0003EF D0 06            [24]  797 	pop	ar6
       0003F1 D0 07            [24]  798 	pop	ar7
-                                    799 ;	eeprom.c:179: if (b < a || b > 2047)
+                                    799 ;	eeprom.c:216: if (b < a || b > 2047)
       0003F3 C3               [12]  800 	clr	c
       0003F4 EC               [12]  801 	mov	a,r4
       0003F5 9E               [12]  802 	subb	a,r6
@@ -813,7 +813,7 @@
       000409 63 F0 80         [24]  813 	xrl	b,#0x80
       00040C 95 F0            [12]  814 	subb	a,b
       00040E 40 B8            [24]  815 	jc	00105$
-                                    816 ;	eeprom.c:185: printf("\n\rPlease give a valid data for blockfill (0x00 - 0xFF) \n\r");
+                                    816 ;	eeprom.c:222: printf("\n\rPlease give a valid data for blockfill (0x00 - 0xFF) \n\r");
       000410 C0 07            [24]  817 	push	ar7
       000412 C0 06            [24]  818 	push	ar6
       000414 C0 05            [24]  819 	push	ar5
@@ -828,12 +828,12 @@
       000427 15 81            [12]  828 	dec	sp
       000429 15 81            [12]  829 	dec	sp
       00042B 15 81            [12]  830 	dec	sp
-                                    831 ;	eeprom.c:186: c = get_number_hex(2);
+                                    831 ;	eeprom.c:223: c = get_number_hex(2);
       00042D 90 00 02         [24]  832 	mov	dptr,#0x0002
       000430 12r00r00         [24]  833 	lcall	_get_number_hex
       000433 AA 82            [24]  834 	mov	r2,dpl
       000435 AB 83            [24]  835 	mov	r3,dph
-                                    836 ;	eeprom.c:188: printf("Writing EEPROM...\n\r");
+                                    836 ;	eeprom.c:225: printf("Writing EEPROM...\n\r");
       000437 C0 03            [24]  837 	push	ar3
       000439 C0 02            [24]  838 	push	ar2
       00043B 74r7C            [12]  839 	mov	a,#___str_15
@@ -852,7 +852,7 @@
       000456 D0 05            [24]  852 	pop	ar5
       000458 D0 06            [24]  853 	pop	ar6
       00045A D0 07            [24]  854 	pop	ar7
-                                    855 ;	eeprom.c:189: for (int l = a; l <= b; l++)
+                                    855 ;	eeprom.c:226: for (int l = a; l <= b; l++)
       00045C                        856 00112$:
       00045C C3               [12]  857 	clr	c
       00045D EC               [12]  858 	mov	a,r4
@@ -863,7 +863,7 @@
       000464 63 F0 80         [24]  863 	xrl	b,#0x80
       000467 95 F0            [12]  864 	subb	a,b
       000469 40 32            [24]  865 	jc	00110$
-                                    866 ;	eeprom.c:191: i2c_write_random((l & 0xF00) >> 8, (l & 0x0FF), (unsigned char)c);
+                                    866 ;	eeprom.c:228: i2c_write_random((l & 0xF00) >> 8, (l & 0x0FF), (unsigned char)c);
       00046B 74 0F            [12]  867 	mov	a,#0x0f
       00046D 5F               [12]  868 	anl	a,r7
       00046E F8               [12]  869 	mov	r0,a
@@ -887,13 +887,13 @@
       000490 D0 05            [24]  887 	pop	ar5
       000492 D0 06            [24]  888 	pop	ar6
       000494 D0 07            [24]  889 	pop	ar7
-                                    890 ;	eeprom.c:189: for (int l = a; l <= b; l++)
+                                    890 ;	eeprom.c:226: for (int l = a; l <= b; l++)
       000496 0E               [12]  891 	inc	r6
       000497 BE 00 C2         [24]  892 	cjne	r6,#0x00,00112$
       00049A 0F               [12]  893 	inc	r7
       00049B 80 BF            [24]  894 	sjmp	00112$
       00049D                        895 00110$:
-                                    896 ;	eeprom.c:194: printf("\n\rBlockfill finished...\n\r");
+                                    896 ;	eeprom.c:231: printf("\n\rBlockfill finished...\n\r");
       00049D 74r90            [12]  897 	mov	a,#___str_16
       00049F C0 E0            [24]  898 	push	acc
       0004A1 74s02            [12]  899 	mov	a,#(___str_16 >> 8)
@@ -904,17 +904,17 @@
       0004AC 15 81            [12]  904 	dec	sp
       0004AE 15 81            [12]  905 	dec	sp
       0004B0 15 81            [12]  906 	dec	sp
-                                    907 ;	eeprom.c:195: }
+                                    907 ;	eeprom.c:232: }
       0004B2 22               [24]  908 	ret
                                     909 ;------------------------------------------------------------
                                     910 ;Allocation info for local variables in function 'print_eeprom_menu'
                                     911 ;------------------------------------------------------------
-                                    912 ;	eeprom.c:197: void print_eeprom_menu()
+                                    912 ;	eeprom.c:239: void print_eeprom_menu()
                                     913 ;	-----------------------------------------
                                     914 ;	 function print_eeprom_menu
                                     915 ;	-----------------------------------------
       0004B3                        916 _print_eeprom_menu:
-                                    917 ;	eeprom.c:199: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-EEPROM-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+                                    917 ;	eeprom.c:241: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-EEPROM-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
       0004B3 74rAA            [12]  918 	mov	a,#___str_17
       0004B5 C0 E0            [24]  919 	push	acc
       0004B7 74s02            [12]  920 	mov	a,#(___str_17 >> 8)
@@ -925,7 +925,7 @@
       0004C2 15 81            [12]  925 	dec	sp
       0004C4 15 81            [12]  926 	dec	sp
       0004C6 15 81            [12]  927 	dec	sp
-                                    928 ;	eeprom.c:200: printf("'R' -> Read Random Byte\n\r");
+                                    928 ;	eeprom.c:242: printf("'R' -> Read Random Byte\n\r");
       0004C8 74rEC            [12]  929 	mov	a,#___str_18
       0004CA C0 E0            [24]  930 	push	acc
       0004CC 74s02            [12]  931 	mov	a,#(___str_18 >> 8)
@@ -936,7 +936,7 @@
       0004D7 15 81            [12]  936 	dec	sp
       0004D9 15 81            [12]  937 	dec	sp
       0004DB 15 81            [12]  938 	dec	sp
-                                    939 ;	eeprom.c:201: printf("'W' -> Write Random Byte\n\r");
+                                    939 ;	eeprom.c:243: printf("'W' -> Write Random Byte\n\r");
       0004DD 74r06            [12]  940 	mov	a,#___str_19
       0004DF C0 E0            [24]  941 	push	acc
       0004E1 74s03            [12]  942 	mov	a,#(___str_19 >> 8)
@@ -947,7 +947,7 @@
       0004EC 15 81            [12]  947 	dec	sp
       0004EE 15 81            [12]  948 	dec	sp
       0004F0 15 81            [12]  949 	dec	sp
-                                    950 ;	eeprom.c:202: printf("'D' -> Hexdump\n\r");
+                                    950 ;	eeprom.c:244: printf("'D' -> Hexdump\n\r");
       0004F2 74r21            [12]  951 	mov	a,#___str_20
       0004F4 C0 E0            [24]  952 	push	acc
       0004F6 74s03            [12]  953 	mov	a,#(___str_20 >> 8)
@@ -958,7 +958,7 @@
       000501 15 81            [12]  958 	dec	sp
       000503 15 81            [12]  959 	dec	sp
       000505 15 81            [12]  960 	dec	sp
-                                    961 ;	eeprom.c:203: printf("'B' -> Block Fill\n\r");
+                                    961 ;	eeprom.c:245: printf("'B' -> Block Fill\n\r");
       000507 74r32            [12]  962 	mov	a,#___str_21
       000509 C0 E0            [24]  963 	push	acc
       00050B 74s03            [12]  964 	mov	a,#(___str_21 >> 8)
@@ -969,7 +969,7 @@
       000516 15 81            [12]  969 	dec	sp
       000518 15 81            [12]  970 	dec	sp
       00051A 15 81            [12]  971 	dec	sp
-                                    972 ;	eeprom.c:204: printf("'F' -> Reset EEPROM \n\r");
+                                    972 ;	eeprom.c:246: printf("'F' -> Reset EEPROM \n\r");
       00051C 74r46            [12]  973 	mov	a,#___str_22
       00051E C0 E0            [24]  974 	push	acc
       000520 74s03            [12]  975 	mov	a,#(___str_22 >> 8)
@@ -980,7 +980,7 @@
       00052B 15 81            [12]  980 	dec	sp
       00052D 15 81            [12]  981 	dec	sp
       00052F 15 81            [12]  982 	dec	sp
-                                    983 ;	eeprom.c:205: }
+                                    983 ;	eeprom.c:247: }
       000531 22               [24]  984 	ret
                                     985 ;------------------------------------------------------------
                                     986 ;Allocation info for local variables in function 'dump_eeprom_buffer'
@@ -989,7 +989,7 @@
                                     989 ;j                         Allocated with name '_dump_eeprom_buffer_j_65537_75'
                                     990 ;i                         Allocated with name '_dump_eeprom_buffer_i_131073_76'
                                     991 ;------------------------------------------------------------
-                                    992 ;	eeprom.c:207: void dump_eeprom_buffer(int from)
+                                    992 ;	eeprom.c:254: void dump_eeprom_buffer(int from)
                                     993 ;	-----------------------------------------
                                     994 ;	 function dump_eeprom_buffer
                                     995 ;	-----------------------------------------
@@ -1001,7 +1001,7 @@
       00053A EF               [12] 1001 	mov	a,r7
       00053B A3               [24] 1002 	inc	dptr
       00053C F0               [24] 1003 	movx	@dptr,a
-                                   1004 ;	eeprom.c:210: printf("\n\r-------------------------HEXDUMP--------------------------------");
+                                   1004 ;	eeprom.c:257: printf("\n\r-------------------------HEXDUMP--------------------------------");
       00053D 74r5D            [12] 1005 	mov	a,#___str_23
       00053F C0 E0            [24] 1006 	push	acc
       000541 74s03            [12] 1007 	mov	a,#(___str_23 >> 8)
@@ -1012,7 +1012,7 @@
       00054C 15 81            [12] 1012 	dec	sp
       00054E 15 81            [12] 1013 	dec	sp
       000550 15 81            [12] 1014 	dec	sp
-                                   1015 ;	eeprom.c:211: printf("\n\r ADDR: +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F \n\r");
+                                   1015 ;	eeprom.c:258: printf("\n\r ADDR: +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F \n\r");
       000552 74rA0            [12] 1016 	mov	a,#___str_24
       000554 C0 E0            [24] 1017 	push	acc
       000556 74s03            [12] 1018 	mov	a,#(___str_24 >> 8)
@@ -1023,14 +1023,14 @@
       000561 15 81            [12] 1023 	dec	sp
       000563 15 81            [12] 1024 	dec	sp
       000565 15 81            [12] 1025 	dec	sp
-                                   1026 ;	eeprom.c:212: int j = 16;
+                                   1026 ;	eeprom.c:259: int j = 16;
       000567 90r00r0E         [24] 1027 	mov	dptr,#_dump_eeprom_buffer_j_65537_75
       00056A 74 10            [12] 1028 	mov	a,#0x10
       00056C F0               [24] 1029 	movx	@dptr,a
       00056D E4               [12] 1030 	clr	a
       00056E A3               [24] 1031 	inc	dptr
       00056F F0               [24] 1032 	movx	@dptr,a
-                                   1033 ;	eeprom.c:214: for (int i = 0; i < eeprom_buffer.num_char; i++)
+                                   1033 ;	eeprom.c:261: for (int i = 0; i < eeprom_buffer.num_char; i++)
       000570 90r00r0C         [24] 1034 	mov	dptr,#_dump_eeprom_buffer_from_65536_73
       000573 E0               [24] 1035 	movx	a,@dptr
       000574 FE               [12] 1036 	mov	r6,a
@@ -1057,7 +1057,7 @@
       000591 40 03            [24] 1057 	jc	00128$
       000593 02r06r4A         [24] 1058 	ljmp	00105$
       000596                       1059 00128$:
-                                   1060 ;	eeprom.c:216: if (j == 16)
+                                   1060 ;	eeprom.c:263: if (j == 16)
       000596 90r00r0E         [24] 1061 	mov	dptr,#_dump_eeprom_buffer_j_65537_75
       000599 E0               [24] 1062 	movx	a,@dptr
       00059A FA               [12] 1063 	mov	r2,a
@@ -1066,7 +1066,7 @@
       00059D FB               [12] 1066 	mov	r3,a
       00059E BA 10 32         [24] 1067 	cjne	r2,#0x10,00102$
       0005A1 BB 00 2F         [24] 1068 	cjne	r3,#0x00,00102$
-                                   1069 ;	eeprom.c:218: printf("\n\r0x%03X: ", (from + i));
+                                   1069 ;	eeprom.c:265: printf("\n\r0x%03X: ", (from + i));
       0005A4 EC               [12] 1070 	mov	a,r4
       0005A5 2E               [12] 1071 	add	a,r6
       0005A6 FA               [12] 1072 	mov	r2,a
@@ -1094,7 +1094,7 @@
       0005CF D0 06            [24] 1094 	pop	ar6
       0005D1 D0 07            [24] 1095 	pop	ar7
       0005D3                       1096 00102$:
-                                   1097 ;	eeprom.c:220: printf("%02X ", *(eeprom_buffer.buffer_start + i));
+                                   1097 ;	eeprom.c:267: printf("%02X ", *(eeprom_buffer.buffer_start + i));
       0005D3 90r00r02         [24] 1098 	mov	dptr,#(_eeprom_buffer + 0x0002)
       0005D6 E0               [24] 1099 	movx	a,@dptr
       0005D7 F9               [12] 1100 	mov	r1,a
@@ -1136,7 +1136,7 @@
       000613 D0 05            [24] 1136 	pop	ar5
       000615 D0 06            [24] 1137 	pop	ar6
       000617 D0 07            [24] 1138 	pop	ar7
-                                   1139 ;	eeprom.c:221: j--;
+                                   1139 ;	eeprom.c:268: j--;
       000619 90r00r0E         [24] 1140 	mov	dptr,#_dump_eeprom_buffer_j_65537_75
       00061C E0               [24] 1141 	movx	a,@dptr
       00061D 24 FF            [12] 1142 	add	a,#0xff
@@ -1151,7 +1151,7 @@
       00062A EB               [12] 1151 	mov	a,r3
       00062B A3               [24] 1152 	inc	dptr
       00062C F0               [24] 1153 	movx	@dptr,a
-                                   1154 ;	eeprom.c:222: if (j == 0)
+                                   1154 ;	eeprom.c:269: if (j == 0)
       00062D 90r00r0E         [24] 1155 	mov	dptr,#_dump_eeprom_buffer_j_65537_75
       000630 E0               [24] 1156 	movx	a,@dptr
       000631 F5 F0            [12] 1157 	mov	b,a
@@ -1159,7 +1159,7 @@
       000634 E0               [24] 1159 	movx	a,@dptr
       000635 45 F0            [12] 1160 	orl	a,b
       000637 70 09            [24] 1161 	jnz	00108$
-                                   1162 ;	eeprom.c:223: j = 16;
+                                   1162 ;	eeprom.c:270: j = 16;
       000639 90r00r0E         [24] 1163 	mov	dptr,#_dump_eeprom_buffer_j_65537_75
       00063C 74 10            [12] 1164 	mov	a,#0x10
       00063E F0               [24] 1165 	movx	@dptr,a
@@ -1167,14 +1167,14 @@
       000640 A3               [24] 1167 	inc	dptr
       000641 F0               [24] 1168 	movx	@dptr,a
       000642                       1169 00108$:
-                                   1170 ;	eeprom.c:214: for (int i = 0; i < eeprom_buffer.num_char; i++)
+                                   1170 ;	eeprom.c:261: for (int i = 0; i < eeprom_buffer.num_char; i++)
       000642 0C               [12] 1171 	inc	r4
       000643 BC 00 01         [24] 1172 	cjne	r4,#0x00,00132$
       000646 0D               [12] 1173 	inc	r5
       000647                       1174 00132$:
       000647 02r05r7C         [24] 1175 	ljmp	00107$
       00064A                       1176 00105$:
-                                   1177 ;	eeprom.c:225: printf("\n\n\r");
+                                   1177 ;	eeprom.c:272: printf("\n\n\r");
       00064A 74rED            [12] 1178 	mov	a,#___str_27
       00064C C0 E0            [24] 1179 	push	acc
       00064E 74s03            [12] 1180 	mov	a,#(___str_27 >> 8)
@@ -1185,7 +1185,7 @@
       000659 15 81            [12] 1185 	dec	sp
       00065B 15 81            [12] 1186 	dec	sp
       00065D 15 81            [12] 1187 	dec	sp
-                                   1188 ;	eeprom.c:226: }
+                                   1188 ;	eeprom.c:273: }
       00065F 22               [24] 1189 	ret
                                    1190 	.area CSEG    (CODE)
                                    1191 	.area CONST   (CODE)

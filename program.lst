@@ -537,7 +537,7 @@
                                     537 	.area HOME    (CODE)
       000000                        538 __interrupt_vect:
       000000 02r00r00         [24]  539 	ljmp	__sdcc_gsinit_startup
-      000003 02r01r77         [24]  540 	ljmp	_idle_interrupt
+      000003 02r01rA1         [24]  540 	ljmp	_idle_interrupt
       000006                        541 	.ds	5
       00000B 32               [24]  542 	reti
       00000C                        543 	.ds	7
@@ -549,7 +549,7 @@
       000024                        549 	.ds	7
       00002B 32               [24]  550 	reti
       00002C                        551 	.ds	7
-      000033 02r00rCF         [24]  552 	ljmp	_pca_interrupt
+      000033 02r00rF9         [24]  552 	ljmp	_pca_interrupt
                                     553 ;--------------------------------------------------------
                                     554 ; global & static initialisations
                                     555 ;--------------------------------------------------------
@@ -606,7 +606,7 @@
       000013 15 81            [12]  606 	dec	sp
                                     607 ;	program.c:47: DEBUGPORT(0x01);
       000015 75 82 01         [24]  608 	mov	dpl,#0x01
-      000018 12r01rEC         [24]  609 	lcall	_dataout
+      000018 12r02r16         [24]  609 	lcall	_dataout
                                     610 ;	program.c:48: P1_1 = 0;
                                     611 ;	assignBit
       00001B C2 91            [12]  612 	clr	_P1_1
@@ -625,7 +625,7 @@
       000020                        625 _main_menu:
                                     626 ;	program.c:54: DEBUGPORT(0x02);
       000020 75 82 02         [24]  627 	mov	dpl,#0x02
-      000023 12r01rEC         [24]  628 	lcall	_dataout
+      000023 12r02r16         [24]  628 	lcall	_dataout
                                     629 ;	program.c:55: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
       000026 74r20            [12]  630 	mov	a,#___str_1
       000028 C0 E0            [24]  631 	push	acc
@@ -637,7 +637,7 @@
       000035 15 81            [12]  637 	dec	sp
       000037 15 81            [12]  638 	dec	sp
       000039 15 81            [12]  639 	dec	sp
-                                    640 ;	program.c:56: printf("'H' -> Enter Heap Demo Mode \n\r");
+                                    640 ;	program.c:56: printf("'H' -> Heap Demo Mode \n\r");
       00003B 74r5B            [12]  641 	mov	a,#___str_2
       00003D C0 E0            [24]  642 	push	acc
       00003F 74s00            [12]  643 	mov	a,#(___str_2 >> 8)
@@ -648,8 +648,8 @@
       00004A 15 81            [12]  648 	dec	sp
       00004C 15 81            [12]  649 	dec	sp
       00004E 15 81            [12]  650 	dec	sp
-                                    651 ;	program.c:57: printf("'P' -> Enter PCA Demo Mode \n\r");
-      000050 74r7A            [12]  652 	mov	a,#___str_3
+                                    651 ;	program.c:57: printf("'P' -> PCA Demo Mode \n\r");
+      000050 74r74            [12]  652 	mov	a,#___str_3
       000052 C0 E0            [24]  653 	push	acc
       000054 74s00            [12]  654 	mov	a,#(___str_3 >> 8)
       000056 C0 E0            [24]  655 	push	acc
@@ -660,7 +660,7 @@
       000061 15 81            [12]  660 	dec	sp
       000063 15 81            [12]  661 	dec	sp
                                     662 ;	program.c:58: printf("'A' -> Assembly C Mix \n\r");
-      000065 74r98            [12]  663 	mov	a,#___str_4
+      000065 74r8C            [12]  663 	mov	a,#___str_4
       000067 C0 E0            [24]  664 	push	acc
       000069 74s00            [12]  665 	mov	a,#(___str_4 >> 8)
       00006B C0 E0            [24]  666 	push	acc
@@ -671,7 +671,7 @@
       000076 15 81            [12]  671 	dec	sp
       000078 15 81            [12]  672 	dec	sp
                                     673 ;	program.c:59: printf("'E' -> EEPROM Mode \n\r");
-      00007A 74rB1            [12]  674 	mov	a,#___str_5
+      00007A 74rA5            [12]  674 	mov	a,#___str_5
       00007C C0 E0            [24]  675 	push	acc
       00007E 74s00            [12]  676 	mov	a,#(___str_5 >> 8)
       000080 C0 E0            [24]  677 	push	acc
@@ -681,330 +681,352 @@
       000089 15 81            [12]  681 	dec	sp
       00008B 15 81            [12]  682 	dec	sp
       00008D 15 81            [12]  683 	dec	sp
-                                    684 ;	program.c:62: wrong_choice:
-      00008F                        685 00101$:
-                                    686 ;	program.c:63: printf("Please make a valid choice \n\r");
-      00008F 74rC7            [12]  687 	mov	a,#___str_6
-      000091 C0 E0            [24]  688 	push	acc
-      000093 74s00            [12]  689 	mov	a,#(___str_6 >> 8)
-      000095 C0 E0            [24]  690 	push	acc
-      000097 74 80            [12]  691 	mov	a,#0x80
-      000099 C0 E0            [24]  692 	push	acc
-      00009B 12r00r00         [24]  693 	lcall	_printf
-      00009E 15 81            [12]  694 	dec	sp
-      0000A0 15 81            [12]  695 	dec	sp
-      0000A2 15 81            [12]  696 	dec	sp
-                                    697 ;	program.c:64: inp = getchar();
-      0000A4 12r00r00         [24]  698 	lcall	_getchar
-      0000A7 AE 82            [24]  699 	mov	r6,dpl
-      0000A9 AF 83            [24]  700 	mov	r7,dph
-                                    701 ;	program.c:65: if (inp == 0x48)
-      0000AB BE 48 06         [24]  702 	cjne	r6,#0x48,00112$
-      0000AE BF 00 03         [24]  703 	cjne	r7,#0x00,00112$
-                                    704 ;	program.c:66: user_interface_heap();
-      0000B1 02r00r00         [24]  705 	ljmp	_user_interface_heap
-      0000B4                        706 00112$:
-                                    707 ;	program.c:67: else if (inp == 0x50)
-      0000B4 BE 50 06         [24]  708 	cjne	r6,#0x50,00109$
-      0000B7 BF 00 03         [24]  709 	cjne	r7,#0x00,00109$
-                                    710 ;	program.c:68: user_interface_PCA();
-      0000BA 02r00r00         [24]  711 	ljmp	_user_interface_PCA
-      0000BD                        712 00109$:
-                                    713 ;	program.c:69: else if (inp == 0x41)
-      0000BD BE 41 06         [24]  714 	cjne	r6,#0x41,00106$
-      0000C0 BF 00 03         [24]  715 	cjne	r7,#0x00,00106$
-                                    716 ;	program.c:70: asm_clang();
-      0000C3 02r00r00         [24]  717 	ljmp	_asm_clang
-      0000C6                        718 00106$:
-                                    719 ;	program.c:71: else if (inp == 0x45)
-      0000C6 BE 45 C6         [24]  720 	cjne	r6,#0x45,00101$
-      0000C9 BF 00 C3         [24]  721 	cjne	r7,#0x00,00101$
-                                    722 ;	program.c:72: eeprom_menu();
-                                    723 ;	program.c:74: goto wrong_choice;
-                                    724 ;	program.c:75: }
-      0000CC 02r00r00         [24]  725 	ljmp	_eeprom_menu
-                                    726 ;------------------------------------------------------------
-                                    727 ;Allocation info for local variables in function 'pca_interrupt'
-                                    728 ;------------------------------------------------------------
-                                    729 ;	program.c:83: void pca_interrupt() __interrupt(6) __using(1)
-                                    730 ;	-----------------------------------------
-                                    731 ;	 function pca_interrupt
-                                    732 ;	-----------------------------------------
-      0000CF                        733 _pca_interrupt:
-                           00000F   734 	ar7 = 0x0f
-                           00000E   735 	ar6 = 0x0e
-                           00000D   736 	ar5 = 0x0d
-                           00000C   737 	ar4 = 0x0c
-                           00000B   738 	ar3 = 0x0b
-                           00000A   739 	ar2 = 0x0a
-                           000009   740 	ar1 = 0x09
-                           000008   741 	ar0 = 0x08
-      0000CF C0*00            [24]  742 	push	bits
-      0000D1 C0 E0            [24]  743 	push	acc
-      0000D3 C0 F0            [24]  744 	push	b
-      0000D5 C0 82            [24]  745 	push	dpl
-      0000D7 C0 83            [24]  746 	push	dph
-      0000D9 C0 07            [24]  747 	push	(0+7)
-      0000DB C0 06            [24]  748 	push	(0+6)
-      0000DD C0 05            [24]  749 	push	(0+5)
-      0000DF C0 04            [24]  750 	push	(0+4)
-      0000E1 C0 03            [24]  751 	push	(0+3)
-      0000E3 C0 02            [24]  752 	push	(0+2)
-      0000E5 C0 01            [24]  753 	push	(0+1)
-      0000E7 C0 00            [24]  754 	push	(0+0)
-      0000E9 C0 D0            [24]  755 	push	psw
-      0000EB 75 D0 08         [24]  756 	mov	psw,#0x08
-                                    757 ;	program.c:85: if (CCF0)
-      0000EE 30 D8 2D         [24]  758 	jnb	_CCF0,00102$
-                                    759 ;	program.c:87: printf("Captured Value CCPL -> %d CCPH -> %d \n\r", CCAP0L, CCAP0H);
-      0000F1 AE FA            [24]  760 	mov	r6,_CCAP0H
-      0000F3 7F 00            [12]  761 	mov	r7,#0x00
-      0000F5 AC EA            [24]  762 	mov	r4,_CCAP0L
-      0000F7 7D 00            [12]  763 	mov	r5,#0x00
-      0000F9 C0 0E            [24]  764 	push	ar6
-      0000FB C0 0F            [24]  765 	push	ar7
-      0000FD C0 0C            [24]  766 	push	ar4
-      0000FF C0 0D            [24]  767 	push	ar5
-      000101 74rE5            [12]  768 	mov	a,#___str_7
-      000103 C0 E0            [24]  769 	push	acc
-      000105 74s00            [12]  770 	mov	a,#(___str_7 >> 8)
-      000107 C0 E0            [24]  771 	push	acc
-      000109 74 80            [12]  772 	mov	a,#0x80
-      00010B C0 E0            [24]  773 	push	acc
-      00010D 75 D0 00         [24]  774 	mov	psw,#0x00
-      000110 12r00r00         [24]  775 	lcall	_printf
-      000113 75 D0 08         [24]  776 	mov	psw,#0x08
-      000116 E5 81            [12]  777 	mov	a,sp
-      000118 24 F9            [12]  778 	add	a,#0xf9
-      00011A F5 81            [12]  779 	mov	sp,a
-                                    780 ;	program.c:89: CCF0 = 0;
-                                    781 ;	assignBit
-      00011C C2 D8            [12]  782 	clr	_CCF0
-      00011E                        783 00102$:
-                                    784 ;	program.c:91: if (CCF1)
-                                    785 ;	program.c:93: CCF1 = 0;
-                                    786 ;	assignBit
-      00011E 10 D9 02         [24]  787 	jbc	_CCF1,00128$
-      000121 80 06            [24]  788 	sjmp	00104$
-      000123                        789 00128$:
-                                    790 ;	program.c:94: CH = 0;
-      000123 75 F9 00         [24]  791 	mov	_CH,#0x00
-                                    792 ;	program.c:95: CL = 0;
-      000126 75 E9 00         [24]  793 	mov	_CL,#0x00
-      000129                        794 00104$:
-                                    795 ;	program.c:97: if (CCF2)
-                                    796 ;	program.c:99: CCF2 = 0;
-                                    797 ;	assignBit
-      000129 10 DA 02         [24]  798 	jbc	_CCF2,00129$
-      00012C 80 0C            [24]  799 	sjmp	00106$
-      00012E                        800 00129$:
-                                    801 ;	program.c:100: CH = 0;
-      00012E 75 F9 00         [24]  802 	mov	_CH,#0x00
-                                    803 ;	program.c:101: CL = 0;
-      000131 75 E9 00         [24]  804 	mov	_CL,#0x00
-                                    805 ;	program.c:102: WDTRST = 0x01E;
-      000134 75 A6 1E         [24]  806 	mov	_WDTRST,#0x1e
-                                    807 ;	program.c:103: WDTRST = 0x0E1;
-      000137 75 A6 E1         [24]  808 	mov	_WDTRST,#0xe1
-      00013A                        809 00106$:
-                                    810 ;	program.c:105: if (CCF3)
-                                    811 ;	program.c:107: CCF3 = 0;
-                                    812 ;	assignBit
-      00013A 10 DB 02         [24]  813 	jbc	_CCF3,00130$
-      00013D 80 1B            [24]  814 	sjmp	00109$
-      00013F                        815 00130$:
-                                    816 ;	program.c:108: printf("Timer Interrupt\n\r");
-      00013F 74r0D            [12]  817 	mov	a,#___str_8
-      000141 C0 E0            [24]  818 	push	acc
-      000143 74s01            [12]  819 	mov	a,#(___str_8 >> 8)
-      000145 C0 E0            [24]  820 	push	acc
-      000147 74 80            [12]  821 	mov	a,#0x80
-      000149 C0 E0            [24]  822 	push	acc
-      00014B 75 D0 00         [24]  823 	mov	psw,#0x00
-      00014E 12r00r00         [24]  824 	lcall	_printf
-      000151 75 D0 08         [24]  825 	mov	psw,#0x08
-      000154 15 81            [12]  826 	dec	sp
-      000156 15 81            [12]  827 	dec	sp
-      000158 15 81            [12]  828 	dec	sp
-      00015A                        829 00109$:
-                                    830 ;	program.c:110: }
-      00015A D0 D0            [24]  831 	pop	psw
-      00015C D0 00            [24]  832 	pop	(0+0)
-      00015E D0 01            [24]  833 	pop	(0+1)
-      000160 D0 02            [24]  834 	pop	(0+2)
-      000162 D0 03            [24]  835 	pop	(0+3)
-      000164 D0 04            [24]  836 	pop	(0+4)
-      000166 D0 05            [24]  837 	pop	(0+5)
-      000168 D0 06            [24]  838 	pop	(0+6)
-      00016A D0 07            [24]  839 	pop	(0+7)
-      00016C D0 83            [24]  840 	pop	dph
-      00016E D0 82            [24]  841 	pop	dpl
-      000170 D0 F0            [24]  842 	pop	b
-      000172 D0 E0            [24]  843 	pop	acc
-      000174 D0*00            [24]  844 	pop	bits
-      000176 32               [24]  845 	reti
-                                    846 ;------------------------------------------------------------
-                                    847 ;Allocation info for local variables in function 'idle_interrupt'
-                                    848 ;------------------------------------------------------------
-                                    849 ;	program.c:117: void idle_interrupt() __interrupt(0) __using(1)
-                                    850 ;	-----------------------------------------
-                                    851 ;	 function idle_interrupt
-                                    852 ;	-----------------------------------------
-      000177                        853 _idle_interrupt:
-      000177 C0*00            [24]  854 	push	bits
-      000179 C0 E0            [24]  855 	push	acc
-      00017B C0 F0            [24]  856 	push	b
-      00017D C0 82            [24]  857 	push	dpl
-      00017F C0 83            [24]  858 	push	dph
-      000181 C0 07            [24]  859 	push	(0+7)
-      000183 C0 06            [24]  860 	push	(0+6)
-      000185 C0 05            [24]  861 	push	(0+5)
-      000187 C0 04            [24]  862 	push	(0+4)
-      000189 C0 03            [24]  863 	push	(0+3)
-      00018B C0 02            [24]  864 	push	(0+2)
-      00018D C0 01            [24]  865 	push	(0+1)
-      00018F C0 00            [24]  866 	push	(0+0)
-      000191 C0 D0            [24]  867 	push	psw
-      000193 75 D0 08         [24]  868 	mov	psw,#0x08
-                                    869 ;	program.c:119: EX0 = 0;
-                                    870 ;	assignBit
-      000196 C2 A8            [12]  871 	clr	_EX0
-                                    872 ;	program.c:120: PCON = 0x80;
-      000198 75 87 80         [24]  873 	mov	_PCON,#0x80
-                                    874 ;	program.c:121: CR = 0;
-                                    875 ;	assignBit
-      00019B C2 DE            [12]  876 	clr	_CR
-                                    877 ;	program.c:122: CKRL = 255;
-      00019D 75 97 FF         [24]  878 	mov	_CKRL,#0xff
-                                    879 ;	program.c:123: CCAPM0 = 0;
-                                    880 ;	program.c:124: CCAPM1 = 0;
-                                    881 ;	program.c:125: CCAPM2 = 0;
-                                    882 ;	program.c:126: CCAPM3 = 0;
-                                    883 ;	program.c:127: CCAPM4 = 0;
-                                    884 ;	program.c:128: printf("Going to main menu.. \n\r");
-      0001A0 E4               [12]  885 	clr	a
-      0001A1 F5 DA            [12]  886 	mov	_CCAPM0,a
-      0001A3 F5 DB            [12]  887 	mov	_CCAPM1,a
-      0001A5 F5 DC            [12]  888 	mov	_CCAPM2,a
-      0001A7 F5 DD            [12]  889 	mov	_CCAPM3,a
-      0001A9 F5 DE            [12]  890 	mov	_CCAPM4,a
-      0001AB 74r1F            [12]  891 	mov	a,#___str_9
-      0001AD C0 E0            [24]  892 	push	acc
-      0001AF 74s01            [12]  893 	mov	a,#(___str_9 >> 8)
-      0001B1 C0 E0            [24]  894 	push	acc
-      0001B3 74 80            [12]  895 	mov	a,#0x80
-      0001B5 C0 E0            [24]  896 	push	acc
-      0001B7 75 D0 00         [24]  897 	mov	psw,#0x00
-      0001BA 12r00r00         [24]  898 	lcall	_printf
-      0001BD 75 D0 08         [24]  899 	mov	psw,#0x08
-      0001C0 15 81            [12]  900 	dec	sp
-      0001C2 15 81            [12]  901 	dec	sp
-      0001C4 15 81            [12]  902 	dec	sp
-                                    903 ;	program.c:129: main_menu();
-      0001C6 75 D0 00         [24]  904 	mov	psw,#0x00
-      0001C9 12r00r20         [24]  905 	lcall	_main_menu
-      0001CC 75 D0 08         [24]  906 	mov	psw,#0x08
-                                    907 ;	program.c:130: }
-      0001CF D0 D0            [24]  908 	pop	psw
-      0001D1 D0 00            [24]  909 	pop	(0+0)
-      0001D3 D0 01            [24]  910 	pop	(0+1)
-      0001D5 D0 02            [24]  911 	pop	(0+2)
-      0001D7 D0 03            [24]  912 	pop	(0+3)
-      0001D9 D0 04            [24]  913 	pop	(0+4)
-      0001DB D0 05            [24]  914 	pop	(0+5)
-      0001DD D0 06            [24]  915 	pop	(0+6)
-      0001DF D0 07            [24]  916 	pop	(0+7)
-      0001E1 D0 83            [24]  917 	pop	dph
-      0001E3 D0 82            [24]  918 	pop	dpl
-      0001E5 D0 F0            [24]  919 	pop	b
-      0001E7 D0 E0            [24]  920 	pop	acc
-      0001E9 D0*00            [24]  921 	pop	bits
-      0001EB 32               [24]  922 	reti
-                                    923 ;------------------------------------------------------------
-                                    924 ;Allocation info for local variables in function 'dataout'
-                                    925 ;------------------------------------------------------------
-                                    926 ;data                      Allocated with name '_dataout_data_65536_56'
-                                    927 ;------------------------------------------------------------
-                                    928 ;	program.c:138: void dataout(unsigned char data)
-                                    929 ;	-----------------------------------------
-                                    930 ;	 function dataout
-                                    931 ;	-----------------------------------------
-      0001EC                        932 _dataout:
-                           000007   933 	ar7 = 0x07
-                           000006   934 	ar6 = 0x06
-                           000005   935 	ar5 = 0x05
-                           000004   936 	ar4 = 0x04
-                           000003   937 	ar3 = 0x03
-                           000002   938 	ar2 = 0x02
-                           000001   939 	ar1 = 0x01
-                           000000   940 	ar0 = 0x00
-      0001EC E5 82            [12]  941 	mov	a,dpl
-      0001EE 90r00r00         [24]  942 	mov	dptr,#_dataout_data_65536_56
-      0001F1 F0               [24]  943 	movx	@dptr,a
-                                    944 ;	program.c:140: DEBUG_LOC = data;
-      0001F2 E0               [24]  945 	movx	a,@dptr
-      0001F3 90 80 00         [24]  946 	mov	dptr,#_DEBUG_LOC
-      0001F6 F0               [24]  947 	movx	@dptr,a
-                                    948 ;	program.c:141: }
-      0001F7 22               [24]  949 	ret
-                                    950 ;------------------------------------------------------------
-                                    951 ;Allocation info for local variables in function '_sdcc_external_startup'
-                                    952 ;------------------------------------------------------------
-                                    953 ;	program.c:150: _sdcc_external_startup()
-                                    954 ;	-----------------------------------------
-                                    955 ;	 function _sdcc_external_startup
-                                    956 ;	-----------------------------------------
-      0001F8                        957 __sdcc_external_startup:
-                                    958 ;	program.c:152: CKCON0 |= 0x1;
-      0001F8 43 8F 01         [24]  959 	orl	_CKCON0,#0x01
-                                    960 ;	program.c:154: _AUXR = 0xC;
-      0001FB 75 8E 0C         [24]  961 	mov	__AUXR,#0x0c
-                                    962 ;	program.c:156: SCON = 0x42;
-      0001FE 75 98 42         [24]  963 	mov	_SCON,#0x42
-                                    964 ;	program.c:158: PCON = 0x80;
-      000201 75 87 80         [24]  965 	mov	_PCON,#0x80
-                                    966 ;	program.c:160: TH1 = 255;
-      000204 75 8D FF         [24]  967 	mov	_TH1,#0xff
-                                    968 ;	program.c:161: TL1 = 255;
-      000207 75 8B FF         [24]  969 	mov	_TL1,#0xff
-                                    970 ;	program.c:163: TMOD = 0x20;
-      00020A 75 89 20         [24]  971 	mov	_TMOD,#0x20
-                                    972 ;	program.c:165: REN = 1;
-                                    973 ;	assignBit
-      00020D D2 9C            [12]  974 	setb	_REN
-                                    975 ;	program.c:167: TR1 = 1;
-                                    976 ;	assignBit
-      00020F D2 8E            [12]  977 	setb	_TR1
-                                    978 ;	program.c:169: EA = 1;
-                                    979 ;	assignBit
-      000211 D2 AF            [12]  980 	setb	_EA
-                                    981 ;	program.c:171: EC = 1;
-                                    982 ;	assignBit
-      000213 D2 AE            [12]  983 	setb	_EC
-                                    984 ;	program.c:172: return 0;
-      000215 90 00 00         [24]  985 	mov	dptr,#0x0000
-                                    986 ;	program.c:173: }
-      000218 22               [24]  987 	ret
-                                    988 	.area CSEG    (CODE)
-                                    989 	.area CONST   (CODE)
-                                    990 	.area CONST   (CODE)
-      000000                        991 ___str_0:
-      000000 0A                     992 	.db 0x0a
-      000001 0D                     993 	.db 0x0d
-      000002 20 48 45 4C 4C 4F 21   994 	.ascii " HELLO! Started in X2 Mode "
+                                    684 ;	program.c:60: printf("'I' -> I/O Expander Demo Mode \n\r");
+      00008F 74rBB            [12]  685 	mov	a,#___str_6
+      000091 C0 E0            [24]  686 	push	acc
+      000093 74s00            [12]  687 	mov	a,#(___str_6 >> 8)
+      000095 C0 E0            [24]  688 	push	acc
+      000097 74 80            [12]  689 	mov	a,#0x80
+      000099 C0 E0            [24]  690 	push	acc
+      00009B 12r00r00         [24]  691 	lcall	_printf
+      00009E 15 81            [12]  692 	dec	sp
+      0000A0 15 81            [12]  693 	dec	sp
+      0000A2 15 81            [12]  694 	dec	sp
+                                    695 ;	program.c:61: printf("'L' -> LCD Demo Mode \n\r");
+      0000A4 74rDC            [12]  696 	mov	a,#___str_7
+      0000A6 C0 E0            [24]  697 	push	acc
+      0000A8 74s00            [12]  698 	mov	a,#(___str_7 >> 8)
+      0000AA C0 E0            [24]  699 	push	acc
+      0000AC 74 80            [12]  700 	mov	a,#0x80
+      0000AE C0 E0            [24]  701 	push	acc
+      0000B0 12r00r00         [24]  702 	lcall	_printf
+      0000B3 15 81            [12]  703 	dec	sp
+      0000B5 15 81            [12]  704 	dec	sp
+      0000B7 15 81            [12]  705 	dec	sp
+                                    706 ;	program.c:64: wrong_choice:
+      0000B9                        707 00101$:
+                                    708 ;	program.c:65: printf("Please make a valid choice \n\r");
+      0000B9 74rF4            [12]  709 	mov	a,#___str_8
+      0000BB C0 E0            [24]  710 	push	acc
+      0000BD 74s00            [12]  711 	mov	a,#(___str_8 >> 8)
+      0000BF C0 E0            [24]  712 	push	acc
+      0000C1 74 80            [12]  713 	mov	a,#0x80
+      0000C3 C0 E0            [24]  714 	push	acc
+      0000C5 12r00r00         [24]  715 	lcall	_printf
+      0000C8 15 81            [12]  716 	dec	sp
+      0000CA 15 81            [12]  717 	dec	sp
+      0000CC 15 81            [12]  718 	dec	sp
+                                    719 ;	program.c:66: inp = getchar();
+      0000CE 12r00r00         [24]  720 	lcall	_getchar
+      0000D1 AE 82            [24]  721 	mov	r6,dpl
+      0000D3 AF 83            [24]  722 	mov	r7,dph
+                                    723 ;	program.c:67: if (inp == 0x48)
+      0000D5 BE 48 06         [24]  724 	cjne	r6,#0x48,00112$
+      0000D8 BF 00 03         [24]  725 	cjne	r7,#0x00,00112$
+                                    726 ;	program.c:68: user_interface_heap();
+      0000DB 02r00r00         [24]  727 	ljmp	_user_interface_heap
+      0000DE                        728 00112$:
+                                    729 ;	program.c:69: else if (inp == 0x50)
+      0000DE BE 50 06         [24]  730 	cjne	r6,#0x50,00109$
+      0000E1 BF 00 03         [24]  731 	cjne	r7,#0x00,00109$
+                                    732 ;	program.c:70: user_interface_PCA();
+      0000E4 02r00r00         [24]  733 	ljmp	_user_interface_PCA
+      0000E7                        734 00109$:
+                                    735 ;	program.c:71: else if (inp == 0x41)
+      0000E7 BE 41 06         [24]  736 	cjne	r6,#0x41,00106$
+      0000EA BF 00 03         [24]  737 	cjne	r7,#0x00,00106$
+                                    738 ;	program.c:72: asm_clang();
+      0000ED 02r00r00         [24]  739 	ljmp	_asm_clang
+      0000F0                        740 00106$:
+                                    741 ;	program.c:73: else if (inp == 0x45)
+      0000F0 BE 45 C6         [24]  742 	cjne	r6,#0x45,00101$
+      0000F3 BF 00 C3         [24]  743 	cjne	r7,#0x00,00101$
+                                    744 ;	program.c:74: eeprom_menu();
+                                    745 ;	program.c:76: goto wrong_choice;
+                                    746 ;	program.c:77: }
+      0000F6 02r00r00         [24]  747 	ljmp	_eeprom_menu
+                                    748 ;------------------------------------------------------------
+                                    749 ;Allocation info for local variables in function 'pca_interrupt'
+                                    750 ;------------------------------------------------------------
+                                    751 ;	program.c:85: void pca_interrupt() __interrupt(6) __using(1)
+                                    752 ;	-----------------------------------------
+                                    753 ;	 function pca_interrupt
+                                    754 ;	-----------------------------------------
+      0000F9                        755 _pca_interrupt:
+                           00000F   756 	ar7 = 0x0f
+                           00000E   757 	ar6 = 0x0e
+                           00000D   758 	ar5 = 0x0d
+                           00000C   759 	ar4 = 0x0c
+                           00000B   760 	ar3 = 0x0b
+                           00000A   761 	ar2 = 0x0a
+                           000009   762 	ar1 = 0x09
+                           000008   763 	ar0 = 0x08
+      0000F9 C0*00            [24]  764 	push	bits
+      0000FB C0 E0            [24]  765 	push	acc
+      0000FD C0 F0            [24]  766 	push	b
+      0000FF C0 82            [24]  767 	push	dpl
+      000101 C0 83            [24]  768 	push	dph
+      000103 C0 07            [24]  769 	push	(0+7)
+      000105 C0 06            [24]  770 	push	(0+6)
+      000107 C0 05            [24]  771 	push	(0+5)
+      000109 C0 04            [24]  772 	push	(0+4)
+      00010B C0 03            [24]  773 	push	(0+3)
+      00010D C0 02            [24]  774 	push	(0+2)
+      00010F C0 01            [24]  775 	push	(0+1)
+      000111 C0 00            [24]  776 	push	(0+0)
+      000113 C0 D0            [24]  777 	push	psw
+      000115 75 D0 08         [24]  778 	mov	psw,#0x08
+                                    779 ;	program.c:87: if (CCF0)
+      000118 30 D8 2D         [24]  780 	jnb	_CCF0,00102$
+                                    781 ;	program.c:89: printf("Captured Value CCPL -> %d CCPH -> %d \n\r", CCAP0L, CCAP0H);
+      00011B AE FA            [24]  782 	mov	r6,_CCAP0H
+      00011D 7F 00            [12]  783 	mov	r7,#0x00
+      00011F AC EA            [24]  784 	mov	r4,_CCAP0L
+      000121 7D 00            [12]  785 	mov	r5,#0x00
+      000123 C0 0E            [24]  786 	push	ar6
+      000125 C0 0F            [24]  787 	push	ar7
+      000127 C0 0C            [24]  788 	push	ar4
+      000129 C0 0D            [24]  789 	push	ar5
+      00012B 74r12            [12]  790 	mov	a,#___str_9
+      00012D C0 E0            [24]  791 	push	acc
+      00012F 74s01            [12]  792 	mov	a,#(___str_9 >> 8)
+      000131 C0 E0            [24]  793 	push	acc
+      000133 74 80            [12]  794 	mov	a,#0x80
+      000135 C0 E0            [24]  795 	push	acc
+      000137 75 D0 00         [24]  796 	mov	psw,#0x00
+      00013A 12r00r00         [24]  797 	lcall	_printf
+      00013D 75 D0 08         [24]  798 	mov	psw,#0x08
+      000140 E5 81            [12]  799 	mov	a,sp
+      000142 24 F9            [12]  800 	add	a,#0xf9
+      000144 F5 81            [12]  801 	mov	sp,a
+                                    802 ;	program.c:91: CCF0 = 0;
+                                    803 ;	assignBit
+      000146 C2 D8            [12]  804 	clr	_CCF0
+      000148                        805 00102$:
+                                    806 ;	program.c:93: if (CCF1)
+                                    807 ;	program.c:95: CCF1 = 0;
+                                    808 ;	assignBit
+      000148 10 D9 02         [24]  809 	jbc	_CCF1,00128$
+      00014B 80 06            [24]  810 	sjmp	00104$
+      00014D                        811 00128$:
+                                    812 ;	program.c:96: CH = 0;
+      00014D 75 F9 00         [24]  813 	mov	_CH,#0x00
+                                    814 ;	program.c:97: CL = 0;
+      000150 75 E9 00         [24]  815 	mov	_CL,#0x00
+      000153                        816 00104$:
+                                    817 ;	program.c:99: if (CCF2)
+                                    818 ;	program.c:101: CCF2 = 0;
+                                    819 ;	assignBit
+      000153 10 DA 02         [24]  820 	jbc	_CCF2,00129$
+      000156 80 0C            [24]  821 	sjmp	00106$
+      000158                        822 00129$:
+                                    823 ;	program.c:102: CH = 0;
+      000158 75 F9 00         [24]  824 	mov	_CH,#0x00
+                                    825 ;	program.c:103: CL = 0;
+      00015B 75 E9 00         [24]  826 	mov	_CL,#0x00
+                                    827 ;	program.c:104: WDTRST = 0x01E;
+      00015E 75 A6 1E         [24]  828 	mov	_WDTRST,#0x1e
+                                    829 ;	program.c:105: WDTRST = 0x0E1;
+      000161 75 A6 E1         [24]  830 	mov	_WDTRST,#0xe1
+      000164                        831 00106$:
+                                    832 ;	program.c:107: if (CCF3)
+                                    833 ;	program.c:109: CCF3 = 0;
+                                    834 ;	assignBit
+      000164 10 DB 02         [24]  835 	jbc	_CCF3,00130$
+      000167 80 1B            [24]  836 	sjmp	00109$
+      000169                        837 00130$:
+                                    838 ;	program.c:110: printf("Timer Interrupt\n\r");
+      000169 74r3A            [12]  839 	mov	a,#___str_10
+      00016B C0 E0            [24]  840 	push	acc
+      00016D 74s01            [12]  841 	mov	a,#(___str_10 >> 8)
+      00016F C0 E0            [24]  842 	push	acc
+      000171 74 80            [12]  843 	mov	a,#0x80
+      000173 C0 E0            [24]  844 	push	acc
+      000175 75 D0 00         [24]  845 	mov	psw,#0x00
+      000178 12r00r00         [24]  846 	lcall	_printf
+      00017B 75 D0 08         [24]  847 	mov	psw,#0x08
+      00017E 15 81            [12]  848 	dec	sp
+      000180 15 81            [12]  849 	dec	sp
+      000182 15 81            [12]  850 	dec	sp
+      000184                        851 00109$:
+                                    852 ;	program.c:112: }
+      000184 D0 D0            [24]  853 	pop	psw
+      000186 D0 00            [24]  854 	pop	(0+0)
+      000188 D0 01            [24]  855 	pop	(0+1)
+      00018A D0 02            [24]  856 	pop	(0+2)
+      00018C D0 03            [24]  857 	pop	(0+3)
+      00018E D0 04            [24]  858 	pop	(0+4)
+      000190 D0 05            [24]  859 	pop	(0+5)
+      000192 D0 06            [24]  860 	pop	(0+6)
+      000194 D0 07            [24]  861 	pop	(0+7)
+      000196 D0 83            [24]  862 	pop	dph
+      000198 D0 82            [24]  863 	pop	dpl
+      00019A D0 F0            [24]  864 	pop	b
+      00019C D0 E0            [24]  865 	pop	acc
+      00019E D0*00            [24]  866 	pop	bits
+      0001A0 32               [24]  867 	reti
+                                    868 ;------------------------------------------------------------
+                                    869 ;Allocation info for local variables in function 'idle_interrupt'
+                                    870 ;------------------------------------------------------------
+                                    871 ;	program.c:119: void idle_interrupt() __interrupt(0) __using(1)
+                                    872 ;	-----------------------------------------
+                                    873 ;	 function idle_interrupt
+                                    874 ;	-----------------------------------------
+      0001A1                        875 _idle_interrupt:
+      0001A1 C0*00            [24]  876 	push	bits
+      0001A3 C0 E0            [24]  877 	push	acc
+      0001A5 C0 F0            [24]  878 	push	b
+      0001A7 C0 82            [24]  879 	push	dpl
+      0001A9 C0 83            [24]  880 	push	dph
+      0001AB C0 07            [24]  881 	push	(0+7)
+      0001AD C0 06            [24]  882 	push	(0+6)
+      0001AF C0 05            [24]  883 	push	(0+5)
+      0001B1 C0 04            [24]  884 	push	(0+4)
+      0001B3 C0 03            [24]  885 	push	(0+3)
+      0001B5 C0 02            [24]  886 	push	(0+2)
+      0001B7 C0 01            [24]  887 	push	(0+1)
+      0001B9 C0 00            [24]  888 	push	(0+0)
+      0001BB C0 D0            [24]  889 	push	psw
+      0001BD 75 D0 08         [24]  890 	mov	psw,#0x08
+                                    891 ;	program.c:121: EX0 = 0;
+                                    892 ;	assignBit
+      0001C0 C2 A8            [12]  893 	clr	_EX0
+                                    894 ;	program.c:122: PCON = 0x80;
+      0001C2 75 87 80         [24]  895 	mov	_PCON,#0x80
+                                    896 ;	program.c:123: CR = 0;
+                                    897 ;	assignBit
+      0001C5 C2 DE            [12]  898 	clr	_CR
+                                    899 ;	program.c:124: CKRL = 255;
+      0001C7 75 97 FF         [24]  900 	mov	_CKRL,#0xff
+                                    901 ;	program.c:125: CCAPM0 = 0;
+                                    902 ;	program.c:126: CCAPM1 = 0;
+                                    903 ;	program.c:127: CCAPM2 = 0;
+                                    904 ;	program.c:128: CCAPM3 = 0;
+                                    905 ;	program.c:129: CCAPM4 = 0;
+                                    906 ;	program.c:130: printf("Going to main menu.. \n\r");
+      0001CA E4               [12]  907 	clr	a
+      0001CB F5 DA            [12]  908 	mov	_CCAPM0,a
+      0001CD F5 DB            [12]  909 	mov	_CCAPM1,a
+      0001CF F5 DC            [12]  910 	mov	_CCAPM2,a
+      0001D1 F5 DD            [12]  911 	mov	_CCAPM3,a
+      0001D3 F5 DE            [12]  912 	mov	_CCAPM4,a
+      0001D5 74r4C            [12]  913 	mov	a,#___str_11
+      0001D7 C0 E0            [24]  914 	push	acc
+      0001D9 74s01            [12]  915 	mov	a,#(___str_11 >> 8)
+      0001DB C0 E0            [24]  916 	push	acc
+      0001DD 74 80            [12]  917 	mov	a,#0x80
+      0001DF C0 E0            [24]  918 	push	acc
+      0001E1 75 D0 00         [24]  919 	mov	psw,#0x00
+      0001E4 12r00r00         [24]  920 	lcall	_printf
+      0001E7 75 D0 08         [24]  921 	mov	psw,#0x08
+      0001EA 15 81            [12]  922 	dec	sp
+      0001EC 15 81            [12]  923 	dec	sp
+      0001EE 15 81            [12]  924 	dec	sp
+                                    925 ;	program.c:131: main_menu();
+      0001F0 75 D0 00         [24]  926 	mov	psw,#0x00
+      0001F3 12r00r20         [24]  927 	lcall	_main_menu
+      0001F6 75 D0 08         [24]  928 	mov	psw,#0x08
+                                    929 ;	program.c:132: }
+      0001F9 D0 D0            [24]  930 	pop	psw
+      0001FB D0 00            [24]  931 	pop	(0+0)
+      0001FD D0 01            [24]  932 	pop	(0+1)
+      0001FF D0 02            [24]  933 	pop	(0+2)
+      000201 D0 03            [24]  934 	pop	(0+3)
+      000203 D0 04            [24]  935 	pop	(0+4)
+      000205 D0 05            [24]  936 	pop	(0+5)
+      000207 D0 06            [24]  937 	pop	(0+6)
+      000209 D0 07            [24]  938 	pop	(0+7)
+      00020B D0 83            [24]  939 	pop	dph
+      00020D D0 82            [24]  940 	pop	dpl
+      00020F D0 F0            [24]  941 	pop	b
+      000211 D0 E0            [24]  942 	pop	acc
+      000213 D0*00            [24]  943 	pop	bits
+      000215 32               [24]  944 	reti
+                                    945 ;------------------------------------------------------------
+                                    946 ;Allocation info for local variables in function 'dataout'
+                                    947 ;------------------------------------------------------------
+                                    948 ;data                      Allocated with name '_dataout_data_65536_56'
+                                    949 ;------------------------------------------------------------
+                                    950 ;	program.c:140: void dataout(unsigned char data)
+                                    951 ;	-----------------------------------------
+                                    952 ;	 function dataout
+                                    953 ;	-----------------------------------------
+      000216                        954 _dataout:
+                           000007   955 	ar7 = 0x07
+                           000006   956 	ar6 = 0x06
+                           000005   957 	ar5 = 0x05
+                           000004   958 	ar4 = 0x04
+                           000003   959 	ar3 = 0x03
+                           000002   960 	ar2 = 0x02
+                           000001   961 	ar1 = 0x01
+                           000000   962 	ar0 = 0x00
+      000216 E5 82            [12]  963 	mov	a,dpl
+      000218 90r00r00         [24]  964 	mov	dptr,#_dataout_data_65536_56
+      00021B F0               [24]  965 	movx	@dptr,a
+                                    966 ;	program.c:142: DEBUG_LOC = data;
+      00021C E0               [24]  967 	movx	a,@dptr
+      00021D 90 80 00         [24]  968 	mov	dptr,#_DEBUG_LOC
+      000220 F0               [24]  969 	movx	@dptr,a
+                                    970 ;	program.c:143: }
+      000221 22               [24]  971 	ret
+                                    972 ;------------------------------------------------------------
+                                    973 ;Allocation info for local variables in function '_sdcc_external_startup'
+                                    974 ;------------------------------------------------------------
+                                    975 ;	program.c:152: _sdcc_external_startup()
+                                    976 ;	-----------------------------------------
+                                    977 ;	 function _sdcc_external_startup
+                                    978 ;	-----------------------------------------
+      000222                        979 __sdcc_external_startup:
+                                    980 ;	program.c:154: CKCON0 |= 0x1;
+      000222 43 8F 01         [24]  981 	orl	_CKCON0,#0x01
+                                    982 ;	program.c:156: _AUXR = 0xC;
+      000225 75 8E 0C         [24]  983 	mov	__AUXR,#0x0c
+                                    984 ;	program.c:158: SCON = 0x42;
+      000228 75 98 42         [24]  985 	mov	_SCON,#0x42
+                                    986 ;	program.c:160: PCON = 0x80;
+      00022B 75 87 80         [24]  987 	mov	_PCON,#0x80
+                                    988 ;	program.c:162: TH1 = 255;
+      00022E 75 8D FF         [24]  989 	mov	_TH1,#0xff
+                                    990 ;	program.c:163: TL1 = 255;
+      000231 75 8B FF         [24]  991 	mov	_TL1,#0xff
+                                    992 ;	program.c:165: TMOD = 0x20;
+      000234 75 89 20         [24]  993 	mov	_TMOD,#0x20
+                                    994 ;	program.c:167: REN = 1;
+                                    995 ;	assignBit
+      000237 D2 9C            [12]  996 	setb	_REN
+                                    997 ;	program.c:169: TR1 = 1;
+                                    998 ;	assignBit
+      000239 D2 8E            [12]  999 	setb	_TR1
+                                   1000 ;	program.c:171: EA = 1;
+                                   1001 ;	assignBit
+      00023B D2 AF            [12] 1002 	setb	_EA
+                                   1003 ;	program.c:173: EC = 1;
+                                   1004 ;	assignBit
+      00023D D2 AE            [12] 1005 	setb	_EC
+                                   1006 ;	program.c:174: return 0;
+      00023F 90 00 00         [24] 1007 	mov	dptr,#0x0000
+                                   1008 ;	program.c:175: }
+      000242 22               [24] 1009 	ret
+                                   1010 	.area CSEG    (CODE)
+                                   1011 	.area CONST   (CODE)
+                                   1012 	.area CONST   (CODE)
+      000000                       1013 ___str_0:
+      000000 0A                    1014 	.db 0x0a
+      000001 0D                    1015 	.db 0x0d
+      000002 20 48 45 4C 4C 4F 21  1016 	.ascii " HELLO! Started in X2 Mode "
              20 53 74 61 72 74 65
              64 20 69 6E 20 58 32
              20 4D 6F 64 65 20
-      00001D 0A                     995 	.db 0x0a
-      00001E 0D                     996 	.db 0x0d
-      00001F 00                     997 	.db 0x00
-                                    998 	.area CSEG    (CODE)
-                                    999 	.area CONST   (CODE)
-      000020                       1000 ___str_1:
-      000020 0A                    1001 	.db 0x0a
-      000021 0A                    1002 	.db 0x0a
-      000022 0D                    1003 	.db 0x0d
-      000023 5E 5E 5E 5E 5E 5E 5E  1004 	.ascii "^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+      00001D 0A                    1017 	.db 0x0a
+      00001E 0D                    1018 	.db 0x0d
+      00001F 00                    1019 	.db 0x00
+                                   1020 	.area CSEG    (CODE)
+                                   1021 	.area CONST   (CODE)
+      000020                       1022 ___str_1:
+      000020 0A                    1023 	.db 0x0a
+      000021 0A                    1024 	.db 0x0a
+      000022 0D                    1025 	.db 0x0d
+      000023 5E 5E 5E 5E 5E 5E 5E  1026 	.ascii "^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ "
              5E 5E 5E 5E 5E 5E 5E
              5E 5E 5E 5E 5E 2D 4D
              45 4E 55 2D 5E 5E 5E
@@ -1012,91 +1034,110 @@
              5E 5E 5E 5E 5E 5E 5E
              5E 5E 5E 5E 5E 5E 5E
              5E 5E 20
-      000057 0A                    1005 	.db 0x0a
-      000058 0A                    1006 	.db 0x0a
-      000059 0D                    1007 	.db 0x0d
-      00005A 00                    1008 	.db 0x00
-                                   1009 	.area CSEG    (CODE)
-                                   1010 	.area CONST   (CODE)
-      00005B                       1011 ___str_2:
-      00005B 27 48 27 20 2D 3E 20  1012 	.ascii "'H' -> Enter Heap Demo Mode "
-             45 6E 74 65 72 20 48
-             65 61 70 20 44 65 6D
+      000057 0A                    1027 	.db 0x0a
+      000058 0A                    1028 	.db 0x0a
+      000059 0D                    1029 	.db 0x0d
+      00005A 00                    1030 	.db 0x00
+                                   1031 	.area CSEG    (CODE)
+                                   1032 	.area CONST   (CODE)
+      00005B                       1033 ___str_2:
+      00005B 27 48 27 20 2D 3E 20  1034 	.ascii "'H' -> Heap Demo Mode "
+             48 65 61 70 20 44 65
+             6D 6F 20 4D 6F 64 65
+             20
+      000071 0A                    1035 	.db 0x0a
+      000072 0D                    1036 	.db 0x0d
+      000073 00                    1037 	.db 0x00
+                                   1038 	.area CSEG    (CODE)
+                                   1039 	.area CONST   (CODE)
+      000074                       1040 ___str_3:
+      000074 27 50 27 20 2D 3E 20  1041 	.ascii "'P' -> PCA Demo Mode "
+             50 43 41 20 44 65 6D
              6F 20 4D 6F 64 65 20
-      000077 0A                    1013 	.db 0x0a
-      000078 0D                    1014 	.db 0x0d
-      000079 00                    1015 	.db 0x00
-                                   1016 	.area CSEG    (CODE)
-                                   1017 	.area CONST   (CODE)
-      00007A                       1018 ___str_3:
-      00007A 27 50 27 20 2D 3E 20  1019 	.ascii "'P' -> Enter PCA Demo Mode "
-             45 6E 74 65 72 20 50
-             43 41 20 44 65 6D 6F
-             20 4D 6F 64 65 20
-      000095 0A                    1020 	.db 0x0a
-      000096 0D                    1021 	.db 0x0d
-      000097 00                    1022 	.db 0x00
-                                   1023 	.area CSEG    (CODE)
-                                   1024 	.area CONST   (CODE)
-      000098                       1025 ___str_4:
-      000098 27 41 27 20 2D 3E 20  1026 	.ascii "'A' -> Assembly C Mix "
+      000089 0A                    1042 	.db 0x0a
+      00008A 0D                    1043 	.db 0x0d
+      00008B 00                    1044 	.db 0x00
+                                   1045 	.area CSEG    (CODE)
+                                   1046 	.area CONST   (CODE)
+      00008C                       1047 ___str_4:
+      00008C 27 41 27 20 2D 3E 20  1048 	.ascii "'A' -> Assembly C Mix "
              41 73 73 65 6D 62 6C
              79 20 43 20 4D 69 78
              20
-      0000AE 0A                    1027 	.db 0x0a
-      0000AF 0D                    1028 	.db 0x0d
-      0000B0 00                    1029 	.db 0x00
-                                   1030 	.area CSEG    (CODE)
-                                   1031 	.area CONST   (CODE)
-      0000B1                       1032 ___str_5:
-      0000B1 27 45 27 20 2D 3E 20  1033 	.ascii "'E' -> EEPROM Mode "
+      0000A2 0A                    1049 	.db 0x0a
+      0000A3 0D                    1050 	.db 0x0d
+      0000A4 00                    1051 	.db 0x00
+                                   1052 	.area CSEG    (CODE)
+                                   1053 	.area CONST   (CODE)
+      0000A5                       1054 ___str_5:
+      0000A5 27 45 27 20 2D 3E 20  1055 	.ascii "'E' -> EEPROM Mode "
              45 45 50 52 4F 4D 20
              4D 6F 64 65 20
-      0000C4 0A                    1034 	.db 0x0a
-      0000C5 0D                    1035 	.db 0x0d
-      0000C6 00                    1036 	.db 0x00
-                                   1037 	.area CSEG    (CODE)
-                                   1038 	.area CONST   (CODE)
-      0000C7                       1039 ___str_6:
-      0000C7 50 6C 65 61 73 65 20  1040 	.ascii "Please make a valid choice "
+      0000B8 0A                    1056 	.db 0x0a
+      0000B9 0D                    1057 	.db 0x0d
+      0000BA 00                    1058 	.db 0x00
+                                   1059 	.area CSEG    (CODE)
+                                   1060 	.area CONST   (CODE)
+      0000BB                       1061 ___str_6:
+      0000BB 27 49 27 20 2D 3E 20  1062 	.ascii "'I' -> I/O Expander Demo Mode "
+             49 2F 4F 20 45 78 70
+             61 6E 64 65 72 20 44
+             65 6D 6F 20 4D 6F 64
+             65 20
+      0000D9 0A                    1063 	.db 0x0a
+      0000DA 0D                    1064 	.db 0x0d
+      0000DB 00                    1065 	.db 0x00
+                                   1066 	.area CSEG    (CODE)
+                                   1067 	.area CONST   (CODE)
+      0000DC                       1068 ___str_7:
+      0000DC 27 4C 27 20 2D 3E 20  1069 	.ascii "'L' -> LCD Demo Mode "
+             4C 43 44 20 44 65 6D
+             6F 20 4D 6F 64 65 20
+      0000F1 0A                    1070 	.db 0x0a
+      0000F2 0D                    1071 	.db 0x0d
+      0000F3 00                    1072 	.db 0x00
+                                   1073 	.area CSEG    (CODE)
+                                   1074 	.area CONST   (CODE)
+      0000F4                       1075 ___str_8:
+      0000F4 50 6C 65 61 73 65 20  1076 	.ascii "Please make a valid choice "
              6D 61 6B 65 20 61 20
              76 61 6C 69 64 20 63
              68 6F 69 63 65 20
-      0000E2 0A                    1041 	.db 0x0a
-      0000E3 0D                    1042 	.db 0x0d
-      0000E4 00                    1043 	.db 0x00
-                                   1044 	.area CSEG    (CODE)
-                                   1045 	.area CONST   (CODE)
-      0000E5                       1046 ___str_7:
-      0000E5 43 61 70 74 75 72 65  1047 	.ascii "Captured Value CCPL -> %d CCPH -> %d "
+      00010F 0A                    1077 	.db 0x0a
+      000110 0D                    1078 	.db 0x0d
+      000111 00                    1079 	.db 0x00
+                                   1080 	.area CSEG    (CODE)
+                                   1081 	.area CONST   (CODE)
+      000112                       1082 ___str_9:
+      000112 43 61 70 74 75 72 65  1083 	.ascii "Captured Value CCPL -> %d CCPH -> %d "
              64 20 56 61 6C 75 65
              20 43 43 50 4C 20 2D
              3E 20 25 64 20 43 43
              50 48 20 2D 3E 20 25
              64 20
-      00010A 0A                    1048 	.db 0x0a
-      00010B 0D                    1049 	.db 0x0d
-      00010C 00                    1050 	.db 0x00
-                                   1051 	.area CSEG    (CODE)
-                                   1052 	.area CONST   (CODE)
-      00010D                       1053 ___str_8:
-      00010D 54 69 6D 65 72 20 49  1054 	.ascii "Timer Interrupt"
+      000137 0A                    1084 	.db 0x0a
+      000138 0D                    1085 	.db 0x0d
+      000139 00                    1086 	.db 0x00
+                                   1087 	.area CSEG    (CODE)
+                                   1088 	.area CONST   (CODE)
+      00013A                       1089 ___str_10:
+      00013A 54 69 6D 65 72 20 49  1090 	.ascii "Timer Interrupt"
              6E 74 65 72 72 75 70
              74
-      00011C 0A                    1055 	.db 0x0a
-      00011D 0D                    1056 	.db 0x0d
-      00011E 00                    1057 	.db 0x00
-                                   1058 	.area CSEG    (CODE)
-                                   1059 	.area CONST   (CODE)
-      00011F                       1060 ___str_9:
-      00011F 47 6F 69 6E 67 20 74  1061 	.ascii "Going to main menu.. "
+      000149 0A                    1091 	.db 0x0a
+      00014A 0D                    1092 	.db 0x0d
+      00014B 00                    1093 	.db 0x00
+                                   1094 	.area CSEG    (CODE)
+                                   1095 	.area CONST   (CODE)
+      00014C                       1096 ___str_11:
+      00014C 47 6F 69 6E 67 20 74  1097 	.ascii "Going to main menu.. "
              6F 20 6D 61 69 6E 20
              6D 65 6E 75 2E 2E 20
-      000134 0A                    1062 	.db 0x0a
-      000135 0D                    1063 	.db 0x0d
-      000136 00                    1064 	.db 0x00
-                                   1065 	.area CSEG    (CODE)
-                                   1066 	.area XINIT   (CODE)
-      000000                       1067 __xinit__global_var_test:
-      000000 02                    1068 	.db #0x02	; 2
-                                   1069 	.area CABS    (ABS,CODE)
+      000161 0A                    1098 	.db 0x0a
+      000162 0D                    1099 	.db 0x0d
+      000163 00                    1100 	.db 0x00
+                                   1101 	.area CSEG    (CODE)
+                                   1102 	.area XINIT   (CODE)
+      000000                       1103 __xinit__global_var_test:
+      000000 02                    1104 	.db #0x02	; 2
+                                   1105 	.area CABS    (ABS,CODE)

@@ -539,7 +539,7 @@
                                     539 ;	-----------------------------------------
                                     540 ;	 function i2c_write_random
                                     541 ;	-----------------------------------------
-      000345                        542 _i2c_write_random:
+      00036F                        542 _i2c_write_random:
                            000007   543 	ar7 = 0x07
                            000006   544 	ar6 = 0x06
                            000005   545 	ar5 = 0x05
@@ -548,64 +548,64 @@
                            000002   548 	ar2 = 0x02
                            000001   549 	ar1 = 0x01
                            000000   550 	ar0 = 0x00
-      000345 E5 82            [12]  551 	mov	a,dpl
-      000347 90 00 04         [24]  552 	mov	dptr,#_i2c_write_random_block_65536_9
-      00034A F0               [24]  553 	movx	@dptr,a
+      00036F E5 82            [12]  551 	mov	a,dpl
+      000371 90 00 04         [24]  552 	mov	dptr,#_i2c_write_random_block_65536_9
+      000374 F0               [24]  553 	movx	@dptr,a
                                     554 ;	i2c.c:29: i2c_activity(2);
-      00034B 75 82 02         [24]  555 	mov	dpl,#0x02
-      00034E 12 03 D8         [24]  556 	lcall	_i2c_activity
+      000375 75 82 02         [24]  555 	mov	dpl,#0x02
+      000378 12 04 02         [24]  556 	lcall	_i2c_activity
                                     557 ;	i2c.c:30: i2c_write_init(block);
-      000351 90 00 04         [24]  558 	mov	dptr,#_i2c_write_random_block_65536_9
-      000354 E0               [24]  559 	movx	a,@dptr
-      000355 F5 82            [12]  560 	mov	dpl,a
-      000357 12 02 B5         [24]  561 	lcall	_i2c_write_init
+      00037B 90 00 04         [24]  558 	mov	dptr,#_i2c_write_random_block_65536_9
+      00037E E0               [24]  559 	movx	a,@dptr
+      00037F F5 82            [12]  560 	mov	dpl,a
+      000381 12 02 DF         [24]  561 	lcall	_i2c_write_init
                                     562 ;	i2c.c:31: i2c_addr(address);
-      00035A 90 00 02         [24]  563 	mov	dptr,#_i2c_write_random_PARM_2
-      00035D E0               [24]  564 	movx	a,@dptr
-      00035E F5 82            [12]  565 	mov	dpl,a
-      000360 12 02 F7         [24]  566 	lcall	_i2c_addr
+      000384 90 00 02         [24]  563 	mov	dptr,#_i2c_write_random_PARM_2
+      000387 E0               [24]  564 	movx	a,@dptr
+      000388 F5 82            [12]  565 	mov	dpl,a
+      00038A 12 03 21         [24]  566 	lcall	_i2c_addr
                                     567 ;	i2c.c:32: i2c_write_val(value);
-      000363 90 00 03         [24]  568 	mov	dptr,#_i2c_write_random_PARM_3
-      000366 E0               [24]  569 	movx	a,@dptr
-      000367 F5 82            [12]  570 	mov	dpl,a
-      000369 12 02 FF         [24]  571 	lcall	_i2c_write_val
+      00038D 90 00 03         [24]  568 	mov	dptr,#_i2c_write_random_PARM_3
+      000390 E0               [24]  569 	movx	a,@dptr
+      000391 F5 82            [12]  570 	mov	dpl,a
+      000393 12 03 29         [24]  571 	lcall	_i2c_write_val
                                     572 ;	i2c.c:34: for (int k = 0; k < 90; k++)
-      00036C 7E 00            [12]  573 	mov	r6,#0x00
-      00036E 7F 00            [12]  574 	mov	r7,#0x00
-      000370                        575 00107$:
-      000370 C3               [12]  576 	clr	c
-      000371 EE               [12]  577 	mov	a,r6
-      000372 94 5A            [12]  578 	subb	a,#0x5a
-      000374 EF               [12]  579 	mov	a,r7
-      000375 64 80            [12]  580 	xrl	a,#0x80
-      000377 94 80            [12]  581 	subb	a,#0x80
-      000379 50 1D            [24]  582 	jnc	00102$
+      000396 7E 00            [12]  573 	mov	r6,#0x00
+      000398 7F 00            [12]  574 	mov	r7,#0x00
+      00039A                        575 00107$:
+      00039A C3               [12]  576 	clr	c
+      00039B EE               [12]  577 	mov	a,r6
+      00039C 94 5A            [12]  578 	subb	a,#0x5a
+      00039E EF               [12]  579 	mov	a,r7
+      00039F 64 80            [12]  580 	xrl	a,#0x80
+      0003A1 94 80            [12]  581 	subb	a,#0x80
+      0003A3 50 1D            [24]  582 	jnc	00102$
                                     583 ;	i2c.c:36: for (int l = 0; l < 10; l++)
-      00037B 7C 00            [12]  584 	mov	r4,#0x00
-      00037D 7D 00            [12]  585 	mov	r5,#0x00
-      00037F                        586 00104$:
-      00037F C3               [12]  587 	clr	c
-      000380 EC               [12]  588 	mov	a,r4
-      000381 94 0A            [12]  589 	subb	a,#0x0a
-      000383 ED               [12]  590 	mov	a,r5
-      000384 64 80            [12]  591 	xrl	a,#0x80
-      000386 94 80            [12]  592 	subb	a,#0x80
-      000388 50 07            [24]  593 	jnc	00108$
-      00038A 0C               [12]  594 	inc	r4
-      00038B BC 00 F1         [24]  595 	cjne	r4,#0x00,00104$
-      00038E 0D               [12]  596 	inc	r5
-      00038F 80 EE            [24]  597 	sjmp	00104$
-      000391                        598 00108$:
+      0003A5 7C 00            [12]  584 	mov	r4,#0x00
+      0003A7 7D 00            [12]  585 	mov	r5,#0x00
+      0003A9                        586 00104$:
+      0003A9 C3               [12]  587 	clr	c
+      0003AA EC               [12]  588 	mov	a,r4
+      0003AB 94 0A            [12]  589 	subb	a,#0x0a
+      0003AD ED               [12]  590 	mov	a,r5
+      0003AE 64 80            [12]  591 	xrl	a,#0x80
+      0003B0 94 80            [12]  592 	subb	a,#0x80
+      0003B2 50 07            [24]  593 	jnc	00108$
+      0003B4 0C               [12]  594 	inc	r4
+      0003B5 BC 00 F1         [24]  595 	cjne	r4,#0x00,00104$
+      0003B8 0D               [12]  596 	inc	r5
+      0003B9 80 EE            [24]  597 	sjmp	00104$
+      0003BB                        598 00108$:
                                     599 ;	i2c.c:34: for (int k = 0; k < 90; k++)
-      000391 0E               [12]  600 	inc	r6
-      000392 BE 00 DB         [24]  601 	cjne	r6,#0x00,00107$
-      000395 0F               [12]  602 	inc	r7
-      000396 80 D8            [24]  603 	sjmp	00107$
-      000398                        604 00102$:
+      0003BB 0E               [12]  600 	inc	r6
+      0003BC BE 00 DB         [24]  601 	cjne	r6,#0x00,00107$
+      0003BF 0F               [12]  602 	inc	r7
+      0003C0 80 D8            [24]  603 	sjmp	00107$
+      0003C2                        604 00102$:
                                     605 ;	i2c.c:40: i2c_activity(1);
-      000398 75 82 01         [24]  606 	mov	dpl,#0x01
+      0003C2 75 82 01         [24]  606 	mov	dpl,#0x01
                                     607 ;	i2c.c:41: }
-      00039B 02 03 D8         [24]  608 	ljmp	_i2c_activity
+      0003C5 02 04 02         [24]  608 	ljmp	_i2c_activity
                                     609 ;------------------------------------------------------------
                                     610 ;Allocation info for local variables in function 'i2c_read_random'
                                     611 ;------------------------------------------------------------
@@ -617,41 +617,41 @@
                                     617 ;	-----------------------------------------
                                     618 ;	 function i2c_read_random
                                     619 ;	-----------------------------------------
-      00039E                        620 _i2c_read_random:
-      00039E E5 82            [12]  621 	mov	a,dpl
-      0003A0 90 00 06         [24]  622 	mov	dptr,#_i2c_read_random_block_65536_15
-      0003A3 F0               [24]  623 	movx	@dptr,a
+      0003C8                        620 _i2c_read_random:
+      0003C8 E5 82            [12]  621 	mov	a,dpl
+      0003CA 90 00 06         [24]  622 	mov	dptr,#_i2c_read_random_block_65536_15
+      0003CD F0               [24]  623 	movx	@dptr,a
                                     624 ;	i2c.c:50: i2c_activity(2);
-      0003A4 75 82 02         [24]  625 	mov	dpl,#0x02
-      0003A7 12 03 D8         [24]  626 	lcall	_i2c_activity
+      0003CE 75 82 02         [24]  625 	mov	dpl,#0x02
+      0003D1 12 04 02         [24]  626 	lcall	_i2c_activity
                                     627 ;	i2c.c:51: i2c_write_init(block);
-      0003AA 90 00 06         [24]  628 	mov	dptr,#_i2c_read_random_block_65536_15
-      0003AD E0               [24]  629 	movx	a,@dptr
-      0003AE FF               [12]  630 	mov	r7,a
-      0003AF F5 82            [12]  631 	mov	dpl,a
-      0003B1 C0 07            [24]  632 	push	ar7
-      0003B3 12 02 B5         [24]  633 	lcall	_i2c_write_init
+      0003D4 90 00 06         [24]  628 	mov	dptr,#_i2c_read_random_block_65536_15
+      0003D7 E0               [24]  629 	movx	a,@dptr
+      0003D8 FF               [12]  630 	mov	r7,a
+      0003D9 F5 82            [12]  631 	mov	dpl,a
+      0003DB C0 07            [24]  632 	push	ar7
+      0003DD 12 02 DF         [24]  633 	lcall	_i2c_write_init
                                     634 ;	i2c.c:52: i2c_addr(address);
-      0003B6 90 00 05         [24]  635 	mov	dptr,#_i2c_read_random_PARM_2
-      0003B9 E0               [24]  636 	movx	a,@dptr
-      0003BA F5 82            [12]  637 	mov	dpl,a
-      0003BC 12 02 F7         [24]  638 	lcall	_i2c_addr
-      0003BF D0 07            [24]  639 	pop	ar7
+      0003E0 90 00 05         [24]  635 	mov	dptr,#_i2c_read_random_PARM_2
+      0003E3 E0               [24]  636 	movx	a,@dptr
+      0003E4 F5 82            [12]  637 	mov	dpl,a
+      0003E6 12 03 21         [24]  638 	lcall	_i2c_addr
+      0003E9 D0 07            [24]  639 	pop	ar7
                                     640 ;	i2c.c:53: i2c_read_init(block);
-      0003C1 8F 82            [24]  641 	mov	dpl,r7
-      0003C3 12 02 C3         [24]  642 	lcall	_i2c_read_init
+      0003EB 8F 82            [24]  641 	mov	dpl,r7
+      0003ED 12 02 ED         [24]  642 	lcall	_i2c_read_init
                                     643 ;	i2c.c:54: unsigned char a = i2c_read_val();
-      0003C6 12 02 D1         [24]  644 	lcall	_i2c_read_val
-      0003C9 AF 82            [24]  645 	mov	r7,dpl
+      0003F0 12 02 FB         [24]  644 	lcall	_i2c_read_val
+      0003F3 AF 82            [24]  645 	mov	r7,dpl
                                     646 ;	i2c.c:55: i2c_activity(1);
-      0003CB 75 82 01         [24]  647 	mov	dpl,#0x01
-      0003CE C0 07            [24]  648 	push	ar7
-      0003D0 12 03 D8         [24]  649 	lcall	_i2c_activity
-      0003D3 D0 07            [24]  650 	pop	ar7
+      0003F5 75 82 01         [24]  647 	mov	dpl,#0x01
+      0003F8 C0 07            [24]  648 	push	ar7
+      0003FA 12 04 02         [24]  649 	lcall	_i2c_activity
+      0003FD D0 07            [24]  650 	pop	ar7
                                     651 ;	i2c.c:56: return a;
-      0003D5 8F 82            [24]  652 	mov	dpl,r7
+      0003FF 8F 82            [24]  652 	mov	dpl,r7
                                     653 ;	i2c.c:57: }
-      0003D7 22               [24]  654 	ret
+      000401 22               [24]  654 	ret
                                     655 ;------------------------------------------------------------
                                     656 ;Allocation info for local variables in function 'i2c_activity'
                                     657 ;------------------------------------------------------------
@@ -661,24 +661,24 @@
                                     661 ;	-----------------------------------------
                                     662 ;	 function i2c_activity
                                     663 ;	-----------------------------------------
-      0003D8                        664 _i2c_activity:
-      0003D8 E5 82            [12]  665 	mov	a,dpl
-      0003DA 90 00 07         [24]  666 	mov	dptr,#_i2c_activity_a_65536_18
-      0003DD F0               [24]  667 	movx	@dptr,a
+      000402                        664 _i2c_activity:
+      000402 E5 82            [12]  665 	mov	a,dpl
+      000404 90 00 07         [24]  666 	mov	dptr,#_i2c_activity_a_65536_18
+      000407 F0               [24]  667 	movx	@dptr,a
                                     668 ;	i2c.c:61: P1 = a;
-      0003DE E0               [24]  669 	movx	a,@dptr
-      0003DF F5 90            [12]  670 	mov	_P1,a
+      000408 E0               [24]  669 	movx	a,@dptr
+      000409 F5 90            [12]  670 	mov	_P1,a
                                     671 ;	i2c.c:63: P3_2 = 0;
                                     672 ;	assignBit
-      0003E1 C2 B2            [12]  673 	clr	_P3_2
+      00040B C2 B2            [12]  673 	clr	_P3_2
                                     674 ;	i2c.c:64: P3_2 = 1;
                                     675 ;	assignBit
-      0003E3 D2 B2            [12]  676 	setb	_P3_2
+      00040D D2 B2            [12]  676 	setb	_P3_2
                                     677 ;	i2c.c:65: P3_2 = 0;
                                     678 ;	assignBit
-      0003E5 C2 B2            [12]  679 	clr	_P3_2
+      00040F C2 B2            [12]  679 	clr	_P3_2
                                     680 ;	i2c.c:66: }
-      0003E7 22               [24]  681 	ret
+      000411 22               [24]  681 	ret
                                     682 	.area CSEG    (CODE)
                                     683 	.area CONST   (CODE)
                                     684 	.area XINIT   (CODE)

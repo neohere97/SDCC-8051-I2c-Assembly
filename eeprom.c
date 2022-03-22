@@ -1,3 +1,12 @@
+/***************************************************************************
+ * ESD Lab 4
+ * Tools: VSCode,make,batchisp,tera term
+ * Author: Chinmay Shalawadi
+ * Institution: University of Colorado Boulder
+ * Mail id: chsh1552@colorado.edu
+ * References: lecture slides
+ ***************************************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "getput.h"
@@ -23,6 +32,13 @@ struct buffer_struct
 
 struct buffer_struct eeprom_buffer;
 
+
+// ------------------------------------------------eeprom-menu-------------------------------------------------
+/***********************************************************************************
+ * function : 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void eeprom_menu()
 {
     printf(" \n\r Hello, In EEPROM Demo mode");
@@ -57,6 +73,12 @@ exit_choice:
         goto exit_choice;
 }
 
+// ------------------------------------------------read-random-byte------------------------------------------------
+/***********************************************************************************
+ * function : 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void read_random_byte()
 {
     unsigned char block = 0;
@@ -80,7 +102,12 @@ get_valid_hex:
     printf("Address is 0x%X \n\r", address);
     printf("\n\r The value at the address is -> 0x%X \n\r", i2c_read_random(block, address));
 }
-
+// ------------------------------------------------write-random-byte------------------------------------------------
+/***********************************************************************************
+ * function : 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void write_random_byte()
 {
     unsigned char block = 0;
@@ -115,7 +142,12 @@ get_valid_hex_value:
 
     printf("\n\rThe data has been successfully written at the address 0x%X \n\r", a);
 }
-
+// ------------------------------------------------hexdump-eeprom-------------------------------------------------
+/***********************************************************************************
+ * function : 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void hexdump_eeprom()
 {
 
@@ -158,7 +190,12 @@ get_valid_to_address:
     dump_eeprom_buffer(a);
     free(eeprom_buffer.buffer_start);
 }
-
+// ------------------------------------------------blockfill-eeprom-------------------------------------------------
+/***********************************************************************************
+ * function : 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void blockfill_eeprom()
 {
 
@@ -193,7 +230,12 @@ get_blockfill_value:
 
     printf("\n\rBlockfill finished...\n\r");
 }
-
+// ------------------------------------------------print-eeprom-menu------------------------------------------------
+/***********************************************************************************
+ * function : 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void print_eeprom_menu()
 {
     printf("\n\n\r^^^^^^^^^^^^^^^^^^^-EEPROM-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
@@ -203,7 +245,12 @@ void print_eeprom_menu()
     printf("'B' -> Block Fill\n\r");
     printf("'F' -> Reset EEPROM \n\r");
 }
-
+// ------------------------------------------------dump-eeprom-buffer------------------------------------------------
+/***********************************************************************************
+ * function : 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void dump_eeprom_buffer(int from)
 {
 
@@ -224,3 +271,4 @@ void dump_eeprom_buffer(int from)
     }
     printf("\n\n\r");
 }
+// ------------------------------------------------end--------------------------------------------------

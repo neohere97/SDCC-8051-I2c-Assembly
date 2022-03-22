@@ -3,135 +3,143 @@ Hexadecimal [24-Bits]
 
 
 
-                                      1 	.module program
-                                      2 	.optsdcc -mmcs51 --model-large
-                                      3 	
-                                      4 	.globl _i2c_init
-                                      5 	.globl _i2c_stop
-                                      6 	.globl _i2c_write_init
-                                      7 	.globl _i2c_read_init
-                                      8 	.globl _i2c_addr
-                                      9 	.globl _i2c_write_val
-                                     10 	.globl _i2c_read_val
-                                     11 	.globl _i2c_eeprom_reset
-                                     12 	
-                                     13 
-                                     14 	.area CSEG    
-      0002AE                         15 _i2c_init:
-      0002AE D2 90            [12]   16 	setb p1.0
-      0002B0 D2 97            [12]   17 	setb p1.7
-      0002B2 C2 97            [12]   18 	clr p1.7
-      0002B4 22               [24]   19 	ret
-                                     20 
-      0002B5                         21 _i2c_write_init:
-      0002B5 12 02 AE         [24]   22 	lcall _i2c_init
-      0002B8 E5 82            [12]   23 	mov a,dpl
-      0002BA 23               [12]   24 	rl a
-      0002BB 44 A0            [12]   25 	orl a,#0xA0
-      0002BD 7A 09            [12]   26 	mov r2,#9	
-      0002BF 12 03 11         [24]   27 	lcall devaddr
-      0002C2 22               [24]   28 	ret
-                                     29 
-      0002C3                         30 _i2c_read_init:
-      0002C3 12 02 AE         [24]   31 	lcall _i2c_init
-      0002C6 E5 82            [12]   32 	mov a,dpl
-      0002C8 23               [12]   33 	rl a
-      0002C9 44 A1            [12]   34 	orl a,#0xA1
-      0002CB 7A 09            [12]   35 	mov r2,#9	
-      0002CD 12 03 11         [24]   36 	lcall devaddr
-      0002D0 22               [24]   37 	ret
-                                     38 
-      0002D1                         39 _i2c_read_val:
-      0002D1 7A 08            [12]   40 	mov r2,#8
-      0002D3 74 00            [12]   41 	mov a,#0
-      0002D5 C3               [12]   42 	clr c
-      0002D6 12 02 E4         [24]   43 	lcall readloop	
-      0002D9 C2 97            [12]   44 	clr p1.7	
-      0002DB 12 03 0A         [24]   45 	lcall _i2c_stop
-      0002DE F5 82            [12]   46 	mov dpl,a
-      0002E0 22               [24]   47 	ret
-                                     48 
-      0002E1                         49 readloopc:		
-      0002E1 DA 01            [24]   50 	djnz r2, readloop	
-      0002E3 22               [24]   51 	ret
-                                     52 
-      0002E4                         53 readloop:	
-      0002E4 D2 90            [12]   54 	setb p1.0
-      0002E6 30 97 07         [24]   55 	jnb  p1.7, addz
+                                      1 ;/***************************************************************************
+                                      2 ; * ESD Lab 4
+                                      3 ; * Tools: VSCode,make,batchisp,tera term
+                                      4 ; * Author: Chinmay Shalawadi
+                                      5 ; * Institution: University of Colorado Boulder
+                                      6 ; * Mail id: chsh1552@colorado.edu
+                                      7 ; * References: lecture slides
+                                      8 ; ***************************************************************************/
+                                      9 	.module program
+                                     10 	.optsdcc -mmcs51 --model-large
+                                     11 	
+                                     12 	.globl _i2c_init
+                                     13 	.globl _i2c_stop
+                                     14 	.globl _i2c_write_init
+                                     15 	.globl _i2c_read_init
+                                     16 	.globl _i2c_addr
+                                     17 	.globl _i2c_write_val
+                                     18 	.globl _i2c_read_val
+                                     19 	.globl _i2c_eeprom_reset
+                                     20 	
+                                     21 
+                                     22 	.area CSEG    
+      0002D8                         23 _i2c_init:
+      0002D8 D2 90            [12]   24 	setb p1.0
+      0002DA D2 97            [12]   25 	setb p1.7
+      0002DC C2 97            [12]   26 	clr p1.7
+      0002DE 22               [24]   27 	ret
+                                     28 
+      0002DF                         29 _i2c_write_init:
+      0002DF 12 02 D8         [24]   30 	lcall _i2c_init
+      0002E2 E5 82            [12]   31 	mov a,dpl
+      0002E4 23               [12]   32 	rl a
+      0002E5 44 A0            [12]   33 	orl a,#0xA0
+      0002E7 7A 09            [12]   34 	mov r2,#9	
+      0002E9 12 03 3B         [24]   35 	lcall devaddr
+      0002EC 22               [24]   36 	ret
+                                     37 
+      0002ED                         38 _i2c_read_init:
+      0002ED 12 02 D8         [24]   39 	lcall _i2c_init
+      0002F0 E5 82            [12]   40 	mov a,dpl
+      0002F2 23               [12]   41 	rl a
+      0002F3 44 A1            [12]   42 	orl a,#0xA1
+      0002F5 7A 09            [12]   43 	mov r2,#9	
+      0002F7 12 03 3B         [24]   44 	lcall devaddr
+      0002FA 22               [24]   45 	ret
+                                     46 
+      0002FB                         47 _i2c_read_val:
+      0002FB 7A 08            [12]   48 	mov r2,#8
+      0002FD 74 00            [12]   49 	mov a,#0
+      0002FF C3               [12]   50 	clr c
+      000300 12 03 0E         [24]   51 	lcall readloop	
+      000303 C2 97            [12]   52 	clr p1.7	
+      000305 12 03 34         [24]   53 	lcall _i2c_stop
+      000308 F5 82            [12]   54 	mov dpl,a
+      00030A 22               [24]   55 	ret
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 2.
 Hexadecimal [24-Bits]
 
 
 
-      0002E9 D3               [12]   56 	setb c
-      0002EA 33               [12]   57 	rlc a	
-      0002EB C2 90            [12]   58 	clr p1.0	
-      0002ED 02 02 E1         [24]   59 	ljmp readloopc
+                                     56 
+      00030B                         57 readloopc:		
+      00030B DA 01            [24]   58 	djnz r2, readloop	
+      00030D 22               [24]   59 	ret
                                      60 
-      0002F0                         61 addz:
-      0002F0 C3               [12]   62 	clr c
-      0002F1 33               [12]   63 	rlc a
-      0002F2 C2 90            [12]   64 	clr p1.0
-      0002F4 02 02 E1         [24]   65 	ljmp readloopc
-                                     66 
-      0002F7                         67 _i2c_addr:
-      0002F7 E5 82            [12]   68 	mov a,dpl
-      0002F9 7A 09            [12]   69 	mov r2,#9
-      0002FB 12 03 11         [24]   70 	lcall devaddr
-      0002FE 22               [24]   71 	ret
-                                     72 
-      0002FF                         73 _i2c_write_val:
-      0002FF E5 82            [12]   74 	mov a,dpl
-      000301 7A 09            [12]   75 	mov r2,#9
-      000303 12 03 11         [24]   76 	lcall devaddr
-      000306 12 03 0A         [24]   77 	lcall _i2c_stop
-      000309 22               [24]   78 	ret
-                                     79 
-      00030A                         80 _i2c_stop:
-      00030A C2 97            [12]   81 	clr p1.7
-      00030C D2 90            [12]   82 	setb p1.0
-      00030E D2 97            [12]   83 	setb p1.7
-      000310 22               [24]   84 	ret
-                                     85 
-      000311                         86 devaddr:
-      000311 C2 90            [12]   87 	clr p1.0
-      000313 DA 07            [24]   88 	djnz r2, bitloop
-      000315 D2 97            [12]   89 	setb p1.7	
-      000317 D2 90            [12]   90 	setb p1.0
-      000319 C2 90            [12]   91 	clr p1.0		
-      00031B 22               [24]   92 	ret
+      00030E                         61 readloop:	
+      00030E D2 90            [12]   62 	setb p1.0
+      000310 30 97 07         [24]   63 	jnb  p1.7, addz
+      000313 D3               [12]   64 	setb c
+      000314 33               [12]   65 	rlc a	
+      000315 C2 90            [12]   66 	clr p1.0	
+      000317 02 03 0B         [24]   67 	ljmp readloopc
+                                     68 
+      00031A                         69 addz:
+      00031A C3               [12]   70 	clr c
+      00031B 33               [12]   71 	rlc a
+      00031C C2 90            [12]   72 	clr p1.0
+      00031E 02 03 0B         [24]   73 	ljmp readloopc
+                                     74 
+      000321                         75 _i2c_addr:
+      000321 E5 82            [12]   76 	mov a,dpl
+      000323 7A 09            [12]   77 	mov r2,#9
+      000325 12 03 3B         [24]   78 	lcall devaddr
+      000328 22               [24]   79 	ret
+                                     80 
+      000329                         81 _i2c_write_val:
+      000329 E5 82            [12]   82 	mov a,dpl
+      00032B 7A 09            [12]   83 	mov r2,#9
+      00032D 12 03 3B         [24]   84 	lcall devaddr
+      000330 12 03 34         [24]   85 	lcall _i2c_stop
+      000333 22               [24]   86 	ret
+                                     87 
+      000334                         88 _i2c_stop:
+      000334 C2 97            [12]   89 	clr p1.7
+      000336 D2 90            [12]   90 	setb p1.0
+      000338 D2 97            [12]   91 	setb p1.7
+      00033A 22               [24]   92 	ret
                                      93 
-      00031C                         94 bitloop:	
-      00031C 33               [12]   95 	rlc a
-      00031D 50 03            [24]   96 	jnc sendz
-      00031F 02 03 2B         [24]   97 	ljmp sendo
-                                     98 
-      000322                         99 sendz:
-      000322 C2 97            [12]  100 	clr p1.7		
-      000324 D2 90            [12]  101 	setb p1.0		
-      000326 C2 90            [12]  102 	clr p1.0
-      000328 02 03 11         [24]  103 	ljmp devaddr
-                                    104 
-      00032B                        105 sendo:
-      00032B D2 97            [12]  106 	setb p1.7		
-      00032D D2 90            [12]  107 	setb p1.0		
-      00032F C2 90            [12]  108 	clr p1.0
-      000331 02 03 11         [24]  109 	ljmp devaddr
-                                    110 
+      00033B                         94 devaddr:
+      00033B C2 90            [12]   95 	clr p1.0
+      00033D DA 07            [24]   96 	djnz r2, bitloop
+      00033F D2 97            [12]   97 	setb p1.7	
+      000341 D2 90            [12]   98 	setb p1.0
+      000343 C2 90            [12]   99 	clr p1.0		
+      000345 22               [24]  100 	ret
+                                    101 
+      000346                        102 bitloop:	
+      000346 33               [12]  103 	rlc a
+      000347 50 03            [24]  104 	jnc sendz
+      000349 02 03 55         [24]  105 	ljmp sendo
+                                    106 
+      00034C                        107 sendz:
+      00034C C2 97            [12]  108 	clr p1.7		
+      00034E D2 90            [12]  109 	setb p1.0		
+      000350 C2 90            [12]  110 	clr p1.0
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 3.
 Hexadecimal [24-Bits]
 
 
 
-                                    111 
-      000334                        112 _i2c_eeprom_reset:	
-      000334 12 02 AE         [24]  113 	lcall _i2c_init
-      000337 7A 09            [12]  114 	mov r2,#9
-      000339 74 FF            [12]  115 	mov a,#0xFF
-      00033B 12 03 11         [24]  116 	lcall devaddr
-      00033E 12 02 AE         [24]  117 	lcall _i2c_init
-      000341 12 03 0A         [24]  118 	lcall _i2c_stop
-      000344 22               [24]  119 	ret
+      000352 02 03 3B         [24]  111 	ljmp devaddr
+                                    112 
+      000355                        113 sendo:
+      000355 D2 97            [12]  114 	setb p1.7		
+      000357 D2 90            [12]  115 	setb p1.0		
+      000359 C2 90            [12]  116 	clr p1.0
+      00035B 02 03 3B         [24]  117 	ljmp devaddr
+                                    118 
+                                    119 
+      00035E                        120 _i2c_eeprom_reset:	
+      00035E 12 02 D8         [24]  121 	lcall _i2c_init
+      000361 7A 09            [12]  122 	mov r2,#9
+      000363 74 FF            [12]  123 	mov a,#0xFF
+      000365 12 03 3B         [24]  124 	lcall devaddr
+      000368 12 02 D8         [24]  125 	lcall _i2c_init
+      00036B 12 03 34         [24]  126 	lcall _i2c_stop
+      00036E 22               [24]  127 	ret
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 4.
 Hexadecimal [24-Bits]
 

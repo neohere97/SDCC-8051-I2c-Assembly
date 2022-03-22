@@ -525,7 +525,7 @@ _watchdog_flag::
 ;------------------------------------------------------------
 ;inp                       Allocated with name '_user_interface_PCA_inp_65537_47'
 ;------------------------------------------------------------
-;	pca.c:26: void user_interface_PCA()
+;	pca.c:35: void user_interface_PCA()
 ;	-----------------------------------------
 ;	 function user_interface_PCA
 ;	-----------------------------------------
@@ -538,7 +538,7 @@ _user_interface_PCA:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	pca.c:28: printf("Hello, In PCA Demo mode \n\r");
+;	pca.c:37: printf("Hello, In PCA Demo mode \n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -549,11 +549,11 @@ _user_interface_PCA:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:29: print_pca_menu();
+;	pca.c:38: print_pca_menu();
 	lcall	_print_pca_menu
-;	pca.c:32: wrong_choice_pca:
+;	pca.c:41: wrong_choice_pca:
 00101$:
-;	pca.c:33: printf("Please make a valid choice \n\r");
+;	pca.c:42: printf("Please make a valid choice \n\r");
 	mov	a,#___str_1
 	push	acc
 	mov	a,#(___str_1 >> 8)
@@ -564,79 +564,79 @@ _user_interface_PCA:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:34: inp = getchar();
+;	pca.c:43: inp = getchar();
 	lcall	_getchar
 	mov	r6,dpl
 	mov	r7,dph
-;	pca.c:35: if (inp == 0x46)
+;	pca.c:44: if (inp == 0x46)
 	cjne	r6,#0x46,00127$
 	cjne	r7,#0x00,00127$
-;	pca.c:36: pca_falling_edge();
+;	pca.c:45: pca_falling_edge();
 	lcall	_pca_falling_edge
 	ljmp	00145$
 00127$:
-;	pca.c:37: else if (inp == 0x53)
+;	pca.c:46: else if (inp == 0x53)
 	cjne	r6,#0x53,00124$
 	cjne	r7,#0x00,00124$
-;	pca.c:38: pca_software_timer();
+;	pca.c:47: pca_software_timer();
 	lcall	_pca_software_timer
 	sjmp	00145$
 00124$:
-;	pca.c:39: else if (inp == 0x48)
+;	pca.c:48: else if (inp == 0x48)
 	cjne	r6,#0x48,00121$
 	cjne	r7,#0x00,00121$
-;	pca.c:40: pca_high_speed();
+;	pca.c:49: pca_high_speed();
 	lcall	_pca_high_speed
 	sjmp	00145$
 00121$:
-;	pca.c:41: else if (inp == 0x50)
+;	pca.c:50: else if (inp == 0x50)
 	cjne	r6,#0x50,00118$
 	cjne	r7,#0x00,00118$
-;	pca.c:42: pca_pwm();
+;	pca.c:51: pca_pwm();
 	lcall	_pca_pwm
 	sjmp	00145$
 00118$:
-;	pca.c:43: else if (inp == 0x57)
+;	pca.c:52: else if (inp == 0x57)
 	cjne	r6,#0x57,00115$
 	cjne	r7,#0x00,00115$
-;	pca.c:44: pca_watchdog();
+;	pca.c:53: pca_watchdog();
 	lcall	_pca_watchdog
 	sjmp	00145$
 00115$:
-;	pca.c:45: else if (inp == 0x49)
+;	pca.c:54: else if (inp == 0x49)
 	cjne	r6,#0x49,00112$
 	cjne	r7,#0x00,00112$
-;	pca.c:46: pca_idle();
+;	pca.c:55: pca_idle();
 	lcall	_pca_idle
 	sjmp	00145$
 00112$:
-;	pca.c:47: else if (inp == 0x44)
+;	pca.c:56: else if (inp == 0x44)
 	cjne	r6,#0x44,00109$
 	cjne	r7,#0x00,00109$
-;	pca.c:48: pca_pdown();
+;	pca.c:57: pca_pdown();
 	lcall	_pca_pdown
 	sjmp	00145$
 00109$:
-;	pca.c:49: else if (inp == 0x4C)
+;	pca.c:58: else if (inp == 0x4C)
 	cjne	r6,#0x4c,00106$
 	cjne	r7,#0x00,00106$
-;	pca.c:50: fclk_lowest();
+;	pca.c:59: fclk_lowest();
 	lcall	_fclk_lowest
 	sjmp	00145$
 00106$:
-;	pca.c:51: else if (inp == 0x55)
+;	pca.c:60: else if (inp == 0x55)
 	cjne	r6,#0x55,00199$
 	cjne	r7,#0x00,00199$
 	sjmp	00200$
 00199$:
 	ljmp	00101$
 00200$:
-;	pca.c:52: hardware_watchdog();
+;	pca.c:61: hardware_watchdog();
 	lcall	_hardware_watchdog
-;	pca.c:56: exit_choice:
+;	pca.c:65: exit_choice:
 00145$:
 00129$:
-;	pca.c:57: printf("Please 'E' to exit or Reset \n\r");
+;	pca.c:66: printf("Please 'E' to exit or Reset \n\r");
 	mov	a,#___str_2
 	push	acc
 	mov	a,#(___str_2 >> 8)
@@ -647,26 +647,26 @@ _user_interface_PCA:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:58: inp = getchar();
+;	pca.c:67: inp = getchar();
 	lcall	_getchar
 	mov	r6,dpl
 	mov	r7,dph
-;	pca.c:59: if (inp == 0x45)
+;	pca.c:68: if (inp == 0x45)
 	cjne	r6,#0x45,00129$
 	cjne	r7,#0x00,00129$
-;	pca.c:60: user_interface_PCA();
-;	pca.c:62: goto exit_choice;
-;	pca.c:63: }
+;	pca.c:69: user_interface_PCA();
+;	pca.c:71: goto exit_choice;
+;	pca.c:72: }
 	ljmp	_user_interface_PCA
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_falling_edge'
 ;------------------------------------------------------------
-;	pca.c:71: void pca_falling_edge()
+;	pca.c:80: void pca_falling_edge()
 ;	-----------------------------------------
 ;	 function pca_falling_edge
 ;	-----------------------------------------
 _pca_falling_edge:
-;	pca.c:73: printf("Setting P1.3 as falling edge detector, enabling PCA interrupt \n\r");
+;	pca.c:82: printf("Setting P1.3 as falling edge detector, enabling PCA interrupt \n\r");
 	mov	a,#___str_3
 	push	acc
 	mov	a,#(___str_3 >> 8)
@@ -677,24 +677,24 @@ _pca_falling_edge:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:74: CCAPM0 = 0x21;
+;	pca.c:83: CCAPM0 = 0x21;
 	mov	_CCAPM0,#0x21
-;	pca.c:75: CR = 1;
+;	pca.c:84: CR = 1;
 ;	assignBit
 	setb	_CR
-;	pca.c:76: }
+;	pca.c:85: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_software_timer'
 ;------------------------------------------------------------
 ;rec                       Allocated with name '_pca_software_timer_rec_65537_50'
 ;------------------------------------------------------------
-;	pca.c:83: void pca_software_timer()
+;	pca.c:92: void pca_software_timer()
 ;	-----------------------------------------
 ;	 function pca_software_timer
 ;	-----------------------------------------
 _pca_software_timer:
-;	pca.c:85: printf("Entering Software Timer Mode \n\r");
+;	pca.c:94: printf("Entering Software Timer Mode \n\r");
 	mov	a,#___str_4
 	push	acc
 	mov	a,#(___str_4 >> 8)
@@ -705,38 +705,38 @@ _pca_software_timer:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:86: CCAP3L = 255;
+;	pca.c:95: CCAP3L = 255;
 	mov	_CCAP3L,#0xff
-;	pca.c:87: CCAP3H = 255;
+;	pca.c:96: CCAP3H = 255;
 	mov	_CCAP3H,#0xff
-;	pca.c:88: CCAPM3 = 0x49;
+;	pca.c:97: CCAPM3 = 0x49;
 	mov	_CCAPM3,#0x49
-;	pca.c:89: CR = 1;
+;	pca.c:98: CR = 1;
 ;	assignBit
 	setb	_CR
-;	pca.c:91: get_f:
+;	pca.c:100: get_f:
 00101$:
-;	pca.c:92: rec = getchar();
+;	pca.c:101: rec = getchar();
 	lcall	_getchar
 	mov	r6,dpl
 	mov	r7,dph
-;	pca.c:94: if (rec == 0x53)
+;	pca.c:103: if (rec == 0x53)
 	cjne	r6,#0x53,00101$
 	cjne	r7,#0x00,00101$
-;	pca.c:95: CCAPM3 = 0;
+;	pca.c:104: CCAPM3 = 0;
 	mov	_CCAPM3,#0x00
-;	pca.c:97: goto get_f;
-;	pca.c:98: }
+;	pca.c:106: goto get_f;
+;	pca.c:107: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_high_speed'
 ;------------------------------------------------------------
-;	pca.c:105: void pca_high_speed()
+;	pca.c:114: void pca_high_speed()
 ;	-----------------------------------------
 ;	 function pca_high_speed
 ;	-----------------------------------------
 _pca_high_speed:
-;	pca.c:108: printf("Entering High Speed Toggle Mode, P1.5 \n\r");
+;	pca.c:117: printf("Entering High Speed Toggle Mode, P1.5 \n\r");
 	mov	a,#___str_5
 	push	acc
 	mov	a,#(___str_5 >> 8)
@@ -747,28 +747,28 @@ _pca_high_speed:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:109: CCAP2L = 255;
+;	pca.c:118: CCAP2L = 255;
 	mov	_CCAP2L,#0xff
-;	pca.c:110: CCAP2H = 2;
+;	pca.c:119: CCAP2H = 2;
 	mov	_CCAP2H,#0x02
-;	pca.c:111: CCAPM2 = 0x4D;
+;	pca.c:120: CCAPM2 = 0x4D;
 	mov	_CCAPM2,#0x4d
-;	pca.c:112: CMOD = CPS0;
+;	pca.c:121: CMOD = CPS0;
 	mov	_CMOD,#0x02
-;	pca.c:113: CR = 1;
+;	pca.c:122: CR = 1;
 ;	assignBit
 	setb	_CR
-;	pca.c:114: }
+;	pca.c:123: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_pwm'
 ;------------------------------------------------------------
-;	pca.c:121: void pca_pwm()
+;	pca.c:130: void pca_pwm()
 ;	-----------------------------------------
 ;	 function pca_pwm
 ;	-----------------------------------------
 _pca_pwm:
-;	pca.c:123: printf("Entering PWM Mode, 25 percent Duty Cycle P1.6\n\r");
+;	pca.c:132: printf("Entering PWM Mode, 25 percent Duty Cycle P1.6\n\r");
 	mov	a,#___str_6
 	push	acc
 	mov	a,#(___str_6 >> 8)
@@ -779,43 +779,43 @@ _pca_pwm:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:124: CCAP3L = 192;
+;	pca.c:133: CCAP3L = 192;
 	mov	_CCAP3L,#0xc0
-;	pca.c:125: CCAP3H = 192;
+;	pca.c:134: CCAP3H = 192;
 	mov	_CCAP3H,#0xc0
-;	pca.c:126: CCAPM3 = 0x42;
+;	pca.c:135: CCAPM3 = 0x42;
 	mov	_CCAPM3,#0x42
-;	pca.c:127: CMOD = CPS0;
+;	pca.c:136: CMOD = CPS0;
 	mov	_CMOD,#0x02
-;	pca.c:128: CR = 1;
+;	pca.c:137: CR = 1;
 ;	assignBit
 	setb	_CR
-;	pca.c:129: }
+;	pca.c:138: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_watchdog'
 ;------------------------------------------------------------
 ;rec                       Allocated with name '_pca_watchdog_rec_65537_54'
 ;------------------------------------------------------------
-;	pca.c:136: void pca_watchdog()
+;	pca.c:145: void pca_watchdog()
 ;	-----------------------------------------
 ;	 function pca_watchdog
 ;	-----------------------------------------
 _pca_watchdog:
-;	pca.c:138: CCAP1L = 255;
+;	pca.c:147: CCAP1L = 255;
 	mov	_CCAP1L,#0xff
-;	pca.c:139: CCAP1H = 128;
+;	pca.c:148: CCAP1H = 128;
 	mov	_CCAP1H,#0x80
-;	pca.c:140: CCAPM1 = 0x49;
+;	pca.c:149: CCAPM1 = 0x49;
 	mov	_CCAPM1,#0x49
-;	pca.c:141: watchdog_flag = 1;
+;	pca.c:150: watchdog_flag = 1;
 	mov	dptr,#_watchdog_flag
 	mov	a,#0x01
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-;	pca.c:142: printf("Enabling Watchdog Timer..\n\r");
+;	pca.c:151: printf("Enabling Watchdog Timer..\n\r");
 	mov	a,#___str_7
 	push	acc
 	mov	a,#(___str_7 >> 8)
@@ -826,18 +826,18 @@ _pca_watchdog:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:143: CCAP4L = 255;
+;	pca.c:152: CCAP4L = 255;
 	mov	_CCAP4L,#0xff
-;	pca.c:144: CCAP4H = 255;
+;	pca.c:153: CCAP4H = 255;
 	mov	_CCAP4H,#0xff
-;	pca.c:145: CMOD = WDTE;
+;	pca.c:154: CMOD = WDTE;
 	mov	_CMOD,#0x40
-;	pca.c:146: CCAPM4 = 0x48;
+;	pca.c:155: CCAPM4 = 0x48;
 	mov	_CCAPM4,#0x48
-;	pca.c:147: CR = 1;
+;	pca.c:156: CR = 1;
 ;	assignBit
 	setb	_CR
-;	pca.c:149: printf("Currently Watchdog is being serviced\n\rPress 'S' to stop and generate a reset \n\r");
+;	pca.c:158: printf("Currently Watchdog is being serviced\n\rPress 'S' to stop and generate a reset \n\r");
 	mov	a,#___str_8
 	push	acc
 	mov	a,#(___str_8 >> 8)
@@ -848,37 +848,37 @@ _pca_watchdog:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:151: get_e:
+;	pca.c:160: get_e:
 00101$:
-;	pca.c:152: rec = getchar();
+;	pca.c:161: rec = getchar();
 	lcall	_getchar
 	mov	r6,dpl
 	mov	r7,dph
-;	pca.c:154: if (rec == 0x53)
+;	pca.c:163: if (rec == 0x53)
 	cjne	r6,#0x53,00101$
 	cjne	r7,#0x00,00101$
-;	pca.c:155: CCAPM1 = 0;
+;	pca.c:164: CCAPM1 = 0;
 	mov	_CCAPM1,#0x00
-;	pca.c:157: goto get_e;
-;	pca.c:158: }
+;	pca.c:166: goto get_e;
+;	pca.c:167: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'hardware_watchdog'
 ;------------------------------------------------------------
 ;rec                       Allocated with name '_hardware_watchdog_rec_65537_56'
 ;------------------------------------------------------------
-;	pca.c:165: void hardware_watchdog()
+;	pca.c:174: void hardware_watchdog()
 ;	-----------------------------------------
 ;	 function hardware_watchdog
 ;	-----------------------------------------
 _hardware_watchdog:
-;	pca.c:167: CCAP2L = 255;
+;	pca.c:176: CCAP2L = 255;
 	mov	_CCAP2L,#0xff
-;	pca.c:168: CCAP2H = 255;
+;	pca.c:177: CCAP2H = 255;
 	mov	_CCAP2H,#0xff
-;	pca.c:169: CCAPM2 = 0x49;
+;	pca.c:178: CCAPM2 = 0x49;
 	mov	_CCAPM2,#0x49
-;	pca.c:170: printf("Enabling Hardware Watchdog Timer..\n\r");
+;	pca.c:179: printf("Enabling Hardware Watchdog Timer..\n\r");
 	mov	a,#___str_9
 	push	acc
 	mov	a,#(___str_9 >> 8)
@@ -889,12 +889,12 @@ _hardware_watchdog:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:171: WDTPRG = 0x7;
+;	pca.c:180: WDTPRG = 0x7;
 	mov	_WDTPRG,#0x07
-;	pca.c:172: CR = 1;
+;	pca.c:181: CR = 1;
 ;	assignBit
 	setb	_CR
-;	pca.c:174: printf("Currently Hardware Watchdog is being serviced\n\rPress 'S' to stop watchdog service and generate a reset in ~1s \n\r");
+;	pca.c:183: printf("Currently Hardware Watchdog is being serviced\n\rPress 'S' to stop watchdog service and generate a reset in ~1s \n\r");
 	mov	a,#___str_10
 	push	acc
 	mov	a,#(___str_10 >> 8)
@@ -905,31 +905,31 @@ _hardware_watchdog:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:176: get_e:
+;	pca.c:185: get_e:
 00101$:
-;	pca.c:177: rec = getchar();
+;	pca.c:186: rec = getchar();
 	lcall	_getchar
 	mov	r6,dpl
 	mov	r7,dph
-;	pca.c:179: if (rec == 0x53)
+;	pca.c:188: if (rec == 0x53)
 	cjne	r6,#0x53,00101$
 	cjne	r7,#0x00,00101$
-;	pca.c:180: CCAPM2 = 0;
+;	pca.c:189: CCAPM2 = 0;
 	mov	_CCAPM2,#0x00
-;	pca.c:182: goto get_e;
-;	pca.c:183: }
+;	pca.c:191: goto get_e;
+;	pca.c:192: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_idle'
 ;------------------------------------------------------------
-;	pca.c:190: void pca_idle()
+;	pca.c:199: void pca_idle()
 ;	-----------------------------------------
 ;	 function pca_idle
 ;	-----------------------------------------
 _pca_idle:
-;	pca.c:192: pca_pwm();
+;	pca.c:201: pca_pwm();
 	lcall	_pca_pwm
-;	pca.c:193: printf("Entering Idle, Will Exit on external interrupt 0\n\r");
+;	pca.c:202: printf("Entering Idle, Will Exit on external interrupt 0\n\r");
 	mov	a,#___str_11
 	push	acc
 	mov	a,#(___str_11 >> 8)
@@ -940,12 +940,12 @@ _pca_idle:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:194: EX0 = 1;
+;	pca.c:203: EX0 = 1;
 ;	assignBit
 	setb	_EX0
-;	pca.c:195: PCON = IDL;
+;	pca.c:204: PCON = IDL;
 	mov	_PCON,#0x01
-;	pca.c:196: printf("Woke up from Idle/Power down, going to main menu \n\r");
+;	pca.c:205: printf("Woke up from Idle/Power down, going to main menu \n\r");
 	mov	a,#___str_12
 	push	acc
 	mov	a,#(___str_12 >> 8)
@@ -956,20 +956,20 @@ _pca_idle:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:197: main_menu();
-;	pca.c:198: }
+;	pca.c:206: main_menu();
+;	pca.c:207: }
 	ljmp	_main_menu
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pca_pdown'
 ;------------------------------------------------------------
-;	pca.c:205: void pca_pdown()
+;	pca.c:214: void pca_pdown()
 ;	-----------------------------------------
 ;	 function pca_pdown
 ;	-----------------------------------------
 _pca_pdown:
-;	pca.c:207: pca_pwm();
+;	pca.c:216: pca_pwm();
 	lcall	_pca_pwm
-;	pca.c:208: printf("Entering power down, Will Exit on external interrupt 0\n\r");
+;	pca.c:217: printf("Entering power down, Will Exit on external interrupt 0\n\r");
 	mov	a,#___str_13
 	push	acc
 	mov	a,#(___str_13 >> 8)
@@ -980,12 +980,12 @@ _pca_pdown:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:209: EX0 = 1;
+;	pca.c:218: EX0 = 1;
 ;	assignBit
 	setb	_EX0
-;	pca.c:210: PCON = PD;
+;	pca.c:219: PCON = PD;
 	mov	_PCON,#0x02
-;	pca.c:211: printf("Woke up from Idle/Power down, going to main menu \n\r");
+;	pca.c:220: printf("Woke up from Idle/Power down, going to main menu \n\r");
 	mov	a,#___str_12
 	push	acc
 	mov	a,#(___str_12 >> 8)
@@ -996,18 +996,18 @@ _pca_pdown:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:212: main_menu();
-;	pca.c:214: }
+;	pca.c:221: main_menu();
+;	pca.c:223: }
 	ljmp	_main_menu
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'fclk_lowest'
 ;------------------------------------------------------------
-;	pca.c:221: void fclk_lowest()
+;	pca.c:230: void fclk_lowest()
 ;	-----------------------------------------
 ;	 function fclk_lowest
 ;	-----------------------------------------
 _fclk_lowest:
-;	pca.c:223: printf("Changing Clock prescalar to go to lowest frequency in X2 Mode..\n\r");
+;	pca.c:232: printf("Changing Clock prescalar to go to lowest frequency in X2 Mode..\n\r");
 	mov	a,#___str_14
 	push	acc
 	mov	a,#(___str_14 >> 8)
@@ -1018,7 +1018,7 @@ _fclk_lowest:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:224: printf("This UART Session will stop working...\n\r");
+;	pca.c:233: printf("This UART Session will stop working...\n\r");
 	mov	a,#___str_15
 	push	acc
 	mov	a,#(___str_15 >> 8)
@@ -1029,23 +1029,23 @@ _fclk_lowest:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:225: EX0 = 1;
+;	pca.c:234: EX0 = 1;
 ;	assignBit
 	setb	_EX0
-;	pca.c:226: CKRL = 0;
+;	pca.c:235: CKRL = 0;
 	mov	_CKRL,#0x00
-;	pca.c:227: main_menu();
-;	pca.c:228: }
+;	pca.c:236: main_menu();
+;	pca.c:237: }
 	ljmp	_main_menu
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'print_pca_menu'
 ;------------------------------------------------------------
-;	pca.c:235: void print_pca_menu()
+;	pca.c:244: void print_pca_menu()
 ;	-----------------------------------------
 ;	 function print_pca_menu
 ;	-----------------------------------------
 _print_pca_menu:
-;	pca.c:237: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-PCA-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+;	pca.c:246: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-PCA-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
 	mov	a,#___str_16
 	push	acc
 	mov	a,#(___str_16 >> 8)
@@ -1056,7 +1056,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:238: printf("'F' -> Falling Edge Capture Mode\n\r");
+;	pca.c:247: printf("'F' -> Falling Edge Capture Mode\n\r");
 	mov	a,#___str_17
 	push	acc
 	mov	a,#(___str_17 >> 8)
@@ -1067,7 +1067,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:239: printf("'S' -> Software Timer Mode\n\r");
+;	pca.c:248: printf("'S' -> Software Timer Mode\n\r");
 	mov	a,#___str_18
 	push	acc
 	mov	a,#(___str_18 >> 8)
@@ -1078,7 +1078,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:240: printf("'H' -> High Speed Output Mode\n\r");
+;	pca.c:249: printf("'H' -> High Speed Output Mode\n\r");
 	mov	a,#___str_19
 	push	acc
 	mov	a,#(___str_19 >> 8)
@@ -1089,7 +1089,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:241: printf("'P' -> PWM Mode \n\r");
+;	pca.c:250: printf("'P' -> PWM Mode \n\r");
 	mov	a,#___str_20
 	push	acc
 	mov	a,#(___str_20 >> 8)
@@ -1100,7 +1100,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:242: printf("'W' -> Watchdog Timer Mode\n\r");
+;	pca.c:251: printf("'W' -> Watchdog Timer Mode\n\r");
 	mov	a,#___str_21
 	push	acc
 	mov	a,#(___str_21 >> 8)
@@ -1111,7 +1111,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:243: printf("'I' -> Idle Mode with PWM\n\r");
+;	pca.c:252: printf("'I' -> Idle Mode with PWM\n\r");
 	mov	a,#___str_22
 	push	acc
 	mov	a,#(___str_22 >> 8)
@@ -1122,7 +1122,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:244: printf("'L' -> Change Prescalar to lowest frequency\n\r");
+;	pca.c:253: printf("'L' -> Change Prescalar to lowest frequency\n\r");
 	mov	a,#___str_23
 	push	acc
 	mov	a,#(___str_23 >> 8)
@@ -1133,7 +1133,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:245: printf("'U' -> Hardware Watchdog Timer\n\r");
+;	pca.c:254: printf("'U' -> Hardware Watchdog Timer\n\r");
 	mov	a,#___str_24
 	push	acc
 	mov	a,#(___str_24 >> 8)
@@ -1144,7 +1144,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:246: printf("'D' -> Power Down Mode\n\n\r");
+;	pca.c:255: printf("'D' -> Power Down Mode\n\n\r");
 	mov	a,#___str_25
 	push	acc
 	mov	a,#(___str_25 >> 8)
@@ -1155,7 +1155,7 @@ _print_pca_menu:
 	dec	sp
 	dec	sp
 	dec	sp
-;	pca.c:247: }
+;	pca.c:256: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
