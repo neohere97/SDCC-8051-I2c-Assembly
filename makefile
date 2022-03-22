@@ -12,11 +12,6 @@ default:
 	sdcc --model-large program.rel i2c_routines.rel i2c.rel asa.rel getput.rel buffer.rel pca.rel eeprom.rel asm_c.rel _heap.rel 
 	packihx program.ihx >program.hex
 	batchisp -device at89c51rc2 -hardware RS232 -port COM4 -baudrate 115200 -operation erase f memory flash blankcheck loadbuffer ./program.hex program verify start reset 1
-	del /S *.lst
-	del /S *.rst
-	del /S *.sym
-	del /S *.map
-	del /S *.mem
-	del /S *.rel
-	del _heap.asm asm_c.asm buffer.asm eeprom.asm getput.asm i2c.asm pca.asm program.asm program.hex program.ihx
+	del /S *.lst *.rst *.sym *.map *.mem *.rel
+	del _heap.asm asm_c.asm buffer.asm eeprom.asm getput.asm i2c.asm pca.asm program.asm program.hex program.ihx program.lk
 	plink.exe -serial COM4 -sercfg 115200,8,n,1,N 
