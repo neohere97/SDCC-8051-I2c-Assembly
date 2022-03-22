@@ -222,21 +222,21 @@ Symbol Table
  17 ___str_25                                                      0003C0 R
  17 ___str_26                                                      0003C7 R
  17 ___str_27                                                      0003CB R
- 17 ___str_28                                                      0003E2 R
- 17 ___str_29                                                      00040E R
+ 17 ___str_28                                                      0003E0 R
+ 17 ___str_29                                                      00040C R
  17 ___str_3                                                       000066 R
- 17 ___str_30                                                      000425 R
- 17 ___str_31                                                      000440 R
- 17 ___str_32                                                      000451 R
- 17 ___str_33                                                      000466 R
- 17 ___str_34                                                      00047B R
- 17 ___str_35                                                      0004A6 R
- 17 ___str_36                                                      0004B5 R
- 17 ___str_37                                                      0004C8 R
- 17 ___str_38                                                      0004D9 R
- 17 ___str_39                                                      0004EB R
+ 17 ___str_30                                                      000423 R
+ 17 ___str_31                                                      00043E R
+ 17 ___str_32                                                      00044F R
+ 17 ___str_33                                                      000464 R
+ 17 ___str_34                                                      000479 R
+ 17 ___str_35                                                      0004A4 R
+ 17 ___str_36                                                      0004B3 R
+ 17 ___str_37                                                      0004C6 R
+ 17 ___str_38                                                      0004D7 R
+ 17 ___str_39                                                      0004E9 R
  17 ___str_4                                                       00008A R
- 17 ___str_40                                                      0004FC R
+ 17 ___str_40                                                      0004FA R
  17 ___str_5                                                       0000CA R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 5.
 Hexadecimal [24-Bits]
@@ -513,7 +513,7 @@ Area Table
   14 GSINIT                                     size      0   flags   20
   15 GSFINAL                                    size      0   flags   20
   16 CSEG                                       size    C0D   flags   20
-  17 CONST                                      size    526   flags   20
+  17 CONST                                      size    524   flags   20
   18 XINIT                                      size      0   flags   20
   19 CABS                                       size      0   flags   28
 

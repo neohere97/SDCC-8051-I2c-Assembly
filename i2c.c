@@ -9,13 +9,15 @@
  ***************************************************************************/
 
 #include "i2c.h"
+#include <at89c51ed2.h>
+#include <mcs51reg.h>
 
 extern void i2c_write_init(unsigned char page_no);
 extern void i2c_addr(unsigned char addr);
 extern void i2c_write_val(unsigned char write_value);
 extern void i2c_read_init(unsigned char page_no);
 extern unsigned char i2c_read_val(void);
-
+void i2c_activity(unsigned char a);
 // ------------------------------------------------i2c-write-random------------------------------------------------
 /***********************************************************************************
  * function : -
@@ -24,6 +26,7 @@ extern unsigned char i2c_read_val(void);
  ***********************************************************************************/
 void i2c_write_random(unsigned char block, unsigned char address, unsigned char value)
 {
+    i2c_activity(2);
     i2c_write_init(block);
     i2c_addr(address);
     i2c_write_val(value);
@@ -34,6 +37,7 @@ void i2c_write_random(unsigned char block, unsigned char address, unsigned char 
         {
         }
     }
+    i2c_activity(1);
 }
 // ------------------------------------------------i2c-read-random------------------------------------------------
 /***********************************************************************************
@@ -43,9 +47,20 @@ void i2c_write_random(unsigned char block, unsigned char address, unsigned char 
  ***********************************************************************************/
 unsigned char i2c_read_random(unsigned char block, unsigned char address)
 {
+    i2c_activity(2);
     i2c_write_init(block);
     i2c_addr(address);
     i2c_read_init(block);
     unsigned char a = i2c_read_val();
+    i2c_activity(1);
     return a;
+}
+
+
+void i2c_activity(unsigned char a){
+    P1 = a;
+
+    P3_2 = 0;
+    P3_2 = 1;
+    P3_2 = 0;
 }

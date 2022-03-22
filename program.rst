@@ -484,8 +484,8 @@
                                     484 ; Stack segment in internal ram 
                                     485 ;--------------------------------------------------------
                                     486 	.area	SSEG
-      00002B                        487 __start__stack:
-      00002B                        488 	.ds	1
+      000030                        487 __start__stack:
+      000030                        488 	.ds	1
                                     489 
                                     490 ;--------------------------------------------------------
                                     491 ; indirectly addressable internal ram data
@@ -519,8 +519,8 @@
                                     519 ; external initialized ram data
                                     520 ;--------------------------------------------------------
                                     521 	.area XISEG   (XDATA)
-      00154D                        522 _global_var_test::
-      00154D                        523 	.ds 1
+      001568                        522 _global_var_test::
+      001568                        523 	.ds 1
                                     524 	.area HOME    (CODE)
                                     525 	.area GSINIT0 (CODE)
                                     526 	.area GSINIT1 (CODE)
@@ -594,13 +594,13 @@
                            000001   594 	ar1 = 0x01
                            000000   595 	ar0 = 0x00
                                     596 ;	program.c:46: printf("\n\r HELLO! Started in X2 Mode \n\r");
-      000095 74 5E            [12]  597 	mov	a,#___str_0
+      000095 74 69            [12]  597 	mov	a,#___str_0
       000097 C0 E0            [24]  598 	push	acc
-      000099 74 24            [12]  599 	mov	a,#(___str_0 >> 8)
+      000099 74 2C            [12]  599 	mov	a,#(___str_0 >> 8)
       00009B C0 E0            [24]  600 	push	acc
       00009D 74 80            [12]  601 	mov	a,#0x80
       00009F C0 E0            [24]  602 	push	acc
-      0000A1 12 1A 23         [24]  603 	lcall	_printf
+      0000A1 12 22 2E         [24]  603 	lcall	_printf
       0000A4 15 81            [12]  604 	dec	sp
       0000A6 15 81            [12]  605 	dec	sp
       0000A8 15 81            [12]  606 	dec	sp
@@ -627,94 +627,94 @@
       0000B5 75 82 02         [24]  627 	mov	dpl,#0x02
       0000B8 12 02 81         [24]  628 	lcall	_dataout
                                     629 ;	program.c:55: printf("\n\n\r^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
-      0000BB 74 7E            [12]  630 	mov	a,#___str_1
+      0000BB 74 89            [12]  630 	mov	a,#___str_1
       0000BD C0 E0            [24]  631 	push	acc
-      0000BF 74 24            [12]  632 	mov	a,#(___str_1 >> 8)
+      0000BF 74 2C            [12]  632 	mov	a,#(___str_1 >> 8)
       0000C1 C0 E0            [24]  633 	push	acc
       0000C3 74 80            [12]  634 	mov	a,#0x80
       0000C5 C0 E0            [24]  635 	push	acc
-      0000C7 12 1A 23         [24]  636 	lcall	_printf
+      0000C7 12 22 2E         [24]  636 	lcall	_printf
       0000CA 15 81            [12]  637 	dec	sp
       0000CC 15 81            [12]  638 	dec	sp
       0000CE 15 81            [12]  639 	dec	sp
                                     640 ;	program.c:56: printf("'H' -> Enter Heap Demo Mode \n\r");
-      0000D0 74 B9            [12]  641 	mov	a,#___str_2
+      0000D0 74 C4            [12]  641 	mov	a,#___str_2
       0000D2 C0 E0            [24]  642 	push	acc
-      0000D4 74 24            [12]  643 	mov	a,#(___str_2 >> 8)
+      0000D4 74 2C            [12]  643 	mov	a,#(___str_2 >> 8)
       0000D6 C0 E0            [24]  644 	push	acc
       0000D8 74 80            [12]  645 	mov	a,#0x80
       0000DA C0 E0            [24]  646 	push	acc
-      0000DC 12 1A 23         [24]  647 	lcall	_printf
+      0000DC 12 22 2E         [24]  647 	lcall	_printf
       0000DF 15 81            [12]  648 	dec	sp
       0000E1 15 81            [12]  649 	dec	sp
       0000E3 15 81            [12]  650 	dec	sp
                                     651 ;	program.c:57: printf("'P' -> Enter PCA Demo Mode \n\r");
-      0000E5 74 D8            [12]  652 	mov	a,#___str_3
+      0000E5 74 E3            [12]  652 	mov	a,#___str_3
       0000E7 C0 E0            [24]  653 	push	acc
-      0000E9 74 24            [12]  654 	mov	a,#(___str_3 >> 8)
+      0000E9 74 2C            [12]  654 	mov	a,#(___str_3 >> 8)
       0000EB C0 E0            [24]  655 	push	acc
       0000ED 74 80            [12]  656 	mov	a,#0x80
       0000EF C0 E0            [24]  657 	push	acc
-      0000F1 12 1A 23         [24]  658 	lcall	_printf
+      0000F1 12 22 2E         [24]  658 	lcall	_printf
       0000F4 15 81            [12]  659 	dec	sp
       0000F6 15 81            [12]  660 	dec	sp
       0000F8 15 81            [12]  661 	dec	sp
                                     662 ;	program.c:58: printf("'A' -> Assembly C Mix \n\r");
-      0000FA 74 F6            [12]  663 	mov	a,#___str_4
+      0000FA 74 01            [12]  663 	mov	a,#___str_4
       0000FC C0 E0            [24]  664 	push	acc
-      0000FE 74 24            [12]  665 	mov	a,#(___str_4 >> 8)
+      0000FE 74 2D            [12]  665 	mov	a,#(___str_4 >> 8)
       000100 C0 E0            [24]  666 	push	acc
       000102 74 80            [12]  667 	mov	a,#0x80
       000104 C0 E0            [24]  668 	push	acc
-      000106 12 1A 23         [24]  669 	lcall	_printf
+      000106 12 22 2E         [24]  669 	lcall	_printf
       000109 15 81            [12]  670 	dec	sp
       00010B 15 81            [12]  671 	dec	sp
       00010D 15 81            [12]  672 	dec	sp
                                     673 ;	program.c:59: printf("'E' -> EEPROM Mode \n\r");
-      00010F 74 0F            [12]  674 	mov	a,#___str_5
+      00010F 74 1A            [12]  674 	mov	a,#___str_5
       000111 C0 E0            [24]  675 	push	acc
-      000113 74 25            [12]  676 	mov	a,#(___str_5 >> 8)
+      000113 74 2D            [12]  676 	mov	a,#(___str_5 >> 8)
       000115 C0 E0            [24]  677 	push	acc
       000117 74 80            [12]  678 	mov	a,#0x80
       000119 C0 E0            [24]  679 	push	acc
-      00011B 12 1A 23         [24]  680 	lcall	_printf
+      00011B 12 22 2E         [24]  680 	lcall	_printf
       00011E 15 81            [12]  681 	dec	sp
       000120 15 81            [12]  682 	dec	sp
       000122 15 81            [12]  683 	dec	sp
                                     684 ;	program.c:62: wrong_choice:
       000124                        685 00101$:
                                     686 ;	program.c:63: printf("Please make a valid choice \n\r");
-      000124 74 25            [12]  687 	mov	a,#___str_6
+      000124 74 30            [12]  687 	mov	a,#___str_6
       000126 C0 E0            [24]  688 	push	acc
-      000128 74 25            [12]  689 	mov	a,#(___str_6 >> 8)
+      000128 74 2D            [12]  689 	mov	a,#(___str_6 >> 8)
       00012A C0 E0            [24]  690 	push	acc
       00012C 74 80            [12]  691 	mov	a,#0x80
       00012E C0 E0            [24]  692 	push	acc
-      000130 12 1A 23         [24]  693 	lcall	_printf
+      000130 12 22 2E         [24]  693 	lcall	_printf
       000133 15 81            [12]  694 	dec	sp
       000135 15 81            [12]  695 	dec	sp
       000137 15 81            [12]  696 	dec	sp
                                     697 ;	program.c:64: inp = getchar();
-      000139 12 05 32         [24]  698 	lcall	_getchar
+      000139 12 07 5E         [24]  698 	lcall	_getchar
       00013C AE 82            [24]  699 	mov	r6,dpl
       00013E AF 83            [24]  700 	mov	r7,dph
                                     701 ;	program.c:65: if (inp == 0x48)
       000140 BE 48 06         [24]  702 	cjne	r6,#0x48,00112$
       000143 BF 00 03         [24]  703 	cjne	r7,#0x00,00112$
                                     704 ;	program.c:66: user_interface_heap();
-      000146 02 05 6E         [24]  705 	ljmp	_user_interface_heap
+      000146 02 07 9A         [24]  705 	ljmp	_user_interface_heap
       000149                        706 00112$:
                                     707 ;	program.c:67: else if (inp == 0x50)
       000149 BE 50 06         [24]  708 	cjne	r6,#0x50,00109$
       00014C BF 00 03         [24]  709 	cjne	r7,#0x00,00109$
                                     710 ;	program.c:68: user_interface_PCA();
-      00014F 02 11 7B         [24]  711 	ljmp	_user_interface_PCA
+      00014F 02 13 A7         [24]  711 	ljmp	_user_interface_PCA
       000152                        712 00109$:
                                     713 ;	program.c:69: else if (inp == 0x41)
       000152 BE 41 06         [24]  714 	cjne	r6,#0x41,00106$
       000155 BF 00 03         [24]  715 	cjne	r7,#0x00,00106$
                                     716 ;	program.c:70: asm_clang();
-      000158 02 15 63         [24]  717 	ljmp	_asm_clang
+      000158 02 1D 6E         [24]  717 	ljmp	_asm_clang
       00015B                        718 00106$:
                                     719 ;	program.c:71: else if (inp == 0x45)
       00015B BE 45 C6         [24]  720 	cjne	r6,#0x45,00101$
@@ -722,7 +722,7 @@
                                     722 ;	program.c:72: eeprom_menu();
                                     723 ;	program.c:74: goto wrong_choice;
                                     724 ;	program.c:75: }
-      000161 02 14 E2         [24]  725 	ljmp	_eeprom_menu
+      000161 02 17 0E         [24]  725 	ljmp	_eeprom_menu
                                     726 ;------------------------------------------------------------
                                     727 ;Allocation info for local variables in function 'pca_interrupt'
                                     728 ;------------------------------------------------------------
@@ -765,14 +765,14 @@
       000190 C0 0F            [24]  765 	push	ar7
       000192 C0 0C            [24]  766 	push	ar4
       000194 C0 0D            [24]  767 	push	ar5
-      000196 74 43            [12]  768 	mov	a,#___str_7
+      000196 74 4E            [12]  768 	mov	a,#___str_7
       000198 C0 E0            [24]  769 	push	acc
-      00019A 74 25            [12]  770 	mov	a,#(___str_7 >> 8)
+      00019A 74 2D            [12]  770 	mov	a,#(___str_7 >> 8)
       00019C C0 E0            [24]  771 	push	acc
       00019E 74 80            [12]  772 	mov	a,#0x80
       0001A0 C0 E0            [24]  773 	push	acc
       0001A2 75 D0 00         [24]  774 	mov	psw,#0x00
-      0001A5 12 1A 23         [24]  775 	lcall	_printf
+      0001A5 12 22 2E         [24]  775 	lcall	_printf
       0001A8 75 D0 08         [24]  776 	mov	psw,#0x08
       0001AB E5 81            [12]  777 	mov	a,sp
       0001AD 24 F9            [12]  778 	add	a,#0xf9
@@ -814,14 +814,14 @@
       0001D2 80 1B            [24]  814 	sjmp	00109$
       0001D4                        815 00130$:
                                     816 ;	program.c:108: printf("Timer Interrupt\n\r");
-      0001D4 74 6B            [12]  817 	mov	a,#___str_8
+      0001D4 74 76            [12]  817 	mov	a,#___str_8
       0001D6 C0 E0            [24]  818 	push	acc
-      0001D8 74 25            [12]  819 	mov	a,#(___str_8 >> 8)
+      0001D8 74 2D            [12]  819 	mov	a,#(___str_8 >> 8)
       0001DA C0 E0            [24]  820 	push	acc
       0001DC 74 80            [12]  821 	mov	a,#0x80
       0001DE C0 E0            [24]  822 	push	acc
       0001E0 75 D0 00         [24]  823 	mov	psw,#0x00
-      0001E3 12 1A 23         [24]  824 	lcall	_printf
+      0001E3 12 22 2E         [24]  824 	lcall	_printf
       0001E6 75 D0 08         [24]  825 	mov	psw,#0x08
       0001E9 15 81            [12]  826 	dec	sp
       0001EB 15 81            [12]  827 	dec	sp
@@ -888,14 +888,14 @@
       00023A F5 DC            [12]  888 	mov	_CCAPM2,a
       00023C F5 DD            [12]  889 	mov	_CCAPM3,a
       00023E F5 DE            [12]  890 	mov	_CCAPM4,a
-      000240 74 7D            [12]  891 	mov	a,#___str_9
+      000240 74 88            [12]  891 	mov	a,#___str_9
       000242 C0 E0            [24]  892 	push	acc
-      000244 74 25            [12]  893 	mov	a,#(___str_9 >> 8)
+      000244 74 2D            [12]  893 	mov	a,#(___str_9 >> 8)
       000246 C0 E0            [24]  894 	push	acc
       000248 74 80            [12]  895 	mov	a,#0x80
       00024A C0 E0            [24]  896 	push	acc
       00024C 75 D0 00         [24]  897 	mov	psw,#0x00
-      00024F 12 1A 23         [24]  898 	lcall	_printf
+      00024F 12 22 2E         [24]  898 	lcall	_printf
       000252 75 D0 08         [24]  899 	mov	psw,#0x08
       000255 15 81            [12]  900 	dec	sp
       000257 15 81            [12]  901 	dec	sp
@@ -988,23 +988,23 @@
                                     988 	.area CSEG    (CODE)
                                     989 	.area CONST   (CODE)
                                     990 	.area CONST   (CODE)
-      00245E                        991 ___str_0:
-      00245E 0A                     992 	.db 0x0a
-      00245F 0D                     993 	.db 0x0d
-      002460 20 48 45 4C 4C 4F 21   994 	.ascii " HELLO! Started in X2 Mode "
+      002C69                        991 ___str_0:
+      002C69 0A                     992 	.db 0x0a
+      002C6A 0D                     993 	.db 0x0d
+      002C6B 20 48 45 4C 4C 4F 21   994 	.ascii " HELLO! Started in X2 Mode "
              20 53 74 61 72 74 65
              64 20 69 6E 20 58 32
              20 4D 6F 64 65 20
-      00247B 0A                     995 	.db 0x0a
-      00247C 0D                     996 	.db 0x0d
-      00247D 00                     997 	.db 0x00
+      002C86 0A                     995 	.db 0x0a
+      002C87 0D                     996 	.db 0x0d
+      002C88 00                     997 	.db 0x00
                                     998 	.area CSEG    (CODE)
                                     999 	.area CONST   (CODE)
-      00247E                       1000 ___str_1:
-      00247E 0A                    1001 	.db 0x0a
-      00247F 0A                    1002 	.db 0x0a
-      002480 0D                    1003 	.db 0x0d
-      002481 5E 5E 5E 5E 5E 5E 5E  1004 	.ascii "^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ "
+      002C89                       1000 ___str_1:
+      002C89 0A                    1001 	.db 0x0a
+      002C8A 0A                    1002 	.db 0x0a
+      002C8B 0D                    1003 	.db 0x0d
+      002C8C 5E 5E 5E 5E 5E 5E 5E  1004 	.ascii "^^^^^^^^^^^^^^^^^^^-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ "
              5E 5E 5E 5E 5E 5E 5E
              5E 5E 5E 5E 5E 2D 4D
              45 4E 55 2D 5E 5E 5E
@@ -1012,91 +1012,91 @@
              5E 5E 5E 5E 5E 5E 5E
              5E 5E 5E 5E 5E 5E 5E
              5E 5E 20
-      0024B5 0A                    1005 	.db 0x0a
-      0024B6 0A                    1006 	.db 0x0a
-      0024B7 0D                    1007 	.db 0x0d
-      0024B8 00                    1008 	.db 0x00
+      002CC0 0A                    1005 	.db 0x0a
+      002CC1 0A                    1006 	.db 0x0a
+      002CC2 0D                    1007 	.db 0x0d
+      002CC3 00                    1008 	.db 0x00
                                    1009 	.area CSEG    (CODE)
                                    1010 	.area CONST   (CODE)
-      0024B9                       1011 ___str_2:
-      0024B9 27 48 27 20 2D 3E 20  1012 	.ascii "'H' -> Enter Heap Demo Mode "
+      002CC4                       1011 ___str_2:
+      002CC4 27 48 27 20 2D 3E 20  1012 	.ascii "'H' -> Enter Heap Demo Mode "
              45 6E 74 65 72 20 48
              65 61 70 20 44 65 6D
              6F 20 4D 6F 64 65 20
-      0024D5 0A                    1013 	.db 0x0a
-      0024D6 0D                    1014 	.db 0x0d
-      0024D7 00                    1015 	.db 0x00
+      002CE0 0A                    1013 	.db 0x0a
+      002CE1 0D                    1014 	.db 0x0d
+      002CE2 00                    1015 	.db 0x00
                                    1016 	.area CSEG    (CODE)
                                    1017 	.area CONST   (CODE)
-      0024D8                       1018 ___str_3:
-      0024D8 27 50 27 20 2D 3E 20  1019 	.ascii "'P' -> Enter PCA Demo Mode "
+      002CE3                       1018 ___str_3:
+      002CE3 27 50 27 20 2D 3E 20  1019 	.ascii "'P' -> Enter PCA Demo Mode "
              45 6E 74 65 72 20 50
              43 41 20 44 65 6D 6F
              20 4D 6F 64 65 20
-      0024F3 0A                    1020 	.db 0x0a
-      0024F4 0D                    1021 	.db 0x0d
-      0024F5 00                    1022 	.db 0x00
+      002CFE 0A                    1020 	.db 0x0a
+      002CFF 0D                    1021 	.db 0x0d
+      002D00 00                    1022 	.db 0x00
                                    1023 	.area CSEG    (CODE)
                                    1024 	.area CONST   (CODE)
-      0024F6                       1025 ___str_4:
-      0024F6 27 41 27 20 2D 3E 20  1026 	.ascii "'A' -> Assembly C Mix "
+      002D01                       1025 ___str_4:
+      002D01 27 41 27 20 2D 3E 20  1026 	.ascii "'A' -> Assembly C Mix "
              41 73 73 65 6D 62 6C
              79 20 43 20 4D 69 78
              20
-      00250C 0A                    1027 	.db 0x0a
-      00250D 0D                    1028 	.db 0x0d
-      00250E 00                    1029 	.db 0x00
+      002D17 0A                    1027 	.db 0x0a
+      002D18 0D                    1028 	.db 0x0d
+      002D19 00                    1029 	.db 0x00
                                    1030 	.area CSEG    (CODE)
                                    1031 	.area CONST   (CODE)
-      00250F                       1032 ___str_5:
-      00250F 27 45 27 20 2D 3E 20  1033 	.ascii "'E' -> EEPROM Mode "
+      002D1A                       1032 ___str_5:
+      002D1A 27 45 27 20 2D 3E 20  1033 	.ascii "'E' -> EEPROM Mode "
              45 45 50 52 4F 4D 20
              4D 6F 64 65 20
-      002522 0A                    1034 	.db 0x0a
-      002523 0D                    1035 	.db 0x0d
-      002524 00                    1036 	.db 0x00
+      002D2D 0A                    1034 	.db 0x0a
+      002D2E 0D                    1035 	.db 0x0d
+      002D2F 00                    1036 	.db 0x00
                                    1037 	.area CSEG    (CODE)
                                    1038 	.area CONST   (CODE)
-      002525                       1039 ___str_6:
-      002525 50 6C 65 61 73 65 20  1040 	.ascii "Please make a valid choice "
+      002D30                       1039 ___str_6:
+      002D30 50 6C 65 61 73 65 20  1040 	.ascii "Please make a valid choice "
              6D 61 6B 65 20 61 20
              76 61 6C 69 64 20 63
              68 6F 69 63 65 20
-      002540 0A                    1041 	.db 0x0a
-      002541 0D                    1042 	.db 0x0d
-      002542 00                    1043 	.db 0x00
+      002D4B 0A                    1041 	.db 0x0a
+      002D4C 0D                    1042 	.db 0x0d
+      002D4D 00                    1043 	.db 0x00
                                    1044 	.area CSEG    (CODE)
                                    1045 	.area CONST   (CODE)
-      002543                       1046 ___str_7:
-      002543 43 61 70 74 75 72 65  1047 	.ascii "Captured Value CCPL -> %d CCPH -> %d "
+      002D4E                       1046 ___str_7:
+      002D4E 43 61 70 74 75 72 65  1047 	.ascii "Captured Value CCPL -> %d CCPH -> %d "
              64 20 56 61 6C 75 65
              20 43 43 50 4C 20 2D
              3E 20 25 64 20 43 43
              50 48 20 2D 3E 20 25
              64 20
-      002568 0A                    1048 	.db 0x0a
-      002569 0D                    1049 	.db 0x0d
-      00256A 00                    1050 	.db 0x00
+      002D73 0A                    1048 	.db 0x0a
+      002D74 0D                    1049 	.db 0x0d
+      002D75 00                    1050 	.db 0x00
                                    1051 	.area CSEG    (CODE)
                                    1052 	.area CONST   (CODE)
-      00256B                       1053 ___str_8:
-      00256B 54 69 6D 65 72 20 49  1054 	.ascii "Timer Interrupt"
+      002D76                       1053 ___str_8:
+      002D76 54 69 6D 65 72 20 49  1054 	.ascii "Timer Interrupt"
              6E 74 65 72 72 75 70
              74
-      00257A 0A                    1055 	.db 0x0a
-      00257B 0D                    1056 	.db 0x0d
-      00257C 00                    1057 	.db 0x00
+      002D85 0A                    1055 	.db 0x0a
+      002D86 0D                    1056 	.db 0x0d
+      002D87 00                    1057 	.db 0x00
                                    1058 	.area CSEG    (CODE)
                                    1059 	.area CONST   (CODE)
-      00257D                       1060 ___str_9:
-      00257D 47 6F 69 6E 67 20 74  1061 	.ascii "Going to main menu.. "
+      002D88                       1060 ___str_9:
+      002D88 47 6F 69 6E 67 20 74  1061 	.ascii "Going to main menu.. "
              6F 20 6D 61 69 6E 20
              6D 65 6E 75 2E 2E 20
-      002592 0A                    1062 	.db 0x0a
-      002593 0D                    1063 	.db 0x0d
-      002594 00                    1064 	.db 0x00
+      002D9D 0A                    1062 	.db 0x0a
+      002D9E 0D                    1063 	.db 0x0d
+      002D9F 00                    1064 	.db 0x00
                                    1065 	.area CSEG    (CODE)
                                    1066 	.area XINIT   (CODE)
-      003050                       1067 __xinit__global_var_test:
-      003050 02                    1068 	.db #0x02	; 2
+      003C4A                       1067 __xinit__global_var_test:
+      003C4A 02                    1068 	.db #0x02	; 2
                                    1069 	.area CABS    (ABS,CODE)

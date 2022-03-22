@@ -13,6 +13,7 @@
 -l liblong
 -l libfloat
 program.rel
+i2c_routines.rel
 i2c.rel
 asa.rel
 getput.rel

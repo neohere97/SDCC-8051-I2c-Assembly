@@ -8,11 +8,11 @@ void create_initial_buffers();
 void buffer_input_loop();
 void print_all_buffers();
 void print_heap_stats();
-void dump_buff_zero_hex();
 void dump_buff_zero_ascii();
 void at_clear_all_buffers();
 int create_new_buffer();
 int delete_buffer();
+void dump_buff_zero_hex();
 void print_heap_menu();
 
 // Program Metadata struct inits
@@ -360,7 +360,7 @@ void dump_buff_zero_hex()
     }
     else
     {
-        printf("Buffer 0 is empty...\n\r");
+        printf("Buffer is empty...\n\r");
     }
 }
 // ------------------------------------------------print-heap-stats------------------------------------------------

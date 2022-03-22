@@ -220,6 +220,8 @@
 	.globl _T2CON
 	.globl _get_number
 	.globl _get_num_helper
+	.globl _get_number_hex
+	.globl _get_num_helper_hex
 	.globl _putchar
 	.globl _getchar
 ;--------------------------------------------------------
@@ -474,15 +476,25 @@ _TF1	=	0x008f
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
-_get_number_total_chars_65536_46:
+_get_number_total_chars_65536_48:
 	.ds 2
-_get_number_num_65536_47:
+_get_number_num_65536_49:
 	.ds 2
-_get_num_helper_times_65536_52:
+_get_num_helper_times_65536_54:
 	.ds 2
-_get_num_helper_num_65536_53:
+_get_num_helper_num_65536_55:
 	.ds 2
-_putchar_c_65536_56:
+_get_number_hex_total_chars_65536_58:
+	.ds 2
+_get_number_hex_rec_65536_59:
+	.ds 2
+_get_number_hex_num_65536_59:
+	.ds 2
+_get_num_helper_hex_times_65536_65:
+	.ds 2
+_get_num_helper_hex_num_65536_66:
+	.ds 2
+_putchar_c_65536_69:
 	.ds 2
 ;--------------------------------------------------------
 ; absolute external ram data
@@ -521,12 +533,12 @@ _putchar_c_65536_56:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'get_number'
 ;------------------------------------------------------------
-;total_chars               Allocated with name '_get_number_total_chars_65536_46'
-;rec                       Allocated with name '_get_number_rec_65536_47'
-;num                       Allocated with name '_get_number_num_65536_47'
-;i                         Allocated with name '_get_number_i_131072_48'
+;total_chars               Allocated with name '_get_number_total_chars_65536_48'
+;rec                       Allocated with name '_get_number_rec_65536_49'
+;num                       Allocated with name '_get_number_num_65536_49'
+;i                         Allocated with name '_get_number_i_131072_50'
 ;------------------------------------------------------------
-;	getput.c:14: int get_number(int total_chars){    
+;	getput.c:16: int get_number(int total_chars)
 ;	-----------------------------------------
 ;	 function get_number
 ;	-----------------------------------------
@@ -541,19 +553,19 @@ _get_number:
 	ar0 = 0x00
 	mov	r7,dph
 	mov	a,dpl
-	mov	dptr,#_get_number_total_chars_65536_46
+	mov	dptr,#_get_number_total_chars_65536_48
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	getput.c:16: int num = 0;
-	mov	dptr,#_get_number_num_65536_47
+;	getput.c:19: int num = 0;
+	mov	dptr,#_get_number_num_65536_49
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	getput.c:17: for (int i = total_chars; i > 0; i--)
-	mov	dptr,#_get_number_total_chars_65536_46
+;	getput.c:20: for (int i = total_chars; i > 0; i--)
+	mov	dptr,#_get_number_total_chars_65536_48
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
@@ -570,7 +582,7 @@ _get_number:
 	jc	00127$
 	ljmp	00105$
 00127$:
-;	getput.c:19: rec = getchar();
+;	getput.c:22: rec = getchar();
 	push	ar7
 	push	ar6
 	lcall	_getchar
@@ -578,7 +590,7 @@ _get_number:
 	mov	r5,dph
 	pop	ar6
 	pop	ar7
-;	getput.c:21: if (rec <= 0x39 && rec >= 0x30)
+;	getput.c:24: if (rec <= 0x39 && rec >= 0x30)
 	clr	c
 	mov	a,#0x39
 	subb	a,r4
@@ -593,7 +605,7 @@ _get_number:
 	xrl	a,#0x80
 	subb	a,#0x80
 	jc	00102$
-;	getput.c:23: num += ((rec - 0x30) * get_num_helper(i - 1));
+;	getput.c:26: num += ((rec - 0x30) * get_num_helper(i - 1));
 	mov	a,r4
 	add	a,#0xd0
 	mov	r4,a
@@ -630,13 +642,13 @@ _get_number:
 	mov	r5,dph
 	pop	ar6
 	pop	ar7
-	mov	dptr,#_get_number_num_65536_47
+	mov	dptr,#_get_number_num_65536_49
 	movx	a,@dptr
 	mov	r2,a
 	inc	dptr
 	movx	a,@dptr
 	mov	r3,a
-	mov	dptr,#_get_number_num_65536_47
+	mov	dptr,#_get_number_num_65536_49
 	mov	a,r4
 	add	a,r2
 	movx	@dptr,a
@@ -646,7 +658,7 @@ _get_number:
 	movx	@dptr,a
 	sjmp	00108$
 00102$:
-;	getput.c:27: printf("ERR,Numbers ONLY!\n\r");
+;	getput.c:30: printf("ERR,Numbers ONLY!\n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -657,55 +669,55 @@ _get_number:
 	dec	sp
 	dec	sp
 	dec	sp
-;	getput.c:28: return -1;
+;	getput.c:31: return -1;
 	mov	dptr,#0xffff
 	ret
 00108$:
-;	getput.c:17: for (int i = total_chars; i > 0; i--)
+;	getput.c:20: for (int i = total_chars; i > 0; i--)
 	dec	r6
 	cjne	r6,#0xff,00130$
 	dec	r7
 00130$:
 	ljmp	00107$
 00105$:
-;	getput.c:31: return num;
-	mov	dptr,#_get_number_num_65536_47
+;	getput.c:34: return num;
+	mov	dptr,#_get_number_num_65536_49
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
 	movx	a,@dptr
-;	getput.c:32: }
+;	getput.c:35: }
 	mov	dpl,r6
 	mov	dph,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'get_num_helper'
 ;------------------------------------------------------------
-;times                     Allocated with name '_get_num_helper_times_65536_52'
-;num                       Allocated with name '_get_num_helper_num_65536_53'
-;i                         Allocated with name '_get_num_helper_i_131072_54'
+;times                     Allocated with name '_get_num_helper_times_65536_54'
+;num                       Allocated with name '_get_num_helper_num_65536_55'
+;i                         Allocated with name '_get_num_helper_i_131072_56'
 ;------------------------------------------------------------
-;	getput.c:39: int get_num_helper(int times)
+;	getput.c:42: int get_num_helper(int times)
 ;	-----------------------------------------
 ;	 function get_num_helper
 ;	-----------------------------------------
 _get_num_helper:
 	mov	r7,dph
 	mov	a,dpl
-	mov	dptr,#_get_num_helper_times_65536_52
+	mov	dptr,#_get_num_helper_times_65536_54
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	getput.c:41: int num = 1;
-	mov	dptr,#_get_num_helper_num_65536_53
+;	getput.c:44: int num = 1;
+	mov	dptr,#_get_num_helper_num_65536_55
 	mov	a,#0x01
 	movx	@dptr,a
 	clr	a
 	inc	dptr
 	movx	@dptr,a
-;	getput.c:43: for (int i = 0; i < times; i++)
-	mov	dptr,#_get_num_helper_times_65536_52
+;	getput.c:46: for (int i = 0; i < times; i++)
+	mov	dptr,#_get_num_helper_times_65536_54
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
@@ -723,8 +735,8 @@ _get_num_helper:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	00101$
-;	getput.c:45: num = num * 10;
-	mov	dptr,#_get_num_helper_num_65536_53
+;	getput.c:48: num = num * 10;
+	mov	dptr,#_get_num_helper_num_65536_55
 	movx	a,@dptr
 	mov	r2,a
 	inc	dptr
@@ -748,86 +760,445 @@ _get_num_helper:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-	mov	dptr,#_get_num_helper_num_65536_53
+	mov	dptr,#_get_num_helper_num_65536_55
 	movx	@dptr,a
 	mov	a,b
 	inc	dptr
 	movx	@dptr,a
-;	getput.c:43: for (int i = 0; i < times; i++)
+;	getput.c:46: for (int i = 0; i < times; i++)
 	inc	r4
 	cjne	r4,#0x00,00106$
 	inc	r5
 	sjmp	00106$
 00101$:
-;	getput.c:47: if (times == 0)
+;	getput.c:50: if (times == 0)
 	mov	a,r6
 	orl	a,r7
 	jnz	00103$
-;	getput.c:48: return 1;
+;	getput.c:51: return 1;
 	mov	dptr,#0x0001
 	ret
 00103$:
-;	getput.c:50: return num;
-	mov	dptr,#_get_num_helper_num_65536_53
+;	getput.c:53: return num;
+	mov	dptr,#_get_num_helper_num_65536_55
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
 	movx	a,@dptr
-;	getput.c:51: }
+;	getput.c:54: }
+	mov	dpl,r6
+	mov	dph,a
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'get_number_hex'
+;------------------------------------------------------------
+;total_chars               Allocated with name '_get_number_hex_total_chars_65536_58'
+;rec                       Allocated with name '_get_number_hex_rec_65536_59'
+;num                       Allocated with name '_get_number_hex_num_65536_59'
+;i                         Allocated with name '_get_number_hex_i_131072_60'
+;------------------------------------------------------------
+;	getput.c:62: int get_number_hex(int total_chars)
+;	-----------------------------------------
+;	 function get_number_hex
+;	-----------------------------------------
+_get_number_hex:
+	mov	r7,dph
+	mov	a,dpl
+	mov	dptr,#_get_number_hex_total_chars_65536_58
+	movx	@dptr,a
+	mov	a,r7
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:65: int num = 0;
+	mov	dptr,#_get_number_hex_num_65536_59
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:66: for (int i = total_chars; i > 0; i--)
+	mov	dptr,#_get_number_hex_total_chars_65536_58
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r7,a
+00114$:
+	clr	c
+	clr	a
+	subb	a,r6
+	mov	a,#(0x00 ^ 0x80)
+	mov	b,r7
+	xrl	b,#0x80
+	subb	a,b
+	jc	00150$
+	ljmp	00112$
+00150$:
+;	getput.c:68: rec = getchar();
+	push	ar7
+	push	ar6
+	lcall	_getchar
+	mov	r4,dpl
+	mov	r5,dph
+	pop	ar6
+	pop	ar7
+	mov	dptr,#_get_number_hex_rec_65536_59
+	mov	a,r4
+	movx	@dptr,a
+	mov	a,r5
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:69: if (rec <= 0x66 && rec >= 0x61)
+	clr	c
+	mov	a,#0x66
+	subb	a,r4
+	mov	a,#(0x00 ^ 0x80)
+	mov	b,r5
+	xrl	b,#0x80
+	subb	a,b
+	jc	00102$
+	mov	a,r4
+	subb	a,#0x61
+	mov	a,r5
+	xrl	a,#0x80
+	subb	a,#0x80
+	jc	00102$
+;	getput.c:70: rec -= 0x20;
+	mov	a,r4
+	add	a,#0xe0
+	mov	r4,a
+	mov	a,r5
+	addc	a,#0xff
+	mov	r5,a
+	mov	dptr,#_get_number_hex_rec_65536_59
+	mov	a,r4
+	movx	@dptr,a
+	mov	a,r5
+	inc	dptr
+	movx	@dptr,a
+00102$:
+;	getput.c:72: if ((rec <= 0x39 && rec >= 0x30))
+	mov	dptr,#_get_number_hex_rec_65536_59
+	movx	a,@dptr
+	mov	r4,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r5,a
+	clr	c
+	mov	a,#0x39
+	subb	a,r4
+	mov	a,#(0x00 ^ 0x80)
+	mov	b,r5
+	xrl	b,#0x80
+	subb	a,b
+	jc	00109$
+	mov	a,r4
+	subb	a,#0x30
+	mov	a,r5
+	xrl	a,#0x80
+	subb	a,#0x80
+	jc	00109$
+;	getput.c:74: num += ((rec - 0x30) * get_num_helper_hex(i - 1));
+	mov	a,r4
+	add	a,#0xd0
+	mov	r4,a
+	mov	a,r5
+	addc	a,#0xff
+	mov	r5,a
+	mov	a,r6
+	add	a,#0xff
+	mov	r2,a
+	mov	a,r7
+	addc	a,#0xff
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar4
+	lcall	_get_num_helper_hex
+	mov	r2,dpl
+	mov	r3,dph
+	pop	ar4
+	pop	ar5
+	mov	dptr,#__mulint_PARM_2
+	mov	a,r2
+	movx	@dptr,a
+	mov	a,r3
+	inc	dptr
+	movx	@dptr,a
+	mov	dpl,r4
+	mov	dph,r5
+	lcall	__mulint
+	mov	r4,dpl
+	mov	r5,dph
+	pop	ar6
+	pop	ar7
+	mov	dptr,#_get_number_hex_num_65536_59
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	mov	dptr,#_get_number_hex_num_65536_59
+	mov	a,r4
+	add	a,r2
+	movx	@dptr,a
+	mov	a,r5
+	addc	a,r3
+	inc	dptr
+	movx	@dptr,a
+	ljmp	00115$
+00109$:
+;	getput.c:76: else if (rec <= 0x46 && rec >= 0x41){
+	mov	dptr,#_get_number_hex_rec_65536_59
+	movx	a,@dptr
+	mov	r4,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r5,a
+	clr	c
+	mov	a,#0x46
+	subb	a,r4
+	mov	a,#(0x00 ^ 0x80)
+	mov	b,r5
+	xrl	b,#0x80
+	subb	a,b
+	jc	00105$
+	mov	a,r4
+	subb	a,#0x41
+	mov	a,r5
+	xrl	a,#0x80
+	subb	a,#0x80
+	jc	00105$
+;	getput.c:77: num += ((rec - 0x37) * get_num_helper_hex(i - 1));
+	mov	a,r4
+	add	a,#0xc9
+	mov	r4,a
+	mov	a,r5
+	addc	a,#0xff
+	mov	r5,a
+	mov	a,r6
+	add	a,#0xff
+	mov	r2,a
+	mov	a,r7
+	addc	a,#0xff
+	mov	r3,a
+	mov	dpl,r2
+	mov	dph,r3
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar4
+	lcall	_get_num_helper_hex
+	mov	r2,dpl
+	mov	r3,dph
+	pop	ar4
+	pop	ar5
+	mov	dptr,#__mulint_PARM_2
+	mov	a,r2
+	movx	@dptr,a
+	mov	a,r3
+	inc	dptr
+	movx	@dptr,a
+	mov	dpl,r4
+	mov	dph,r5
+	lcall	__mulint
+	mov	r4,dpl
+	mov	r5,dph
+	pop	ar6
+	pop	ar7
+	mov	dptr,#_get_number_hex_num_65536_59
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r3,a
+	mov	dptr,#_get_number_hex_num_65536_59
+	mov	a,r4
+	add	a,r2
+	movx	@dptr,a
+	mov	a,r5
+	addc	a,r3
+	inc	dptr
+	movx	@dptr,a
+	sjmp	00115$
+00105$:
+;	getput.c:81: printf("ERR, Hex Numbers ONLY!\n\r");
+	mov	a,#___str_1
+	push	acc
+	mov	a,#(___str_1 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+;	getput.c:82: return -1;
+	mov	dptr,#0xffff
+	ret
+00115$:
+;	getput.c:66: for (int i = total_chars; i > 0; i--)
+	dec	r6
+	cjne	r6,#0xff,00157$
+	dec	r7
+00157$:
+	ljmp	00114$
+00112$:
+;	getput.c:85: return num;
+	mov	dptr,#_get_number_hex_num_65536_59
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+;	getput.c:86: }
+	mov	dpl,r6
+	mov	dph,a
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'get_num_helper_hex'
+;------------------------------------------------------------
+;times                     Allocated with name '_get_num_helper_hex_times_65536_65'
+;num                       Allocated with name '_get_num_helper_hex_num_65536_66'
+;i                         Allocated with name '_get_num_helper_hex_i_131072_67'
+;------------------------------------------------------------
+;	getput.c:93: int get_num_helper_hex(int times)
+;	-----------------------------------------
+;	 function get_num_helper_hex
+;	-----------------------------------------
+_get_num_helper_hex:
+	mov	r7,dph
+	mov	a,dpl
+	mov	dptr,#_get_num_helper_hex_times_65536_65
+	movx	@dptr,a
+	mov	a,r7
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:95: int num = 1;
+	mov	dptr,#_get_num_helper_hex_num_65536_66
+	mov	a,#0x01
+	movx	@dptr,a
+	clr	a
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:97: for (int i = 0; i < times; i++)
+	mov	dptr,#_get_num_helper_hex_times_65536_65
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+	mov	r7,a
+	mov	r4,#0x00
+	mov	r5,#0x00
+00106$:
+	clr	c
+	mov	a,r4
+	subb	a,r6
+	mov	a,r5
+	xrl	a,#0x80
+	mov	b,r7
+	xrl	b,#0x80
+	subb	a,b
+	jnc	00101$
+;	getput.c:99: num = num * 16;
+	mov	dptr,#_get_num_helper_hex_num_65536_66
+	movx	a,@dptr
+	mov	r2,a
+	inc	dptr
+	movx	a,@dptr
+	swap	a
+	anl	a,#0xf0
+	xch	a,r2
+	swap	a
+	xch	a,r2
+	xrl	a,r2
+	xch	a,r2
+	anl	a,#0xf0
+	xch	a,r2
+	xrl	a,r2
+	mov	r3,a
+	mov	dptr,#_get_num_helper_hex_num_65536_66
+	mov	a,r2
+	movx	@dptr,a
+	mov	a,r3
+	inc	dptr
+	movx	@dptr,a
+;	getput.c:97: for (int i = 0; i < times; i++)
+	inc	r4
+	cjne	r4,#0x00,00106$
+	inc	r5
+	sjmp	00106$
+00101$:
+;	getput.c:101: if (times == 0)
+	mov	a,r6
+	orl	a,r7
+	jnz	00103$
+;	getput.c:102: return 1;
+	mov	dptr,#0x0001
+	ret
+00103$:
+;	getput.c:104: return num;
+	mov	dptr,#_get_num_helper_hex_num_65536_66
+	movx	a,@dptr
+	mov	r6,a
+	inc	dptr
+	movx	a,@dptr
+;	getput.c:105: }
 	mov	dpl,r6
 	mov	dph,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'putchar'
 ;------------------------------------------------------------
-;c                         Allocated with name '_putchar_c_65536_56'
+;c                         Allocated with name '_putchar_c_65536_69'
 ;------------------------------------------------------------
-;	getput.c:60: int putchar(int c)
+;	getput.c:114: int putchar(int c)
 ;	-----------------------------------------
 ;	 function putchar
 ;	-----------------------------------------
 _putchar:
 	mov	r7,dph
 	mov	a,dpl
-	mov	dptr,#_putchar_c_65536_56
+	mov	dptr,#_putchar_c_65536_69
 	movx	@dptr,a
 	mov	a,r7
 	inc	dptr
 	movx	@dptr,a
-;	getput.c:62: while ((SCON & 0x02) == 0)
+;	getput.c:116: while ((SCON & 0x02) == 0)
 00101$:
 	mov	a,_SCON
 	jnb	acc.1,00101$
-;	getput.c:64: TI = 0;
+;	getput.c:118: TI = 0;
 ;	assignBit
 	clr	_TI
-;	getput.c:65: SBUF = c;
-	mov	dptr,#_putchar_c_65536_56
+;	getput.c:119: SBUF = c;
+	mov	dptr,#_putchar_c_65536_69
 	movx	a,@dptr
 	mov	r6,a
 	inc	dptr
 	movx	a,@dptr
 	mov	_SBUF,r6
-;	getput.c:66: return 0;
+;	getput.c:120: return 0;
 	mov	dptr,#0x0000
-;	getput.c:67: }
+;	getput.c:121: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'getchar'
 ;------------------------------------------------------------
-;	getput.c:74: int getchar()
+;	getput.c:128: int getchar()
 ;	-----------------------------------------
 ;	 function getchar
 ;	-----------------------------------------
 _getchar:
-;	getput.c:76: while (RI == 0)
+;	getput.c:130: while (RI == 0)
 00101$:
-;	getput.c:78: RI = 0;
+;	getput.c:132: RI = 0;
 ;	assignBit
 	jbc	_RI,00140$
 	sjmp	00101$
 00140$:
-;	getput.c:80: if (SBUF != 0x3F && SBUF != 0x3D && SBUF != 0x40 && SBUF != 0x2B && SBUF != 0x2D)
+;	getput.c:134: if (SBUF != 0x3F && SBUF != 0x3D && SBUF != 0x40 && SBUF != 0x2B && SBUF != 0x2D)
 	mov	a,#0x3f
 	cjne	a,_SBUF,00141$
 	sjmp	00105$
@@ -848,25 +1219,32 @@ _getchar:
 	cjne	a,_SBUF,00145$
 	sjmp	00105$
 00145$:
-;	getput.c:81: putchar(SBUF);
+;	getput.c:135: putchar(SBUF);
 	mov	r6,_SBUF
 	mov	r7,#0x00
 	mov	dpl,r6
 	mov	dph,r7
 	lcall	_putchar
 00105$:
-;	getput.c:82: return SBUF;
+;	getput.c:136: return SBUF;
 	mov	r6,_SBUF
 	mov	r7,#0x00
 	mov	dpl,r6
 	mov	dph,r7
-;	getput.c:83: }
+;	getput.c:137: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area CONST   (CODE)
 ___str_0:
 	.ascii "ERR,Numbers ONLY!"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_1:
+	.ascii "ERR, Hex Numbers ONLY!"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

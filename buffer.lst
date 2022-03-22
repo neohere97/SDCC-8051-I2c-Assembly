@@ -1908,7 +1908,7 @@
       0009CF 15 81            [12] 1908 	dec	sp
       0009D1 22               [24] 1909 	ret
       0009D2                       1910 00107$:
-                                   1911 ;	buffer.c:363: printf("Buffer 0 is empty...\n\r");
+                                   1911 ;	buffer.c:363: printf("Buffer is empty...\n\r");
       0009D2 74rCB            [12] 1912 	mov	a,#___str_27
       0009D4 C0 E0            [24] 1913 	push	acc
       0009D6 74s03            [12] 1914 	mov	a,#(___str_27 >> 8)
@@ -1930,7 +1930,7 @@
                                    1930 ;	-----------------------------------------
       0009E8                       1931 _print_heap_stats:
                                    1932 ;	buffer.c:374: printf("\n\r****************HEAP*STATS*************\n\r");
-      0009E8 74rE2            [12] 1933 	mov	a,#___str_28
+      0009E8 74rE0            [12] 1933 	mov	a,#___str_28
       0009EA C0 E0            [24] 1934 	push	acc
       0009EC 74s03            [12] 1935 	mov	a,#(___str_28 >> 8)
       0009EE C0 E0            [24] 1936 	push	acc
@@ -1949,7 +1949,7 @@
       000A04 FF               [12] 1949 	mov	r7,a
       000A05 C0 06            [24] 1950 	push	ar6
       000A07 C0 07            [24] 1951 	push	ar7
-      000A09 74r0E            [12] 1952 	mov	a,#___str_29
+      000A09 74r0C            [12] 1952 	mov	a,#___str_29
       000A0B C0 E0            [24] 1953 	push	acc
       000A0D 74s04            [12] 1954 	mov	a,#(___str_29 >> 8)
       000A0F C0 E0            [24] 1955 	push	acc
@@ -1968,7 +1968,7 @@
       000A25 FF               [12] 1968 	mov	r7,a
       000A26 C0 06            [24] 1969 	push	ar6
       000A28 C0 07            [24] 1970 	push	ar7
-      000A2A 74r25            [12] 1971 	mov	a,#___str_30
+      000A2A 74r23            [12] 1971 	mov	a,#___str_30
       000A2C C0 E0            [24] 1972 	push	acc
       000A2E 74s04            [12] 1973 	mov	a,#(___str_30 >> 8)
       000A30 C0 E0            [24] 1974 	push	acc
@@ -1987,7 +1987,7 @@
       000A46 FF               [12] 1987 	mov	r7,a
       000A47 C0 06            [24] 1988 	push	ar6
       000A49 C0 07            [24] 1989 	push	ar7
-      000A4B 74r40            [12] 1990 	mov	a,#___str_31
+      000A4B 74r3E            [12] 1990 	mov	a,#___str_31
       000A4D C0 E0            [24] 1991 	push	acc
       000A4F 74s04            [12] 1992 	mov	a,#(___str_31 >> 8)
       000A51 C0 E0            [24] 1993 	push	acc
@@ -2006,7 +2006,7 @@
       000A67 FF               [12] 2006 	mov	r7,a
       000A68 C0 06            [24] 2007 	push	ar6
       000A6A C0 07            [24] 2008 	push	ar7
-      000A6C 74r51            [12] 2009 	mov	a,#___str_32
+      000A6C 74r4F            [12] 2009 	mov	a,#___str_32
       000A6E C0 E0            [24] 2010 	push	acc
       000A70 74s04            [12] 2011 	mov	a,#(___str_32 >> 8)
       000A72 C0 E0            [24] 2012 	push	acc
@@ -2025,7 +2025,7 @@
       000A88 FF               [12] 2025 	mov	r7,a
       000A89 C0 06            [24] 2026 	push	ar6
       000A8B C0 07            [24] 2027 	push	ar7
-      000A8D 74r66            [12] 2028 	mov	a,#___str_33
+      000A8D 74r64            [12] 2028 	mov	a,#___str_33
       000A8F C0 E0            [24] 2029 	push	acc
       000A91 74s04            [12] 2030 	mov	a,#(___str_33 >> 8)
       000A93 C0 E0            [24] 2031 	push	acc
@@ -2073,7 +2073,7 @@
       000AC3 C0 06            [24] 2073 	push	ar6
       000AC5 C0 06            [24] 2074 	push	ar6
       000AC7 C0 07            [24] 2075 	push	ar7
-      000AC9 74r7B            [12] 2076 	mov	a,#___str_34
+      000AC9 74r79            [12] 2076 	mov	a,#___str_34
       000ACB C0 E0            [24] 2077 	push	acc
       000ACD 74s04            [12] 2078 	mov	a,#(___str_34 >> 8)
       000ACF C0 E0            [24] 2079 	push	acc
@@ -2113,7 +2113,7 @@
       000B09 C0 04            [24] 2113 	push	ar4
       000B0B C0 02            [24] 2114 	push	ar2
       000B0D C0 03            [24] 2115 	push	ar3
-      000B0F 74rA6            [12] 2116 	mov	a,#___str_35
+      000B0F 74rA4            [12] 2116 	mov	a,#___str_35
       000B11 C0 E0            [24] 2117 	push	acc
       000B13 74s04            [12] 2118 	mov	a,#(___str_35 >> 8)
       000B15 C0 E0            [24] 2119 	push	acc
@@ -2149,7 +2149,7 @@
       000B42 C0 01            [24] 2149 	push	ar1
       000B44 C0 02            [24] 2150 	push	ar2
       000B46 C0 03            [24] 2151 	push	ar3
-      000B48 74rB5            [12] 2152 	mov	a,#___str_36
+      000B48 74rB3            [12] 2152 	mov	a,#___str_36
       000B4A C0 E0            [24] 2153 	push	acc
       000B4C 74s04            [12] 2154 	mov	a,#(___str_36 >> 8)
       000B4E C0 E0            [24] 2155 	push	acc
@@ -2182,7 +2182,7 @@
       000B76 C0 01            [24] 2182 	push	ar1
       000B78 C0 02            [24] 2183 	push	ar2
       000B7A C0 03            [24] 2184 	push	ar3
-      000B7C 74rC8            [12] 2185 	mov	a,#___str_37
+      000B7C 74rC6            [12] 2185 	mov	a,#___str_37
       000B7E C0 E0            [24] 2186 	push	acc
       000B80 74s04            [12] 2187 	mov	a,#(___str_37 >> 8)
       000B82 C0 E0            [24] 2188 	push	acc
@@ -2210,7 +2210,7 @@
       000BA5 C0 04            [24] 2210 	push	ar4
       000BA7 C0 02            [24] 2211 	push	ar2
       000BA9 C0 03            [24] 2212 	push	ar3
-      000BAB 74rD9            [12] 2213 	mov	a,#___str_38
+      000BAB 74rD7            [12] 2213 	mov	a,#___str_38
       000BAD C0 E0            [24] 2214 	push	acc
       000BAF 74s04            [12] 2215 	mov	a,#(___str_38 >> 8)
       000BB1 C0 E0            [24] 2216 	push	acc
@@ -2236,7 +2236,7 @@
       000BD1 FD               [12] 2236 	mov	r5,a
       000BD2 C0 04            [24] 2237 	push	ar4
       000BD4 C0 05            [24] 2238 	push	ar5
-      000BD6 74rEB            [12] 2239 	mov	a,#___str_39
+      000BD6 74rE9            [12] 2239 	mov	a,#___str_39
       000BD8 C0 E0            [24] 2240 	push	acc
       000BDA 74s04            [12] 2241 	mov	a,#(___str_39 >> 8)
       000BDC C0 E0            [24] 2242 	push	acc
@@ -2256,7 +2256,7 @@
       000BF4 02r0ArA7         [24] 2256 	ljmp	00103$
       000BF7                       2257 00101$:
                                    2258 ;	buffer.c:398: printf("***************************************\n\r");
-      000BF7 74rFC            [12] 2259 	mov	a,#___str_40
+      000BF7 74rFA            [12] 2259 	mov	a,#___str_40
       000BF9 C0 E0            [24] 2260 	push	acc
       000BFB 74s04            [12] 2261 	mov	a,#(___str_40 >> 8)
       000BFD C0 E0            [24] 2262 	push	acc
@@ -2592,137 +2592,137 @@
                                    2483 	.area CSEG    (CODE)
                                    2484 	.area CONST   (CODE)
       0003CB                       2485 ___str_27:
-      0003CB 42 75 66 66 65 72 20  2486 	.ascii "Buffer 0 is empty..."
-             30 20 69 73 20 65 6D
-             70 74 79 2E 2E 2E
-      0003DF 0A                    2487 	.db 0x0a
-      0003E0 0D                    2488 	.db 0x0d
-      0003E1 00                    2489 	.db 0x00
+      0003CB 42 75 66 66 65 72 20  2486 	.ascii "Buffer is empty..."
+             69 73 20 65 6D 70 74
+             79 2E 2E 2E
+      0003DD 0A                    2487 	.db 0x0a
+      0003DE 0D                    2488 	.db 0x0d
+      0003DF 00                    2489 	.db 0x00
                                    2490 	.area CSEG    (CODE)
                                    2491 	.area CONST   (CODE)
-      0003E2                       2492 ___str_28:
-      0003E2 0A                    2493 	.db 0x0a
-      0003E3 0D                    2494 	.db 0x0d
-      0003E4 2A 2A 2A 2A 2A 2A 2A  2495 	.ascii "****************HEAP*STATS*************"
+      0003E0                       2492 ___str_28:
+      0003E0 0A                    2493 	.db 0x0a
+      0003E1 0D                    2494 	.db 0x0d
+      0003E2 2A 2A 2A 2A 2A 2A 2A  2495 	.ascii "****************HEAP*STATS*************"
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 48 45 41 50 2A
              53 54 41 54 53 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A
-      00040B 0A                    2496 	.db 0x0a
-      00040C 0D                    2497 	.db 0x0d
-      00040D 00                    2498 	.db 0x00
+      000409 0A                    2496 	.db 0x0a
+      00040A 0D                    2497 	.db 0x0d
+      00040B 00                    2498 	.db 0x00
                                    2499 	.area CSEG    (CODE)
                                    2500 	.area CONST   (CODE)
-      00040E                       2501 ___str_29:
-      00040E 54 6F 74 61 6C 20 48  2502 	.ascii "Total Heap Size: %d "
+      00040C                       2501 ___str_29:
+      00040C 54 6F 74 61 6C 20 48  2502 	.ascii "Total Heap Size: %d "
              65 61 70 20 53 69 7A
              65 3A 20 25 64 20
-      000422 0A                    2503 	.db 0x0a
-      000423 0D                    2504 	.db 0x0d
-      000424 00                    2505 	.db 0x00
+      000420 0A                    2503 	.db 0x0a
+      000421 0D                    2504 	.db 0x0d
+      000422 00                    2505 	.db 0x00
                                    2506 	.area CSEG    (CODE)
                                    2507 	.area CONST   (CODE)
-      000425                       2508 ___str_30:
-      000425 41 6C 6C 6F 63 61 74  2509 	.ascii "Allocated Heap Size: %d "
+      000423                       2508 ___str_30:
+      000423 41 6C 6C 6F 63 61 74  2509 	.ascii "Allocated Heap Size: %d "
              65 64 20 48 65 61 70
              20 53 69 7A 65 3A 20
              25 64 20
-      00043D 0A                    2510 	.db 0x0a
-      00043E 0D                    2511 	.db 0x0d
-      00043F 00                    2512 	.db 0x00
+      00043B 0A                    2510 	.db 0x0a
+      00043C 0D                    2511 	.db 0x0d
+      00043D 00                    2512 	.db 0x00
                                    2513 	.area CSEG    (CODE)
                                    2514 	.area CONST   (CODE)
-      000440                       2515 ___str_31:
-      000440 41 6C 6C 20 43 68 61  2516 	.ascii "All Chars: %d "
+      00043E                       2515 ___str_31:
+      00043E 41 6C 6C 20 43 68 61  2516 	.ascii "All Chars: %d "
              72 73 3A 20 25 64 20
-      00044E 0A                    2517 	.db 0x0a
-      00044F 0D                    2518 	.db 0x0d
-      000450 00                    2519 	.db 0x00
+      00044C 0A                    2517 	.db 0x0a
+      00044D 0D                    2518 	.db 0x0d
+      00044E 00                    2519 	.db 0x00
                                    2520 	.area CSEG    (CODE)
                                    2521 	.area CONST   (CODE)
-      000451                       2522 ___str_32:
-      000451 53 74 6F 72 61 67 65  2523 	.ascii "Storage Chars: %d "
+      00044F                       2522 ___str_32:
+      00044F 53 74 6F 72 61 67 65  2523 	.ascii "Storage Chars: %d "
              20 43 68 61 72 73 3A
              20 25 64 20
-      000463 0A                    2524 	.db 0x0a
-      000464 0D                    2525 	.db 0x0d
-      000465 00                    2526 	.db 0x00
+      000461 0A                    2524 	.db 0x0a
+      000462 0D                    2525 	.db 0x0d
+      000463 00                    2526 	.db 0x00
                                    2527 	.area CSEG    (CODE)
                                    2528 	.area CONST   (CODE)
-      000466                       2529 ___str_33:
-      000466 54 6F 74 61 6C 20 42  2530 	.ascii "Total Buffers: %d "
+      000464                       2529 ___str_33:
+      000464 54 6F 74 61 6C 20 42  2530 	.ascii "Total Buffers: %d "
              75 66 66 65 72 73 3A
              20 25 64 20
-      000478 0A                    2531 	.db 0x0a
-      000479 0D                    2532 	.db 0x0d
-      00047A 00                    2533 	.db 0x00
+      000476 0A                    2531 	.db 0x0a
+      000477 0D                    2532 	.db 0x0d
+      000478 00                    2533 	.db 0x00
                                    2534 	.area CSEG    (CODE)
                                    2535 	.area CONST   (CODE)
-      00047B                       2536 ___str_34:
-      00047B 2A 2A 2A 2A 2A 2A 2A  2537 	.ascii "****************BUFFER*%d***************"
+      000479                       2536 ___str_34:
+      000479 2A 2A 2A 2A 2A 2A 2A  2537 	.ascii "****************BUFFER*%d***************"
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 42 55 46 46 45
              52 2A 25 64 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A
-      0004A3 0A                    2538 	.db 0x0a
-      0004A4 0D                    2539 	.db 0x0d
-      0004A5 00                    2540 	.db 0x00
+      0004A1 0A                    2538 	.db 0x0a
+      0004A2 0D                    2539 	.db 0x0d
+      0004A3 00                    2540 	.db 0x00
                                    2541 	.area CSEG    (CODE)
                                    2542 	.area CONST   (CODE)
-      0004A6                       2543 ___str_35:
-      0004A6 42 75 66 66 65 72 23  2544 	.ascii "Buffer#: %d "
+      0004A4                       2543 ___str_35:
+      0004A4 42 75 66 66 65 72 23  2544 	.ascii "Buffer#: %d "
              3A 20 25 64 20
-      0004B2 0A                    2545 	.db 0x0a
-      0004B3 0D                    2546 	.db 0x0d
-      0004B4 00                    2547 	.db 0x00
+      0004B0 0A                    2545 	.db 0x0a
+      0004B1 0D                    2546 	.db 0x0d
+      0004B2 00                    2547 	.db 0x00
                                    2548 	.area CSEG    (CODE)
                                    2549 	.area CONST   (CODE)
-      0004B5                       2550 ___str_36:
-      0004B5 42 75 66 66 65 72 53  2551 	.ascii "BufferStart: %p "
+      0004B3                       2550 ___str_36:
+      0004B3 42 75 66 66 65 72 53  2551 	.ascii "BufferStart: %p "
              74 61 72 74 3A 20 25
              70 20
-      0004C5 0A                    2552 	.db 0x0a
-      0004C6 0D                    2553 	.db 0x0d
-      0004C7 00                    2554 	.db 0x00
+      0004C3 0A                    2552 	.db 0x0a
+      0004C4 0D                    2553 	.db 0x0d
+      0004C5 00                    2554 	.db 0x00
                                    2555 	.area CSEG    (CODE)
                                    2556 	.area CONST   (CODE)
-      0004C8                       2557 ___str_37:
-      0004C8 42 75 66 66 65 72 45  2558 	.ascii "BufferEnd: %p "
+      0004C6                       2557 ___str_37:
+      0004C6 42 75 66 66 65 72 45  2558 	.ascii "BufferEnd: %p "
              6E 64 3A 20 25 70 20
-      0004D6 0A                    2559 	.db 0x0a
-      0004D7 0D                    2560 	.db 0x0d
-      0004D8 00                    2561 	.db 0x00
+      0004D4 0A                    2559 	.db 0x0a
+      0004D5 0D                    2560 	.db 0x0d
+      0004D6 00                    2561 	.db 0x00
                                    2562 	.area CSEG    (CODE)
                                    2563 	.area CONST   (CODE)
-      0004D9                       2564 ___str_38:
-      0004D9 42 75 66 66 65 72 53  2565 	.ascii "BufferSize: %d "
+      0004D7                       2564 ___str_38:
+      0004D7 42 75 66 66 65 72 53  2565 	.ascii "BufferSize: %d "
              69 7A 65 3A 20 25 64
              20
-      0004E8 0A                    2566 	.db 0x0a
-      0004E9 0D                    2567 	.db 0x0d
-      0004EA 00                    2568 	.db 0x00
+      0004E6 0A                    2566 	.db 0x0a
+      0004E7 0D                    2567 	.db 0x0d
+      0004E8 00                    2568 	.db 0x00
                                    2569 	.area CSEG    (CODE)
                                    2570 	.area CONST   (CODE)
-      0004EB                       2571 ___str_39:
-      0004EB 54 6F 74 61 6C 55 73  2572 	.ascii "TotalUsed: %d "
+      0004E9                       2571 ___str_39:
+      0004E9 54 6F 74 61 6C 55 73  2572 	.ascii "TotalUsed: %d "
              65 64 3A 20 25 64 20
-      0004F9 0A                    2573 	.db 0x0a
-      0004FA 0D                    2574 	.db 0x0d
-      0004FB 00                    2575 	.db 0x00
+      0004F7 0A                    2573 	.db 0x0a
+      0004F8 0D                    2574 	.db 0x0d
+      0004F9 00                    2575 	.db 0x00
                                    2576 	.area CSEG    (CODE)
                                    2577 	.area CONST   (CODE)
-      0004FC                       2578 ___str_40:
-      0004FC 2A 2A 2A 2A 2A 2A 2A  2579 	.ascii "***************************************"
+      0004FA                       2578 ___str_40:
+      0004FA 2A 2A 2A 2A 2A 2A 2A  2579 	.ascii "***************************************"
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A
-      000523 0A                    2580 	.db 0x0a
-      000524 0D                    2581 	.db 0x0d
-      000525 00                    2582 	.db 0x00
+      000521 0A                    2580 	.db 0x0a
+      000522 0D                    2581 	.db 0x0d
+      000523 00                    2582 	.db 0x00
                                    2583 	.area CSEG    (CODE)
                                    2584 	.area XINIT   (CODE)
                                    2585 	.area CABS    (ABS,CODE)

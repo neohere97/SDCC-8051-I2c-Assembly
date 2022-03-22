@@ -7,9 +7,8 @@ make.exe: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Mon Mar 21 00:52:04 2022
+# Make data base, printed on Mon Mar 21 23:26:22 2022
 
 # Variables
 
@@ -236,9 +235,9 @@ USERDOMAIN_ROAMINGPROFILE = MATRIX-Z
 
 # Directories
 
-# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1647845318): 60 files, no impossibilities.
+# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1647926668): 71 files, no impossibilities.
 
-# 60 files, no impossibilities in 1 directories.
+# 71 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -256,7 +255,7 @@ all:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-21 00:51:45
+#  Last modified 2022-03-21 23:25:54
 #  File has been updated.
 #  Successfully updated.
 
@@ -274,7 +273,8 @@ default:
 	sdcc --model-large -c eeprom.c
 	sdcc --model-large -c asm_c.c
 	sdas8051 -o -l asa.asm
-	sdcc --model-large program.rel i2c.rel asa.rel getput.rel buffer.rel pca.rel eeprom.rel asm_c.rel _heap.rel 
+	sdas8051 -o -l i2c_routines.asm
+	sdcc --model-large program.rel i2c_routines.rel i2c.rel asa.rel getput.rel buffer.rel pca.rel eeprom.rel asm_c.rel _heap.rel 
 	packihx program.ihx >program.hex
 	batchisp -device at89c51rc2 -hardware RS232 -port COM4 -baudrate 115200 -operation erase f memory flash blankcheck loadbuffer ./program.hex program verify start reset 1
 	plink.exe -serial COM4 -sercfg 115200,8,n,1,N 
@@ -293,12 +293,12 @@ default:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 64 / storage = 582 B / avg = 9 B
-# current buf: size = 8162 B / used = 582 B / count = 64 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 75 / storage = 704 B / avg = 9 B
+# current buf: size = 8162 B / used = 704 B / count = 75 / avg = 9 B
 
-# strcache performance: lookups = 68 / hit rate = 5%
+# strcache performance: lookups = 79 / hit rate = 5%
 # hash-table stats:
-# Load=64/8192=1%, Rehash=0, Collisions=1/68=1%
-# Finished Make data base on Mon Mar 21 00:52:04 2022
+# Load=75/8192=1%, Rehash=0, Collisions=1/79=1%
+# Finished Make data base on Mon Mar 21 23:26:22 2022
 
  

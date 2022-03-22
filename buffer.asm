@@ -1908,7 +1908,7 @@ _dump_buff_zero_hex:
 	dec	sp
 	ret
 00107$:
-;	buffer.c:363: printf("Buffer 0 is empty...\n\r");
+;	buffer.c:363: printf("Buffer is empty...\n\r");
 	mov	a,#___str_27
 	push	acc
 	mov	a,#(___str_27 >> 8)
@@ -2483,7 +2483,7 @@ ___str_26:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_27:
-	.ascii "Buffer 0 is empty..."
+	.ascii "Buffer is empty..."
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

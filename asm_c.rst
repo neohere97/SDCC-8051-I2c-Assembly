@@ -57,8 +57,8 @@
                                      57 ; external ram data
                                      58 ;--------------------------------------------------------
                                      59 	.area XSEG    (XDATA)
-      00016F                         60 _asm_call_sent_from_asm_65536_52:
-      00016F                         61 	.ds 1
+      00018A                         60 _asm_call_sent_from_asm_65536_52:
+      00018A                         61 	.ds 1
                                      62 ;--------------------------------------------------------
                                      63 ; absolute external ram data
                                      64 ;--------------------------------------------------------
@@ -104,7 +104,7 @@
                                     104 ;	-----------------------------------------
                                     105 ;	 function asm_clang
                                     106 ;	-----------------------------------------
-      001563                        107 _asm_clang:
+      001D6E                        107 _asm_clang:
                            000007   108 	ar7 = 0x07
                            000006   109 	ar6 = 0x06
                            000005   110 	ar5 = 0x05
@@ -114,91 +114,91 @@
                            000001   114 	ar1 = 0x01
                            000000   115 	ar0 = 0x00
                                     116 ;	asm_c.c:21: printf("\n\r Give param 1, 8bit \n\r");
-      001563 74 5B            [12]  117 	mov	a,#___str_0
-      001565 C0 E0            [24]  118 	push	acc
-      001567 74 2F            [12]  119 	mov	a,#(___str_0 >> 8)
-      001569 C0 E0            [24]  120 	push	acc
-      00156B 74 80            [12]  121 	mov	a,#0x80
-      00156D C0 E0            [24]  122 	push	acc
-      00156F 12 1A 23         [24]  123 	lcall	_printf
-      001572 15 81            [12]  124 	dec	sp
-      001574 15 81            [12]  125 	dec	sp
-      001576 15 81            [12]  126 	dec	sp
+      001D6E 74 55            [12]  117 	mov	a,#___str_0
+      001D70 C0 E0            [24]  118 	push	acc
+      001D72 74 3B            [12]  119 	mov	a,#(___str_0 >> 8)
+      001D74 C0 E0            [24]  120 	push	acc
+      001D76 74 80            [12]  121 	mov	a,#0x80
+      001D78 C0 E0            [24]  122 	push	acc
+      001D7A 12 22 2E         [24]  123 	lcall	_printf
+      001D7D 15 81            [12]  124 	dec	sp
+      001D7F 15 81            [12]  125 	dec	sp
+      001D81 15 81            [12]  126 	dec	sp
                                     127 ;	asm_c.c:22: unsigned char num1 = get_number(3);
-      001578 90 00 03         [24]  128 	mov	dptr,#0x0003
-      00157B 12 03 C4         [24]  129 	lcall	_get_number
-      00157E AE 82            [24]  130 	mov	r6,dpl
+      001D83 90 00 03         [24]  128 	mov	dptr,#0x0003
+      001D86 12 04 0B         [24]  129 	lcall	_get_number
+      001D89 AE 82            [24]  130 	mov	r6,dpl
                                     131 ;	asm_c.c:23: printf("\n\r Give param 2, 8bit \n\r");
-      001580 C0 06            [24]  132 	push	ar6
-      001582 74 74            [12]  133 	mov	a,#___str_1
-      001584 C0 E0            [24]  134 	push	acc
-      001586 74 2F            [12]  135 	mov	a,#(___str_1 >> 8)
-      001588 C0 E0            [24]  136 	push	acc
-      00158A 74 80            [12]  137 	mov	a,#0x80
-      00158C C0 E0            [24]  138 	push	acc
-      00158E 12 1A 23         [24]  139 	lcall	_printf
-      001591 15 81            [12]  140 	dec	sp
-      001593 15 81            [12]  141 	dec	sp
-      001595 15 81            [12]  142 	dec	sp
+      001D8B C0 06            [24]  132 	push	ar6
+      001D8D 74 6E            [12]  133 	mov	a,#___str_1
+      001D8F C0 E0            [24]  134 	push	acc
+      001D91 74 3B            [12]  135 	mov	a,#(___str_1 >> 8)
+      001D93 C0 E0            [24]  136 	push	acc
+      001D95 74 80            [12]  137 	mov	a,#0x80
+      001D97 C0 E0            [24]  138 	push	acc
+      001D99 12 22 2E         [24]  139 	lcall	_printf
+      001D9C 15 81            [12]  140 	dec	sp
+      001D9E 15 81            [12]  141 	dec	sp
+      001DA0 15 81            [12]  142 	dec	sp
                                     143 ;	asm_c.c:24: unsigned char num2 = get_number(3);
-      001597 90 00 03         [24]  144 	mov	dptr,#0x0003
-      00159A 12 03 C4         [24]  145 	lcall	_get_number
-      00159D AD 82            [24]  146 	mov	r5,dpl
+      001DA2 90 00 03         [24]  144 	mov	dptr,#0x0003
+      001DA5 12 04 0B         [24]  145 	lcall	_get_number
+      001DA8 AD 82            [24]  146 	mov	r5,dpl
                                     147 ;	asm_c.c:25: printf("\n\r Give param 3, 8bit \n\r");
-      00159F C0 05            [24]  148 	push	ar5
-      0015A1 74 8D            [12]  149 	mov	a,#___str_2
-      0015A3 C0 E0            [24]  150 	push	acc
-      0015A5 74 2F            [12]  151 	mov	a,#(___str_2 >> 8)
-      0015A7 C0 E0            [24]  152 	push	acc
-      0015A9 74 80            [12]  153 	mov	a,#0x80
-      0015AB C0 E0            [24]  154 	push	acc
-      0015AD 12 1A 23         [24]  155 	lcall	_printf
-      0015B0 15 81            [12]  156 	dec	sp
-      0015B2 15 81            [12]  157 	dec	sp
-      0015B4 15 81            [12]  158 	dec	sp
+      001DAA C0 05            [24]  148 	push	ar5
+      001DAC 74 87            [12]  149 	mov	a,#___str_2
+      001DAE C0 E0            [24]  150 	push	acc
+      001DB0 74 3B            [12]  151 	mov	a,#(___str_2 >> 8)
+      001DB2 C0 E0            [24]  152 	push	acc
+      001DB4 74 80            [12]  153 	mov	a,#0x80
+      001DB6 C0 E0            [24]  154 	push	acc
+      001DB8 12 22 2E         [24]  155 	lcall	_printf
+      001DBB 15 81            [12]  156 	dec	sp
+      001DBD 15 81            [12]  157 	dec	sp
+      001DBF 15 81            [12]  158 	dec	sp
                                     159 ;	asm_c.c:26: unsigned char num3 = get_number(3);
-      0015B6 90 00 03         [24]  160 	mov	dptr,#0x0003
-      0015B9 12 03 C4         [24]  161 	lcall	_get_number
-      0015BC AC 82            [24]  162 	mov	r4,dpl
-      0015BE D0 05            [24]  163 	pop	ar5
-      0015C0 D0 06            [24]  164 	pop	ar6
+      001DC1 90 00 03         [24]  160 	mov	dptr,#0x0003
+      001DC4 12 04 0B         [24]  161 	lcall	_get_number
+      001DC7 AC 82            [24]  162 	mov	r4,dpl
+      001DC9 D0 05            [24]  163 	pop	ar5
+      001DCB D0 06            [24]  164 	pop	ar6
                                     165 ;	asm_c.c:28: printf("\n\r RESULT-> param3<Mod>param2 * param1 = %d \n\r", asmtest(num1, num2, num3));
-      0015C2 90 00 1A         [24]  166 	mov	dptr,#_asmtest_PARM_2
-      0015C5 ED               [12]  167 	mov	a,r5
-      0015C6 F0               [24]  168 	movx	@dptr,a
-      0015C7 90 00 1B         [24]  169 	mov	dptr,#_asmtest_PARM_3
-      0015CA EC               [12]  170 	mov	a,r4
-      0015CB F0               [24]  171 	movx	@dptr,a
-      0015CC 8E 82            [24]  172 	mov	dpl,r6
-      0015CE 12 03 1B         [24]  173 	lcall	_asmtest
-      0015D1 AF 82            [24]  174 	mov	r7,dpl
-      0015D3 7E 00            [12]  175 	mov	r6,#0x00
-      0015D5 C0 07            [24]  176 	push	ar7
-      0015D7 C0 06            [24]  177 	push	ar6
-      0015D9 74 A6            [12]  178 	mov	a,#___str_3
-      0015DB C0 E0            [24]  179 	push	acc
-      0015DD 74 2F            [12]  180 	mov	a,#(___str_3 >> 8)
-      0015DF C0 E0            [24]  181 	push	acc
-      0015E1 74 80            [12]  182 	mov	a,#0x80
-      0015E3 C0 E0            [24]  183 	push	acc
-      0015E5 12 1A 23         [24]  184 	lcall	_printf
-      0015E8 E5 81            [12]  185 	mov	a,sp
-      0015EA 24 FB            [12]  186 	add	a,#0xfb
-      0015EC F5 81            [12]  187 	mov	sp,a
+      001DCD 90 00 2B         [24]  166 	mov	dptr,#_asmtest_PARM_2
+      001DD0 ED               [12]  167 	mov	a,r5
+      001DD1 F0               [24]  168 	movx	@dptr,a
+      001DD2 90 00 2C         [24]  169 	mov	dptr,#_asmtest_PARM_3
+      001DD5 EC               [12]  170 	mov	a,r4
+      001DD6 F0               [24]  171 	movx	@dptr,a
+      001DD7 8E 82            [24]  172 	mov	dpl,r6
+      001DD9 12 03 E8         [24]  173 	lcall	_asmtest
+      001DDC AF 82            [24]  174 	mov	r7,dpl
+      001DDE 7E 00            [12]  175 	mov	r6,#0x00
+      001DE0 C0 07            [24]  176 	push	ar7
+      001DE2 C0 06            [24]  177 	push	ar6
+      001DE4 74 A0            [12]  178 	mov	a,#___str_3
+      001DE6 C0 E0            [24]  179 	push	acc
+      001DE8 74 3B            [12]  180 	mov	a,#(___str_3 >> 8)
+      001DEA C0 E0            [24]  181 	push	acc
+      001DEC 74 80            [12]  182 	mov	a,#0x80
+      001DEE C0 E0            [24]  183 	push	acc
+      001DF0 12 22 2E         [24]  184 	lcall	_printf
+      001DF3 E5 81            [12]  185 	mov	a,sp
+      001DF5 24 FB            [12]  186 	add	a,#0xfb
+      001DF7 F5 81            [12]  187 	mov	sp,a
                                     188 ;	asm_c.c:29: printf("\n\r Going back to main menu.. \n\r");
-      0015EE 74 D5            [12]  189 	mov	a,#___str_4
-      0015F0 C0 E0            [24]  190 	push	acc
-      0015F2 74 2F            [12]  191 	mov	a,#(___str_4 >> 8)
-      0015F4 C0 E0            [24]  192 	push	acc
-      0015F6 74 80            [12]  193 	mov	a,#0x80
-      0015F8 C0 E0            [24]  194 	push	acc
-      0015FA 12 1A 23         [24]  195 	lcall	_printf
-      0015FD 15 81            [12]  196 	dec	sp
-      0015FF 15 81            [12]  197 	dec	sp
-      001601 15 81            [12]  198 	dec	sp
+      001DF9 74 CF            [12]  189 	mov	a,#___str_4
+      001DFB C0 E0            [24]  190 	push	acc
+      001DFD 74 3B            [12]  191 	mov	a,#(___str_4 >> 8)
+      001DFF C0 E0            [24]  192 	push	acc
+      001E01 74 80            [12]  193 	mov	a,#0x80
+      001E03 C0 E0            [24]  194 	push	acc
+      001E05 12 22 2E         [24]  195 	lcall	_printf
+      001E08 15 81            [12]  196 	dec	sp
+      001E0A 15 81            [12]  197 	dec	sp
+      001E0C 15 81            [12]  198 	dec	sp
                                     199 ;	asm_c.c:30: main_menu();
                                     200 ;	asm_c.c:31: }
-      001603 02 00 B5         [24]  201 	ljmp	_main_menu
+      001E0E 02 00 B5         [24]  201 	ljmp	_main_menu
                                     202 ;------------------------------------------------------------
                                     203 ;Allocation info for local variables in function 'asm_call'
                                     204 ;------------------------------------------------------------
@@ -208,95 +208,95 @@
                                     208 ;	-----------------------------------------
                                     209 ;	 function asm_call
                                     210 ;	-----------------------------------------
-      001606                        211 _asm_call:
-      001606 E5 82            [12]  212 	mov	a,dpl
-      001608 90 01 6F         [24]  213 	mov	dptr,#_asm_call_sent_from_asm_65536_52
-      00160B F0               [24]  214 	movx	@dptr,a
+      001E11                        211 _asm_call:
+      001E11 E5 82            [12]  212 	mov	a,dpl
+      001E13 90 01 8A         [24]  213 	mov	dptr,#_asm_call_sent_from_asm_65536_52
+      001E16 F0               [24]  214 	movx	@dptr,a
                                     215 ;	asm_c.c:36: printf("\n\n\r This function was called from assembly, character sent from there -> %c\n\r", sent_from_asm);
-      00160C E0               [24]  216 	movx	a,@dptr
-      00160D FF               [12]  217 	mov	r7,a
-      00160E 7E 00            [12]  218 	mov	r6,#0x00
-      001610 C0 07            [24]  219 	push	ar7
-      001612 C0 06            [24]  220 	push	ar6
-      001614 74 F5            [12]  221 	mov	a,#___str_5
-      001616 C0 E0            [24]  222 	push	acc
-      001618 74 2F            [12]  223 	mov	a,#(___str_5 >> 8)
-      00161A C0 E0            [24]  224 	push	acc
-      00161C 74 80            [12]  225 	mov	a,#0x80
-      00161E C0 E0            [24]  226 	push	acc
-      001620 12 1A 23         [24]  227 	lcall	_printf
-      001623 E5 81            [12]  228 	mov	a,sp
-      001625 24 FB            [12]  229 	add	a,#0xfb
-      001627 F5 81            [12]  230 	mov	sp,a
+      001E17 E0               [24]  216 	movx	a,@dptr
+      001E18 FF               [12]  217 	mov	r7,a
+      001E19 7E 00            [12]  218 	mov	r6,#0x00
+      001E1B C0 07            [24]  219 	push	ar7
+      001E1D C0 06            [24]  220 	push	ar6
+      001E1F 74 EF            [12]  221 	mov	a,#___str_5
+      001E21 C0 E0            [24]  222 	push	acc
+      001E23 74 3B            [12]  223 	mov	a,#(___str_5 >> 8)
+      001E25 C0 E0            [24]  224 	push	acc
+      001E27 74 80            [12]  225 	mov	a,#0x80
+      001E29 C0 E0            [24]  226 	push	acc
+      001E2B 12 22 2E         [24]  227 	lcall	_printf
+      001E2E E5 81            [12]  228 	mov	a,sp
+      001E30 24 FB            [12]  229 	add	a,#0xfb
+      001E32 F5 81            [12]  230 	mov	sp,a
                                     231 ;	asm_c.c:37: }
-      001629 22               [24]  232 	ret
+      001E34 22               [24]  232 	ret
                                     233 	.area CSEG    (CODE)
                                     234 	.area CONST   (CODE)
                                     235 	.area CONST   (CODE)
-      002F5B                        236 ___str_0:
-      002F5B 0A                     237 	.db 0x0a
-      002F5C 0D                     238 	.db 0x0d
-      002F5D 20 47 69 76 65 20 70   239 	.ascii " Give param 1, 8bit "
+      003B55                        236 ___str_0:
+      003B55 0A                     237 	.db 0x0a
+      003B56 0D                     238 	.db 0x0d
+      003B57 20 47 69 76 65 20 70   239 	.ascii " Give param 1, 8bit "
              61 72 61 6D 20 31 2C
              20 38 62 69 74 20
-      002F71 0A                     240 	.db 0x0a
-      002F72 0D                     241 	.db 0x0d
-      002F73 00                     242 	.db 0x00
+      003B6B 0A                     240 	.db 0x0a
+      003B6C 0D                     241 	.db 0x0d
+      003B6D 00                     242 	.db 0x00
                                     243 	.area CSEG    (CODE)
                                     244 	.area CONST   (CODE)
-      002F74                        245 ___str_1:
-      002F74 0A                     246 	.db 0x0a
-      002F75 0D                     247 	.db 0x0d
-      002F76 20 47 69 76 65 20 70   248 	.ascii " Give param 2, 8bit "
+      003B6E                        245 ___str_1:
+      003B6E 0A                     246 	.db 0x0a
+      003B6F 0D                     247 	.db 0x0d
+      003B70 20 47 69 76 65 20 70   248 	.ascii " Give param 2, 8bit "
              61 72 61 6D 20 32 2C
              20 38 62 69 74 20
-      002F8A 0A                     249 	.db 0x0a
-      002F8B 0D                     250 	.db 0x0d
-      002F8C 00                     251 	.db 0x00
+      003B84 0A                     249 	.db 0x0a
+      003B85 0D                     250 	.db 0x0d
+      003B86 00                     251 	.db 0x00
                                     252 	.area CSEG    (CODE)
                                     253 	.area CONST   (CODE)
-      002F8D                        254 ___str_2:
-      002F8D 0A                     255 	.db 0x0a
-      002F8E 0D                     256 	.db 0x0d
-      002F8F 20 47 69 76 65 20 70   257 	.ascii " Give param 3, 8bit "
+      003B87                        254 ___str_2:
+      003B87 0A                     255 	.db 0x0a
+      003B88 0D                     256 	.db 0x0d
+      003B89 20 47 69 76 65 20 70   257 	.ascii " Give param 3, 8bit "
              61 72 61 6D 20 33 2C
              20 38 62 69 74 20
-      002FA3 0A                     258 	.db 0x0a
-      002FA4 0D                     259 	.db 0x0d
-      002FA5 00                     260 	.db 0x00
+      003B9D 0A                     258 	.db 0x0a
+      003B9E 0D                     259 	.db 0x0d
+      003B9F 00                     260 	.db 0x00
                                     261 	.area CSEG    (CODE)
                                     262 	.area CONST   (CODE)
-      002FA6                        263 ___str_3:
-      002FA6 0A                     264 	.db 0x0a
-      002FA7 0D                     265 	.db 0x0d
-      002FA8 20 52 45 53 55 4C 54   266 	.ascii " RESULT-> param3<Mod>param2 * param1 = %d "
+      003BA0                        263 ___str_3:
+      003BA0 0A                     264 	.db 0x0a
+      003BA1 0D                     265 	.db 0x0d
+      003BA2 20 52 45 53 55 4C 54   266 	.ascii " RESULT-> param3<Mod>param2 * param1 = %d "
              2D 3E 20 70 61 72 61
              6D 33 3C 4D 6F 64 3E
              70 61 72 61 6D 32 20
              2A 20 70 61 72 61 6D
              31 20 3D 20 25 64 20
-      002FD2 0A                     267 	.db 0x0a
-      002FD3 0D                     268 	.db 0x0d
-      002FD4 00                     269 	.db 0x00
+      003BCC 0A                     267 	.db 0x0a
+      003BCD 0D                     268 	.db 0x0d
+      003BCE 00                     269 	.db 0x00
                                     270 	.area CSEG    (CODE)
                                     271 	.area CONST   (CODE)
-      002FD5                        272 ___str_4:
-      002FD5 0A                     273 	.db 0x0a
-      002FD6 0D                     274 	.db 0x0d
-      002FD7 20 47 6F 69 6E 67 20   275 	.ascii " Going back to main menu.. "
+      003BCF                        272 ___str_4:
+      003BCF 0A                     273 	.db 0x0a
+      003BD0 0D                     274 	.db 0x0d
+      003BD1 20 47 6F 69 6E 67 20   275 	.ascii " Going back to main menu.. "
              62 61 63 6B 20 74 6F
              20 6D 61 69 6E 20 6D
              65 6E 75 2E 2E 20
-      002FF2 0A                     276 	.db 0x0a
-      002FF3 0D                     277 	.db 0x0d
-      002FF4 00                     278 	.db 0x00
+      003BEC 0A                     276 	.db 0x0a
+      003BED 0D                     277 	.db 0x0d
+      003BEE 00                     278 	.db 0x00
                                     279 	.area CSEG    (CODE)
                                     280 	.area CONST   (CODE)
-      002FF5                        281 ___str_5:
-      002FF5 0A                     282 	.db 0x0a
-      002FF6 0A                     283 	.db 0x0a
-      002FF7 0D                     284 	.db 0x0d
-      002FF8 20 54 68 69 73 20 66   285 	.ascii " This function was called from assembly, character sent from"
+      003BEF                        281 ___str_5:
+      003BEF 0A                     282 	.db 0x0a
+      003BF0 0A                     283 	.db 0x0a
+      003BF1 0D                     284 	.db 0x0d
+      003BF2 20 54 68 69 73 20 66   285 	.ascii " This function was called from assembly, character sent from"
              75 6E 63 74 69 6F 6E
              20 77 61 73 20 63 61
              6C 6C 65 64 20 66 72
@@ -305,11 +305,11 @@
              68 61 72 61 63 74 65
              72 20 73 65 6E 74 20
              66 72 6F 6D
-      003034 20 74 68 65 72 65 20   286 	.ascii " there -> %c"
+      003C2E 20 74 68 65 72 65 20   286 	.ascii " there -> %c"
              2D 3E 20 25 63
-      003040 0A                     287 	.db 0x0a
-      003041 0D                     288 	.db 0x0d
-      003042 00                     289 	.db 0x00
+      003C3A 0A                     287 	.db 0x0a
+      003C3B 0D                     288 	.db 0x0d
+      003C3C 00                     289 	.db 0x00
                                     290 	.area CSEG    (CODE)
                                     291 	.area XINIT   (CODE)
                                     292 	.area CABS    (ABS,CODE)

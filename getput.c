@@ -5,13 +5,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+  int get_num_helper(int times);
+  int get_num_helper_hex(int times);
 // ------------------------------------------------get-number-------------------------------------------------
 /***********************************************************************************
  * function : Gets input from user and converts to decimal number
  * parameters : none
  * return : none
  ***********************************************************************************/
-int get_number(int total_chars){    
+int get_number(int total_chars)
+{
     int rec;
     int num = 0;
     for (int i = total_chars; i > 0; i--)
@@ -43,6 +46,57 @@ int get_num_helper(int times)
     for (int i = 0; i < times; i++)
     {
         num = num * 10;
+    }
+    if (times == 0)
+        return 1;
+    else
+        return num;
+}
+
+// ------------------------------------------------get-number-------------------------------------------------
+/***********************************************************************************
+ * function : Gets input from user and converts to decimal number
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+int get_number_hex(int total_chars)
+{
+    int rec;
+    int num = 0;
+    for (int i = total_chars; i > 0; i--)
+    {
+        rec = getchar();
+        if (rec <= 0x66 && rec >= 0x61)
+            rec -= 0x20;
+        // Accept only numbers & A-F
+        if ((rec <= 0x39 && rec >= 0x30))
+        {
+            num += ((rec - 0x30) * get_num_helper_hex(i - 1));
+        }
+        else if (rec <= 0x46 && rec >= 0x41){
+            num += ((rec - 0x37) * get_num_helper_hex(i - 1));
+        }
+        else
+        {
+            printf("ERR, Hex Numbers ONLY!\n\r");
+            return -1;
+        }
+    }
+    return num;
+}
+// ------------------------------------------------get-num-helper--------------------------------------------------
+/***********************************************************************************
+ * function : helper function to multiply 10^x
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+int get_num_helper_hex(int times)
+{
+    int num = 1;
+    // This function is used to avoid using pow(), for 10^x multiplications
+    for (int i = 0; i < times; i++)
+    {
+        num = num * 16;
     }
     if (times == 0)
         return 1;
