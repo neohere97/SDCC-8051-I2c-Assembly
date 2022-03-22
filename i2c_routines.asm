@@ -6,6 +6,8 @@
 ; * Mail id: chsh1552@colorado.edu
 ; * References: lecture slides
 ; ***************************************************************************/
+
+;Max speed reached with these subroutines is 166.6Kbits/sec
 	.module program
 	.optsdcc -mmcs51 --model-large
 	
@@ -21,18 +23,18 @@
 
 	.area CSEG    
 _i2c_init:
-	setb p1.0
+	setb p1.0		;sending the start condition
 	setb p1.7
 	clr p1.7
 	ret
 
 _i2c_write_init:
 	lcall _i2c_init
-	mov a,dpl
+	mov a,dpl		;moving the parameter to a
 	rl a
-	orl a,#0xA0
-	mov r2,#9	
-	lcall devaddr
+	orl a,#0xA0		;adding the block number to init sequence
+	mov r2,#9		;inititialing coutner variable
+	lcall writeloop	
 	ret
 
 _i2c_read_init:
@@ -41,7 +43,7 @@ _i2c_read_init:
 	rl a
 	orl a,#0xA1
 	mov r2,#9	
-	lcall devaddr
+	lcall writeloop
 	ret
 
 _i2c_read_val:
@@ -75,13 +77,13 @@ addz:
 _i2c_addr:
 	mov a,dpl
 	mov r2,#9
-	lcall devaddr
+	lcall writeloop
 	ret
 
 _i2c_write_val:
 	mov a,dpl
 	mov r2,#9
-	lcall devaddr
+	lcall writeloop
 	lcall _i2c_stop
 	ret
 
@@ -91,7 +93,7 @@ _i2c_stop:
 	setb p1.7
 	ret
 
-devaddr:
+writeloop:
 	clr p1.0
 	djnz r2, bitloop
 	setb p1.7	
@@ -101,27 +103,27 @@ devaddr:
 
 bitloop:	
 	rlc a
-	jnc sendz
-	ljmp sendo
+	jnc sendzero
+	ljmp sendone
 
-sendz:
+sendzero:
 	clr p1.7		
 	setb p1.0		
 	clr p1.0
-	ljmp devaddr
+	ljmp writeloop
 
-sendo:
+sendone:
 	setb p1.7		
 	setb p1.0		
 	clr p1.0
-	ljmp devaddr
+	ljmp writeloop
 
 
 _i2c_eeprom_reset:	
 	lcall _i2c_init
 	mov r2,#9
 	mov a,#0xFF
-	lcall devaddr
+	lcall writeloop
 	lcall _i2c_init
 	lcall _i2c_stop
 	ret

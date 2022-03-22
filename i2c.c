@@ -55,8 +55,12 @@ unsigned char i2c_read_random(unsigned char block, unsigned char address)
     i2c_activity(1);
     return a;
 }
-
-
+// ------------------------------------------------i2c-activity-------------------------------------------------
+/***********************************************************************************
+ * function : -
+ * parameters : memory block and word address
+ * return : none
+ ***********************************************************************************/
 void i2c_activity(unsigned char a){
     P1 = a;
 
