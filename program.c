@@ -37,6 +37,8 @@ void i2c_testasm();
 unsigned char global_var_test = 2;
 
 extern volatile int watchdog_flag;
+
+int global_clock = 0;
 // ------------------------------------------------Main--------------------------------------------------------------
 /***********************************************************************************
  * function : Main function where user interface is called, program never comes back to main
@@ -45,11 +47,12 @@ extern volatile int watchdog_flag;
  ***********************************************************************************/
 void main(void)
 {
-    // printf("\n\r HELLO! Started in X2 Mode \n\r");
-    // DEBUGPORT(0x01);
-    // P1_1 = 0;
-    // main_menu();
-    user_interface_lcd();
+    printf("\n\r HELLO! Started in X2 Mode \n\r");
+    DEBUGPORT(0x01);
+    P1_1 = 0;
+    init_lcd();
+    init_clock();
+    main_menu();    
 }
 
 void main_menu()
@@ -67,14 +70,23 @@ void main_menu()
 wrong_choice:
     printf("Please make a valid choice \n\r");
     inp = getchar();
-    if (inp == 0x48)
-        user_interface_heap();
-    else if (inp == 0x50)
+    if (inp == 0x48){
+        lcd_putstring("Heap DEMO",0);
+        user_interface_heap();        
+    }
+    else if (inp == 0x50){
+        lcd_putstring("PCA DEMO",0);
         user_interface_PCA();
+        
+    }
     else if (inp == 0x41)
         asm_clang();
-    else if (inp == 0x45)
-        eeprom_menu();
+    else if (inp == 0x45){
+        lcd_putstring("EEPROM DEMO",0);
+        eeprom_menu();        
+    }
+    else if (inp == 0x4C)
+        user_interface_lcd();
     else
         goto wrong_choice;
 }
@@ -110,7 +122,12 @@ void pca_interrupt() __interrupt(6) __using(1)
     if (CCF3)
     {
         CCF3 = 0;
-        printf("Timer Interrupt\n\r");
+        CH = 0;
+        CL = 0;
+        global_clock+=1;
+        update_lcd_clock();
+        // printf("Timer Interrupt\n\r");
+
     }
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
@@ -154,8 +171,8 @@ void dataout(unsigned char data)
  ***********************************************************************************/
 _sdcc_external_startup()
 {
-    CKCON0 |= 0x1;
-
+    CKCON0 |= 0x21;
+    
     _AUXR = 0xC;
     // Init UART Hardware
     SCON = 0x42;

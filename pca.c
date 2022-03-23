@@ -20,7 +20,6 @@ void pca_idle();
 void pca_watchdog();
 void pca_pwm();
 void pca_high_speed();
-void pca_software_timer();
 void pca_falling_edge();
 void print_pca_menu();
 void hardware_watchdog();
@@ -91,19 +90,19 @@ void pca_falling_edge()
  ***********************************************************************************/
 void pca_software_timer()
 {
-    printf("Entering Software Timer Mode \n\r");
-    CCAP3L = 255;
-    CCAP3H = 255;
+    printf("Clock Interrupt has started...\n\r");
+    CCAP3L = 0;
+    CCAP3H = 0x78;
     CCAPM3 = 0x49;
     CR = 1;
-    int rec;
-get_f:
-    rec = getchar();
+//     int rec;
+// get_f:
+//     rec = getchar();
 
-    if (rec == 0x53)
-        CCAPM3 = 0;
-    else
-        goto get_f;
+//     if (rec == 0x53)
+//         CCAPM3 = 0;
+//     else
+//         goto get_f;
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************
