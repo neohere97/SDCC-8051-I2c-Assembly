@@ -18,6 +18,8 @@
 #include "program.h"
 #include "asm_c.h"
 #include "eeprom.h"
+#include "lcd.h"
+
 
 // Virtual debug port location
 #define DEBUGPORT(x) dataout(x);
@@ -43,10 +45,11 @@ extern volatile int watchdog_flag;
  ***********************************************************************************/
 void main(void)
 {
-    printf("\n\r HELLO! Started in X2 Mode \n\r");
-    DEBUGPORT(0x01);
-    P1_1 = 0;
-    main_menu();
+    // printf("\n\r HELLO! Started in X2 Mode \n\r");
+    // DEBUGPORT(0x01);
+    // P1_1 = 0;
+    // main_menu();
+    user_interface_lcd();
 }
 
 void main_menu()

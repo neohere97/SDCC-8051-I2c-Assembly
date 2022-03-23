@@ -7,8 +7,9 @@ make.exe: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Mon Mar 21 23:26:22 2022
+# Make data base, printed on Tue Mar 22 16:42:55 2022
 
 # Variables
 
@@ -55,8 +56,6 @@ PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
 # makefile (from 'makefile', line 1)
 MAKEFILE_LIST :=  makefile
 # environment
-FPS_BROWSER_USER_PROFILE_STRING = Default
-# environment
 TMP = C:\Users\shala\AppData\Local\Temp
 # environment
 VSCODE_VERBOSE_LOGGING = true
@@ -65,7 +64,7 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-911e81c2-0e12-49f1-b250-1eebfa0a053d-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-da4ba451-6345-434a-8597-d4d4b98657cf-sock
 # environment
 VSCODE_CWD = C:\Program Files\Microsoft VS Code
 # environment
@@ -99,7 +98,7 @@ ELECTRON_RUN_AS_NODE = 1
 # automatic
 *F = $(notdir $*)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_12256_HAVXQRHDVGNDZZNB
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_12396_BOPGSXSBFAQARSVY
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -221,13 +220,11 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 23
 # environment
-FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
-# environment
-VSCODE_PID = 12256
+VSCODE_PID = 12396
 # environment
 USERDOMAIN_ROAMINGPROFILE = MATRIX-Z
 # variable set hash-table stats:
-# Load=107/1024=10%, Rehash=0, Collisions=18/127=14%
+# Load=105/1024=10%, Rehash=0, Collisions=18/125=14%
 
 # Pattern-specific Variable Values
 
@@ -235,9 +232,9 @@ USERDOMAIN_ROAMINGPROFILE = MATRIX-Z
 
 # Directories
 
-# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1647926668): 71 files, no impossibilities.
+# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1647988886): 25 files, no impossibilities.
 
-# 71 files, no impossibilities in 1 directories.
+# 25 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -255,7 +252,7 @@ all:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-21 23:25:54
+#  Last modified 2022-03-22 16:42:54
 #  File has been updated.
 #  Successfully updated.
 
@@ -272,11 +269,14 @@ default:
 	sdcc --model-large -c getput.c
 	sdcc --model-large -c eeprom.c
 	sdcc --model-large -c asm_c.c
+	sdcc --model-large -c lcd.c
 	sdas8051 -o -l asa.asm
 	sdas8051 -o -l i2c_routines.asm
-	sdcc --model-large program.rel i2c_routines.rel i2c.rel asa.rel getput.rel buffer.rel pca.rel eeprom.rel asm_c.rel _heap.rel 
+	sdcc --model-large program.rel i2c_routines.rel i2c.rel asa.rel getput.rel buffer.rel pca.rel eeprom.rel lcd.rel asm_c.rel _heap.rel 
 	packihx program.ihx >program.hex
 	batchisp -device at89c51rc2 -hardware RS232 -port COM4 -baudrate 115200 -operation erase f memory flash blankcheck loadbuffer ./program.hex program verify start reset 1
+	del /S *.lst *.rst *.sym *.map *.mem *.rel
+	del _heap.asm asm_c.asm buffer.asm eeprom.asm getput.asm i2c.asm pca.asm program.asm program.hex program.ihx program.lk lcd.asm
 	plink.exe -serial COM4 -sercfg 115200,8,n,1,N 
 
 # Not a target:
@@ -293,12 +293,12 @@ default:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 75 / storage = 704 B / avg = 9 B
-# current buf: size = 8162 B / used = 704 B / count = 75 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 29 / storage = 228 B / avg = 7 B
+# current buf: size = 8162 B / used = 228 B / count = 29 / avg = 7 B
 
-# strcache performance: lookups = 79 / hit rate = 5%
+# strcache performance: lookups = 33 / hit rate = 12%
 # hash-table stats:
-# Load=75/8192=1%, Rehash=0, Collisions=1/79=1%
-# Finished Make data base on Mon Mar 21 23:26:22 2022
+# Load=29/8192=0%, Rehash=0, Collisions=1/33=3%
+# Finished Make data base on Tue Mar 22 16:42:55 2022
 
  

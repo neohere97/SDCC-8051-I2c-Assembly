@@ -1,6 +1,9 @@
-.vscode
+vscode
 .rel
 .sym
 .lst
 .rst
 
+.vscode/dryrun.log
+
+.vscode/targets.log
