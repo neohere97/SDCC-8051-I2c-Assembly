@@ -50,8 +50,7 @@ void main(void)
     printf("\n\r HELLO! Started in X2 Mode \n\r");
     DEBUGPORT(0x01);
     P1_1 = 0;
-    init_lcd();
-    init_clock();
+    init_lcd();    
     main_menu();    
 }
 
