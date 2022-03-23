@@ -39,6 +39,7 @@ unsigned char global_var_test = 2;
 extern volatile int watchdog_flag;
 
 int global_clock = 0;
+extern int cursorpos;
 // ------------------------------------------------Main--------------------------------------------------------------
 /***********************************************************************************
  * function : Main function where user interface is called, program never comes back to main

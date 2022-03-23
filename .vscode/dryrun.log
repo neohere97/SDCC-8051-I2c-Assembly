@@ -1,12 +1,11 @@
-make.exe --dry-run --keep-going --print-directory
-make.exe: Entering directory 'c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2'
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory 'c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2'
 sdcc --std-c99 --model-large --code-size 0x7FFF --xram-loc 0x400 --xram-size 0x7FFF --out-fmt-ihx -c program.c
 sdcc --model-large -c _heap.c 
 sdcc --model-large -c i2c.c
 sdcc --model-large -c buffer.c
 sdcc --model-large -c pca.c
 sdcc --model-large -c getput.c
- 
 sdcc --model-large -c eeprom.c
 sdcc --model-large -c asm_c.c
 sdcc --model-large -c lcd.c
@@ -18,5 +17,5 @@ batchisp -device at89c51rc2 -hardware RS232 -port COM4 -baudrate 115200 -operati
 del /S *.lst *.rst *.sym *.map *.mem *.rel
 del _heap.asm asm_c.asm buffer.asm eeprom.asm getput.asm i2c.asm pca.asm program.asm program.hex program.ihx program.lk lcd.asm
 plink.exe -serial COM4 -sercfg 115200,8,n,1,N 
-make.exe: Leaving directory 'c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2'
+make: Leaving directory 'c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2'
  
