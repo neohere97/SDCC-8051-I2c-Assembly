@@ -33,11 +33,9 @@ void user_interface_lcd()
 }
 
 void init_clock(){
-    lcd_goto_xy(3,0);    
-    lcd_putstring("Time:00:00.0",lcd_compute_xy(3,0));
+    lcd_goto_xy(3,9);    
+    lcd_putstring("00:00.0",lcd_compute_xy(3,9));
     global_clock = 0;   
-    // sprintf(clkstr,"%d",global_clock);
-    // lcd_putstring(clkstr,lcd_compute_xy(3,5));
     pca_software_timer();
 }
 
@@ -47,13 +45,13 @@ void update_lcd_clock(){
     int secs = ((global_clock/30)%600)%60;
 
     sprintf(clkstr,"%d",millis);
-    lcd_putstring(clkstr,lcd_compute_xy(3,11));
+    lcd_putstring(clkstr,lcd_compute_xy(3,15));
 
     sprintf(clkstr,"%02d",mins);
-    lcd_putstring(clkstr,lcd_compute_xy(3,5));
+    lcd_putstring(clkstr,lcd_compute_xy(3,9));
 
     sprintf(clkstr,"%02d",secs);
-    lcd_putstring(clkstr,lcd_compute_xy(3,8));
+    lcd_putstring(clkstr,lcd_compute_xy(3,12));
 }
 
 void lcd_goto_xy(unsigned char x, unsigned char y)
