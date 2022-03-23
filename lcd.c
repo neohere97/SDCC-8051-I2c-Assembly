@@ -18,13 +18,12 @@
 #include "program.h"
 
 void lcd_goto_addr(unsigned char addr);
-// void lcd_busy_wait();
 void lcd_goto_xy(unsigned char x, unsigned char y);
 unsigned char lcd_compute_xy(unsigned char x, unsigned char y);
 void print_lcd_menu() __critical;
 void print_string(char str[]) __critical;
 void toggle_clock(int delay);
-
+// void lcd_busy_wait();
 extern int global_clock;
 int cursorpos;
 char clkstr[6];
@@ -63,6 +62,7 @@ ui_lcd:
         lcd_clear();
         lcd_goto_addr(lcd_compute_xy(3, 9));
         lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
+        lcd_goto_addr(0);
         goto ui_lcd_menu;
     }
     else if (inp == 0x45)
@@ -110,7 +110,7 @@ ui_lcd:
     else if (inp == 0x54)
     {
         int i = 0;
-        char arr[64], ch;
+        char arr[65], ch;
 
         print_string("Input a string and press enter, max 64 characters \n\r");
     get_more_ch:
@@ -120,6 +120,7 @@ ui_lcd:
 
             if (ch == 0xD)
             {
+                arr[i] = 0;
                 lcd_goto_addr(cursorpos);
                 lcd_putstring(arr, cursorpos);
                 lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
@@ -131,6 +132,7 @@ ui_lcd:
         else
         {
             lcd_clear();
+            arr[i] = 0;
             lcd_putstring(arr, cursorpos);
             lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
             goto ui_lcd_menu;
