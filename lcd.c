@@ -36,8 +36,11 @@ char clkstr[6];
  ***********************************************************************************/
 void user_interface_lcd()
 {
-    init_clock();
-
+    lcd_clear();
+    lcd_goto_xy(3, 9);
+    lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
+    lcd_goto_addr(0);
+    init_clock();    
 ui_lcd_menu:
     print_lcd_menu();
     int inp;
