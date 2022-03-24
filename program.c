@@ -38,7 +38,7 @@ unsigned char global_var_test = 2;
 
 extern volatile int watchdog_flag;
 
-int global_clock = 0;
+unsigned int global_clock = 0;
 extern int cursorpos;
 // ------------------------------------------------Main--------------------------------------------------------------
 /***********************************************************************************
