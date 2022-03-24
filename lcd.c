@@ -26,7 +26,7 @@ void toggle_clock(int delay);
 // void lcd_busy_wait();
 extern int global_clock;
 int cursorpos;
-char clkstr[6];
+char clkstr[8];
 
 // ------------------------------------------------user-interface-lcd------------------------------------------------------------
 /***********************************************************************************
@@ -166,20 +166,11 @@ void init_clock()
 void update_lcd_clock()
 {
     int temp = cursorpos;
-
     int millis = ((global_clock / 3) % 10);
     int mins = (global_clock / 1800);
     int secs = ((global_clock / 30) % 600) % 60;
-
-    sprintf(clkstr, "%d", millis);
-    lcd_putstring(clkstr, lcd_compute_xy(3, 15));
-
-    sprintf(clkstr, "%02d", mins);
+    sprintf(clkstr, "%02d:%02d.%d", mins,secs,millis);
     lcd_putstring(clkstr, lcd_compute_xy(3, 9));
-
-    sprintf(clkstr, "%02d", secs);
-    lcd_putstring(clkstr, lcd_compute_xy(3, 12));
-
     lcd_goto_addr(temp);
 }
 // ------------------------------------------------lcd-goto-xy------------------------------------------------------------
