@@ -13,6 +13,7 @@
 #include "i2c.h"
 #include "buffer.h"
 #include "program.h"
+#include "lcd.h"
 
 void print_eeprom_menu();
 void read_random_byte();
@@ -243,7 +244,7 @@ void print_eeprom_menu()
     printf("\n\n\r^^^^^^^^^^^^^^^^^^^-EEPROM-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
     printf("'R' -> Read Random Byte\n\r");
     printf("'W' -> Write Random Byte\n\r");
-    printf("'D' -> Hexdump\n\r");
+    printf("'D' -> Hexdump + LCD Dump\n\r");
     printf("'B' -> Block Fill\n\r");
     printf("'F' -> Reset EEPROM \n\r");
     printf("\n\r'E' -> Goto Main Menu \n\r");
@@ -272,6 +273,7 @@ void dump_eeprom_buffer(int from)
         if (j == 0)
             j = 16;
     }
+    lcd_putstring(eeprom_buffer.buffer_start,0);
     printf("\n\n\r");
 }
 // ------------------------------------------------end--------------------------------------------------

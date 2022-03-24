@@ -93,13 +93,13 @@ ui_lcd:
     {
         unsigned char x, y;
     get_valid_x:
-        print_string("Get valid X position (0-3) \n\r");
+        print_string("Give valid X position (0-3) \n\r");
         x = get_number_hex(1);
         if (x > 3)
             goto get_valid_x;
 
     get_valid_y:
-        print_string("Get valid Y position (0-F) \n\r");
+        print_string("Give valid Y position (0-F) \n\r");
         y = get_number_hex(1);
 
         if (y > 0xF)
@@ -115,7 +115,7 @@ ui_lcd:
         int i = 0, temp;
         char arr[65], ch;
 
-        print_string("Input a string and press enter, max 64 characters \n\r");
+        print_string("\n\rInput a string and press enter, max 64 characters \n\r");
     get_more_ch:
         if (i < 64)
         {

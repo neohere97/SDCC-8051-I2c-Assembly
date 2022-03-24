@@ -63,7 +63,7 @@ void main_menu()
     printf("'P' -> PCA Demo Mode \n\r");
     printf("'A' -> Assembly C Mix \n\r");
     printf("'E' -> EEPROM Mode \n\r");
-    printf("'I' -> I/O Expander Demo Mode \n\r");
+    // printf("'I' -> I/O Expander Demo Mode \n\r");
     printf("'L' -> LCD Demo Mode \n\r");
 
     int inp;
