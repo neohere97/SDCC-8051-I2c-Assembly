@@ -26,7 +26,7 @@ void toggle_clock(int delay);
 // void lcd_busy_wait();
 extern int global_clock;
 int cursorpos;
-char clkstr[8];
+char clkstr[6];
 
 // ------------------------------------------------user-interface-lcd------------------------------------------------------------
 /***********************************************************************************
@@ -70,7 +70,7 @@ ui_lcd:
         CR = 0;
         main_menu();
     }
-    //Goto address,TODO can be converted to a different function for readability
+    // Goto address,TODO can be converted to a different function for readability
     else if (inp == 0x47)
     {
         unsigned char addr;
@@ -85,7 +85,7 @@ ui_lcd:
         print_string("\n\rCursor moved successfully %02X \n\r");
         goto ui_lcd_menu;
     }
-    //Goto X,Y,TODO can be converted to a different function for readability
+    // Goto X,Y,TODO can be converted to a different function for readability
     else if (inp == 0x58)
     {
         unsigned char x, y;
@@ -106,10 +106,10 @@ ui_lcd:
         print_string("\n\rCursor moved successfully \n\r");
         goto ui_lcd_menu;
     }
-    //Putstring ,TODO can be converted to a different function for readability
+    // Putstring ,TODO can be converted to a different function for readability
     else if (inp == 0x54)
     {
-        int i = 0;
+        int i = 0, temp;
         char arr[65], ch;
 
         print_string("Input a string and press enter, max 64 characters \n\r");
@@ -123,7 +123,9 @@ ui_lcd:
                 arr[i] = 0;
                 lcd_goto_addr(cursorpos);
                 lcd_putstring(arr, cursorpos);
+                temp = cursorpos;
                 lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
+                lcd_goto_addr(temp+1);
                 goto ui_lcd_menu;
             }
 
@@ -131,10 +133,12 @@ ui_lcd:
         }
         else
         {
-            lcd_clear();
             arr[i] = 0;
+            lcd_goto_addr(cursorpos);
             lcd_putstring(arr, cursorpos);
+            temp = cursorpos;
             lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
+            lcd_goto_addr(temp+1);
             goto ui_lcd_menu;
         }
 
@@ -166,11 +170,20 @@ void init_clock()
 void update_lcd_clock()
 {
     int temp = cursorpos;
+
     int millis = ((global_clock / 3) % 10);
     int mins = (global_clock / 1800);
     int secs = ((global_clock / 30) % 600) % 60;
-    sprintf(clkstr, "%02d:%02d.%d", mins,secs,millis);
+
+    sprintf(clkstr, "%d", millis);
+    lcd_putstring(clkstr, lcd_compute_xy(3, 15));
+
+    sprintf(clkstr, "%02d", mins);
     lcd_putstring(clkstr, lcd_compute_xy(3, 9));
+
+    sprintf(clkstr, "%02d", secs);
+    lcd_putstring(clkstr, lcd_compute_xy(3, 12));
+
     lcd_goto_addr(temp);
 }
 // ------------------------------------------------lcd-goto-xy------------------------------------------------------------
@@ -352,7 +365,6 @@ void lcd_putstring(char inp_string[], int cursor_pos) __critical
             i = 80;
         if (i == 96)
             break;
-    }    
-    
+    }
 }
 // ------------------------------------------------End--------------------------------------------------------------
