@@ -42,7 +42,8 @@ struct buffer_struct eeprom_buffer;
  ***********************************************************************************/
 void eeprom_menu()
 {
-    printf(" \n\r Hello, In EEPROM Demo mode");
+    printf(" \n\r^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\r");
+    printf(" \n\r Hello, In EEPROM Demo mode. Powered by Fast Assembly Routines.");
     print_eeprom_menu();
 
     int inp;
@@ -156,7 +157,7 @@ void hexdump_eeprom()
 
     int a, b;
 get_valid_from_address:
-    printf("Please give a valid starting address (0x000 - 0x7FF) \n\r");
+    printf("\n\rPlease give a valid starting address (0x000 - 0x7FF) \n\r");
     a = get_number_hex(3);
 
     if (a < 0 || a > 2047)
@@ -165,7 +166,7 @@ get_valid_from_address:
     }
 
 get_valid_to_address:
-    printf("Please give a valid ending address (0x%X - 0x7FF) \n\r", a);
+    printf("\n\rPlease give a valid ending address (0x%X - 0x7FF) \n\r", a);
     b = get_number_hex(3);
 
     if (b < a || b > 2047)
@@ -180,7 +181,7 @@ get_valid_to_address:
     eeprom_buffer.buffer_end = eeprom_buffer.buffer_start + (b - a) + 5;
     eeprom_buffer.num_char = 0;
 
-    printf("Reading EEPROM...\n\r");
+    printf("\n\rReading EEPROM...\n\r");
     unsigned char data;
     for (int l = a; l <= b; l++)
     {
@@ -241,7 +242,7 @@ get_blockfill_value:
  ***********************************************************************************/
 void print_eeprom_menu()
 {
-    printf("\n\n\r^^^^^^^^^^^^^^^^^^^-EEPROM-MENU-^^^^^^^^^^^^^^^^^^^^^^^^^^ \n\n\r");
+    printf("\n\n\r^^^^^^^I2C-166Kbits^^^^^^^^^^^-EEPROM-MENU-^^^^^^^^^ASM^^^^^^^^ \n\n\r");
     printf("'R' -> Read Random Byte\n\r");
     printf("'W' -> Write Random Byte\n\r");
     printf("'D' -> Hexdump + LCD Dump\n\r");
