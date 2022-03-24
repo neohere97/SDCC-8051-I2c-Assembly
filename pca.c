@@ -92,17 +92,9 @@ void pca_software_timer()
 {
     printf("Clock Interrupt has started...\n\r");
     CCAP3L = 0;
-    CCAP3H = 0x78;
+    CCAP3H = 0xB4;
     CCAPM3 = 0x49;
     CR = 1;
-//     int rec;
-// get_f:
-//     rec = getchar();
-
-//     if (rec == 0x53)
-//         CCAPM3 = 0;
-//     else
-//         goto get_f;
 }
 // ------------------------------------------------at-clear-all-buffers--------------------------------------------------
 /***********************************************************************************

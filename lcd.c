@@ -118,18 +118,21 @@ ui_lcd:
         {
             ch = getchar();
 
-            if (ch == 0xD)
+            if (ch == 0x8 && i > 0)
+                --i;
+
+            else if (ch == 0xD)
             {
                 arr[i] = 0;
                 lcd_goto_addr(cursorpos);
                 lcd_putstring(arr, cursorpos);
                 temp = cursorpos;
                 lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
-                lcd_goto_addr(temp+1);
+                lcd_goto_addr(temp + 1);
                 goto ui_lcd_menu;
             }
-
-            arr[i++] = ch;
+            else
+                arr[i++] = ch;
         }
         else
         {
@@ -138,7 +141,7 @@ ui_lcd:
             lcd_putstring(arr, cursorpos);
             temp = cursorpos;
             lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
-            lcd_goto_addr(temp+1);
+            lcd_goto_addr(temp + 1);
             goto ui_lcd_menu;
         }
 
@@ -171,9 +174,9 @@ void update_lcd_clock()
 {
     int temp = cursorpos;
 
-    int millis = ((global_clock / 3) % 10);
-    int mins = (global_clock / 1800);
-    int secs = ((global_clock / 30) % 600) % 60;
+    int millis = ((global_clock / 2) % 10);
+    int mins = (global_clock / 1200);
+    int secs = ((global_clock / 20) % 600) % 60;
 
     sprintf(clkstr, "%d", millis);
     lcd_putstring(clkstr, lcd_compute_xy(3, 15));
