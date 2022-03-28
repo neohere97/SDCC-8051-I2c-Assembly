@@ -30,7 +30,7 @@ char clkstr[6];
 
 // ------------------------------------------------user-interface-lcd------------------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : shows the LCD menu and waits from user input
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -56,8 +56,10 @@ ui_lcd:
 
     else if (inp == 0x5A)
     {
+        int temp = cursorpos;
         lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
         global_clock = 0;
+        lcd_goto_addr(temp);
     }
 
     else if (inp == 0x43)
@@ -155,7 +157,7 @@ ui_lcd:
 }
 // ------------------------------------------------init-clock-------------------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : this function initializies the running clock at the bootom right
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -169,7 +171,7 @@ void init_clock()
 }
 // ------------------------------------------------update-lcd-clock------------------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : this function is called by the ISR which updates the clock every 70ms
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -194,8 +196,8 @@ void update_lcd_clock()
 }
 // ------------------------------------------------lcd-goto-xy------------------------------------------------------------
 /***********************************************************************************
- * function : Main function where user interface is called, program never comes back to main
- * parameters : none
+ * function : takes x,y grid input and sends cursor to that position
+ * parameters : row and column numbers
  * return : none
  ***********************************************************************************/
 void lcd_goto_xy(unsigned char x, unsigned char y)
@@ -206,7 +208,7 @@ void lcd_goto_xy(unsigned char x, unsigned char y)
 }
 // ------------------------------------------------lcd-compute-xy------------------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : computes the address of the location after taking row and column values
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -240,8 +242,8 @@ unsigned char lcd_compute_xy(unsigned char x, unsigned char y)
 }
 // ------------------------------------------------lcd-goto-addr------------------------------------------------------------
 /***********************************************************************************
- * function :
- * parameters : none
+ * function : This function writes the address to the LCD
+ * parameters : the address to go to
  * return : none
  ***********************************************************************************/
 void lcd_goto_addr(unsigned char addr)
@@ -252,8 +254,8 @@ void lcd_goto_addr(unsigned char addr)
 }
 // ------------------------------------------------toggle-clock-------------------------------------------------------------
 /***********************************************************************************
- * function :
- * parameters : none
+ * function : toggles the E pin on the LCD to the load data
+ * parameters : delay
  * return : none
  ***********************************************************************************/
 void toggle_clock(int delay)
@@ -269,7 +271,7 @@ void toggle_clock(int delay)
 }
 // ------------------------------------------------print-lcd-menu------------------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : prints the LCD menu, defined as critical so that it does not get interrupted
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -287,8 +289,8 @@ void print_lcd_menu() __critical
 }
 // ------------------------------------------------print-string-------------------------------------------------------------
 /***********************************************************************************
- * function :
- * parameters : none
+ * function : A common critical function to print strings to console
+ * parameters : string to be printed
  * return : none
  ***********************************************************************************/
 void print_string(char str[]) __critical
@@ -297,7 +299,7 @@ void print_string(char str[]) __critical
 }
 // ------------------------------------------------lcd-clear-------------------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : this function clears the LCD
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -308,7 +310,7 @@ void lcd_clear()
 }
 // ------------------------------------------------init-lcd-------------------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : This initializes the LCD and configures all the parameters
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -337,8 +339,8 @@ void init_lcd()
 }
 // ------------------------------------------------lcd-putch-------------------------------------------------------------
 /***********************************************************************************
- * function :
- * parameters : none
+ * function : Puts a character on the LCD
+ * parameters : charactrer to be sent
  * return : none
  ***********************************************************************************/
 void lcd_putch(unsigned char ch)
@@ -350,8 +352,8 @@ void lcd_putch(unsigned char ch)
 }
 // ------------------------------------------------lcd-putstring-------------------------------------------------------------
 /***********************************************************************************
- * function : Main function where user interface is called, program never comes back to main
- * parameters : none
+ * function : Dumps an entire string onto the lcd
+ * parameters : string to be sent and cursor position to start at
  * return : none
  ***********************************************************************************/
 void lcd_putstring(char inp_string[], int cursor_pos) __critical

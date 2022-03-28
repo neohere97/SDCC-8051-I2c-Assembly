@@ -63,7 +63,7 @@ int get_num_helper(int times)
 
 // ------------------------------------------------get-number-------------------------------------------------
 /***********************************************************************************
- * function : Gets input from user and converts to decimal number
+ * function : Gets hex input from user and covnerts to decimal number
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -92,9 +92,9 @@ int get_number_hex(int total_chars)
     }
     return num;
 }
-// ------------------------------------------------get-num-helper--------------------------------------------------
+// ------------------------------------------------get-num-helper-hex-------------------------------------------------
 /***********************************************************************************
- * function : helper function to multiply 10^x
+ * function : helper function to multiply 16^x
  * parameters : none
  * return : none
  ***********************************************************************************/

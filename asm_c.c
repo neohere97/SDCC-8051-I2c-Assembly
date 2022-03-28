@@ -17,9 +17,9 @@ extern unsigned char asmtest(unsigned char param1, unsigned char param2, unsigne
 
 void asm_call(unsigned char sent_from_asm);
 
-// ------------------------------------------------at-clear-all-buffers--------------------------------------------------
+// ------------------------------------------------asm-clang-------------------------------------------------
 /***********************************************************************************
- * function : Clears all the buffers and begins again
+ * function : Calls the assembly routine which computes param3%param2 * param1
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -36,9 +36,14 @@ void asm_clang()
     printf("\n\r Going back to main menu.. \n\r");
     main_menu();
 }
-
-
+// ------------------------------------------------asm-call-------------------------------------------------
+/***********************************************************************************
+ * function : This function is called by the assembly routine
+ * parameters : ascii character sent by the assembly character
+ * return : none
+ ***********************************************************************************/
 void asm_call(unsigned char sent_from_asm)
 {
     printf("\n\n\r This function was called from assembly, character sent from there -> %c\n\r", sent_from_asm);
 }
+// ------------------------------------------------End-------------------------------------------------

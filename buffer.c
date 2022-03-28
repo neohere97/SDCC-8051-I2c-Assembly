@@ -13,6 +13,7 @@
 #include "getput.h"
 #include "program.h"
 
+//function declarations
 void create_initial_buffers();
 void buffer_input_loop();
 void print_all_buffers();
@@ -406,3 +407,5 @@ void print_all_buffers()
     }
     printf("***************************************\n\r");
 }
+
+// ------------------------------------------------End-------------------------------------------------

@@ -15,6 +15,7 @@
 #include "program.h"
 #include "lcd.h"
 
+// Function Declarations
 void print_eeprom_menu();
 void read_random_byte();
 void write_random_byte();
@@ -22,7 +23,10 @@ void hexdump_eeprom();
 void blockfill_eeprom();
 void dump_eeprom_buffer(int from);
 
+// Assembly routine which produces the eeprom reset pattern
 extern unsigned char i2c_eeprom_reset(void);
+
+// buffer code from Heap assignment
 struct buffer_struct
 {
     int buffer_num;
@@ -36,7 +40,7 @@ struct buffer_struct eeprom_buffer;
 
 // ------------------------------------------------eeprom-menu-------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : Shows the eeprom menu and waits for user input
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -79,7 +83,7 @@ exit_choice:
 
 // ------------------------------------------------read-random-byte------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : Calls the assembly routine to read random byte and presents it to the user
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -108,7 +112,7 @@ get_valid_hex:
 }
 // ------------------------------------------------write-random-byte------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : Writes random byte value after taking address input from the user
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -121,6 +125,7 @@ get_valid_hex_address:
     printf("Please give a valid address to write to (0x000 - 0x7FF) \n\r");
     a = get_number_hex(3);
 
+    // limiting the range of address
     if (a >= 0 && a <= 2047)
     {
         block = (a & 0xF00) >> 8;
@@ -148,7 +153,7 @@ get_valid_hex_value:
 }
 // ------------------------------------------------hexdump-eeprom-------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : Dumps the eeprom with address range from user
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -174,6 +179,7 @@ get_valid_to_address:
         goto get_valid_to_address;
     }
 
+    // initializing temporary buffer in RAM to store eeprom data
     eeprom_buffer.buffer_start = malloc((b - a) + 5);
 
     eeprom_buffer.buff_size = (b - a) + 5;
@@ -196,7 +202,7 @@ get_valid_to_address:
 }
 // ------------------------------------------------blockfill-eeprom-------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : blockfills the eeprom with a specific value taken from the user
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -236,7 +242,7 @@ get_blockfill_value:
 }
 // ------------------------------------------------print-eeprom-menu------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : Prints the eeprom menu
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -252,7 +258,7 @@ void print_eeprom_menu()
 }
 // ------------------------------------------------dump-eeprom-buffer------------------------------------------------
 /***********************************************************************************
- * function :
+ * function : Once the buffer is filled by reading the eeprom, this dumps the contents of the buffer
  * parameters : none
  * return : none
  ***********************************************************************************/
@@ -274,7 +280,7 @@ void dump_eeprom_buffer(int from)
         if (j == 0)
             j = 16;
     }
-    lcd_putstring(eeprom_buffer.buffer_start,0);
+    lcd_putstring(eeprom_buffer.buffer_start, 0);
     printf("\n\n\r");
 }
 // ------------------------------------------------end--------------------------------------------------
