@@ -12,5 +12,8 @@
 //function declarations
 unsigned char i2c_read_random(unsigned char block, unsigned char address);
 void i2c_write_random(unsigned char block, unsigned char address, unsigned char value);
+extern void i2c_write_val(unsigned char write_value);
+extern unsigned char i2c_read_val(void);
+extern void i2c_stop();
 
 #endif

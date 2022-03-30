@@ -19,6 +19,8 @@
 	.globl _i2c_write_val
 	.globl _i2c_read_val
 	.globl _i2c_eeprom_reset
+	.globl _i2c_ioex_read_init
+	.globl _i2c_ioex_write_init
 	
 
 	.area CSEG    
@@ -36,6 +38,21 @@ _i2c_write_init:
 	mov r2,#9		;inititialing coutner variable
 	lcall writeloop	
 	ret
+
+_i2c_ioex_read_init:
+	lcall _i2c_init
+	mov a,#0x7F		;adding the block number to init sequence
+	mov r2,#9		;inititialing coutner variable
+	lcall writeloop		
+	ret
+
+_i2c_ioex_write_init:
+	lcall _i2c_init
+	mov a,#0x7E		;adding the block number to init sequence
+	mov r2,#9		;inititialing coutner variable
+	lcall writeloop		
+	ret
+
 
 _i2c_read_init:
 	lcall _i2c_init ;sends i2c start bit
@@ -96,9 +113,33 @@ _i2c_stop:			;assembly routine to send stop condition
 writeloop:			;sets the initial condition to write data on the bus and calls bitloop
 	clr p1.0
 	djnz r2, bitloop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop	
 	setb p1.7	
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop	
 	setb p1.0
-	clr p1.0		
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop	
+	clr p1.0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop			
 	ret
 
 bitloop:			;sends 1 or 0 using RLC instruction
@@ -106,16 +147,46 @@ bitloop:			;sends 1 or 0 using RLC instruction
 	jnc sendzero    
 	ljmp sendone
 
-sendzero:			;sends a zero on the bus with clock pulse
-	clr p1.7		
-	setb p1.0		
+sendzero:	
+	nop		;sends a zero on the bus with clock pulse
+	clr p1.7	
+	nop
+	nop
+	nop	
+	setb p1.0	
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop	
 	clr p1.0
+	nop
+	nop
+	nop
+	nop
+	nop
 	ljmp writeloop
 
 sendone:			;sends a one on the bus with clock pulse
+	nop
 	setb p1.7		
+	nop
+	nop
+	nop
 	setb p1.0		
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
 	clr p1.0
+	nop
+	nop
+	nop
+	nop
+	nop
 	ljmp writeloop
 
 

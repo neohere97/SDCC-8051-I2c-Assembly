@@ -15,9 +15,9 @@
 //References to the assembly routines defined in the assembly file
 extern void i2c_write_init(unsigned char page_no);
 extern void i2c_addr(unsigned char addr);
-extern void i2c_write_val(unsigned char write_value);
 extern void i2c_read_init(unsigned char page_no);
-extern unsigned char i2c_read_val(void);
+
+
 
 //sets the i2c activity LED
 void i2c_activity(unsigned char a);

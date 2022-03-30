@@ -19,7 +19,7 @@
 #include "asm_c.h"
 #include "eeprom.h"
 #include "lcd.h"
-
+#include "ioex.h"
 
 // Virtual debug port location
 #define DEBUGPORT(x) dataout(x);
@@ -52,9 +52,9 @@ void main(void)
     printf("HELLO! Started in X2 Mode \n\r");
     DEBUGPORT(0x01);
     P1_1 = 0;
-    init_lcd();    
-    lcd_putstring("Hello",0);
-    main_menu();    
+    init_lcd();
+    lcd_putstring("Hello", 0);
+    main_menu();
 }
 
 void main_menu()
@@ -65,30 +65,36 @@ void main_menu()
     printf("'P' -> PCA Demo Mode \n\r");
     printf("'A' -> Assembly C Mix \n\r");
     printf("'E' -> EEPROM Mode \n\r");
-    // printf("'I' -> I/O Expander Demo Mode \n\r");
     printf("'L' -> LCD Demo Mode \n\r");
+    printf("'I' -> I/O Expander Demo Mode \n\r");
 
     int inp;
 wrong_choice:
     printf("Please make a valid choice \n\r");
     inp = getchar();
-    if (inp == 0x48){
-        lcd_putstring("Heap DEMO",0);
-        user_interface_heap();        
+    if (inp == 0x48)
+    {
+        lcd_putstring("Heap DEMO", 0);
+        user_interface_heap();
     }
-    else if (inp == 0x50){
-        lcd_putstring("PCA DEMO",0);
+    else if (inp == 0x50)
+    {
+        lcd_putstring("PCA DEMO", 0);
         user_interface_PCA();
-        
     }
     else if (inp == 0x41)
         asm_clang();
-    else if (inp == 0x45){
-        lcd_putstring("EEPROM DEMO",0);
-        eeprom_menu();        
+    else if (inp == 0x45)
+    {
+        lcd_putstring("EEPROM DEMO", 0);
+        eeprom_menu();
     }
     else if (inp == 0x4C)
         user_interface_lcd();
+    else if (inp == 0x49){
+        lcd_putstring("Pins  76543210", 0);
+        ui_ioexpander();       
+    }
     else
         goto wrong_choice;
 }
@@ -126,11 +132,20 @@ void pca_interrupt() __interrupt(6) __using(1)
         CCF3 = 0;
         CH = 0;
         CL = 0;
-        global_clock+=1;
+        global_clock += 1;
         update_lcd_clock();
         // printf("Timer Interrupt\n\r");
-
     }
+}
+// ------------------------------------------------pca-interrupt-------------------------------------------------
+/***********************************************************************************
+ * function : PCA Interupt handler
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void ioex_interrupt() __interrupt(2) __using(1)
+{
+   printf("Interrupt from IO Expander \n\r");
 }
 // ------------------------------------------------idle-interrupt--------------------------------------------------
 /***********************************************************************************
@@ -164,7 +179,6 @@ void dataout(unsigned char data)
     DEBUG_LOC = data;
 }
 
-
 // ------------------------------------------------sdcc-external-startup------------------------------------------------
 /***********************************************************************************
  * function : This function executes by default when the program starts
@@ -174,7 +188,7 @@ void dataout(unsigned char data)
 _sdcc_external_startup()
 {
     CKCON0 |= 0x21;
-    
+
     _AUXR = 0xC;
     // Init UART Hardware
     SCON = 0x42;
