@@ -24,20 +24,25 @@
 void write_to_pin();
 void write_to_port();
 void read_pin();
+void update_lcd();
 unsigned char read_port();
 void print_ioex_menu();
 void read_pin_interrupt();
 extern void i2c_ioex_read_init();
 extern void i2c_ioex_write_init();
 
-
+// ------------------------------------------------ui-ioexpander-------------------------------------------------
+/***********************************************************************************
+ * function : Handles the UI of the IO Expander functions
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void ui_ioexpander()
-{    
-    EX1 = 1;
+{        
     printf(" \n\r^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\r");
     printf(" \n\r Hello, In IO Expander Demo mode.");
-    printf(" \n\r PIN States are also shown on the LCD");
-    // read_port();
+    printf(" \n\r PIN States are also shown on the LCD");    
+    update_lcd();
     print_ioex_menu();
 
     int inp;
@@ -68,7 +73,12 @@ exit_choice:
     else
         goto exit_choice;
 }
-
+// ------------------------------------------------print-ioex-menu------------------------------------------------
+/***********************************************************************************
+ * function : prints the IO Expander menu
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void print_ioex_menu()
 {
     printf("\n\n\r^^^^^^^^^^^^^^^^^^-IOEX-MENU-^^^^^^^^^^^^^^^^^ \n\n\r");
@@ -79,7 +89,12 @@ void print_ioex_menu()
     printf("'I' -> Read Pin Interrupt\n\r");
     printf("\n\r'E' -> Goto Main Menu \n\r");
 }
-
+// ------------------------------------------------write-to-port------------------------------------------------
+/***********************************************************************************
+ * function : writes a byte to the port
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void write_to_port()
 {
 
@@ -98,9 +113,14 @@ get_valid_dat:
     {
         goto get_valid_dat;
     }
-    read_port();
+     update_lcd();    
 }
-
+// ------------------------------------------------write-to-pin-----------------------------------------------
+/***********************************************************************************
+ * function : Writes to a specific pin without affecting others
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void write_to_pin()
 {
 
@@ -134,21 +154,34 @@ get_valid_pinval:
         i2c_ioex_write_init();
         i2c_write_val(port_val & (~pinmask));
     }
-
-    read_port();
+    update_lcd();    
     printf("\n\rSUCCESS!! \n\r");
 }
+// ------------------------------------------------read-port-------------------------------------------------
+/***********************************************************************************
+ * function : Reads a port and returns its state
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 unsigned char read_port()
 {
-    i2c_ioex_read_init();
-    unsigned char cur_data = i2c_read_val();
-    unsigned char da[8];
-
-    sprintf(da,"State "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(cur_data));
+    i2c_ioex_read_init();   
+    
+    unsigned char da[8],val;
+    
+    val = i2c_read_val();
+    
+    sprintf(da,"State "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(val));
     lcd_putstring(da,64);
-    return cur_data;
-}
 
+    return val;
+}
+// ------------------------------------------------read-pin-------------------------------------------------
+/***********************************************************************************
+ * function : Reads a pin and returns it's state
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void read_pin()
 {
     unsigned char pin, pinmask, portval, pinval;
@@ -168,8 +201,14 @@ get_valid_pin:
     else
         printf("Pin %d is LOW\n\r", pin);
     printf("--------------------------------\n\r");
+    update_lcd();
 }
-
+// ------------------------------------------------read-pin-interrupt-------------------------------------------------
+/***********************************************************************************
+ * function : Sets up a pin to read rising edge or falling edge interrupt
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void read_pin_interrupt(){
     
     unsigned char pin, val, pinmask;  
@@ -195,14 +234,39 @@ get_valid_pinval:
     if (val)
     {
         i2c_ioex_write_init();
-        i2c_write_val(~pinmask);
+        i2c_write_val(~pinmask);        
     }
     else
     {
         i2c_ioex_write_init();
-        i2c_write_val(pinmask);
-    }
+        i2c_write_val(pinmask);        
+    }    
+
+    update_lcd();
     
-    // read_port();
+     if (val)
+    {
+        i2c_ioex_write_init();
+        i2c_write_val(~pinmask);        
+    }
+    else
+    {
+        i2c_ioex_write_init();
+        i2c_write_val(pinmask);        
+    } 
+    EX1 = 1;
     printf("\n\rInterrupt has been enabled \n\r");
+    
 }
+// ------------------------------------------------update-lcd------------------------------------------------
+/***********************************************************************************
+ * function : updates LCD with latest pin states
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void update_lcd(){
+    unsigned char da[8];
+    sprintf(da,"State "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(read_port()));
+    lcd_putstring(da,64);
+}
+// ------------------------------------------------End-------------------------------------------------
