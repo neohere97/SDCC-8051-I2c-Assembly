@@ -21,6 +21,7 @@
 	.globl _i2c_eeprom_reset
 	.globl _i2c_ioex_read_init
 	.globl _i2c_ioex_write_init
+	.globl _i2c_ioex_read_val
 	
 
 	.area CSEG    
@@ -69,6 +70,32 @@ _i2c_read_val:
 	clr c			;clearing the carry bit so that it can be used to read data
 	lcall readloop		
 	clr p1.7		
+	lcall _i2c_stop ;sending the stop signal
+	mov dpl,a		;moving the data read into dpl, to be sent back to c funciton
+	ret
+
+_i2c_ioex_read_val:
+	mov r2,#8       ;initializing the counter r2
+	mov a,#0		;initializing a to be 0
+	clr c			;clearing the carry bit so that it can be used to read data
+	lcall readloop		
+	clr p1.7
+	nop
+	nop
+	nop
+	setb p1.0
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	clr p1.0	
+	nop
+	nop
+	nop
+	nop	
 	lcall _i2c_stop ;sending the stop signal
 	mov dpl,a		;moving the data read into dpl, to be sent back to c funciton
 	ret

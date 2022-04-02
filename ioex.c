@@ -30,6 +30,7 @@ void print_ioex_menu();
 void read_pin_interrupt();
 extern void i2c_ioex_read_init();
 extern void i2c_ioex_write_init();
+extern unsigned char i2c_ioex_read_val();
 
 // ------------------------------------------------ui-ioexpander-------------------------------------------------
 /***********************************************************************************
@@ -169,7 +170,7 @@ unsigned char read_port()
     
     unsigned char da[8],val;
     
-    val = i2c_read_val();
+    val = i2c_ioex_read_val();
     
     sprintf(da,"State "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(val));
     lcd_putstring(da,64);
@@ -243,17 +244,6 @@ get_valid_pinval:
     }    
 
     update_lcd();
-    
-     if (val)
-    {
-        i2c_ioex_write_init();
-        i2c_write_val(~pinmask);        
-    }
-    else
-    {
-        i2c_ioex_write_init();
-        i2c_write_val(pinmask);        
-    } 
     EX1 = 1;
     printf("\n\rInterrupt has been enabled \n\r");
     
