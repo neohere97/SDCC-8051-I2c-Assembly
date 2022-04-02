@@ -17,8 +17,14 @@
 #include "pca.h"
 #include "program.h"
 
+#define LCD_RS (P1_3)
+#define LCD_RW (P1_5)
+#define LCD_E (P2_7)
+
 void lcd_goto_addr(unsigned char addr);
 void lcd_goto_xy(unsigned char x, unsigned char y);
+void lcd_dumpddram();
+unsigned char lcd_getbyte();
 unsigned char lcd_compute_xy(unsigned char x, unsigned char y);
 void print_lcd_menu() __critical;
 void print_string(char str[]) __critical;
@@ -36,6 +42,7 @@ char clkstr[6];
  ***********************************************************************************/
 void user_interface_lcd()
 {
+    
     lcd_clear();
     lcd_goto_xy(3, 9);
     lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
@@ -74,6 +81,12 @@ ui_lcd:
     {
         CR = 0;
         main_menu();
+    }
+    else if (inp == 0x44)
+    {
+        lcd_goto_addr(0x67);
+        lcd_dumpddram();
+        // lcd_getbyte();
     }
     // Goto address,TODO can be converted to a different function for readability
     else if (inp == 0x47)
@@ -248,6 +261,8 @@ unsigned char lcd_compute_xy(unsigned char x, unsigned char y)
  ***********************************************************************************/
 void lcd_goto_addr(unsigned char addr)
 {
+    LCD_RS = 0;
+    LCD_RW = 0;
     cursorpos = addr;
     P0 = addr | 0x80;
     toggle_clock(100);
@@ -260,11 +275,11 @@ void lcd_goto_addr(unsigned char addr)
  ***********************************************************************************/
 void toggle_clock(int delay)
 {
-    P2_7 = 1;
+    LCD_E = 1;
     for (int k = 0; k < delay; k++)
     {
     }
-    P2_7 = 0;
+    LCD_E = 0;
     for (int k = 0; k < delay; k++)
     {
     }
@@ -285,6 +300,8 @@ void print_lcd_menu() __critical
     printf("'S' -> Stop Clock \n\r");
     printf("'R' -> Restart Clock \n\r");
     printf("'Z' -> Reset Clock to Zero \n\r");
+    printf("'D' -> Dump DDRAM \n\r");
+    printf("'F' -> Dump CGRAM \n\r");
     printf("\n\r'E' -> Goto Main Menu \n\r");
 }
 // ------------------------------------------------print-string-------------------------------------------------------------
@@ -316,9 +333,9 @@ void lcd_clear()
  ***********************************************************************************/
 void init_lcd()
 {
-    P2_7 = 0;
-    P1_3 = 0;
-    P1_5 = 0;
+    LCD_E = 0;
+    LCD_RS = 0;
+    LCD_RW = 0;
     P0 = 0x30;
     toggle_clock(100);
     for (int l = 0; l < 700; l++)
@@ -345,10 +362,11 @@ void init_lcd()
  ***********************************************************************************/
 void lcd_putch(unsigned char ch)
 {
-    P1_3 = 1;
+    LCD_RS = 1;
+    LCD_RW = 0;
     P0 = ch;
     toggle_clock(100);
-    P1_3 = 0;
+    LCD_RS = 0;
 }
 // ------------------------------------------------lcd-putstring-------------------------------------------------------------
 /***********************************************************************************
@@ -376,3 +394,49 @@ void lcd_putstring(char inp_string[], int cursor_pos) __critical
     }
 }
 // ------------------------------------------------End--------------------------------------------------------------
+void lcd_dumpddram(){    
+    unsigned char chars[64];
+    lcd_getbyte();
+    int j = 0, i = 0,k = 0;      
+    for(i = 0; i < 2; i++){
+        for(j = 0; j < 32; j++){     
+            chars[k++] = lcd_getbyte();            
+        }
+        lcd_goto_addr(0x40);        
+    }
+    i = 0;
+    for(j = 0; j < 16; j++){     
+        printf("%02X ",chars[i++]);                  
+    }   
+    printf("\n\r");
+    i = 32;
+    for(j = 0; j < 16; j++){     
+        printf("%02X ",chars[i++]);                  
+    }
+    printf("\n\r");
+    i = 16;
+    for(j = 0; j < 16; j++){     
+        printf("%02X ",chars[i++]);                  
+    }
+
+    printf("\n\r");
+    i = 48;
+    for(j = 0; j < 16; j++){     
+        printf("%02X ",chars[i++]);                  
+    }   
+}
+
+unsigned char lcd_getbyte(){
+
+    unsigned char data;
+    LCD_RS = 1;
+    LCD_RW = 1;
+    LCD_E = 1;       
+    data = P0;
+    for(int i = 0; i<150;i++){}
+    LCD_E = 0;    
+    LCD_RS = 0;
+    LCD_RW = 0;
+    printf("Data here is -> %02X \n\r",data);
+    return data;
+}
