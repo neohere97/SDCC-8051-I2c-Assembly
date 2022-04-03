@@ -84,9 +84,8 @@ ui_lcd:
     }
     else if (inp == 0x44)
     {
-        lcd_goto_addr(0x67);
-        lcd_dumpddram();
-        // lcd_getbyte();
+        lcd_goto_addr(0);
+        lcd_dumpddram();       
     }
     // Goto address,TODO can be converted to a different function for readability
     else if (inp == 0x47)
@@ -395,31 +394,34 @@ void lcd_putstring(char inp_string[], int cursor_pos) __critical
 }
 // ------------------------------------------------End--------------------------------------------------------------
 void lcd_dumpddram(){    
-    unsigned char chars[64];
-    lcd_getbyte();
+    
+    unsigned char chars[64];    
     int j = 0, i = 0,k = 0;      
     for(i = 0; i < 2; i++){
-        for(j = 0; j < 32; j++){     
+        for(j = 0; j < 32; j++){              
+            P0 = 0xFF;
             chars[k++] = lcd_getbyte();            
         }
         lcd_goto_addr(0x40);        
     }
+    printf("\n\r^^^^^^^^^^^^^^^^^^^LCD-DUMP^^^^^^^^^^^^^^^^^^^^^^^^^^\n\r");
+    printf("\n\r0x00: ");
     i = 0;
     for(j = 0; j < 16; j++){     
         printf("%02X ",chars[i++]);                  
     }   
-    printf("\n\r");
+    printf("\n\r0x40: ");
     i = 32;
     for(j = 0; j < 16; j++){     
         printf("%02X ",chars[i++]);                  
     }
-    printf("\n\r");
+    printf("\n\r0x10: ");
     i = 16;
     for(j = 0; j < 16; j++){     
         printf("%02X ",chars[i++]);                  
     }
 
-    printf("\n\r");
+    printf("\n\r0x50: ");
     i = 48;
     for(j = 0; j < 16; j++){     
         printf("%02X ",chars[i++]);                  
@@ -431,12 +433,14 @@ unsigned char lcd_getbyte(){
     unsigned char data;
     LCD_RS = 1;
     LCD_RW = 1;
-    LCD_E = 1;       
+    for(int i = 0; i<150;i++){}
+    LCD_E = 1;   
+    for(int i = 0; i<150;i++){}
     data = P0;
     for(int i = 0; i<150;i++){}
     LCD_E = 0;    
     LCD_RS = 0;
     LCD_RW = 0;
-    printf("Data here is -> %02X \n\r",data);
+    P0 = 0xFF;
     return data;
 }
