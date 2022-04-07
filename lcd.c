@@ -534,7 +534,7 @@ void print_custom_character(){
     get_valid_char_num:
         print_string("Give valid custom character number (0-7) \n\r");
         char_num = get_number_hex(1);
-        if (char_num > 3)
+        if (char_num > 7)
             goto get_valid_char_num;
 
     lcd_putch(char_num);
