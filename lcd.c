@@ -420,7 +420,12 @@ void lcd_putstring(char inp_string[], int cursor_pos) __critical
             break;
     }
 }
-// ------------------------------------------------End--------------------------------------------------------------
+// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+/***********************************************************************************
+ * function : Dumps an entire string onto the lcd
+ * parameters : string to be sent and cursor position to start at
+ * return : none
+ ***********************************************************************************/
 void lcd_dumpddram()
 {
 
@@ -482,7 +487,12 @@ void lcd_dumpddram()
         }
     }
 }
-
+// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+/***********************************************************************************
+ * function : Dumps an entire string onto the lcd
+ * parameters : string to be sent and cursor position to start at
+ * return : none
+ ***********************************************************************************/
 void add_new_custom_char()
 {
     unsigned char char_no, inp, val, arr[8];
@@ -518,30 +528,42 @@ get_valid_char_no:
         printf("\n\r");
     }
     arr[7] = 0;
-    int start_address = 0 + char_no *8;
+    int start_address = 0 + char_no * 8;
     int j = 0;
 
-    for(int l = start_address; l < start_address + 8; l++){
+    for (int l = start_address; l < start_address + 8; l++)
+    {
         lcd_goto_addr_cg(l);
         lcd_putch(arr[j++]);
     }
-    lcd_goto_xy(1,1);
-    printf("\n\rCustom Character added\n\rIt Can be used with character code -> %02X \n\r",char_no);    
+    lcd_goto_xy(1, 1);
+    printf("\n\rCustom Character added\n\rIt Can be used with character code -> %02X \n\r", char_no);
 }
-
-void print_custom_character(){
+// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+/***********************************************************************************
+ * function : Dumps an entire string onto the lcd
+ * parameters : string to be sent and cursor position to start at
+ * return : none
+ ***********************************************************************************/
+void print_custom_character()
+{
     unsigned char char_num;
-    get_valid_char_num:
-        print_string("Give valid custom character number (0-7) \n\r");
-        char_num = get_number_hex(1);
-        if (char_num > 7)
-            goto get_valid_char_num;
+get_valid_char_num:
+    print_string("Give valid custom character number (0-7) \n\r");
+    char_num = get_number_hex(1);
+    if (char_num > 7)
+        goto get_valid_char_num;
 
     lcd_putch(char_num);
 
     print_string("Custom Character Printed at current cursor position\n\r");
 }
-
+// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+/***********************************************************************************
+ * function : Dumps an entire string onto the lcd
+ * parameters : string to be sent and cursor position to start at
+ * return : none
+ ***********************************************************************************/
 unsigned char lcd_getbyte()
 {
 
@@ -565,3 +587,4 @@ unsigned char lcd_getbyte()
     P0 = 0xFF;
     return data;
 }
+// ------------------------------------------------End-------------------------------------------------------------
