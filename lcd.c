@@ -22,7 +22,10 @@
 #define LCD_E (P2_7)
 
 void lcd_goto_addr(unsigned char addr);
+void lcd_goto_addr_cg(unsigned char addr);
 void lcd_goto_xy(unsigned char x, unsigned char y);
+void print_custom_character();
+void add_new_custom_char();
 void lcd_dumpddram();
 unsigned char lcd_getbyte();
 unsigned char lcd_compute_xy(unsigned char x, unsigned char y);
@@ -42,12 +45,12 @@ char clkstr[6];
  ***********************************************************************************/
 void user_interface_lcd()
 {
-    
+
     lcd_clear();
     lcd_goto_xy(3, 9);
     lcd_putstring("00:00.0", lcd_compute_xy(3, 9));
     lcd_goto_addr(0);
-    init_clock();    
+    init_clock();
 ui_lcd_menu:
     print_lcd_menu();
     int inp;
@@ -82,10 +85,20 @@ ui_lcd:
         CR = 0;
         main_menu();
     }
+    else if (inp == 0x49)
+    {
+        add_new_custom_char();
+        goto ui_lcd_menu;
+    }
+    else if (inp == 0x50)
+    {
+        print_custom_character();
+        goto ui_lcd_menu;
+    }
     else if (inp == 0x44)
     {
         lcd_goto_addr(0);
-        lcd_dumpddram();       
+        lcd_dumpddram();
     }
     // Goto address,TODO can be converted to a different function for readability
     else if (inp == 0x47)
@@ -266,6 +279,20 @@ void lcd_goto_addr(unsigned char addr)
     P0 = addr | 0x80;
     toggle_clock(100);
 }
+// ------------------------------------------------lcd-goto-addr-CG-----------------------------------------------------------
+/***********************************************************************************
+ * function : This function writes the address to the LCD
+ * parameters : the address to go to
+ * return : none
+ ***********************************************************************************/
+void lcd_goto_addr_cg(unsigned char addr)
+{
+    LCD_RS = 0;
+    LCD_RW = 0;
+    // cursorpos = addr;
+    P0 = addr | 0x40;
+    toggle_clock(100);
+}
 // ------------------------------------------------toggle-clock-------------------------------------------------------------
 /***********************************************************************************
  * function : toggles the E pin on the LCD to the load data
@@ -299,8 +326,9 @@ void print_lcd_menu() __critical
     printf("'S' -> Stop Clock \n\r");
     printf("'R' -> Restart Clock \n\r");
     printf("'Z' -> Reset Clock to Zero \n\r");
-    printf("'D' -> Dump DDRAM \n\r");
-    printf("'F' -> Dump CGRAM \n\r");
+    printf("'D' -> Dump DDRAM & CGRAM\n\r");
+    printf("'I' -> New Custom Character\n\r");
+    printf("'P' -> Print Custom Character\n\r");
     printf("\n\r'E' -> Goto Main Menu \n\r");
 }
 // ------------------------------------------------print-string-------------------------------------------------------------
@@ -393,52 +421,145 @@ void lcd_putstring(char inp_string[], int cursor_pos) __critical
     }
 }
 // ------------------------------------------------End--------------------------------------------------------------
-void lcd_dumpddram(){    
-    
-    unsigned char chars[64];    
-    int j = 0, i = 0,k = 0;      
-    for(i = 0; i < 2; i++){
-        for(j = 0; j < 32; j++){              
+void lcd_dumpddram()
+{
+
+    unsigned char chars[64];
+    int j = 0, i = 0, k = 0;
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0; j < 32; j++)
+        {
             P0 = 0xFF;
-            chars[k++] = lcd_getbyte();            
+            chars[k++] = lcd_getbyte();
         }
-        lcd_goto_addr(0x40);        
+        lcd_goto_addr(0x40);
     }
-    printf("\n\r^^^^^^^^^^^^^^^^^^^LCD-DUMP^^^^^^^^^^^^^^^^^^^^^^^^^^\n\r");
+    printf("\n\r^^^^^^^^^^^^^^^^^^^DDRAM-DUMP^^^^^^^^^^^^^^^^^^^^^^^^^^\n\r");
     printf("\n\r0x00: ");
     i = 0;
-    for(j = 0; j < 16; j++){     
-        printf("%02X ",chars[i++]);                  
-    }   
+    for (j = 0; j < 16; j++)
+    {
+        printf("%02X ", chars[i++]);
+    }
     printf("\n\r0x40: ");
     i = 32;
-    for(j = 0; j < 16; j++){     
-        printf("%02X ",chars[i++]);                  
+    for (j = 0; j < 16; j++)
+    {
+        printf("%02X ", chars[i++]);
     }
     printf("\n\r0x10: ");
     i = 16;
-    for(j = 0; j < 16; j++){     
-        printf("%02X ",chars[i++]);                  
+    for (j = 0; j < 16; j++)
+    {
+        printf("%02X ", chars[i++]);
     }
 
     printf("\n\r0x50: ");
     i = 48;
-    for(j = 0; j < 16; j++){     
-        printf("%02X ",chars[i++]);                  
-    }   
+    for (j = 0; j < 16; j++)
+    {
+        printf("%02X ", chars[i++]);
+    }
+
+    printf("\n\n\r^^^^^^^^^^^^^^^^^^^CGRAM-DUMP^^^^^^^^^^^^^^^^^^^^^^^^^^\n\r");
+    printf("\n\r0x00: ");
+    i = 0;
+    while (i <= 0x3F)
+    {
+
+        lcd_goto_addr_cg(i);
+        P0 = 0xFF;
+        chars[i++] = lcd_getbyte();
+    }
+
+    for (i = 0; i < 64; i++)
+    {
+        printf("%02X ", chars[i]);
+        if ((i + 1) % 16 == 0 && i != 63)
+        {
+            printf("\n\r0x%02X: ", i + 1);
+        }
+    }
 }
 
-unsigned char lcd_getbyte(){
+void add_new_custom_char()
+{
+    unsigned char char_no, inp, val, arr[8];
+
+get_valid_char_no:
+    print_string("Give Valid Custom Character Number (0-7) \n\r");
+    char_no = get_number_hex(1);
+    if (char_no > 7)
+        goto get_valid_char_no;
+    print_string("\n\rGive Character in the following format \n\r");
+    print_string("Spaces and newline will be added automatically \n\n\r");
+
+    print_string("-----FORMAT-----\n\r");
+    print_string("0 1 1 0 1\n\r");
+    print_string("1 1 1 1 1\n\r");
+    print_string("1 0 1 0 1\n\r");
+    print_string("0 0 0 0 0\n\r");
+    print_string("1 1 1 0 0\n\r");
+    print_string("1 0 0 0 1\n\r");
+    print_string("1 0 1 0 1\n\r");
+    print_string("----------------\n\n\n\r");
+
+    for (int i = 0; i < 7; i++)
+    {
+        val = 0;
+        for (int j = 4; j >= 0; j--)
+        {
+            inp = get_number_hex(1);
+            val += ((inp > 0) ? 1 : 0) << j;
+            printf(" ");
+        }
+        arr[i] = val;
+        printf("\n\r");
+    }
+    arr[7] = 0;
+    int start_address = 0 + char_no *8;
+    int j = 0;
+
+    for(int l = start_address; l < start_address + 8; l++){
+        lcd_goto_addr_cg(l);
+        lcd_putch(arr[j++]);
+    }
+    lcd_goto_xy(1,1);
+    printf("\n\rCustom Character added\n\rIt Can be used with character code -> %02X \n\r",char_no);    
+}
+
+void print_custom_character(){
+    unsigned char char_num;
+    get_valid_char_num:
+        print_string("Give valid custom character number (0-7) \n\r");
+        char_num = get_number_hex(1);
+        if (char_num > 3)
+            goto get_valid_char_num;
+
+    lcd_putch(char_num);
+
+    print_string("Custom Character Printed at current cursor position\n\r");
+}
+
+unsigned char lcd_getbyte()
+{
 
     unsigned char data;
     LCD_RS = 1;
     LCD_RW = 1;
-    for(int i = 0; i<150;i++){}
-    LCD_E = 1;   
-    for(int i = 0; i<150;i++){}
+    for (int i = 0; i < 150; i++)
+    {
+    }
+    LCD_E = 1;
+    for (int i = 0; i < 150; i++)
+    {
+    }
     data = P0;
-    for(int i = 0; i<150;i++){}
-    LCD_E = 0;    
+    for (int i = 0; i < 150; i++)
+    {
+    }
+    LCD_E = 0;
     LCD_RS = 0;
     LCD_RW = 0;
     P0 = 0xFF;
