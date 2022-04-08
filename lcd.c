@@ -27,6 +27,7 @@ void lcd_goto_xy(unsigned char x, unsigned char y);
 void print_custom_character();
 void add_new_custom_char();
 void lcd_dumpddram();
+void draw_yinyang();
 unsigned char lcd_getbyte();
 unsigned char lcd_compute_xy(unsigned char x, unsigned char y);
 void print_lcd_menu() __critical;
@@ -84,6 +85,11 @@ ui_lcd:
     {
         CR = 0;
         main_menu();
+    }
+    else if (inp == 0x55)
+    {
+        CR = 0;
+        draw_yinyang();
     }
     else if (inp == 0x49)
     {
@@ -329,6 +335,7 @@ void print_lcd_menu() __critical
     printf("'D' -> Dump DDRAM & CGRAM\n\r");
     printf("'I' -> New Custom Character\n\r");
     printf("'P' -> Print Custom Character\n\r");
+    printf("'U' -> Logo Print\n\r");
     printf("\n\r'E' -> Goto Main Menu \n\r");
 }
 // ------------------------------------------------print-string-------------------------------------------------------------
@@ -420,10 +427,10 @@ void lcd_putstring(char inp_string[], int cursor_pos) __critical
             break;
     }
 }
-// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+// ------------------------------------------------lcd-dumpddram-------------------------------------------------------------
 /***********************************************************************************
- * function : Dumps an entire string onto the lcd
- * parameters : string to be sent and cursor position to start at
+ * function : Dumps DDRAM and CGRAM contents
+ * parameters : none
  * return : none
  ***********************************************************************************/
 void lcd_dumpddram()
@@ -487,10 +494,10 @@ void lcd_dumpddram()
         }
     }
 }
-// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+// ------------------------------------------------add-new-custom-char-----------------------------------------------------------
 /***********************************************************************************
- * function : Dumps an entire string onto the lcd
- * parameters : string to be sent and cursor position to start at
+ * function : Adds new custom character based on user input
+ * parameters : none
  * return : none
  ***********************************************************************************/
 void add_new_custom_char()
@@ -515,7 +522,7 @@ get_valid_char_no:
     print_string("1 0 1 0 1\n\r");
     print_string("----------------\n\n\n\r");
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
     {
         val = 0;
         for (int j = 4; j >= 0; j--)
@@ -527,7 +534,7 @@ get_valid_char_no:
         arr[i] = val;
         printf("\n\r");
     }
-    arr[7] = 0;
+    // arr[7] = 0;
     int start_address = 0 + char_no * 8;
     int j = 0;
 
@@ -539,10 +546,10 @@ get_valid_char_no:
     lcd_goto_xy(1, 1);
     printf("\n\rCustom Character added\n\rIt Can be used with character code -> %02X \n\r", char_no);
 }
-// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+// ------------------------------------------------print-custom-character------------------------------------------------------------
 /***********************************************************************************
- * function : Dumps an entire string onto the lcd
- * parameters : string to be sent and cursor position to start at
+ * function : Prints a custom character to the lcd
+ * parameters : none
  * return : none
  ***********************************************************************************/
 void print_custom_character()
@@ -558,11 +565,11 @@ get_valid_char_num:
 
     print_string("Custom Character Printed at current cursor position\n\r");
 }
-// ------------------------------------------------lcd-putstring-------------------------------------------------------------
+// ------------------------------------------------lcd-getbyte-------------------------------------------------------------
 /***********************************************************************************
- * function : Dumps an entire string onto the lcd
- * parameters : string to be sent and cursor position to start at
- * return : none
+ * function : Reads a byte from the lcd port
+ * parameters : none
+ * return : byte which is read
  ***********************************************************************************/
 unsigned char lcd_getbyte()
 {
@@ -586,5 +593,51 @@ unsigned char lcd_getbyte()
     LCD_RW = 0;
     P0 = 0xFF;
     return data;
+}
+// ------------------------------------------------draw-yinyang------------------------------------------------------------
+/***********************************************************************************
+ * function : adds custom characters and draws logo and emoji
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
+void draw_yinyang()
+{
+    // custom character buffer
+    char buff[56] = {0x0, 0x3, 0x4, 0x8, 0x8, 0x10, 0x10, 0x10, 0x1f, 0x00, 0x00, 0x18, 0x18, 0x00, 0x00, 0x01,
+                     0x00, 0x18, 0x0C, 0x0E, 0x0E, 0x0F, 0x1F, 0x1F, 0x10, 0x10, 0x08, 0x0C, 0x04, 0x03, 0x00,
+                     0x00, 0x07, 0x09, 0x19, 0x1F, 0x0F, 0x07, 0x1F, 0x00, 0x1F, 0x1F, 0x1E, 0x1E, 0x1C, 0x18,
+                     0x00, 0x00, 0x01, 0x1f, 0x0A, 0x11, 0x15, 0x11, 0x0E, 0x00};
+
+    // add custom characters to CG Ram
+    for (int i = 0; i < 48; i++)
+    {
+        lcd_goto_addr_cg(i);
+        lcd_putch(buff[i]);
+    }
+    // Draw Yin Yang
+    lcd_goto_xy(1, 1);
+    lcd_putch(0);
+    lcd_goto_xy(1, 2);
+    lcd_putch(1);
+    lcd_goto_xy(1, 3);
+    lcd_putch(2);
+    lcd_goto_xy(2, 1);
+    lcd_putch(3);
+    lcd_goto_xy(2, 2);
+    lcd_putch(4);
+    lcd_goto_xy(2, 3);
+    lcd_putch(5);
+
+    // Draw Emoji
+    lcd_goto_xy(1, 6);
+    lcd_putch(0x28);
+    lcd_goto_xy(1, 7);
+    lcd_putch(6);
+    lcd_goto_xy(1, 8);
+    lcd_putch(0x5f);
+    lcd_goto_xy(1, 9);
+    lcd_putch(6);
+    lcd_goto_xy(1, 10);
+    lcd_putch(0x29);
 }
 // ------------------------------------------------End-------------------------------------------------------------
