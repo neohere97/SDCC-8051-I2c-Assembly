@@ -53,8 +53,9 @@ void main(void)
     printf("HELLO! Started in X2 Mode \n\r");
     DEBUGPORT(0x01);
     P1_1 = 0;
-    init_lcd();
-    lcd_putstring("Hello", 0);
+    // init_lcd();
+    // lcd_putstring("Hello", 0);
+    init_SPI();
     main_menu();
 }
 
@@ -92,6 +93,9 @@ wrong_choice:
     }
     else if (inp == 0x4C)
         user_interface_lcd();
+    else if (inp == 0x53){
+        adc_demo();
+    }
     else if (inp == 0x49){
         lcd_putstring("Pins  76543210", 0);
         ui_ioexpander();       
@@ -99,7 +103,10 @@ wrong_choice:
     else
         goto wrong_choice;
 }
-
+void adc_demo(){
+    printf("In adc demo \n\r");
+    printf("ADC Data -> %d\n\r", sample_ADC());
+}
 // ------------------------------------------------pca-interrupt-------------------------------------------------
 /***********************************************************************************
  * function : PCA Interupt handler

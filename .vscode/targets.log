@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Apr 08 12:31:09 2022
+# Make data base, printed on Fri Apr 08 14:26:25 2022
 
 # Variables
 
@@ -23,7 +23,7 @@ USERPROFILE = C:\Users\shala
 # environment
 LOCALAPPDATA = C:\Users\shala\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-1be30a28-de8a-40f6-b22e-0472607165a1-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-24f6df67-3dac-4143-b187-449e90929977-sock
 # environment
 VSCODE_CWD = C:\Program Files\Microsoft VS Code
 # environment
@@ -68,8 +68,6 @@ PROCESSOR_ARCHITEW6432 = AMD64
 MAKEFLAGS = pqrR
 # environment
 ONEDRIVE = C:\Users\shala\OneDrive
-# environment
-EIDE_OPENOCD = 
 # makefile
 CURDIR := c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2
 # environment
@@ -103,8 +101,6 @@ VSCODE_PID = 11664
 # automatic
 <D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
 # environment
-EIDE_JLINK = 
-# environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
 AMDRMPATH = C:\Program Files\AMD\RyzenMaster\
@@ -115,7 +111,7 @@ MAKE_HOST := Windows32
 # environment
 PROGRAMDATA = C:\ProgramData
 # default
-SHELL := C:/Users/shala/.eide/bin/builder/msys/bin/sh.exe
+SHELL := sh.exe
 # environment
 HOMEPATH = \Users\shala
 # environment
@@ -133,7 +129,7 @@ MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;;C:\Users\shala\.eide\bin\builder;C:\Users\shala\.eide\bin\builder\utils;C:\Users\shala\.eide\tools;C:\Users\shala\.eide\bin\builder\msys\bin
+PATH = C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;
 # environment
 COMPUTERNAME = MATRIX-Z
 # default
@@ -148,8 +144,6 @@ CHOCOLATEYLASTPATHUPDATE = 132908509699523302
 LOGONSERVER = \\MATRIX-Z
 # environment
 VSCODE_LOG_NATIVE = false
-# environment
-EIDE_MSYS = C:\Users\shala\.eide\bin\builder\msys\bin
 # environment
 USERNAME = shala
 # environment
@@ -173,7 +167,7 @@ GNUMAKEFLAGS :=
 # environment
 OS = Windows_NT
 # environment
-PLATFORMIO_PATH = C:\Users\shala\.platformio\penv\Scripts;C:\Users\shala\.platformio\penv;C:\Users\shala\.platformio\python3;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;
+PLATFORMIO_PATH = C:\Users\shala\.platformio\python3;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-11.0.14.9-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Atmel\Flip 3.4.7\bin;C:\Program Files\SDCC\bin;C:\Program Files\Mono\bin;
 # makefile
 .DEFAULT_GOAL := default
 # default
@@ -187,15 +181,11 @@ NUMBER_OF_PROCESSORS = 12
 # environment
 PUBLIC = C:\Users\Public
 # environment
-EIDE_ARM_GCC = 
-# environment
 APPDATA = C:\Users\shala\AppData\Roaming
 # environment
 HOMEDRIVE = C:
 # environment
 PROCESSOR_ARCHITECTURE = x86
-# environment
-EIDE_TOOLS_DIR = C:\Users\shala\.eide\tools
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -209,8 +199,7 @@ TEMP = C:\Users\shala\AppData\Local\Temp
 # environment
 VSCODE_IPC_HOOK = \\.\pipe\d890bcb2928850ac45909cdec0c3bbff-1.65.2-main-sock
 # default
-.RECIPE 
-PREFIX := 
+.RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
 # default
@@ -228,7 +217,7 @@ PROCESSOR_IDENTIFIER = AMD64 Family 23 Model 8 Stepping 2, AuthenticAMD
 # environment
 JRE_HOME = C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin\javaw.exe
 # variable set hash-table stats:
-# Load=107/1024=10%, Rehash=0, Collisions=14/133=11%
+# Load=102/1024=10%, Rehash=0, Collisions=13/129=10%
 
 # Pattern-specific Variable Values
 
@@ -236,9 +225,9 @@ JRE_HOME = C:\Program Files\Eclipse Adoptium\jdk-8.0.322.6-hotspot\jre\bin\javaw
 
 # Directories
 
-# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1649442662): 95 files, no impossibilities.
+# . (key c:/Users/shala/OneDrive/Boulder S1/ESD/HWASN/shalawadi_lab_3/sdcc/lab3 part 2, mtime 1649448564): 29 files, no impossibilities.
 
-# 95 files, no impossibilities in 1 directories.
+# 29 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -299,12 +288,12 @@ makefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 99 / storage = 918 B / avg = 9 B
-# current buf: size = 8174 B / used = 918 B / count = 99 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 33 / storage = 254 B / avg = 7 B
+# current buf: size = 8174 B / used = 254 B / count = 33 / avg = 7 B
 
-# strcache performance: lookups = 104 / hit rate = 4%
+# strcache performance: lookups = 38 / hit rate = 13%
 # hash-table stats:
-# Load=99/8192=1%, Rehash=0, Collisions=1/104=1%
-# Finished Make data base on Fri Apr 08 12:31:09 2022
+# Load=33/8192=0%, Rehash=0, Collisions=0/38=0%
+# Finished Make data base on Fri Apr 08 14:26:25 2022
 
  
