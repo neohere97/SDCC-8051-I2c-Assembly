@@ -27,8 +27,8 @@
 	.area CSEG    
 _i2c_init:
 	setb p1.0		;sending the start condition
-	setb p1.7
-	clr p1.7
+	setb p3.5
+	clr p3.5
 	ret
 
 _i2c_write_init:
@@ -69,7 +69,7 @@ _i2c_read_val:
 	mov a,#0		;initializing a to be 0
 	clr c			;clearing the carry bit so that it can be used to read data
 	lcall readloop		
-	clr p1.7		
+	clr p3.5		
 	lcall _i2c_stop ;sending the stop signal
 	mov dpl,a		;moving the data read into dpl, to be sent back to c funciton
 	ret
@@ -79,7 +79,7 @@ _i2c_ioex_read_val:
 	mov a,#0		;initializing a to be 0
 	clr c			;clearing the carry bit so that it can be used to read data
 	lcall readloop		
-	clr p1.7
+	clr p3.5
 	nop
 	nop
 	nop
@@ -106,7 +106,7 @@ readloopc:
 
 readloop:	
 	setb p1.0		 ;setting the clock high	
-	jnb  p1.7, addz	 ;sampling the data line	
+	jnb  p3.5, addz	 ;sampling the data line	
 	setb c			 ;setting carry if data line is 1
 	rlc a			 ;rotating left
 	clr p1.0		 ;setting clock back down
@@ -132,9 +132,9 @@ _i2c_write_val:		;this routine writes value after address
 	ret
 
 _i2c_stop:			;assembly routine to send stop condition	
-	clr p1.7
+	clr p3.5
 	setb p1.0
-	setb p1.7
+	setb p3.5
 	ret
 
 writeloop:			;sets the initial condition to write data on the bus and calls bitloop
@@ -146,7 +146,7 @@ writeloop:			;sets the initial condition to write data on the bus and calls bitl
 	nop
 	nop
 	nop	
-	setb p1.7	
+	setb p3.5	
 	nop
 	nop
 	nop
@@ -176,7 +176,7 @@ bitloop:			;sends 1 or 0 using RLC instruction
 
 sendzero:	
 	nop		;sends a zero on the bus with clock pulse
-	clr p1.7	
+	clr p3.5	
 	nop
 	nop
 	nop	
@@ -197,7 +197,7 @@ sendzero:
 
 sendone:			;sends a one on the bus with clock pulse
 	nop
-	setb p1.7		
+	setb p3.5		
 	nop
 	nop
 	nop

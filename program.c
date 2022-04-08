@@ -20,6 +20,7 @@
 #include "eeprom.h"
 #include "lcd.h"
 #include "ioex.h"
+#include "spi.h"
 
 // Virtual debug port location
 #define DEBUGPORT(x) dataout(x);
@@ -31,7 +32,7 @@ __xdata unsigned char __at(0x8000) DEBUG_LOC;
 // function declarations
 
 void dataout(unsigned char data);
-
+void adc_demo();
 void i2c_testasm();
 
 unsigned char global_var_test = 2;
@@ -66,7 +67,7 @@ void main_menu()
     printf("'A' -> Assembly C Mix \n\r");
     printf("'E' -> EEPROM Mode \n\r");
     printf("'L' -> LCD Demo Mode \n\r");
-    printf("'I' -> I/O Expander Demo Mode \n\r");
+    printf("'I' -> I/O Expander Demo Mode \n\r");  
 
     int inp;
 wrong_choice:

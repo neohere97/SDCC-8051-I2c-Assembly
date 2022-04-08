@@ -609,7 +609,7 @@ void draw_yinyang()
                      0x00, 0x00, 0x01, 0x1f, 0x0A, 0x11, 0x15, 0x11, 0x0E, 0x00};
 
     // add custom characters to CG Ram
-    for (int i = 0; i < 48; i++)
+    for (int i = 0; i < 56; i++)
     {
         lcd_goto_addr_cg(i);
         lcd_putch(buff[i]);
