@@ -522,6 +522,7 @@ get_valid_char_no:
     print_string("1 0 1 0 1\n\r");
     print_string("----------------\n\n\n\r");
 
+    //Getting custom character data for the characters
     for (int i = 0; i < 8; i++)
     {
         val = 0;
@@ -533,8 +534,7 @@ get_valid_char_no:
         }
         arr[i] = val;
         printf("\n\r");
-    }
-    // arr[7] = 0;
+    }    
     int start_address = 0 + char_no * 8;
     int j = 0;
 
@@ -584,6 +584,7 @@ unsigned char lcd_getbyte()
     for (int i = 0; i < 150; i++)
     {
     }
+    //sampling the data from the LCD
     data = P0;
     for (int i = 0; i < 150; i++)
     {
@@ -591,6 +592,7 @@ unsigned char lcd_getbyte()
     LCD_E = 0;
     LCD_RS = 0;
     LCD_RW = 0;
+    //writing the Port back to default state, to avoid noise
     P0 = 0xFF;
     return data;
 }

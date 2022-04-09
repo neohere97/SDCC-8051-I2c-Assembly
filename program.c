@@ -53,9 +53,8 @@ void main(void)
     printf("HELLO! Started in X2 Mode \n\r");
     DEBUGPORT(0x01);
     P1_1 = 0;
-    // init_lcd();
-    // lcd_putstring("Hello", 0);
-    init_SPI();
+    init_lcd();
+    lcd_putstring("Hello", 0);    
     main_menu();
 }
 
@@ -69,6 +68,7 @@ void main_menu()
     printf("'E' -> EEPROM Mode \n\r");
     printf("'L' -> LCD Demo Mode \n\r");
     printf("'I' -> I/O Expander Demo Mode \n\r");  
+    printf("'S' -> SPI ADC Read \n\r");  
 
     int inp;
 wrong_choice:
@@ -103,9 +103,20 @@ wrong_choice:
     else
         goto wrong_choice;
 }
+// ------------------------------------------------adc-demo-------------------------------------------------
+/***********************************************************************************
+ * function : Reads and print's from ADC 
+ * parameters : none
+ * return : none
+ ***********************************************************************************/
 void adc_demo(){
+    init_SPI();
     printf("In adc demo \n\r");
-    printf("ADC Data -> %d\n\r", sample_ADC());
+    while(1){
+        for(int i=0; i<10000;i++){};
+        printf("ADC Data -> %d\n\r", sample_ADC());
+    }
+    
 }
 // ------------------------------------------------pca-interrupt-------------------------------------------------
 /***********************************************************************************

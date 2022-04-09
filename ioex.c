@@ -1,3 +1,11 @@
+/***************************************************************************
+ * ESD Lab 4
+ * Tools: VSCode,make,batchisp,tera term
+ * Author: Chinmay Shalawadi
+ * Institution: University of Colorado Boulder
+ * Mail id: chsh1552@colorado.edu
+ * References: lecture slides
+ ***************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,6 +17,7 @@
 #include "ioex.h"
 #include "lcd.h"
 
+//these macros convert a byte into a binary pattern
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
   (byte & 0x80 ? '1' : '0'), \
@@ -21,6 +30,7 @@
   (byte & 0x01 ? '1' : '0') 
 
 
+//function declarations
 void write_to_pin();
 void write_to_port();
 void read_pin();
@@ -145,6 +155,7 @@ get_valid_pinval:
 
     port_val = read_port();
    
+   //depending on the pin state AND/OR operations are used
     if (val)
     {
         i2c_ioex_write_init();
