@@ -33,7 +33,6 @@ unsigned char lcd_compute_xy(unsigned char x, unsigned char y);
 void print_lcd_menu() __critical;
 void print_string(char str[]) __critical;
 void toggle_clock(int delay);
-// void lcd_busy_wait();
 extern unsigned int global_clock;
 int cursorpos;
 char clkstr[6];
